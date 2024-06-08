@@ -1,0 +1,42 @@
+html,body{
+    height: 100%;
+}
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 20px;
+    background-color: #f8f9fa;
+}
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+.rellen{
+    background-color: #afafaf;
+}
+.btn-custom {
+    background-color: #afafaf; /* Color de fondo gris */
+    border: none;
+    width:48%; /* Ajustar el tamaño según sea necesario */
+    height: 100px; /* Ajustar el tamaño según sea necesario */
+}
+.btn-custom-2{
+    background-color: #afafaf; /* Color de fondo gris */
+    border: none;
+    width:98.3%; /* Ajustar el tamaño según sea necesario */
+    height: 40px; /* Ajustar el tamaño según sea necesario */
+}
+header{
+    display: block;
+    padding-left: 18%;
+    padding-right: 3%;
+}
+
+section{
+    display: block;
+    padding-left:18%;
+    padding-right: 3%;
+    padding-top: 0%;
+}

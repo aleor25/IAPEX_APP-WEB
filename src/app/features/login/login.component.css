@@ -1,0 +1,94 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+
+#c1{
+    float: left;
+    width: 49%;
+    height: 100%;
+    margin-top: 5px;
+}
+#ima_login{
+    width: fit-content;
+    height: 640px;
+
+}
+
+#c2{
+    background-color: #ffff;
+    margin-top: 10rem;
+    float: right;
+    width: 48%;
+    height: 100%;
+    margin-right: 2%;
+}
+.ttl_login{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 300;
+}
+.inf{
+    font-family: Helvetica, sans-serif, Courier, 'Times New Roman';
+}
+
+#input1, #input2{
+    color: white;
+}
+
+a{
+    color: #252525;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#forgetpass {
+    color: #1b81e7;
+    font-weight: 500;
+}
+
+#button1{
+    background-color: #3f4ed8;
+    color: #ffff;
+    border-radius: 9.5px;
+    font-size: small;
+    font-weight: 400;
+    float: right;
+}
+
+#fpass{
+    margin-top: 100px;
+    text-align: center;
+    color: #252525;
+}
+
+#fpassa{
+    color: #3f4ed8;
+}
+
+.icon-container /*se encuentra el icono y texto representativos*/{
+    display: flex;
+    align-items: center;
+}
+
+#icon_findme /*se añaden propiedades para modificar el icono*/ {
+    color: #60a2d5f2;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+#icon_txtFindme /*se ubica al lado del icono el texto*/ {
+    color: #60a2d5f2;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 200;
+    font-size: 30px;
+    font-style: normal;
+}
