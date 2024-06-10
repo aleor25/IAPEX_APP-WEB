@@ -13,5 +13,5 @@ import { RegisterComponent } from './features/register/register.component';
     imports: [RouterOutlet]
 })
 export class AppComponent {
-  title = 'IAPEX_APP-WEB';
+  title = 'IAPEX';
 }

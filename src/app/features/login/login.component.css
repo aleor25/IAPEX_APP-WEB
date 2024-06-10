@@ -73,8 +73,8 @@ a{
 }
 
 .icon-container /*se encuentra el icono y texto representativos*/{
-    display: flex;
-    align-items: center;
+    width: 100%; 
+    padding: 40px;
 }
 
 #icon_findme /*se añaden propiedades para modificar el icono*/ {
@@ -91,4 +91,8 @@ a{
     font-weight: 200;
     font-size: 30px;
     font-style: normal;
+}
+
+#imgLog {
+    width: 100%;
 }
