@@ -1,0 +1,114 @@
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="min-vh-100 bg-light d-flex flex-column justify-content-between">
+            <!-- Visible en pantallas grandes -->
+            <div class="pt-4 px-2 text-center d-none d-lg-flex align-items-center">
+                <a type="submit" class="text-decoration-none d-flex align-items-center justify-content-center">
+                    <img class="me-2" src="./../../../../assets/images/logo-pepsico.png" alt="" width="35">
+                    <span class="fs-4 fw-bolder d-none d-lg-inline">PEPSICO</span>
+                </a>
+            </div>
+            <!-- Visible en pantallas pequeñas -->
+            <div class="pt-4 px-2 text-center d-flex d-lg-none justify-content-center align-items-center">
+                <a type="submit" class="text-decoration-none d-flex align-items-center">
+                    <img class="me-2" src="./../../../../assets/images/logo-pepsico.png" alt="" width="35">
+                </a>
+            </div>
+            <!-- <div class="pt-4 px-2 text-center">
+                <a type="submit" class="text-decoration-none d-flex align-items-center">
+                    <img class="me-2" src="./../../../../assets/images/logo-pepsico.png" alt="" width="35">
+                    <span class="fs-4 d-none d-lg-inline fw-bolder">PEPSICO</span>
+                </a>
+            </div> -->
+
+            <hr>
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item mb-2">
+                    <a routerLink="/rate-cards" class="nav-link" routerLinkActive="active">
+                        <!-- Visible en pantallas grandes -->
+                        <div class="d-none d-lg-flex align-items-center">
+                            <i class="bi bi-file-earmark-spreadsheet me-3"></i>
+                            <span class="d-none d-lg-inline">Tarifario</span>
+                        </div>
+                        <!-- Visible en pantallas pequeñas -->
+                        <div class="d-flex d-lg-none justify-content-center align-items-center">
+                            <i class="bi bi-file-earmark-spreadsheet me-0"></i>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a routerLink="/supplier-analysis" class="nav-link" routerLinkActive="active">
+                        <!-- Visible en pantallas grandes -->
+                        <div class="d-none d-lg-flex align-items-center">
+                            <i class="bi bi-graph-down me-3"></i>
+                            <span class="d-none d-lg-inline">Análisis de proveedor</span>
+                        </div>
+                        <!-- Visible en pantallas pequeñas -->
+                        <div class="d-flex d-lg-none justify-content-center align-items-center">
+                            <i class="bi bi-graph-down me-0"></i>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a routerLink="/rate-simulator" class="nav-link" routerLinkActive="active">
+                        <!-- Visible en pantallas grandes -->
+                        <div class="d-none d-lg-flex align-items-center">
+                            <i class="bi bi-calculator me-3"></i>
+                            <span class="d-none d-lg-inline">Simulador de tarifas</span>
+                        </div>
+                        <!-- Visible en pantallas pequeñas -->
+                        <div class="d-flex d-lg-none justify-content-center align-items-center">
+                            <i class="bi bi-calculator me-0"></i>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a routerLink="/notifications" class="nav-link" routerLinkActive="active">
+                        <!-- Visible en pantallas grandes -->
+                        <div class="d-none d-lg-flex align-items-center">
+                            <i class="bi bi-bell me-3"></i>
+                            <span class="d-none d-lg-inline">Notificaciones</span>
+                        </div>
+                        <!-- Visible en pantallas pequeñas -->  
+                        <div class="d-flex d-lg-none justify-content-center align-items-center">
+                            <i class="bi bi-bell me-0"></i>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="mt-auto mb-3">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item mb-2">
+                        <a routerLink="/settings" class="nav-link" routerLinkActive="active">
+                            <!-- Visible en pantallas grandes -->
+                            <div class="d-none d-lg-flex align-items-center">
+                                <i class="bi bi-gear me-3 d-none d-sm-inline"></i>
+                                <i class="bi bi-gear d-sm-none"></i>
+                                <span class="d-none d-lg-inline">Configuración</span>
+                            </div>
+                            <!-- Visible en pantallas pequeñas -->
+                            <div class="d-flex d-lg-none justify-content-center align-items-center">
+                                <i class="bi bi-gear me-0"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a type="submit" class="nav-link">
+                            <!-- Visible en pantallas grandes -->
+                            <div class="d-none d-lg-flex align-items-center">
+                                <i class="bi bi-box-arrow-in-left me-3 d-none d-sm-inline"></i>
+                                <i class="bi bi-box-arrow-in-left d-sm-none"></i>
+                                <span class="d-none d-lg-inline">Cerrar sesión</span>
+                            </div>
+                            <!-- Visible en pantallas pequeñas -->
+                            <div class="d-flex d-lg-none justify-content-center align-items-center">
+                                <i class="bi bi-box-arrow-in-left me-0"></i>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
