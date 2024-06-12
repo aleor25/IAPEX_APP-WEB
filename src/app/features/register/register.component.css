@@ -1,62 +1,72 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+/* Fuente para todo el contenido */
+#register {
+    font-family: "Poppins", sans-serif;
+}
 
-#c1{
+#rightC{
+    padding: 1cm 0 1cm 0;
+}
+
+/* Imagen columna izquierda */
+.bg-holder {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgb(107, 85, 236);
+}
+
+/* Propiedades del logo */
+.logo-image {
     float: left;
-    width: 49%;
-    height: 100%;
-    margin-top: 5px;
-}
-#ima_login{
-    width: fit-content;
-    height: 100%;
-   text-align: center;
+    width: 30%;
+    height: auto;
+    padding-bottom: 10px;
 }
 
-#c2{
-    background-color: #ffff;
-    margin-top: 10rem;
-    float: right;
-    width: 48%;
-    height: 100%;
-    margin-right: 2%;
+/* Propiedades del titulo */
+.ttl_login {
+    font-weight: bold;
+    font-size: 1cm;
 }
 
-.inf{
-    font-family: Helvetica, sans-serif, Courier, 'Times New Roman';
+/* Tamaño del contenido */
+#contenido {
+    width: 100%;
 }
 
-
-a{
-    color: #252525;
+/* Propiedades de los input */
+input {
+    color: black;
+    background-color: #E9ECEF;
 }
 
-.icon-container /*se encuentra el icono y texto representativos*/{
-    display: flex;
-    align-items: center;
+/* Propiedades de los mensajes del formulario */
+label {
+    font-weight: 600;
+    padding: 0;
 }
 
-#icon_findme /*se añaden propiedades para modificar el icono*/ {
-    color: #60a2d5f2;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: 500;
-    font-size: 30px;
-    margin-right: 10px;
-}
-
-#icon_txtFindme /*se ubica al lado del icono el texto*/ {
-    color: #60a2d5f2;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: 200;
-    font-size: 30px;
-    font-style: normal;
-}
-
-#btn_reg{
-    background-color: #2d4adaf2;
+/* Propiedades del botón */
+.btn {
+    background-color: #1F89EA;
     color: #ffff;
+    border-radius: 9.5px;
+    font-size: small;
+    font-weight: 400;
+    float: right;
+    width: 3.3cm;
 }
 
-#btn_log{
-    background-color: transparent;
-    color: #2d4adaf2;
-}
+
+
+
+
+
+
+
+

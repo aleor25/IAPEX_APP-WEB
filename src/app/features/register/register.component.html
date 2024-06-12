@@ -1,78 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIN</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="register.component.css">
-</head>
-
-<body>
-    <div class="container" id="c1">
-        <div class="row" id="row2">
-            <img src="../../../assets/images/login/imgdoctor.jpg" alt="IAPEX" id="ima_login">
-        </div>
+<div class="row vh-100 g-0" id="register">
+    <!-- Left column -->
+    <div class="col-lg-6 position-relative d-none d-lg-block">
+        <div class="bg-holder" style="background-image: url('./assets/images/bg-register.jpg')"></div>
     </div>
+    <!--/ Left column -->
 
-    <div class="container" id="c2">
-        <div class="row" id="row1">
-            <div id="r1">
-                <div class="inf">
-                    <div class="icon-container">
-                        <i class="bi bi-file-person" id="icon_findme"></i>
-                        <h2 id="icon_txtFindme">Encuéntrame</h2>
+    <!-- Right column -->
+    <div class="col-lg-6" id="rightC">
+        <!-- Contenido -->
+        <div class="d-flex align-items-center h-100" style="padding: 0 2rem 0 2rem;">
+
+            <div class="col-sm-6 col-lg-7 col-xl-6" id="contenido">
+                <div class="mb-5">
+                    <div class="d-flex mb-2">
+                        <img class="logo-image" src="assets/images/logo2.png" alt="logo2">
                     </div>
                     <h1 class="ttl_login">Registrarse</h1>
-                    <p>Complete el formulario a continuación para crear una nueva cuenta. <br>Proporcione información precisa para asegurar un registro exitoso.</p>
-                </div>
-                <div class="mb-3">
-                    <label for="input1" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" id="input1" placeholder="correo@tuinstituciondesalud.com"
-                        maxlength="50" required>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Contraseña (8 caracteres mínimo)</label>
-                    <input type="password" class="form-control" id="input2" placeholder="Su contraseña"
-                        minlength="8" maxlength="12" required>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Repetir contraseña</label>
-                    <input type="password" class="form-control" id="input2"
-                        placeholder="Repita su contraseña" minlength="8" maxlength="12" required>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Institución de salud</label>
-                    <input type="text" class="form-control" id="input2"
-                        placeholder="Introduzca el nombre de su instituciónd de salud" required>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="cargo" class="form-label">Cargo</label>
-                        <input type="text" class="form-control" id="cargo" placeholder="Su cargo en la institución" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="edad" class="form-label">Edad</label>
-                        <input type="number" class="form-control" id="edad" placeholder="Su edad" required>
-                    </div>
-                </div>
-                
-                <div class="d-flex justify-content-end mb-3">
-                    <button class="btn me-2" id="btn_log" type="submit">Iniciar sesión</button>
-                    <button class="btn" id="btn_reg" type="submit">Registrarse</button>
+                    <p>Complete el formulario a continuación para crear una nueva cuenta.
+                        Proporcione información precisa para asegurar un registro exitoso.</p>
                 </div>
 
+                <form>
+                    <div class="mb-3">
+                        <label for="input1" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="input1" placeholder="correo@ejemplo.com"
+                            maxlength="50" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Contraseña (8 caracteres
+                            mínimo)</label>
+                        <input type="password" class="form-control" id="input2" placeholder="Su contraseña"
+                            minlength="8" maxlength="12" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Repetir contraseña</label>
+                        <input type="password" class="form-control" id="input2" placeholder="Repita su contraseña"
+                            minlength="8" maxlength="12" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Institución de salud</label>
+                        <input type="text" class="form-control" id="input2"
+                            placeholder="Introduzca el nombre de su instituciónd de salud" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-9">
+                            <label for="cargo" class="form-label">Cargo</label>
+                            <input type="text" class="form-control" id="cargo" placeholder="Su cargo en la institución"
+                                required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="number" class="form-control" id="edad" placeholder="Su edad" min="18" required>
+                        </div>
+                    </div>
+                </form>
+
+                <div style="padding-top: 10px;">
+                    <button class="btn" type="submit">Registrarse</button>
+                </div>
             </div>
         </div>
     </div>
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+</div>
