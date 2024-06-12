@@ -1,8 +1,3 @@
-/* Div de todo el contenido */
-#login {
-    font-family: "Poppins", sans-serif;
-}
-
 /* Imagen columna izquierda */
 .bg-holder {
     position: absolute;
@@ -16,70 +11,10 @@
     background-color: #1F89EA;
 }
 
-/* Propiedades del titulo */
-.ttl_login {
-    font-weight: bold;
-    font-size: 1cm;
-}
-
-/* Tamaño del contenido */
-#contenido {
-    width: 100%;
-}
-
-/* Propiedades del mensaje de contraseña */
-.forgetpass {
-    color: #1F89EA;
-}
-
-/* Propiedades del botón */
-.btn {
-    background-color: #1F89EA;
-    color: #ffff;
-    border-radius: 9.5px;
-    font-size: small;
-    font-weight: 400;
-    float: right;
-    width: 3.2cm;
-}
-
-/* Propiedades de reestablecer contraseña */
-.fpass {
-    margin-top: 1.5cm;
-    text-align: center;
-    color: #252525;
-}
-
-#fpassA {
-    color: #3f4ed8;
-}
-
-/* Propiedades de los mensajes del formulario */
-.form-label {
-    font-weight: 600;
-    padding: 0;
-}
-
-/* Propiedades de los input */
-input {
-    color: black;
-    background-color: #E9ECEF;
-}
-
 /* Propiedades del logo */
 .logo-image {
     float: left;
-    width: 30%;
+    width: 150px;
     height: auto;
     padding-bottom: 10px;
 }
-
-/* Propiedades del checkbox */
-#checkbox {
-    color: rgb(0, 0, 0);
-}
-
-.form-check-input:not(:checked) {
-    border-color: rgb(76, 76, 76);
-}
-

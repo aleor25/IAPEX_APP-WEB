@@ -1,12 +1,3 @@
-/* Fuente para todo el contenido */
-#register {
-    font-family: "Poppins", sans-serif;
-}
-
-#rightC{
-    padding: 1cm 0 1cm 0;
-}
-
 /* Imagen columna izquierda */
 .bg-holder {
     position: absolute;
@@ -23,50 +14,7 @@
 /* Propiedades del logo */
 .logo-image {
     float: left;
-    width: 30%;
+    width: 150px;
     height: auto;
     padding-bottom: 10px;
 }
-
-/* Propiedades del titulo */
-.ttl_login {
-    font-weight: bold;
-    font-size: 1cm;
-}
-
-/* Tamaño del contenido */
-#contenido {
-    width: 100%;
-}
-
-/* Propiedades de los input */
-input {
-    color: black;
-    background-color: #E9ECEF;
-}
-
-/* Propiedades de los mensajes del formulario */
-label {
-    font-weight: 600;
-    padding: 0;
-}
-
-/* Propiedades del botón */
-.btn {
-    background-color: #1F89EA;
-    color: #ffff;
-    border-radius: 9.5px;
-    font-size: small;
-    font-weight: 400;
-    float: right;
-    width: 3.3cm;
-}
-
-
-
-
-
-
-
-
-
