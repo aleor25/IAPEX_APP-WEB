@@ -48,7 +48,7 @@ input {
 /* Propiedades de los mensajes del formulario */
 label {
     font-weight: 600;
-    padding: 0;
+    padding-top: 10px;
 }
 
 /* Propiedades del botón */
