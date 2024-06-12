@@ -20,45 +20,45 @@
                         Proporcione información precisa para asegurar un registro exitoso.</p>
                 </div>
 
+                <!-- Formulario -->
                 <form>
                     <div class="mb-3">
                         <label for="input1" class="form-label">Correo electrónico</label>
                         <input type="email" class="form-control" id="input1" placeholder="correo@ejemplo.com"
-                            maxlength="50" required>
+                            maxlength="50">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Contraseña (8 caracteres
-                            mínimo)</label>
+                        <label for="exampleFormControlTextarea1" class="form-label">Contraseña (8 caracteres mínimo)</label>
                         <input type="password" class="form-control" id="input2" placeholder="Su contraseña"
-                            minlength="8" maxlength="12" required>
+                            minlength="8" maxlength="12">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Repetir contraseña</label>
-                        <input type="password" class="form-control" id="input2" placeholder="Repita su contraseña"
-                            minlength="8" maxlength="12" required>
+                        <input type="password" class="form-control" id="input2" placeholder="Repita su contraseña" minlength="8" maxlength="12">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Institución de salud</label>
-                        <input type="text" class="form-control" id="input2"
-                            placeholder="Introduzca el nombre de su instituciónd de salud" required>
+                        <input type="text" class="form-control" id="input2" placeholder="Introduzca el nombre de su instituciónd de salud" pattern="^[A-Za-z\s]*$">
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-9">
                             <label for="cargo" class="form-label">Cargo</label>
-                            <input type="text" class="form-control" id="cargo" placeholder="Su cargo en la institución"
-                                required>
+                            <input type="text" class="form-control" id="cargo" placeholder="Su cargo en la institución" pattern="^[A-Za-z\s]*$">
                         </div>
                         <div class="col-md-3">
                             <label for="edad" class="form-label">Edad</label>
-                            <input type="number" class="form-control" id="edad" placeholder="Su edad" min="18" required>
+                            <input type="number" class="form-control" id="edad" placeholder="Su edad" min="18">
                         </div>
                     </div>
-                </form>
 
-                <div style="padding-top: 10px;">
-                    <button class="btn" type="submit">Registrarse</button>
-                </div>
+                    <div style="padding-top: 10px;">
+                        <a class="btn" routerLink="/general-view">Registrarse</a>
+                    </div>
+                </form>
+                <!-- Formulario -->
             </div>
         </div>
+        <!--/ Contenido -->
     </div>
+    <!--/ Right column -->
 </div>
