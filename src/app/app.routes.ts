@@ -6,19 +6,29 @@ import { GeneralViewComponent } from './features/general-view/general-view.compo
 
 export const routes: Routes = [
     {
-         path: 'login',
-        component: LoginComponent 
+        path: 'login',
+        component: LoginComponent
     },
-    { 
-        path: 'register', 
-        component: RegisterComponent 
+    {
+        path: 'register',
+        component: RegisterComponent
     },
-    { 
-        path: 'forgetpass', 
-        component: ForgetpassComponent 
+    {
+        path: 'forgetpass',
+        component: ForgetpassComponent
     },
-    { 
-        path: 'general-view', 
-        component: GeneralViewComponent 
+    {
+        path: 'general-view',
+        component: GeneralViewComponent
     },
+    {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
+        path: '**',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    }
 ];
