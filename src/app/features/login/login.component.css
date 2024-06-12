@@ -10,73 +10,48 @@
     font-size: 1cm;
 }
 
-.input1, .input2 {
-    color: black;
-    background-color: #1c5085;
-}
-
-label {
-    color: black;
-}
-
-a {
-    color: #252525;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.label-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+#contenido {
     width: 100%;
 }
 
-#forgetpass {
-    color: #1b81e7;
-    font-weight: 500;
+#input1,
+#input2 {
+    color: black;
+    background-color: #E9ECEF;
+}
+
+.forgetpass {
+    color: #1F89EA;
+    font-family: "Poppins", sans-serif;
 }
 
 #button1 {
-    background-color: #3f4ed8;
+    background-color: #1F89EA;
     color: #ffff;
     border-radius: 9.5px;
     font-size: small;
     font-weight: 400;
     float: right;
+    font-family: "Poppins", sans-serif;
+    width: 3.2cm;
 }
 
-#fpass {
-    margin-top: 10px;
+.fpass {
+    margin-top: 1.5cm;
     text-align: center;
     color: #252525;
+    font-family: "Poppins", sans-serif;
 }
 
-#fpassa {
+#fpassA {
     color: #3f4ed8;
+    font-family: "Poppins", sans-serif;
 }
 
-.icon-container {
-    width: 100%;
-    padding: 40px;
-}
-
-#icon_findme {
-    color: #60a2d5f2;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: 500;
-    font-size: 30px;
-    margin-right: 10px;
-}
-
-#icon_txtFindme {
-    color: #60a2d5f2;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: 200;
-    font-size: 30px;
-    font-style: normal;
+.form-label {
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    padding: 0;
 }
 
 .bg-holder {
@@ -93,7 +68,17 @@ a {
 
 .logo-image {
     float: left;
-    width: 60%;
+    width: 30%;
     height: auto;
     padding-bottom: 10px;
 }
+
+#checkbox {
+    font-family: "Poppins", sans-serif;
+    color: rgb(0, 0, 0);
+}
+
+.form-check-input:not(:checked) {
+    border-color: rgb(76, 76, 76);
+}
+

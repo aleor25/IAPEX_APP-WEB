@@ -1,23 +1,23 @@
 <div class="row vh-100 g-0">
     <!-- Left column -->
     <div class="col-lg-6 position-relative d-none d-lg-block">
-        <div class="bg-holder" style="background-image: url('./assets/images/login.jpg')"></div>
+        <div class="bg-holder" style="background-image: url('./assets/images/bg-login.jpg')"></div>
     </div>
     <!--/ Left column -->
 
     <!-- Right column -->
     <div class="col-lg-6">
         <!-- Centralizar el contenido -->
-        <div class="d-flex align-items-center h-100" style="padding-left: 2rem;">
+        <div class="d-flex align-items-center h-100" style="padding: 0 2rem 0 2rem;">
 
-            <div class="col-sm-6 col-lg-7 col-xl-6">
+            <div class="col-sm-6 col-lg-7 col-xl-6" id="contenido">
                 <!-- Contenido -->
-                <div>
+                <div class="mb-5">
                     <div class="d-flex mb-2">
-                        <img class="logo-image" src="assets/images/logo.png" alt="logo">
+                        <img class="logo-image" src="assets/images/logo2.png" alt="logo2">
                     </div>
                     <h1 class="ttl_login">Iniciar sesión</h1>
-                    <p>Por favor, introduza sus credenciales de acceso para continuar</p>
+                    <p >Por favor, introduza sus credenciales de acceso para continuar.</p>
                 </div>
 
                 <form>
@@ -38,19 +38,19 @@
                             minlength="8" maxlength="12" required>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center" id="checkbox">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="rememberme">
                             <label class="form-check-label" for="rememberme">
-                                Recuérdame
-                            </label>
+                                <span>Recuérdame</span>
+                            </label>                           
                         </div>
                         <button class="btn" id="button1" type="submit" routerLink="/register">Iniciar
                             sesión</button>
                     </div>
                     
-                    <div class="form-group" id="fpass">
-                        <p>¿No tiene una cuenta? <a id="fpassa" routerLink="/register">¡Regístrate!</a> </p>
+                    <div class="fpass">
+                        <p>¿No tiene una cuenta? <a id="fpassA" routerLink="/register">¡Regístrate!</a> </p>
                     </div>
                 </form>
             </div>
