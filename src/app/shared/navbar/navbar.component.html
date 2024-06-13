@@ -1,14 +1,17 @@
-<header>
-    <h4 style="padding-top: 6%;">vista general</h4>
-    <div class="position-absolute top-0 end-0 btn btn-sm p-1 pt-0 me-5 mb-4 btn btn-primary" 
-    style=" height: 4.7%; border: solid 0.5px;   border-radius: 15px; margin-top: 4.7%;" >
-    <button type="button" class="btn btn-close-white " 
-      style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .1rem; --bs-btn-font-size: .75rem;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus mb-1  ms-0 ps-0" viewBox="0 0 16 16">
-        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-      </svg>
-      <span class="align-text-bottom ps-1 pe-0">Registrar paciente</span>
-    </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-dark" style="width: 100%; border-bottom: 1px solid;">
+  <div class="container-fluid" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="input-group" style="width: 65%; padding-left: 0.5cm">
+      <span class="input-group-text" id="search-icon">
+        <i class="material-icons">search</i>
+      </span>
+      <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-icon" style="width: 80%;">
     </div>
-    <hr>  
-</header>
+    <div style="width: 25%; padding-left: 0.5cm" >
+      <button class="btn btn-primary ms-3" type="button">+ Registrar paciente</button>
+    </div>
+    <div style="width: 10%; display: flex; align-items: center;  justify-content: flex-end; padding-right: 1cm;">
+      <i class="material-icons mx-3" style="font-size: 20px;">notifications</i>
+      <i class="material-icons" style="font-size: 20px;">settings</i>
+    </div>
+  </div>
+</nav>
