@@ -1,0 +1,182 @@
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column align-items-left mb-4">
+                    <li class="nav-link">
+                        <a class="nav-link" href="#">
+                            <button  class="btn btn-sm btn-outline-secondary" id="btn_conf">
+                            <span class="material-symbols-outlined">home</span>
+                            Inicio
+                        </button>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#">
+                            <button  class="btn btn-sm btn-outline-secondary" id="btn_conf">
+                            <span class="material-symbols-outlined">personal_injury</span>
+                            Pacientes
+                        </button>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#">
+                            <button  class="btn btn-sm btn-outline-secondary" id="btn_conf">
+                            <span class="material-symbols-outlined">mail</span>
+                            Solicitudes
+                        </button>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav flex-column mt-auto mb-4">
+                    <li class="nav-link">
+                        <a class="nav-link" href="#">
+                            <button  class="btn btn-sm btn-outline-secondary" id="btn_conf">
+                                <span class="material-symbols-outlined">output</span>
+                            Cerrar Seción
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main role="main" class="col ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex content-between flex-wrap flex-md-nowrap align-items pt-3 pb-2 mb-3 border-bottom">
+                <div class="input-group"> 
+                    <span class="material-symbols-outlined">search</span>
+                    <input class="form-control" placeholder="Buscar">
+                </div>
+                <div class="btn-group ml-3">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" style="background-color: #007bff; color: white;">+ Registrar paciente</button>
+                    <div class="btn-group ml-3">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </div>
+                    <div class="btn-group ml-3">
+                        <span class="material-symbols-outlined">settings</span>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-sm" style="background-color: white; border-radius: 5px; overflow: hidden;">
+            <th><h1 class="h2 celda-grande">Solicitudes recibidas</h1></th>
+            <th class="ln-right">Mostrar</th>
+            <th><input class="form-control small-input" type="text"></th>
+            <th class="ln-left">Registros</th>
+            <th><span class="material-symbols-outlined">history</span></th>
+            <th><span class="material-symbols-outlined">filter_list</span></th>
+            </table>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm" style="background-color: transparent; border-radius: 5px; overflow: hidden;">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Paciente</th>
+                            <th>Interesado(a)</th>
+                            <th>No. de teléfono</th>
+                            <th>Fecha</th>
+                            <th>Estatus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>1</b></td>
+                            <td>#20</td>
+                            <td>Juan Pérez</td>
+                            <td>+52 55 4321 1024</td>
+                            <td>12/01/2024</td>
+                            <td class="text-primary"><b>Nueva</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>2</b></td>
+                            <td>#19</td>
+                            <td>Fermín López</td>
+                            <td>+52 33 4447 5558</td>
+                            <td>12/01/2024</td>
+                            <td class="text-warning"><b>En revisión</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>3</b></td>
+                            <td>#18</td>
+                            <td>Graciela Moreno</td>
+                            <td>+52 55 4275 4329</td>
+                            <td>9/01/2024</td>
+                            <td class="text-success"><b>Encontrado</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>4</b></td>
+                            <td>#17</td>
+                            <td>Jaime Acosta</td>
+                            <td>+52 55 2932 3334</td>
+                            <td>9/01/2024</td>
+                            <td class="text-danger"><b>No encontrado</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>5</b></td>
+                            <td>#16</td>
+                            <td>Carolina Ruiz</td>
+                            <td>+52 55 4321 1024</td>
+                            <td>9/01/2024</td>
+                            <td class="text-primary"><b>Nueva</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>6</b></td>
+                            <td>#15</td>
+                            <td>Jorge Ortíz</td>
+                            <td>+52 55 4321 1024</td>
+                            <td>9/01/2024</td>
+                            <td class="text-primary"><b>Nueva</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>7</b></td>
+                            <td>#14</td>
+                            <td>Alejandro Ruíz</td>
+                            <td>+52 55 4321 1024</td>
+                            <td>9/01/2024</td>
+                            <td class="text-danger"><b>No encontrado</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>8</b></td>
+                            <td>#13</td>
+                            <td>Fernanda Huerta</td>
+                            <td>+52 55 4321 1024</td>
+                            <td>9/01/2024</td>
+                            <td class="text-success"><b>Encontrado</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>9</b></td>
+                            <td>#12</td>
+                            <td>Cristina Ramírez</td>
+                            <td>+52 55 4321 1024</td>
+                            <td>9/01/2024</td>
+                            <td class="text-success"><b>Encontrado</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>10</b></td>
+                            <td>#11</td>
+                            <td>Daniel Trujillo</td>
+                            <td>+52 55 4321 1024</td>
+                            <td>9/01/2024</td>
+                            <td class="text-warning"><b>En revisión</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="#" tabindex="-1"><</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
