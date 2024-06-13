@@ -6,85 +6,82 @@
     <!--/ Left column -->
 
     <!-- Right column -->
-    <div class="col-lg-6 py-5">
+    <div class="col-lg-6 py-5 d-flex align-items-center justify-content-center">
         <!-- Contenido -->
-        <div class="d-flex align-items-center h-100 px-5">
-            <div class="px-3">
-                <div class="col-sm-6 col-lg-7 col-xl-6 w-100">
-                    <div class="mb-5">
-                        <div class="d-flex mb-2">
-                            <img class="logo-image" src="assets/images/logo2.png" alt="logo2">
+        <div class="d-flex align-items-center h-100">
+            <div class="col-sm-6 col-lg-7 col-xl-6 w-100">
+                <div class="mb-5">
+                    <div class="d-flex mb-2">
+                        <img class="logo-image" src="assets/images/logo2.png" alt="logo2">
+                    </div>
+                    <h1 class="fw-bold fs-2 mb-3">Registrarse</h1>
+                    <p>Complete el formulario a continuación para crear una nueva cuenta.</p>
+                </div>
+
+                <!-- Formulario -->
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre(s)</label>
+                        <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre o nombres"
+                            maxlength="50">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="firstSurname" class="form-label">Apellido paterno</label>
+                            <input type="text" class="form-control" id="firstLastName"
+                                placeholder="Ingresa tu apellido paterno" maxlength="50">
                         </div>
-                        <h1 class="fw-bold fs-2 mb-3">Registrarse</h1>
-                        <p>Complete el formulario a continuación para crear una nueva cuenta.
-                            Proporcione información precisa para asegurar un registro exitoso.</p>
+                        <div class="col">
+                            <label for="lastSurname" class="form-label">Apellido materno</label>
+                            <input type="text" class="form-control" id="lastSurname"
+                                placeholder="Ingresa tu apellido materno" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Número de teléfono</label>
+                        <input type="number" class="form-control" id="phoneNumber"
+                            placeholder="Ingresa tu número de teléfono">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="institution" class="form-label">Institución de salud</label>
+                            <select class="form-select" id="institution">
+                                <option selected hidden value="">Seleccione una institución</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="cargo" class="form-label">Cargo</label>
+                            <select class="form-select" id="cargo">
+                                <option selected hidden value="">Seleccione su cargo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" placeholder="correo@ejemplo.com"
+                            maxlength="50">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" placeholder="Su contraseña"
+                            minlength="8">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Repetir contraseña</label>
+                        <input type="password" class="form-control" id="confirmPassword"
+                            placeholder="Repita su contraseña" minlength="8">
                     </div>
 
-                    <!-- Formulario -->
-                    <form>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nombre(s)</label>
-                            <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre o nombres"
-                                maxlength="50">
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="firstSurname" class="form-label">Apellido paterno</label>
-                                <input type="text" class="form-control" id="firstLastName"
-                                    placeholder="Ingresa tu apellido paterno" maxlength="50">
-                            </div>
-                            <div class="col">
-                                <label for="lastSurname" class="form-label">Apellido materno</label>
-                                <input type="text" class="form-control" id="lastSurname"
-                                    placeholder="Ingresa tu apellido materno" maxlength="50">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phoneNumber" class="form-label">Número de teléfono</label>
-                            <input type="number" class="form-control" id="phoneNumber"
-                                placeholder="Ingresa tu número de teléfono">
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="institution" class="form-label">Institución de salud</label>
-                                <select class="form-select" id="institution">
-                                    <option selected hidden value="">Seleccione el nombre de su institución de salud
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="cargo" class="form-label">Cargo</label>
-                                <select class="form-select" id="cargo">
-                                    <option selected hidden value="">Seleccione su cargo en la institución</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Correo electrónico</label>
-                            <input type="email" class="form-control" id="email" placeholder="correo@ejemplo.com"
-                                maxlength="50">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" placeholder="Su contraseña"
-                                minlength="8">
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Repetir contraseña</label>
-                            <input type="password" class="form-control" id="confirmPassword"
-                                placeholder="Repita su contraseña" minlength="8">
-                        </div>
-
-                        <div class="pt-3 justify-content-between align-items-center d-flex">
-                            <p class="m-0">¿Ya tienes una cuenta? <a class="active text-decoration-none" routerLink="/login">¡Inicia sesión!</a> </p>
-                            <a class="btn btn-primary" routerLink="/login">Registrarse</a>
-                        </div>
-                    </form>
-                    <!-- Formulario -->
-                </div>
+                    <div class="pt-3 justify-content-between align-items-center d-flex">
+                        <p class="m-0">¿Ya tienes una cuenta? <a class="active text-decoration-none"
+                                routerLink="/login">¡Inicia sesión!</a> </p>
+                        <a class="btn btn-primary" routerLink="/login">Registrarse</a>
+                    </div>
+                </form>
+                <!-- Formulario -->
             </div>
         </div>
-        <!--/ Contenido -->
     </div>
-    <!--/ Right column -->
+    <!--/ Contenido -->
 </div>
+<!--/ Right column -->
