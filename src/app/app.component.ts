@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { GeneralViewComponent } from "./features/general-view/general-view.component";
+import { GeneralViewComponent } from "./features/dashboard/general-view/general-view.component";
 import { ForgetpassComponent } from './features/forgetpass/forgetpass.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegisterComponent } from './features/register/register.component';
