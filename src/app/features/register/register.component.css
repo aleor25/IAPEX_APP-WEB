@@ -18,3 +18,13 @@
     height: auto;
     padding-bottom: 10px;
 }
+
+/* esto es para el formulario que te muestre si es que es correcto lo insertado o es incorrecto 
+se muestra un borde izquierdo dependiendo el estado del formulario */
+
+.ng-valid:not(form).ng-touched {
+    border-left: 5px solid #1eb14f; /*verde */
+}
+.ng-invalid:not(form).ng-touched {
+    border-left: 5px solid #a31e1e; /*rojo */
+}
