@@ -1,17 +1,16 @@
 <div class="container-fluid h-100">
     <div class="row h-100">
         <div class="min-vh-100 bg-light d-flex flex-column justify-content-between">
-            <!-- Visible en pantallas grandes -->
             <div class="pt-4 px-2 text-center d-none d-lg-flex align-items-center justify-content-center">
                 <a type="submit" class="text-decoration-none d-flex align-items-center justify-content-center">
-                    <img class="me-2 mx-auto" src="./../../../../assets/images/logo.png" alt="" width="140">
+                    <img class="me-2 mx-auto" src="assets/images/logo.png" alt="" width="140" routerLink="/login">
                 </a>
             </div>
             
             <hr>
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item mb-2">
-                    <a routerLink="/general-view" class="nav-link" routerLinkActive="active">
+                    <a routerLink="/dashboard/general-view" class="nav-link" routerLinkActive="active">
                         <div class="d-none d-lg-flex align-items-center">
                             <i class="material-icons me-3 text-black" style="align-self: center;">home</i>
                             <span class="d-none d-lg-inline text-black">Inicio</span>
@@ -19,7 +18,7 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a routerLink="/pacientes-registrados" class="nav-link" routerLinkActive="active">
+                    <a routerLink="/dashboard/pacientes-registrados" class="nav-link" routerLinkActive="active">
                         <div class="d-none d-lg-flex align-items-center">
                             <i class="material-icons me-3 text-black" style="align-self: center;">personal_injury</i>
                             <span class="d-none d-lg-inline text-black">Pacientes</span>
@@ -27,7 +26,7 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a routerLink="/solicitudes" class="nav-link" routerLinkActive="active">
+                    <a routerLink="/dashboard/solicitudes" class="nav-link" routerLinkActive="active">
                         <div class="d-none d-lg-flex align-items-center">
                             <i class="material-icons me-3 text-black" style="align-self: center;">mail</i>
                             <span class="d-none d-lg-inline text-black">Solicitudes</span>
@@ -42,7 +41,7 @@
                         <a type="submit" class="nav-link">
                             <div class="d-none d-lg-flex align-items-center">
                                 <i class="material-icons text-black" style="margin-left: 8px;">logout</i>
-                                <span class="d-none d-lg-inline text-black" style="margin-left: 8px;">Cerrar sesión</span>
+                                <span class="d-none d-lg-inline text-black" style="margin-left: 8px;" routerLink="/login">Cerrar sesión</span>
                             </div>
                         </a>
                     </li>
