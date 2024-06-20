@@ -1,37 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recuperar contraseña</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" href="forgetpass.component.css">
-</head>
-
-<body>
-    <div class="container">
-        <div class="txt-container">
-            <p id="ttl1">¿Olvidaste tu contraseña?</p>
-            <p id="txt">Paso 1</p>
-            <p id="txt1">Ingresa un correo para enviar un código de verificación</p>
-            <div>
-                <label for="exampleFormControlTextarea1" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="input2" placeholder="correo@ejemplo.com"
-                    minlength="8" maxlength="12" required>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 p-0">
+            <div class="h-100">
+                <img src="./assets/images/reestablish.jpg" alt="IAPEX" id="ima_forgetpass" class="rounded-float-start">
             </div>
-            <div class="d-flex justify-content-end mb-3" id="btn_group">
-                <button class="btn" type="button" id="btn1">Volver</button>  
-                <button class="btn" type="button" id="btn2">Continuar</button>
-            </div>
-            
         </div>
+
+        <div class="col-sm-6 p-0">
+            <div class="row ms-1 me-1">
+                <div id="r1">
+
+                    <div class="inf">
+                        <div class="icon-container">
+                            <img src="./assets/images/logo.png" alt="LOGO_IAPEX" id="icon_findme">
+                        </div>
+                        <p class="ttl_register">Reestablezca su contraseña</p>
+                        <p>
+                            Para reestablecer su contraseña, ingrese la dirección de correo electrónico de su cuenta
+                            de usuario
+                            y le enviaremos un enlace para restablecer su contraseña.
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="input1" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control bg-light" id="input1"
+                            placeholder="correo@ejemplo.com" maxlength="50" required>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mb-3">
+                    <button class="btn me-2" id="btn_log" type="submit">Iniciar sesión</button>
+                    <button class="btn btn-primary" id="btn_reg" type="submit">Enviar</button>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+</div>

@@ -9,5 +9,12 @@
 
 #icon_e{
     font-size: 10rem;
-    color: #2E70F5;
+    color: rgb(110, 204, 249);
+    font-size: 12rem;
 }
+
+p{
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
