@@ -11,5 +11,5 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './general-view.component.css'
 })
 export class GeneralViewComponent {
-
+  
 }

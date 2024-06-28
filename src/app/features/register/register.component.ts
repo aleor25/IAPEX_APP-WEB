@@ -53,7 +53,7 @@ export class RegisterComponent {
   register(){
     if(this.registerForm.valid){
       console.log("llamar al servicio")
-      this.router.navigateByUrl('/general-view');
+      this.router.navigateByUrl('/login');
       this.registerForm.reset();
     }
     else{

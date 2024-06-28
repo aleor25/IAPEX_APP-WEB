@@ -19,7 +19,7 @@
                 </div>
 
                 <!-- Formulario -->
-                <form [formGroup]="registerForm">
+                <form [formGroup]="loginForm">
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo electrónico</label>
                         <input type="email" formControlName="email" class="form-control" id="email" placeholder="correo@ejemplo.com">
@@ -40,7 +40,6 @@
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <label for="forgetPass" class="form-label">Contraseña</label>
-<<<<<<< HEAD
                             <a id="forgetPass" routerLink="/forgetpass" class="text-decoration-none mb-2">¿Olvidó su contraseña?</a>
                         </div>
                         <input type="password" formControlName="password" class="form-control" id="forgetPass" placeholder="Su contraseña">
@@ -56,10 +55,8 @@
                             <div *ngIf="password.errors?.['maxLength']">
                                 La contraseña no es valida
                             </div>
-=======
                             <a id="forgetPass" routerLink="/reset-password" class="text-decoration-none mb-2">¿Olvidó su
                                 contraseña?</a>
->>>>>>> 900a5eca39968b05d6fcd0cf191579c82ca8d645
                         </div>
                     </div>
 
@@ -70,7 +67,7 @@
                                 <span>Recuérdame</span>
                             </label>
                         </div>
-                        <button class="btn btn-primary" (click)="register()">Iniciar sesión</button>
+                        <button class="btn btn-primary" (click)="login()" type="submit">Iniciar sesión</button>
                     </div>
 
                     <div class="pt-5 justify-content-center align-items-center d-flex">

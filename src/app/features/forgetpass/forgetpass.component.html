@@ -1,39 +1,44 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-6 p-0">
-            <div class="h-100">
-                <img src="./assets/images/reestablish.jpg" alt="IAPEX" id="ima_forgetpass" class="rounded-float-start">
-            </div>
-        </div>
 
-        <div class="col-sm-6 p-0">
-            <div class="row ms-1 me-1">
-                <div id="r1">
 
-                    <div class="inf">
-                        <div class="icon-container">
-                            <img src="./assets/images/logo.png" alt="LOGO_IAPEX" id="icon_findme">
-                        </div>
-                        <p class="ttl_register">Reestablezca su contraseña</p>
-                        <p>
-                            Para reestablecer su contraseña, ingrese la dirección de correo electrónico de su cuenta
-                            de usuario
-                            y le enviaremos un enlace para restablecer su contraseña.
-                        </p>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="input1" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control bg-light" id="input1"
-                            placeholder="correo@ejemplo.com" maxlength="50" required>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end mb-3">
-                    <button class="btn me-2" id="btn_log" type="submit">Iniciar sesión</button>
-                    <button class="btn btn-primary" id="btn_reg" type="submit">Enviar</button>
-                </div>
-            </div>
-        </div>
-
+<div class="row vh-100 g-0">
+    <!-- Left column -->
+    <div class="col-lg-6 position-relative d-none d-lg-block">
+        <div class="bg-holder" style="background-image: url('./assets/images/reestablish.jpg')"></div>
     </div>
+    <!--/ Left column -->
+
+    <!-- Right column -->
+    <div class="col-lg-6 py-5 d-flex align-items-center justify-content-center">
+        <!-- Contenido -->
+        <div class="d-flex align-items-center h-100" >
+            <div class="col-sm-6 col-lg-7 col-xl-6 w-100 ">
+                <div class="mb-2">
+                    <div class="d-flex mb-2">
+                        <img class="logo-image w-25" src="assets/images/logo.png" alt="logo">
+                    </div>
+                    <h1 class="fw-bold mb-4" style="font-size: 4rcap;">Reestablezca su contraseña</h1>
+                        <p>Para reestablecer su contraseña, ingrese la dirección de correo electrónico</p>
+                        <p> asociado con su cuenta. Le enviaremos un enlace de reestablecimiento para </p>
+                        <p> que pueda crear una nueva contraseña.</p>
+                </div>
+
+                <!-- Formulario -->
+                <form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" formControlName="email" class="form-control" id="email" placeholder="correo@ejemplo.com">
+                    </div>
+
+                    <div class="d-flex justify-content-end align-items-center" id="checkbox">
+                        <button id="btn1" class="btn btn-none me-3" routerLink="/dashboard">Iniciar sesión</button>
+                        <button class="btn btn-primary ms-2" routerLink="/dashboard">Enviar</button>
+                    </div>
+                </form>
+                <!-- Formulario -->
+                 
+            </div>
+        </div>
+    </div>
+    <!--/ Contenido -->
 </div>
+<!--/ Right column -->

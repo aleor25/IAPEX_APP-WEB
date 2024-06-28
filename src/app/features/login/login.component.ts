@@ -3,6 +3,7 @@ import { Route, Router, RouterLink } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,31 +13,55 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  registerError:string="";
-  registerForm=this.formBuilder.group({
+  //variables
+  loginError:string="";
+  // user: string= '';
+  // passwordd: string= '';
+
+  //constructor
+  constructor(private formBuilder:FormBuilder,private router:Router ,private authService: AuthService ){}
+
+  //validacionde del formulario parte cliente
+  loginForm=this.formBuilder.group({
     email:['',[Validators.required,Validators.email,Validators.maxLength(76)]],
     password:['',[Validators.required,Validators.minLength(8),Validators.maxLength(24)]],
   })
 
-  constructor(private formBuilder:FormBuilder,private router:Router){}
-
-  register(){
-    if(this.registerForm.valid){
-      console.log("llamar al servicio")
-      this.router.navigateByUrl('/general-view');
-      this.registerForm.reset();
-    }
-    else{
-      this.registerForm.markAllAsTouched();
+  //funcion redirecionamiento
+login(): void{
+   const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+    if(email && password){
+      this.authService.login(email,password).subscribe({
+        next: ()=>this.router.navigate(['/dashdoard']),
+        error: (err) => console.error('login failed', err)
+      });
+    }else{
+      this.loginForm.markAllAsTouched();
       alert("Error al ingresar los datos")
     }
-  }
 
+
+    /* if(this.loginForm.valid){
+      console.log("llamar al servicio")
+      this.router.navigateByUrl('/dashboard');
+      // this.loginForm.reset();
+    }
+    else{
+      this.loginForm.markAllAsTouched();
+      alert("Error al ingresar los datos")
+    } */
+  }
+  // ng permisions,jwt,intersector
+  
     // metodos get
   get email(){
-    return this.registerForm.controls['email'];
+    return this.loginForm.controls['email'];
   }
   get password(){
-    return this.registerForm.controls['password'];
+    return this.loginForm.controls['password'];
   }
+
+  //parte para jwt
+
 }
