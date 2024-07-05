@@ -19,4 +19,5 @@ export const DashboardRoutes: Routes = [
             { path: 'settings', component: SettingsComponent }
         ]
     }
+    
 ];

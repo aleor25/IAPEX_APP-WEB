@@ -4,7 +4,6 @@
         <div class="bg-holder" style="background-image: url('./assets/images/bg-register.jpg')"></div>
     </div>
     <!--/ Left column -->
-
     <!-- Right column -->
     <div class="col-lg-6 py-5 d-flex align-items-center justify-content-center">
         <!-- Contenido -->
@@ -19,63 +18,130 @@
                 </div>
 
                 <!-- Formulario -->
-                <form>
+                <form [formGroup]="registerForm">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre(s)</label>
-                        <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre o nombres"
-                            maxlength="50">
+                        <input formControlName="nombre" type="text" class="form-control" id="name" placeholder="Ingresa tu nombre o nombres">
+
+                        <!-- mensajes de error de validaciones -->
+
+                        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger">
+                            <div *ngIf="nombre.errors?.['required']">
+                                El nombre es requerido
+                            </div>
+                            <div *ngIf="nombre.errors?.['maxlength']">
+                                El nombre no es valido
+                            </div>
+                        </div>
+
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="firstSurname" class="form-label">Apellido paterno</label>
-                            <input type="text" class="form-control" id="firstLastName"
-                                placeholder="Ingresa tu apellido paterno" maxlength="50">
+                            <label for="firstSurname" class="form-label">Primer apellido</label>
+                            <input formControlName="primerApellido" type="text" class="form-control" id="firstLastName" placeholder="Ingresa tu apellido paterno">
+                                <div *ngIf="primerApellido.invalid && (primerApellido.dirty || primerApellido.touched)" class="text-danger">
+                                    <div *ngIf="primerApellido.errors?.['required']">
+                                        El primer apellido es requerido
+                                    </div>
+                                    <div *ngIf="primerApellido.errors?.['maxlength']">
+                                        El primer apellido no es valido
+                                    </div>
+                                </div>
                         </div>
                         <div class="col">
-                            <label for="lastSurname" class="form-label">Apellido materno</label>
-                            <input type="text" class="form-control" id="lastSurname"
-                                placeholder="Ingresa tu apellido materno" maxlength="50">
+                            <label for="lastSurname" class="form-label">Segundo apellido</label>
+                            <input formControlName="segundoApellido" type="text" class="form-control" id="lastSurname" placeholder="Ingresa tu apellido materno">
+                            <div *ngIf="segundoApellido.invalid && (segundoApellido.dirty || segundoApellido.touched)" class="text-danger">
+
+                                <div *ngIf="segundoApellido.errors?.['maxlength']">
+                                    El segundo apellido no es valido
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="phoneNumber" class="form-label">Número de teléfono</label>
-                        <input type="number" class="form-control" id="phoneNumber"
-                            placeholder="Ingresa tu número de teléfono">
+                        <input formControlName="numeroTelefono" type="number" class="form-control" id="phoneNumber" placeholder="Ingresa tu número de teléfono">
+                        <div *ngIf="numeroTelefono.invalid && (numeroTelefono.dirty || numeroTelefono.touched)" class="text-danger">
+                            <div *ngIf="numeroTelefono.errors?.['required']">
+                                El numero de telefono es requerido
+                            </div>
+                            <div *ngIf="numeroTelefono.errors?.['maxlength']">
+                                El  numero de telefono no es valido
+                            </div>
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
                             <label for="institution" class="form-label">Institución de salud</label>
-                            <select class="form-select" id="institution">
+                            <select formControlName="institucionSalud" class="form-select" id="institution">
                                 <option selected hidden value="">Seleccione una institución</option>
                             </select>
                         </div>
                         <div class="col">
                             <label for="cargo" class="form-label">Cargo</label>
-                            <select class="form-select" id="cargo">
-                                <option selected hidden value="">Seleccione su cargo</option>
+                            <select formControlName="cargo" class="form-select" id="cargo">
+                                <option  selected hidden value="">Seleccione su cargo</option>
                             </select>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="correo@ejemplo.com"
-                            maxlength="50">
+                        <input formControlName="email" type="email" class="form-control" id="email" placeholder="correo@ejemplo.com">
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                            <div *ngIf="email.errors?.['required']">
+                                El correo electronico es requerido
+                            </div>
+                            <div *ngIf="email.errors?.['email']">
+                                Lo insertado no es un correo electronico
+                            </div>
+                            <div *ngIf="email.errors?.['maxLength']">
+                                El correo electronico no es valido
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" placeholder="Su contraseña"
-                            minlength="8">
+                        <input formControlName="password" type="password" class="form-control" id="password" placeholder="Su contraseña">
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+                            <div *ngIf="password.errors?.['required']">
+                                La contraseña es requerida es requerida
+                            </div>
+                            <div *ngIf="password.errors?.['minlength']">
+                                La contraseña no es valida
+                            </div>
+                            <div *ngIf="password.errors?.['maxLength']">
+                                La contraseña no es valida
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="confirmPassword" class="form-label">Repetir contraseña</label>
-                        <input type="password" class="form-control" id="confirmPassword"
-                            placeholder="Repita su contraseña" minlength="8">
+                        <input formControlName="repitPassword" type="password" class="form-control" id="confirmPassword" placeholder="Repita su contraseña" >
+                        <div *ngIf="repitPassword.invalid && (repitPassword.dirty || repitPassword.touched)" class="text-danger">
+                            <div *ngIf="repitPassword.errors?.['required']">
+                                La contraseña es requerida es requerida
+                            </div>
+                            <div *ngIf="repitPassword.errors?.['minlength']">
+                                La contraseña no es valida
+                            </div>
+                            <div *ngIf="repitPassword.errors?.['maxLength']">
+                                La contraseña no es valida
+                            </div>
+                        </div>
                     </div>
+                    <!-- validaciones de confirmar contraseña -->
+                    <!-- <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword').touched">
+                        Las contraseñas no coinciden.
+                      </div> -->
+                      <div *ngIf="registerForm.hasError('passwordMismatch') && (registerForm.get('repetirContraseña')?.touched || registerForm.get('contraseña')?.touched)">
+                        Las contraseñas no coinciden.
+                      </div>
 
                     <div class="pt-3 justify-content-between align-items-center d-flex">
                         <p class="m-0">¿Ya tienes una cuenta? <a class="active text-decoration-none"
                                 routerLink="/login">¡Inicia sesión!</a> </p>
-                        <a class="btn btn-primary" routerLink="/login">Registrarse</a>
+                        <a class="btn btn-primary" (click)="register()">Registrarse</a>
                     </div>
                 </form>
                 <!-- Formulario -->
