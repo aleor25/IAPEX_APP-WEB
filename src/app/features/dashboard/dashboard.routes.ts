@@ -15,8 +15,12 @@ export const DashboardRoutes: Routes = [
             { path: '', redirectTo: 'general-view', pathMatch: 'full' },
             { path: 'general-view', component: GeneralViewComponent },
             { path: 'pacientes-registrados', component: PacientesRegistradosComponent },
+            { path: '', redirectTo: '/pacientes-registrados/1', pathMatch: 'full' }, // Redirect to the first page
+            { path: '**', redirectTo: '/pacientes-registrados/1' }, // Catch-all route for invalid paths
+
             { path: 'solicitudes', component: SolicitudesComponent },
             { path: 'settings', component: SettingsComponent }
         ]
     }
+    
 ];
