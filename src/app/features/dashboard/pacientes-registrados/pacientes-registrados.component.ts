@@ -1,8 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
-import { PatientService } from '../../../core/services/patients/patient.service';
-import { Patient } from '../../../core/models/patient.model';
+import { NgFor } from '@angular/common';
 import { Router } from '@angular/router';
+import { Patient } from '../../../core/models/pacientes/patient.model';
+import { PatientService } from '../../../core/services/patients/patient.service';
+
 
 @Component({
   selector: 'app-patient-list',
