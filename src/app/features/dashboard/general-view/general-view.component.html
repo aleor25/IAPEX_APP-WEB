@@ -1,49 +1,53 @@
-<div class="container-fluid p-3 m-1 rounded">
+<div class="container-fluid p-3 m-1">
   <!-- Solicitudes recibidas -->
   <div class="container">
     <h1 class="mb-4 fs-2">Solicitudes recibidas</h1>
-    <div class="row text-center mb-4">
+
+    <div class="row mb-4">
       <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               mail
             </span>
-            <h5 class="card-title fs-5 mb-0 fw-bold">Total</h5>
-            <p class="card-number fs-2 fw-bold text-primary">30</p>
+            <h5 class="fs-5 mb-0 fw-bold">Total</h5>
+            <p class="fs-2 mb-0 fw-bold text-primary">30</p>
           </div>
         </div>
       </div>
+
       <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               priority_high
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">Nuevas</h5>
-            <p class="card-number fs-2 fw-bold text-primary">7</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">7</p>
           </div>
         </div>
       </div>
+
       <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               autorenew
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">En revisión</h5>
-            <p class="card-number fs-2 fw-bold text-primary display-4">12</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">12</p>
           </div>
         </div>
       </div>
+
       <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               check_circle
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">Finalizadas</h5>
-            <p class="card-number fs-2 fw-bold text-primary display-4">11</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">11</p>
           </div>
         </div>
       </div>
@@ -52,7 +56,11 @@
     <!-- Gráficas -->
     <div class="row">
       <div class="col-md-6">
-        <canvas id="chartRequests"></canvas>
+        <div class="card w-100 h-100">
+          <div class="card-body">
+            <canvas id="chartRequests"></canvas>
+          </div>
+        </div>
       </div>
       <div class="col-md-6">
         <div class="card w-100 h-100">
@@ -68,39 +76,42 @@
 
 
   <!-- Pacientes registrados -->
-  <div class="container mt-5  ">
+  <div class="container mt-5">
     <h1 class="mb-4 fs-2">Pacientes registrados</h1>
-    <div class="row text-center mb-4">
+
+    <div class="row mb-4">
       <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               groups
             </span>
-            <h5 class="card-title fs-5 mb-0 fw-bold">Total</h5>
-            <p class="card-number fs-2 fw-bold text-primary">30</p>
+            <h5 class="fs-5 mb-0 fw-bold">Total</h5>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">30</p>
           </div>
         </div>
       </div>
+
       <div class="col-md-6">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               calendar_month
             </span>
-            <h5 class="card-title fs-5 mb-0 fw-bold">Registrados esta semana</h5>
-            <p class="card-number fs-2 fw-bold text-primary display-4">12</p>
+            <h5 class="fs-5 mb-0 fw-bold">Registrados esta semana</h5>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">12</p>
           </div>
         </div>
       </div>
+
       <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               personal_injury
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">Activos</h5>
-            <p class="card-number fs-2 fw-bold text-primary display-4">11</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">11</p>
           </div>
         </div>
       </div>
@@ -109,7 +120,11 @@
     <!-- Gráficas -->
     <div class="row">
       <div class="col-md-6">
-        <canvas id="chartPatients"></canvas>
+        <div class="card w-100 h-100">
+          <div class="card-body">
+            <canvas id="chartPatients"></canvas>
+          </div>
+        </div>
       </div>
       <div class="col-md-6">
         <div class="card w-100 h-100">
@@ -129,48 +144,56 @@
   <!-- /Pacientes registrados -->
 
 
-  <!-- Busquedas -->
+  <!-- Búsqueda -->
   <div class="container mt-5">
     <h1 class="mb-4 fs-2">Búsqueda</h1>
+
     <div class="row text-center mb-4">
       <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               search
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">Total de búsquedas</h5>
-            <p class="card-number fs-2 fw-bold text-primary">30</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">30</p>
           </div>
         </div>
       </div>
+
       <div class="col-md-6">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               check_circle
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">Tasa de éxito</h5>
-            <p class="card-number fs-2 fw-bold text-primary display-4">47%</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">47%</p>
           </div>
         </div>
       </div>
+
       <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <span class="material-symbols-outlined fs-1 mb-3 text-primary">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <span class="material-symbols-outlined fs-1 text-primary">
               schedule
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">Tiempo de resolución</h5>
-            <p class="card-number fs-2 fw-bold text-primary">9 días</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary">9 días</p>
           </div>
         </div>
       </div>
     </div>
+
     <!-- Gráficas -->
     <div class="row">
       <div class="col-md-6">
-        <canvas id="chartSearch"></canvas>
+        <div class="card w-100 h-100">
+          <div class="card-body">
+            <canvas id="chartSearch"></canvas>
+          </div>
+        </div>
       </div>
       <div class="col-md-6">
         <div class="card w-100 h-100">
@@ -182,6 +205,5 @@
     </div>
     <!-- /Gráficas -->
   </div>
-  <!-- /Busquedas -->
-
+  <!-- /Búsqueda -->
 </div>
