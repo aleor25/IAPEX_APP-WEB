@@ -1,180 +1,171 @@
-<div class=" bg-light" style="width: 100%; height: 100%;">
-    <div class="order-dark bg-white d-flex flex-column justify-content-center py-3">
-        <div class="d-flex align-items-center mb-4">
-            <i class="material-icons text-black mr-2 px-3" routerLink="/dashboard/general-view" style="cursor: pointer;">arrow_back</i>
-            <h2 class="text-black mb-0 ">Paciente No. 1</h2>
-        </div>
+<div class="bg-white d-flex flex-column justify-content-center py-3">
+    <div class="d-flex align-items-center">
+        <span class="material-symbols-outlined mr-2 px-3 fs-1" routerLink="/dashboard/pacientes-registrados" style="cursor: pointer; color: #666666;">
+            arrow_back
+        </span>
+        <h2 class="mb-0" style="color: #666666;">Paciente No.1</h2>
     </div>
+</div>
 
-    <div class="m-5">
-        <h4>Información principal</h4>
-        <p>Complete los siguientes campos con la información solicitada.</p>
-        <form class="bg-white px-5 py-4 rounded">
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="colorCabello">Color de cabello</label>
-                    <select id="colorCabello" class="form-select">
-                        <option selected>Seleccione un color de cabello</option>
-                        <option>Negro</option>
-                        <option>Castaño</option>
-                        <option>Rubio</option>
-                        <option>Rojo</option>
-                        <option>Gris</option>
-                        <option>Blanco</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="tipoCabello">Tipo de cabello</label>
-                    <select id="tipoCabello" class="form-select">
-                        <option selected>Seleccione un tipo de cabello</option>
-                        <option>Liso</option>
-                        <option>Ondulado</option>
-                        <option>Rizado</option>
-                    </select>
-                </div>
+<div class="m-5">
+    <h4>Información principal</h4>
+    <p>Complete los siguientes campos con la información solicitada.</p>
+    <form class="card px-5 py-4 rounded">
+        <div class="row mb-3">
+            <div class="col">
+                <label for="colorCabello">Color de cabello</label>
+                <select id="colorCabello" class="form-select">
+                    <option selected>Seleccione un color de cabello</option>
+                    <option>Negro</option>
+                    <option>Castaño</option>
+                    <option>Rubio</option>
+                    <option>Rojo</option>
+                    <option>Gris</option>
+                    <option>Blanco</option>
+                </select>
             </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="colorPiel">Color de piel</label>
-                    <select id="colorPiel" class="form-select">
-                        <option selected>Seleccione un color de piel</option>
-                        <option>Clara</option>
-                        <option>Media</option>
-                        <option>Oscura</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="colorOjos">Color de ojos</label>
-                    <select id="colorOjos" class="form-select">
-                        <option selected>Seleccione un color de ojos</option>
-                        <option>Negro</option>
-                        <option>Café</option>
-                        <option>Verde</option>
-                        <option>Azul</option>
-                        <option>Gris</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="sexo">Sexo</label>
-                    <select id="sexo" class="form-select">
-                        <option selected>Seleccione el sexo</option>
-                        <option>Masculino</option>
-                        <option>Femenino</option>
-                        <option>Otro</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="estatura">Estatura (en cm)</label>
-                    <input type="number" class="form-control" id="estatura"
-                        placeholder="Ingrese la estatura del paciente">
-                </div>
-                <div class="col">
-                    <label for="peso">Peso (en kg)</label>
-                    <input type="number" class="form-control" id="peso" placeholder="Ingrese el peso del paciente">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="complexion">Complexión</label>
-                    <select id="complexion" class="form-select">
-                        <option selected>Seleccione la complexión del paciente</option>
-                        <option>Delgada</option>
-                        <option>Media</option>
-                        <option>Atlética</option>
-                        <option>Robusta</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="postura">Postura</label>
-                    <select id="postura" class="form-select">
-                        <option selected>Seleccione la postura del paciente al ingresar</option>
-                        <option>Erguida</option>
-                        <option>Encogida</option>
-                        <option>Jorobada</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="rasgos">Rasgos</label>
-                <textarea class="form-control" id="rasgos" rows="3"
-                    placeholder="Ingrese los rasgos característicos del paciente (características faciales, tatuajes, piercings, marcas de nacimiento, lunares, cicatrices, etc.)."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="condiciones">Condiciones especiales (si aplica)</label>
-                <textarea class="form-control" id="condiciones" rows="3"
-                    placeholder="Especifique si el paciente cuenta con alguna condición especial (discapacidad, amputaciones, etc.)."></textarea>
-            </div>
-        </form>
-
-
-        <h4 class="mt-5">Información adicional (opcional)</h4>
-        <p>Complete los siguientes campos con la información que se tenga disponible.
-            El llenado de los campos es de suma ayuda para la identificación del paciente a medida que se
-            obtiene más información relevante acerca de la persona hospitalizada </p>
-        <form class="bg-white p-3 rounded">
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="sexo">Nombre(s)</label>
-                    <select id="sexo" class="form-select">
-                        <option selected>Seleccione el sexo</option>
-                        <option>Masculino</option>
-                        <option>Femenino</option>
-                        <option>Otro</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="estatura">Tipo de sangre</label>
-                    <select id="estatura" class="form-select">
-                        <option selected>Seleccione el tipo de sangre</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="nacionalidad">Nacionalidad</label>
-                    <select id="nacionalidad" class="form-select">
-                        <option selected>Seleccione la nacionalidad</option>
-                        <option>Argentina</option>
-                        <option>Brasil</option>
-                        <option>Colombia</option>
-                        <option>Chile</option>
-                        <option>México</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="nss">Número de Seguro Social (NSS)</label>
-                    <input type="text" class="form-control" id="nss" placeholder="Ingrese el número de seguro social">
-                </div>
-                <div class="col">
-                    <label for="estatura">Estatura (en cm)</label>
-                    <select id="estatura" class="form-select">
-                        <option selected>Seleccione la estatura del paciente</option>
-                        <option value="160">160</option>
-                        <option value="165">165</option>
-                        <option value="170">170</option>
-                        <option value="175">175</option>
-                        <option value="180">180</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-
-        <div class="d-flex justify-content-between align-items-center py-3">
-            <div class="flex-grow-1"></div>
-            <div>
-                <button type="submit" class="btn btn-primary">Subir imágenes</button>
+            <div class="col">
+                <label for="tipoCabello">Tipo de cabello</label>
+                <select id="tipoCabello" class="form-select">
+                    <option selected>Seleccione un tipo de cabello</option>
+                    <option>Liso</option>
+                    <option>Ondulado</option>
+                    <option>Rizado</option>
+                </select>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="colorPiel">Color de piel</label>
+                <select id="colorPiel" class="form-select">
+                    <option selected>Seleccione un color de piel</option>
+                    <option>Clara</option>
+                    <option>Media</option>
+                    <option>Oscura</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="colorOjos">Color de ojos</label>
+                <select id="colorOjos" class="form-select">
+                    <option selected>Seleccione un color de ojos</option>
+                    <option>Negro</option>
+                    <option>Café</option>
+                    <option>Verde</option>
+                    <option>Azul</option>
+                    <option>Gris</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="sexo">Sexo</label>
+                <select id="sexo" class="form-select">
+                    <option selected>Seleccione el sexo</option>
+                    <option>Masculino</option>
+                    <option>Femenino</option>
+                    <option>Otro</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="estatura">Estatura (en cm)</label>
+                <input type="number" class="form-control" id="estatura" placeholder="Ingrese la estatura del paciente">
+            </div>
+            <div class="col">
+                <label for="peso">Peso (en kg)</label>
+                <input type="number" class="form-control" id="peso" placeholder="Ingrese el peso del paciente">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="complexion">Complexión</label>
+                <select id="complexion" class="form-select">
+                    <option selected>Seleccione la complexión del paciente</option>
+                    <option>Delgada</option>
+                    <option>Media</option>
+                    <option>Atlética</option>
+                    <option>Robusta</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="postura">Postura</label>
+                <select id="postura" class="form-select">
+                    <option selected>Seleccione la postura del paciente al ingresar</option>
+                    <option>Erguida</option>
+                    <option>Encogida</option>
+                    <option>Jorobada</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="rasgos">Rasgos</label>
+            <textarea class="form-control" id="rasgos" rows="3"
+                placeholder="Ingrese los rasgos característicos del paciente (características faciales, tatuajes, piercings, marcas de nacimiento, lunares, cicatrices, etc.)."></textarea>
+        </div>
+        <div class="form-group">
+            <label for="condiciones">Condiciones especiales (si aplica)</label>
+            <textarea class="form-control" id="condiciones" rows="3"
+                placeholder="Especifique si el paciente cuenta con alguna condición especial (discapacidad, amputaciones, etc.)."></textarea>
+        </div>
+    </form>
 
+
+    <h4 class="mt-5">Información adicional (opcional)</h4>
+    <p style="color: #666666;">Complete los siguientes campos con la información que se tenga disponible.
+        El llenado de los campos es de suma ayuda para la identificación del paciente a medida que se
+        obtiene más información relevante acerca de la persona hospitalizada </p>
+    <form class="card p-3 rounded">
+        <div class="row mb-3">
+            <div class="col">
+                <label for="nombre">Nombre(s)</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del paciente">
+            </div>
+            <div class="col">
+                <label for="tipoSangre">Tipo de sangre</label>
+                <select id="tipoSangre" class="form-select">
+                    <option selected>Seleccione el tipo de sangre</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="nacionalidad">Nacionalidad</label>
+                <select id="nacionalidad" class="form-select">
+                    <option selected>Seleccione la nacionalidad</option>
+                    <option>Argentina</option>
+                    <option>Brasil</option>
+                    <option>Colombia</option>
+                    <option>Chile</option>
+                    <option>México</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="nss">Número de Seguro Social (NSS)</label>
+                <input type="text" class="form-control" id="nss" placeholder="Ingrese el número de seguro social">
+            </div>
+            <div class="col">
+                <label for="estatura">Estatura (en cm)</label>
+                <select id="estatura" class="form-select">
+                    <option selected>Seleccione la estatura del paciente</option>
+                    <option value="160">160</option>
+                    <option value="165">165</option>
+                    <option value="170">170</option>
+                    <option value="175">175</option>
+                    <option value="180">180</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-end align-items-center py-3">
+        <button type="submit" class="btn btn-primary">Subir imágenes</button>
     </div>
+
 </div>

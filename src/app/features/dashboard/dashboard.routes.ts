@@ -3,7 +3,8 @@ import { DashboardComponent } from "./dashboard.component";
 import { GeneralViewComponent } from "./general-view/general-view.component";
 import { PacientesRegistradosComponent } from "./pacientes-registrados/pacientes-registrados.component";
 import { SolicitudesComponent } from "./solicitudes/solicitudes.component";
-import { SettingsComponent } from "../settings/settings.component";
+import { SettingsComponent } from "./settings/settings.component";
+import { NotificationsComponent } from "./notifications/notifications/notifications.component";
 
 
 export const DashboardRoutes: Routes = [
@@ -16,7 +17,9 @@ export const DashboardRoutes: Routes = [
             { path: 'general-view', component: GeneralViewComponent },
             { path: 'pacientes-registrados', component: PacientesRegistradosComponent },
             { path: 'solicitudes', component: SolicitudesComponent },
-            { path: 'settings', component: SettingsComponent }
+            { path: 'settings', component: SettingsComponent },
+            { path: 'notifications', component: NotificationsComponent },
         ]
     }
+    
 ];
