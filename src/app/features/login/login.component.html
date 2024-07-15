@@ -6,7 +6,7 @@
     <!--/ Left column -->
 
     <!-- Right column -->
-    <div class="col-lg-6 bg-white py-5 d-flex align-items-center justify-content-center">
+    <div class="col-lg-6 py-5 d-flex align-items-center justify-content-center">
         <!-- Contenido -->
         <div class="d-flex align-items-center h-100">
             <div class="col-sm-6 col-lg-7 col-xl-6 w-100">
@@ -24,27 +24,41 @@
                         <label for="email" class="form-label">Correo electrónico</label>
                         <input type="email" formControlName="email" class="form-control" id="email" placeholder="correo@ejemplo.com">
                         <!-- mensajes de error de validaciones -->
+                        
                         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-                            <div *ngIf="email.errors?.['required']">El correo electrónico es requerido</div>
-                            <div *ngIf="email.errors?.['email']">Lo insertado no es un correo electrónico</div>
-                            <div *ngIf="email.errors?.['maxLength']">El correo electrónico no es válido</div>
+                            <div *ngIf="email.errors?.['required']">
+                                El correo electronico es requerido
+                            </div>
+                            <div *ngIf="email.errors?.['email']">
+                                Lo insertado no es un correo electronico
+                            </div>
+                            <div *ngIf="email.errors?.['maxLength']">
+                                El correo electronico no es valido
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center">
-                            <label for="password" class="form-label">Contraseña</label>
+                            <label for="forgetPass" class="form-label">Contraseña</label>
                             <a id="forgetPass" routerLink="/forgetpass" class="text-decoration-none mb-2">¿Olvidó su contraseña?</a>
                         </div>
-                        <input type="password" formControlName="password" class="form-control" id="password" placeholder="Su contraseña">
-                        <!-- mensajes de error de validaciones -->
+                        <input type="password" formControlName="password" class="form-control" id="forgetPass" placeholder="Su contraseña">
+                        <!-- mensajes de  error de validaciones -->
+                        
                         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
-                            <div *ngIf="password.errors?.['required']">La contraseña es requerida</div>
-                            <div *ngIf="password.errors?.['minlength']">La contraseña no es válida</div>
-                            <div *ngIf="password.errors?.['maxLength']">La contraseña no es válida</div>
+                            <div *ngIf="password.errors?.['required']">
+                                La contraseña es requerida es requerida
+                            </div>
+                            <div *ngIf="password.errors?.['minlength']">
+                                La contraseña no es valida
+                            </div>
+                            <div *ngIf="password.errors?.['maxLength']">
+                                La contraseña no es valida
+                            </div>
+                            <a id="forgetPass" routerLink="/reset-password" class="text-decoration-none mb-2">¿Olvidó su
+                                contraseña?</a>
                         </div>
                     </div>
-
-                    <div *ngIf="loginError" class="text-danger">{{ loginError }}</div>
 
                     <div class="d-flex justify-content-between align-items-center" id="checkbox">
                         <div class="form-check">
@@ -57,10 +71,12 @@
                     </div>
 
                     <div class="pt-5 justify-content-center align-items-center d-flex">
-                        <p>¿No tiene una cuenta? <a routerLink="/register" class="text-decoration-none">¡Regístrate!</a></p>
+                        <p>¿No tiene una cuenta? <a routerLink="/register" class="text-decoration-none">¡Regístrate!</a>
+                        </p>
                     </div>
                 </form>
                 <!-- Formulario -->
+                 
             </div>
         </div>
     </div>
