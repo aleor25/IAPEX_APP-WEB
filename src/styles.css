@@ -7,3 +7,9 @@ html, body {
     margin: 0;
     padding: 0;
   }
+
+
+  /* Estilo específico para el body dentro de access */
+body[class*="access"] {
+    background-color: #fa0707; /* Color de fondo específico para access */
+}

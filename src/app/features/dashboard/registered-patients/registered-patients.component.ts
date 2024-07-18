@@ -9,10 +9,10 @@ import { PatientService } from '../../../core/services/patients/patient.service'
   selector: 'app-patient-list',
   standalone: true,
   imports: [NgFor],
-  templateUrl: './pacientes-registrados.component.html',
-  styleUrls: ['./pacientes-registrados.component.css']
+  templateUrl: './registered-patients.component.html',
+  styleUrls: ['./registered-patients.component.css']
 })
-export class PacientesRegistradosComponent implements OnInit {
+export class RegisteredPatientsComponent implements OnInit {
 
   patientsData: Patient[] = [];
   displayedPatients: Patient[] = [];

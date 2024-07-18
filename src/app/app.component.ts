@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GeneralViewComponent } from "./features/dashboard/general-view/general-view.component";
-import { ForgetpassComponent } from './features/forgetpass/forgetpass.component';
-import { LoginComponent } from './features/login/login.component';
-import { RegisterComponent } from './features/register/register.component';
+import { ForgotPasswordComponent } from './features/access/forgot-password/forgot-password.component';
+import { LoginComponent } from './features/access/login/login.component';
+import { RegisterComponent } from './features/access/register/register.component';
 
 @Component({
     selector: 'app-root',

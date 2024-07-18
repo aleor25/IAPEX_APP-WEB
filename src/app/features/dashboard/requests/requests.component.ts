@@ -6,13 +6,13 @@ import { RequestService } from '../../../core/services/requests/request.service'
 
 
 @Component({
-  selector: 'app-solicitudes',
+  selector: 'app-requests',
   standalone: true,
   imports: [NgFor],
-  templateUrl: './solicitudes.component.html',
-  styleUrl: './solicitudes.component.css'
+  templateUrl: './requests.component.html',
+  styleUrl: './requests.component.css'
 })
-export class SolicitudesComponent implements OnInit {
+export class RequestsComponent implements OnInit {
 
   requestsData: Request[] = []
   displayedRequests: Request[] = []

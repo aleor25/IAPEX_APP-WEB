@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       console.log("Datos guardados localmente");
       this.saveFormData();
-      this.router.navigateByUrl('login');
+      this.router.navigateByUrl('/access/login');
       this.registerForm.reset();
     } else {
       this.registerForm.markAllAsTouched();

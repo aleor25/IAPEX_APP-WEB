@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(24)]],
   });
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
 
   login() {
     if (this.loginForm.valid) {
@@ -32,7 +32,7 @@ export class LoginComponent {
         ) {
           console.log("Inicio de sesión exitoso");
           this.authService.login(parsedFormData.email, parsedFormData.password).subscribe({
-            next: () => this.router.navigate(['/dashboard']),
+            next: () => this.router.navigate(['/dashboard/general-view']),
             error: (err) => console.error('login failed', err)
           });
           this.loginForm.reset();
