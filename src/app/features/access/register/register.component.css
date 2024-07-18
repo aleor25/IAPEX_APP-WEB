@@ -28,3 +28,10 @@ se muestra un borde izquierdo dependiendo el estado del formulario */
 .ng-invalid:not(form).ng-touched {
     border-left: 5px solid #a31e1e; /*rojo */
 }
+
+
+.main {
+    height: 100%;
+    margin: 10cm;
+    padding: 10cm;
+}

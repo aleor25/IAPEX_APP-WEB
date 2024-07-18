@@ -1,0 +1,287 @@
+<div class="bg-white d-flex flex-column justify-content-center py-3 header">
+    <div class="d-flex align-items-center">
+        <span class="material-symbols-outlined mr-2 px-3 fs-1" routerLink="/dashboard/registered-patients"
+            style="cursor: pointer; color: #666666;">
+            arrow_back
+        </span>
+        <h2 class="mb-0" style="color: #666666;">Registrar paciente</h2>
+    </div>
+</div>
+
+<div class="m-5 content">
+    <h4>Información principal</h4>
+    <p>Complete los siguientes campos con la información solicitada.</p>
+    <form [formGroup]="registerPatients" (ngSubmit)="onSubmit()" class="bg-white px-5 py-4 rounded">
+        <div class="row mb-3">
+            <div class="col">
+                <label for="colorCabello">Color de cabello</label>
+                <select id="colorCabello" class="form-select" formControlName="colorCabello">
+                    <option value="" selected>Seleccione un color de cabello</option>
+                    <option value="Negro">Negro</option>
+                    <option value="Castaño">Castaño</option>
+                    <option value="Rubio">Rubio</option>
+                    <option value="Rojo">Rojo</option>
+                    <option value="Gris">Gris</option>
+                    <option value="Blanco">Blanco</option>
+                </select>
+                <div
+                    *ngIf="registerPatients.get('colorCabello')?.touched && registerPatients.get('colorCabello')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('colorCabello')?.errors?.['required']">No
+                        seleccionó ninguna opción.</small>
+                </div>
+
+            </div>
+            <div class="col">
+                <label for="tipoCabello">Tipo de cabello</label>
+                <select id="tipoCabello" class="form-select" formControlName="tipoCabello">
+                    <option value="" selected>Seleccione un tipo de cabello</option>
+                    <option value="Liso">Liso</option>
+                    <option value="Ondulado">Ondulado</option>
+                    <option value="Rizado">Rizado</option>
+                </select>
+                <div
+                    *ngIf="registerPatients.get('tipoCabello')?.touched && registerPatients.get('tipoCabello')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('tipoCabello')?.errors?.['required']">No
+                        seleccionó ninguna opción.</small>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="colorPiel">Color de piel</label>
+                <select id="colorPiel" class="form-select" formControlName="colorPiel">
+                    <option value="" selected>Seleccione un color de piel</option>
+                    <option value="Clara">Clara</option>
+                    <option value="Media">Media</option>
+                    <option value="Oscura">Oscura</option>
+                </select>
+                <div *ngIf="registerPatients.get('colorPiel')?.touched && registerPatients.get('colorPiel')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('colorPiel')?.errors?.['required']">No
+                        seleccionó ninguna opción.</small>
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="colorOjos">Color de ojos</label>
+                <select id="colorOjos" class="form-select" formControlName="colorOjos">
+                    <option value="" selected>Seleccione un color de ojos</option>
+                    <option value="Negro">Negro</option>
+                    <option value="Café">Café</option>
+                    <option value="Verde">Verde</option>
+                    <option value="Azul">Azul</option>
+                    <option value="Gris">Gris</option>
+                </select>
+                <div *ngIf="registerPatients.get('colorOjos')?.touched && registerPatients.get('colorOjos')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('colorOjos')?.errors?.['required']">No
+                        seleccionó ninguna opción.</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="sexo">Sexo</label>
+                <select id="sexo" class="form-select" formControlName="sexo">
+                    <option value="" selected>Seleccione el sexo</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Otro">Otro</option>
+                </select>
+                <div *ngIf="registerPatients.get('sexo')?.touched && registerPatients.get('sexo')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('sexo')?.errors?.['required']">No
+                        seleccionó ninguna opción.</small>
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="estatura">Estatura (en cm)</label>
+                <input type="number" class="form-control" id="estatura" formControlName="estatura"
+                    placeholder="Ingrese la estatura del paciente">
+                <div *ngIf="registerPatients.get('estatura')?.touched && registerPatients.get('estatura')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('estatura')?.errors?.['required']">No
+                        seleccionó ninguna opción.</small>
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="peso">Peso (en kg)</label>
+                <input type="number" class="form-control" id="peso" formControlName="peso"
+                    placeholder="Ingrese el peso del paciente">
+                <div *ngIf="registerPatients.get('peso')?.touched && registerPatients.get('peso')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('peso')?.errors?.['required']">
+                        No ingresó valor alguno.
+                    </small>
+                    <small class="error-message" *ngIf="registerPatients.get('peso')?.errors?.['min']">
+                        El peso debe ser mayor a 0.
+                    </small>
+                    <small class="error-message" *ngIf="registerPatients.get('peso')?.errors?.['max']">
+                        El peso no puede ser mayor a 700 kg.
+                    </small>
+                    <!---- Se añaden validaciones para numeraciones negativas y un máximo de peso para la persona-->
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="complexion">Complexión</label>
+                <select id="complexion" class="form-select" formControlName="complexion">
+                    <option value="" selected>Seleccione la complexión del paciente</option>
+                    <option value="Delgada">Delgada</option>
+                    <option value="Media">Media</option>
+                    <option value="Atlética">Atlética</option>
+                    <option value="Robusta">Robusta</option>
+                </select>
+                <div *ngIf="registerPatients.get('complexion')?.touched && registerPatients.get('complexion')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('complexion')?.errors?.['required']">
+                        No seleccionó ninguna opción.</small>
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="postura">Postura</label>
+                <select id="postura" class="form-select" formControlName="postura">
+                    <option value="" selected>Seleccione la postura del paciente al ingresar</option>
+                    <option value="Erguida">Erguida</option>
+                    <option value="Encogida">Encogida</option>
+                    <option value="Jorobada">Jorobada</option>
+                </select>
+                <div *ngIf="registerPatients.get('postura')?.touched && registerPatients.get('postura')?.invalid">
+                    <small class="error-message" *ngIf="registerPatients.get('postura')?.errors?.['required']">No
+                        seleccionó ninguna opción.</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="rasgos">Rasgos</label>
+            <textarea class="form-control" id="rasgos" rows="3" formControlName="rasgos"
+                placeholder="Ingrese los rasgos característicos del paciente (características faciales, tatuajes, piercings, marcas de nacimiento, lunares, cicatrices, etc.)."></textarea>
+            <div
+                *ngIf="registerPatients.get('rasgos')?.touched && registerPatients.get('rasgos')?.invalid && registerPatients.get('rasgos')?.errors?.['maxlength']">
+                <small class="error-message" *ngIf="registerPatients.get('rasgos')?.errors?.['maxlength']">
+                    El rasgo no puede ser mayor a 150 caracteres.
+                </small> <!---- Se añaden validaciones para el maximo de caracteres -->
+            </div>
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="condiciones">Condiciones especiales (si aplica)</label>
+            <textarea class="form-control" id="condiciones" rows="3" formControlName="condiciones"
+                placeholder="Especifique si el paciente cuenta con alguna condición especial (discapacidad, amputaciones, etc.)."></textarea>
+            <div
+                *ngIf="registerPatients.get('condiciones')?.touched && registerPatients.get('condiciones')?.invalid && registerPatients.get('condiciones')?.errors?.['maxlength']">
+                <small class="error-message" *ngIf="registerPatients.get('condiciones')?.errors?.['maxlength']">
+                    El rasgo no puede ser mayor a 150 caracteres.
+                </small> <!---- Se añaden validaciones para el maximo de caracteres -->
+            </div>
+        </div>
+    </form>
+
+
+    <h4 class="mt-5">Información adicional (opcional)</h4>
+    <p style="color: #666666;">Complete los siguientes campos con la información que se tenga disponible.
+        El llenado de los campos es de suma ayuda para la identificación del paciente a medida que se
+        obtiene más información relevante acerca de la persona hospitalizada </p>
+    <form class="bg-white px-5 py-4 rounded">
+        <div class="row mb-3">
+            <div class="col">
+                <label for="nombre">Nombre(s)</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del paciente">
+            </div>
+            <div class="col">
+                <label for="tipoSangre">Tipo de sangre</label>
+                <select id="tipoSangre" class="form-select">
+                    <option selected>Seleccione el tipo de sangre</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="nacionalidad">Nacionalidad</label>
+                <select id="nacionalidad" class="form-select">
+                    <option selected>Seleccione la nacionalidad</option>
+                    <option>Argentina</option>
+                    <option>Brasil</option>
+                    <option>Colombia</option>
+                    <option>Chile</option>
+                    <option>México</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="nss">Número de Seguro Social (NSS)</label>
+                <input type="text" class="form-control" id="nss" placeholder="Ingrese el número de seguro social">
+            </div>
+            <div class="col">
+                <label for="estatura">Estatura (en cm)</label>
+                <select id="estatura" class="form-select">
+                    <option selected>Seleccione la estatura del paciente</option>
+                    <option value="160">160</option>
+                    <option value="165">165</option>
+                    <option value="170">170</option>
+                    <option value="175">175</option>
+                    <option value="180">180</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-end align-items-center py-3">
+        <button type="submit" class="btn btn-primary">Subir imágenes</button>
+    </div>
+
+
+    <h4 class="mt-5">Añadir imágenes</h4>
+    <p>Suba imágenes del paciente que desea registrar. Considere la toma de las imágenes en
+        diferentes ángulos para facilitar la búsqueda y reconocimiento por parte del usuario.</p>
+
+    <form class="bg-white py-3 rounded">
+        <div class="row mb-3 align-items-center justify-content-center px-4">
+            <div class="col d-flex align-items-center justify-content-center">
+                <img type="url" class="form-control" id="frente"
+                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
+            </div>
+            <div class="col d-flex align-items-center justify-content-center">
+                <img type="url" class="form-control" id="frente"
+                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
+            </div>
+            <div class="col d-flex align-items-center justify-content-center">
+                <img type="url" class="form-control" id="frente"
+                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
+            </div>
+            <div class="col d-flex align-items-center justify-content-center">
+                <img type="url" class="form-control" id="frente"
+                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
+            </div>
+            <div class="col d-flex align-items-center justify-content-center">
+                <img type="url" class="form-control" id="frente"
+                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
+            </div>
+            <div class="col d-flex align-items-center justify-content-center">
+                <img type="url" class="form-control" id="frente"
+                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
+            </div>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-between align-items-center py-2">
+        <div class="flex-grow-1"></div>
+        <div>
+            <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="loading">Registrar</button>
+            <!-- se activa cuando loading = true:D -->
+            <div *ngIf="errorMessage" class="mt-1 alert alert-primary">
+                {{ errorMessage }}
+            </div>
+        </div>
+    </div>
+</div>

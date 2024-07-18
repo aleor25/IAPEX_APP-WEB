@@ -2,3 +2,9 @@
     background-color: #007bff;
     color: #fff;
 }
+
+
+.nav-link:not(.active) .d-none.d-lg-inline,
+.nav-link:not(.active) .material-symbols-outlined {
+    color: black;
+}

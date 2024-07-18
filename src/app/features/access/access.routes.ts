@@ -1,5 +1,4 @@
 import { Routes } from "@angular/router";
-import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { LoginComponent } from "./login/login.component";
 import { MailVerificationComponent } from "./mail-verification/mail-verification.component";
 import { RegisterComponent } from "./register/register.component";
@@ -12,7 +11,6 @@ export const AccessRoutes: Routes = [
         path: 'access',
         children: [
             { path: '', redirectTo: 'login', pathMatch: 'full' },
-            { path: 'forgot-password', component: ForgotPasswordComponent },
             { path: 'login', component: LoginComponent },
             { path: 'mail-verification', component: MailVerificationComponent },
             { path: 'register', component: RegisterComponent },

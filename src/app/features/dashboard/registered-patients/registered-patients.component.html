@@ -6,89 +6,19 @@
     <table class="table table-striped table-borderless">
         <thead class="thead-light">
             <tr>
-                <th scope="col">No.</th>
-                <th scope="col">Sexo</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Habitación</th>
-                <th scope="col">Acciones</th>
+                <th>No.</th>
+                <th>Sexo</th>
+                <th>Descripción</th>
+                <th>Habitación</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Masculino</td>
-                <td>Juan Pérez, 35 años. Ingresado por fractura de pierna.</td>
-                <td>Habitación 203</td>
-                <td>
-                    <i class="material-icons mx-2">edit</i>
-                    <i class="material-icons mx-2">delete</i>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Femenino</td>
-                <td>María Lopez, 62 años. Control de presión arterial.</td>
-                <td>Habitación 101</td>
-                <td>
-                    <i class="material-icons mx-2">edit</i>
-                    <i class="material-icons mx-2">delete</i>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Femenino</td>
-                <td>Sandra Muñoz, 47 años. Cicatriz en el brazo derecho.</td>
-                <td>Habitación 404</td>
-                <td>
-                    <i class="material-icons mx-2">edit</i>
-                    <i class="material-icons mx-2">delete</i>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Masculino</td>
-                <td>Juan Pérez, 35 años. Ingresado por fractura de pierna.</td>
-                <td>Habitación 203</td>
-                <td>
-                    <i class="material-icons mx-2">edit</i>
-                    <i class="material-icons mx-2">delete</i>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Femenino</td>
-                <td>María Lopez, 62 años. Control de presión arterial.</td>
-                <td>Habitación 101</td>
-                <td>
-                    <i class="material-icons mx-2">edit</i>
-                    <i class="material-icons mx-2">delete</i>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Femenino</td>
-                <td>Sandra Muñoz, 47 años. Cicatriz en el brazo derecho.</td>
-                <td>Habitación 404</td>
-                <td>
-                    <i class="material-icons mx-2">edit</i>
-                    <i class="material-icons mx-2">delete</i>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Masculino</td>
-                <td>Juan Pérez, 35 años. Ingresado por fractura de pierna.</td>
-                <td>Habitación 203</td>
-                <td>
-                    <i class="material-icons mx-2">edit</i>
-                    <i class="material-icons mx-2">delete</i>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Masculino</td>
-                <td>Juan Pérez, 35 años. Ingresado por fractura de pierna.</td>
-                <td>Habitación 203</td>
+            <tr *ngFor="let patient of displayedPatients">
+                <td>{{ patient.id }}</td>
+                <td>{{ patient.gender }}</td>
+                <td>{{ patient.description }}</td>
+                <td>{{ patient.room }}</td>
                 <td>
                     <i class="material-icons mx-2">edit</i>
                     <i class="material-icons mx-2">delete</i>
