@@ -127,17 +127,23 @@
                     </div>
                     <div class="mb-3">
                         <label for="confirmPassword" class="form-label">Repetir contraseña</label>
+<<<<<<< HEAD:src/app/features/access/register/register.component.html
                         <input formControlName="repeatPassword" type="password" class="form-control"
                             id="confirmPassword" placeholder="Repita su contraseña">
                         <div *ngIf="repeatPassword.invalid && (repeatPassword.dirty || repeatPassword.touched)"
                             class="text-danger">
                             <div *ngIf="repeatPassword.errors?.['required']">
+=======
+                        <input formControlName="repitPassword" type="password" class="form-control" id="confirmPassword" placeholder="Repita su contraseña" >
+                        <div *ngIf="repitPassword.invalid && (repitPassword.dirty || repitPassword.touched)" class="text-danger">
+                            <div *ngIf="repitPassword.errors?.['required']">
+>>>>>>> 887aef7cb6652d5e4e73bba99eefe9db412c55fd:src/app/features/register/register.component.html
                                 La contraseña es requerida es requerida
                             </div>
-                            <div *ngIf="repeatPassword.errors?.['minlength']">
+                            <div *ngIf="repitPassword.errors?.['minlength']">
                                 La contraseña no es valida
                             </div>
-                            <div *ngIf="repeatPassword.errors?.['maxLength']">
+                            <div *ngIf="repitPassword.errors?.['maxLength']">
                                 La contraseña no es valida
                             </div>
                         </div>

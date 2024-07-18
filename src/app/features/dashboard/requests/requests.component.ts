@@ -1,13 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgFor } from '@angular/common';
-import { Request } from '../../../core/models/solicitudes/request.model';
-import { RequestService } from '../../../core/services/requests/request.service';
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-requests',
   standalone: true,
+<<<<<<< HEAD:src/app/features/dashboard/requests/requests.component.ts
   imports: [NgFor],
   templateUrl: './requests.component.html',
   styleUrl: './requests.component.css'
@@ -39,5 +35,12 @@ export class RequestsComponent implements OnInit {
     ];
   }
 
+=======
+  imports: [],
+  templateUrl: './solicitudes.component.html',
+  styleUrl: './solicitudes.component.css'
+})
+export class SolicitudesComponent {
+>>>>>>> 887aef7cb6652d5e4e73bba99eefe9db412c55fd:src/app/features/dashboard/solicitudes/solicitudes.component.ts
 
 }
