@@ -99,10 +99,13 @@
                 <label for="estatura">Estatura (en cm)</label>
                 <input type="number" class="form-control" id="estatura" formControlName="estatura"
                     placeholder="Ingrese la estatura del paciente">
-                <div *ngIf="registerPatients.get('estatura')?.touched && registerPatients.get('estatura')?.invalid">
-                    <small class="error-message" *ngIf="registerPatients.get('estatura')?.errors?.['required']">No
-                        seleccionó ninguna opción.</small>
-                </div>
+                    <small class="error-message" *ngIf="registerPatients.get('estatura')?.errors?.['min']">
+                        La estatura debe ser mayor a 0.
+                    </small>
+                    <small class="error-message" *ngIf="registerPatients.get('estatura')?.errors?.['max']">
+                        La estatura no puede ser mayor a 300 cm.
+                    </small>
+                    <!---- Se añaden validaciones para numeraciones negativas y un máximo de estatura para la persona-->
             </div>
 
             <div class="col">
@@ -162,7 +165,7 @@
             <div
                 *ngIf="registerPatients.get('rasgos')?.touched && registerPatients.get('rasgos')?.invalid && registerPatients.get('rasgos')?.errors?.['maxlength']">
                 <small class="error-message" *ngIf="registerPatients.get('rasgos')?.errors?.['maxlength']">
-                    El rasgo no puede ser mayor a 150 caracteres.
+                    El rasgo no puede ser mayor a 255 caracteres.
                 </small> <!---- Se añaden validaciones para el maximo de caracteres -->
             </div>
         </div>
@@ -174,7 +177,7 @@
             <div
                 *ngIf="registerPatients.get('condiciones')?.touched && registerPatients.get('condiciones')?.invalid && registerPatients.get('condiciones')?.errors?.['maxlength']">
                 <small class="error-message" *ngIf="registerPatients.get('condiciones')?.errors?.['maxlength']">
-                    El rasgo no puede ser mayor a 150 caracteres.
+                    El rasgo no puede ser mayor a 255 caracteres.
                 </small> <!---- Se añaden validaciones para el maximo de caracteres -->
             </div>
         </div>
@@ -185,11 +188,15 @@
     <p style="color: #666666;">Complete los siguientes campos con la información que se tenga disponible.
         El llenado de los campos es de suma ayuda para la identificación del paciente a medida que se
         obtiene más información relevante acerca de la persona hospitalizada </p>
-    <form class="bg-white px-5 py-4 rounded">
+    <form formGroup]="registerPatients" (ngSubmit)="onSubmit()" class="bg-white px-5 py-4 rounded">
         <div class="row mb-3">
             <div class="col">
                 <label for="nombre">Nombre(s)</label>
                 <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del paciente">
+
+                <div *ngIf="registerPatients.get('nombre')?.touched && registerPatients.get('nombre')?.errors?.['maxlength']" class="error-message">
+                    El nombre debe de tener como máximo 50 caracteres.
+                </div>      <!---- Se añaden validaciones para el maximo de caracteres de un nombre en caso de que lo inserten-->
             </div>
             <div class="col">
                 <label for="tipoSangre">Tipo de sangre</label>
@@ -221,6 +228,9 @@
             <div class="col">
                 <label for="nss">Número de Seguro Social (NSS)</label>
                 <input type="text" class="form-control" id="nss" placeholder="Ingrese el número de seguro social">
+                <div *ngIf="registerPatients.get('nss')?.touched && registerPatients.get('nss')?.errors?.['maxlength']" class="error-message">
+                    El número de Seguro Social debe tener máximo 11 caracteres.
+                </div>      <!---- Se añaden validaciones para el maximo de caracteres de un NSS en caso de que lo inserten-->
             </div>
             <div class="col">
                 <label for="estatura">Estatura (en cm)</label>

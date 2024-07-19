@@ -10,6 +10,10 @@ export class AuthService {
   registerPatients(value: any): Observable<any> { //se agrega el :Observable<any> para los tipos de datos que se recibirán ya que no se especifica el tipo de dato
     throw new Error('Method not implemented.');
   }
+  //se agrega el restorePassword para las validaciones correspondientes a la recuperación de contraseñas
+  restorePassword(value: any): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
   private LOGIN_URL = 'http://localhost:4200/api/v1/auth/login';
   private tokenKey = 'authToken';
 
