@@ -2,8 +2,7 @@ import { Routes } from "@angular/router";
 import { DashboardComponent } from "./dashboard.component";
 import { GeneralViewComponent } from "./general-view/general-view.component";
 import { NotificationsComponent } from "./notifications/notifications.component";
-import { RegisteredPatientsComponent } from "./registered-patients/registered-patients.component";
-import { ReceivedRequestsComponent } from "./requests/received-requests/received-requests.component";
+import { RegisteredPatientsComponent } from "./registered-patients/section/registered-patients.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { RequestsComponent } from "./requests/requests.component";
 
@@ -17,14 +16,7 @@ export const DashboardRoutes: Routes = [
             { path: 'general-view', component: GeneralViewComponent },
             { path: 'notifications', component: NotificationsComponent },
             { path: 'registered-patients', component: RegisteredPatientsComponent }, 
-            {
-                path: 'requests',
-                component: RequestsComponent,
-                children: [
-                    { path: '', redirectTo: 'requests', pathMatch: 'full' },
-                    { path: 'received-requests', component: ReceivedRequestsComponent },
-                ]
-            }, 
+            { path: 'requests', component: RequestsComponent },
             { path: 'settings', component: SettingsComponent },
 
         ]

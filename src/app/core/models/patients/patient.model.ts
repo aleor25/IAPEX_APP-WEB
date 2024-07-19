@@ -1,7 +1,7 @@
 // models/patient.model.ts
 export interface Patient {
-    id: number;
+    name: string;
+    lastName: string;
+    secondLastName: string;
     gender: string;
-    description: string;
-    room: string;
 }

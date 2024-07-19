@@ -1,0 +1,39 @@
+<div class="container-fluid p-1">
+    <table class="table table-striped table-borderless">
+        <thead class="thead-light">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido paterno</th>
+                <th>Apellido materno</th>
+                <th>Sexo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let patient of patientsData">
+                <td>{{ patient.name }}</td>
+                <td>{{ patient.lastName }}</td>
+                <td>{{ patient.secondLastName }}</td>
+                <td>{{ patient.gender }}</td>
+                <td>{{ patient.approximateAge }}</td>
+                <td>{{ patient.registrationDateTime | date:'dd/MM/yyyy' }}</td>
+                <td>{{ patient.registeringUser }}</td>
+                <td>{{ patient.active }}</td>
+                <td>{{ patient.skinColor }}</td>
+                <td>{{ patient.hair }}</td>
+                <td>{{ patient.complexion }}</td>
+                <td>{{ patient.eyeColor }}</td>
+                <td>{{ patient.approximateHeight }}</td>
+                <td>{{ patient.medicalConditions }}</td>
+                <td>{{ patient.distinctiveFeatures }}</td>
+                <td>{{ patient.institution }}</td>
+                <td>{{ patient.images }}</td>
+                <td>{{ patient.additionalNotes }}</td>
+                <td>
+                    <i class="material-icons mx-2">edit</i>
+                    <i class="material-icons mx-2">delete</i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

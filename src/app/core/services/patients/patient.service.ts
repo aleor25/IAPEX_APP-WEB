@@ -2,44 +2,47 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
     providedIn: 'root'
 })
-
 export class PatientService {
 
-    private URL = "http://localhost:8080/auth";
+    private URL = "http://localhost:8080/api/v1/patients";
 
     constructor(private httpClient: HttpClient) { }
 
-    public login(credentials: any): Observable<any> {
-        return this.httpClient.post(this.URL + "/login", credentials);
+    public getAllPatients(): Observable<any> {
+        return this.httpClient.get(this.URL);
     }
 
-    public register(newUser: any): Observable<any> {
-        return this.httpClient.post(this.URL + "/nuevo", newUser);
+/* 
+    public getPatientById(id: number): Observable<any> {
+        return this.httpClient.get(`${this.URL}/${id}`);
     }
 
-
-    public actualizarUsuario(id: number, user: any): Observable<any> {
-        return this.httpClient.put(`${this.URL}/usuarios/${id}`, user);
+    public getAllActivePatients(): Observable<any> {
+        return this.httpClient.get(`${this.URL}/active`);
     }
 
-    public borrarUsuario(id: number): Observable<any> {
-        return this.httpClient.delete(`${this.URL}/usuarios/${id}`);
+    public getActivePatientById(id: number): Observable<any> {
+        return this.httpClient.get(`${this.URL}/${id}/active`);
     }
 
-    public listarUsuarios(): Observable<any> {
-        return this.httpClient.get(`${this.URL}/usuarios`);
+    public getPatientsByInstitution(): Observable<any> {
+        return this.httpClient.get(`${this.URL}/current-user/institution`);
     }
 
-    public obtenerUsuarioPorId(id: number): Observable<any> {
-        return this.httpClient.get(`${this.URL}/usuarios/${id}`);
+    public registerPatient(patient: FormData): Observable<any> {
+        return this.httpClient.post(this.URL, patient, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
     }
+
+    public updatePatient(id: number, patient: FormData): Observable<any> {
+        return this.httpClient.put(`${this.URL}/${id}`, patient, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+    }
+ */
 
 }
-
-
-
-
