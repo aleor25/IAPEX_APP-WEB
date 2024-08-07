@@ -14,7 +14,7 @@
 /* Propiedades del logo */
 .logo-image {
     float: left;
-    width: 150px;
+    width: 170px;
     height: auto;
     padding-bottom: 10px;
 }
@@ -29,9 +29,6 @@ se muestra un borde izquierdo dependiendo el estado del formulario */
     border-left: 5px solid #a31e1e; /*rojo */
 }
 
-
-.main {
-    height: 100%;
-    margin: 10cm;
-    padding: 10cm;
+.custom-padding {
+    padding-top: 17rem;
 }

@@ -1,112 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { RegisterService } from '../../../core/services/access/register/register.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
-
 })
-export class RegisterComponent implements OnInit {
-  registerError: string = "";
-  registerForm = this.formBuilder.group({
-    nombre: ['', [Validators.required, Validators.maxLength(97)]],
-    primerApellido: ['', [Validators.required, Validators.maxLength(40)]],
-    segundoApellido: ['', [Validators.maxLength(40)]],
-    numeroTelefono: ['', [Validators.required, Validators.maxLength(15)]],
-    institucionSalud: [''],
-    cargo: [''],
-    email: ['', [Validators.required, Validators.email, Validators.maxLength(76)]],
-    password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(24)]],
-    repeatPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(24)]],
-  }, { validators: this.passwordMatchValidator });
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+export class RegisterComponent {
 
+  registerForm: FormGroup;
+  errorMessage: string | null = null;
 
-  ngOnInit() {
-    this.loadFormData();
+  private _registerService = inject(RegisterService);
+  private _router = inject(Router);
+  private _formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.registerForm = this._formBuilder.group({
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50)]],
+      secondLastName: ['', [Validators.maxLength(50)]],
+      institution: ['', Validators.required],
+      position: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      repeatPassword: ['', Validators.required]
+    }, 
+    { validators: this.passwordMatcher });
   }
 
-
-  passwordMatchValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const password = control.get('password');
-      const confirmPassword = control.get('repeatPassword');
-      if (password && confirmPassword && password.value !== confirmPassword.value) {
-        return { passwordMismatch: true };
-
-      }
-      return null;
-    };
-  }
-
-  register() {
+  register(): void {
     if (this.registerForm.valid) {
-      console.log("Datos guardados localmente");
-      this.saveFormData();
-      this.router.navigateByUrl('/access/login');
-      this.registerForm.reset();
+      const user = this.registerForm.value;
+
+      this._registerService.register(user).subscribe(
+        response => {
+          console.log('Registro exitoso', response);
+          this._router.navigate(['/access/login']);
+        },
+        error => {
+          this.errorMessage = error.error?.message || 'Error al registrar el usuario.';
+          console.error('Error de registro:', error);
+        }
+      );
     } else {
-      this.registerForm.markAllAsTouched();
-      alert("Error al ingresar los datos");
+      console.error('Formulario no válido');
     }
   }
 
-  saveFormData() {
-    const formData = this.registerForm.value;
-    localStorage.setItem('registerFormData', JSON.stringify(formData));
-    console.log('Datos guardados en localStorage:', formData);
-  }
-
-  loadFormData() {
-    const savedFormData = localStorage.getItem('registerFormData');
-    if (savedFormData) {
-      this.registerForm.setValue(JSON.parse(savedFormData));
+  // Valida que las contraseñas coincidan
+  private passwordMatcher(formGroup: FormGroup) {
+    const password = formGroup.get('password');
+    const repeatPassword = formGroup.get('repeatPassword');
+    if (password?.value !== repeatPassword?.value) {
+      repeatPassword?.setErrors({ passwordMismatch: true });
+    } else {
+      repeatPassword?.setErrors(null);
     }
+    return null;
   }
 
-  // Getters
-  // metodos get
-  get nombre() {
-    return this.registerForm.controls['nombre'];
-  }
-
-  get primerApellido() {
-    return this.registerForm.controls['primerApellido'];
-  }
-
-  get segundoApellido() {
-    return this.registerForm.controls['segundoApellido'];
-  }
-
-  get numeroTelefono() {
-    return this.registerForm.controls['numeroTelefono'];
-  }
-
-  get institucionSalud() {
-    return this.registerForm.controls['institucionSalud'];
-  }
-
-  get cargo() {
-    return this.registerForm.controls['cargo'];
-  }
-
-  get email() {
-    return this.registerForm.controls['email'];
-  }
-
-  get password() {
-    return this.registerForm.controls['password'];
-  }
-
-  get repeatPassword() {
-    return this.registerForm.controls['repeatPassword'];
-  }
+  get name() { return this.registerForm.get('name'); }
+  get lastName() { return this.registerForm.get('lastName'); }
+  get secondLastName() { return this.registerForm.get('secondLastName'); }
+  get institution() { return this.registerForm.get('institution'); }
+  get position() { return this.registerForm.get('position'); }
+  get email() { return this.registerForm.get('email'); }
+  get password() { return this.registerForm.get('password'); }
+  get repeatPassword() { return this.registerForm.get('repeatPassword'); }
 }
-

@@ -178,110 +178,25 @@
                 </small> <!---- Se añaden validaciones para el maximo de caracteres -->
             </div>
         </div>
-    </form>
 
 
-    <h4 class="mt-5">Información adicional (opcional)</h4>
-    <p style="color: #666666;">Complete los siguientes campos con la información que se tenga disponible.
-        El llenado de los campos es de suma ayuda para la identificación del paciente a medida que se
-        obtiene más información relevante acerca de la persona hospitalizada </p>
-    <form class="bg-white px-5 py-4 rounded">
-        <div class="row mb-3">
-            <div class="col">
-                <label for="nombre">Nombre(s)</label>
-                <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del paciente">
-            </div>
-            <div class="col">
-                <label for="tipoSangre">Tipo de sangre</label>
-                <select id="tipoSangre" class="form-select">
-                    <option selected>Seleccione el tipo de sangre</option>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="nacionalidad">Nacionalidad</label>
-                <select id="nacionalidad" class="form-select">
-                    <option selected>Seleccione la nacionalidad</option>
-                    <option>Argentina</option>
-                    <option>Brasil</option>
-                    <option>Colombia</option>
-                    <option>Chile</option>
-                    <option>México</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label for="nss">Número de Seguro Social (NSS)</label>
-                <input type="text" class="form-control" id="nss" placeholder="Ingrese el número de seguro social">
-            </div>
-            <div class="col">
-                <label for="estatura">Estatura (en cm)</label>
-                <select id="estatura" class="form-select">
-                    <option selected>Seleccione la estatura del paciente</option>
-                    <option value="160">160</option>
-                    <option value="165">165</option>
-                    <option value="170">170</option>
-                    <option value="175">175</option>
-                    <option value="180">180</option>
-                </select>
-            </div>
-        </div>
-    </form>
-
-    <div class="d-flex justify-content-end align-items-center py-3">
-        <button type="submit" class="btn btn-primary">Subir imágenes</button>
-    </div>
-
-
-    <h4 class="mt-5">Añadir imágenes</h4>
-    <p>Suba imágenes del paciente que desea registrar. Considere la toma de las imágenes en
-        diferentes ángulos para facilitar la búsqueda y reconocimiento por parte del usuario.</p>
-
-    <form class="bg-white py-3 rounded">
-        <div class="row mb-3 align-items-center justify-content-center px-4">
-            <div class="col d-flex align-items-center justify-content-center">
-                <img type="url" class="form-control" id="frente"
-                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
-            </div>
-            <div class="col d-flex align-items-center justify-content-center">
-                <img type="url" class="form-control" id="frente"
-                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
-            </div>
-            <div class="col d-flex align-items-center justify-content-center">
-                <img type="url" class="form-control" id="frente"
-                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
-            </div>
-            <div class="col d-flex align-items-center justify-content-center">
-                <img type="url" class="form-control" id="frente"
-                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
-            </div>
-            <div class="col d-flex align-items-center justify-content-center">
-                <img type="url" class="form-control" id="frente"
-                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
-            </div>
-            <div class="col d-flex align-items-center justify-content-center">
-                <img type="url" class="form-control" id="frente"
-                    src="https://ionicframework.com/docs/img/demos/card-media.png" style="width: 100%;">
-            </div>
-        </div>
+        <h4 class="mt-5">Añadir imágenes</h4>
+        <p>Suba imágenes del paciente que desea registrar. Considere la toma de las imágenes en diferentes ángulos para
+            facilitar la búsqueda y reconocimiento por parte del usuario.</p>
+        <file-pond #myPond [formArrayName]="'imageFiles'" [allowMultiple]="true" [labelIdle]="labelIdle"
+            [acceptedFileTypes]="['image/png', 'image/jpeg']" [maxFiles]="maxFiles" [minFiles]="minFiles"
+            (onaddfile)="onAddFile($event)">
+        </file-pond>
     </form>
 
     <div class="d-flex justify-content-between align-items-center py-2">
         <div class="flex-grow-1"></div>
         <div>
             <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="loading">Registrar</button>
-            <!-- se activa cuando loading = true:D -->
             <div *ngIf="errorMessage" class="mt-1 alert alert-primary">
                 {{ errorMessage }}
             </div>
         </div>
     </div>
+
 </div>

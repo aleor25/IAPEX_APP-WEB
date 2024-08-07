@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   registerPatients(value: any): Observable<any> { //se agrega el :Observable<any> para los tipos de datos que se recibirán ya que no se especifica el tipo de dato
     throw new Error('Method not implemented.');

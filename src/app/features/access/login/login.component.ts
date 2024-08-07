@@ -1,67 +1,49 @@
-import { Component } from '@angular/core';
-import { Route, Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { AuthService } from '../../../core/services/auth.service';
+import { LoginService } from '../../../core/services/access/login/login.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, DashboardComponent,ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent {
-  //variables
-  loginError:string="";
-  // user: string= '';
-  // passwordd: string= '';
 
-  //constructor
-  constructor(private formBuilder:FormBuilder,private router:Router ,private authService: AuthService ){}
+  loginForm: FormGroup;
+  errorMessage: string | null = null;
 
-  //validacionde del formulario parte cliente
-  loginForm=this.formBuilder.group({
-    email:['',[Validators.required,Validators.email,Validators.maxLength(76)]],
-    password:['',[Validators.required,Validators.minLength(8),Validators.maxLength(24)]],
-  })
+  private _loginService = inject(LoginService);  
+  private _router = inject(Router);
+  private _formBuilder = inject(FormBuilder);
 
-  //funcion redirecionamiento
-login(): void{
-   const email = this.loginForm.get('email')?.value;
-    const password = this.loginForm.get('password')?.value;
-    if(email && password){
-      this.authService.login(email,password).subscribe({
-        next: ()=>this.router.navigate(['/dashdoard']),
-        error: (err) => console.error('login failed', err)
-      });
-    }else{
-      this.loginForm.markAllAsTouched();
-      alert("Error al ingresar los datos")
+  constructor() {
+    this.loginForm = this._formBuilder.group({
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]]
+    });
+  }
+
+  login(): void {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+
+      this._loginService.login(email, password).subscribe(
+        response => {
+          console.log('Inicio de sesión exitoso', response);
+          this._router.navigate(['/dashboard/general-view']);
+        },
+        error => {
+          this.errorMessage = error;  // Muestra el mensaje de error
+        }
+      );
     }
-
-
-    /* if(this.loginForm.valid){
-      console.log("llamar al servicio")
-      this.router.navigateByUrl('/dashboard');
-      // this.loginForm.reset();
-    }
-    else{
-      this.loginForm.markAllAsTouched();
-      alert("Error al ingresar los datos")
-    } */
-  }
-  // ng permisions,jwt,intersector
-  
-    // metodos get
-  get email(){
-    return this.loginForm.controls['email'];
-  }
-  get password(){
-    return this.loginForm.controls['password'];
   }
 
-  //parte para jwt
-
+  get email() { return this.loginForm.get('email'); }
+  get password() { return this.loginForm.get('password'); }
 }

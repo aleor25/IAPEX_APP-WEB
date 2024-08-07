@@ -4,6 +4,7 @@ import { MailVerificationComponent } from "./mail-verification/mail-verification
 import { RegisterComponent } from "./register/register.component";
 import { RestorePasswordComponent } from "./restore-password/restore-password.component";
 import { VerifiedEmailComponent } from "./verified-email/verified-email.component";
+import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 
 
 export const AccessRoutes: Routes = [
@@ -11,6 +12,7 @@ export const AccessRoutes: Routes = [
         path: 'access',
         children: [
             { path: '', redirectTo: 'login', pathMatch: 'full' },
+            { path: 'forgot-password', component: ForgotPasswordComponent },
             { path: 'login', component: LoginComponent },
             { path: 'mail-verification', component: MailVerificationComponent },
             { path: 'register', component: RegisterComponent },

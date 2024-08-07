@@ -1,22 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+
+registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 @Component({
   selector: 'app-register-patients',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [RouterLink, CommonModule, FilePondModule, ReactiveFormsModule],
   templateUrl: './register-patients.component.html',
-  styleUrl: './register-patients.component.css'
+  styleUrls: ['./register-patients.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RegisterPatientsComponent {
   registerPatients: FormGroup;
   errorMessage: string | null = null;
   loading = false;
+
+  labelIdle = "Arrastre y suelte sus archivos o <span class='filepond--label-action'> Examin|ar </span>";
+  maxFiles = 12;
+  minFiles = 8;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,9 +45,9 @@ export class RegisterPatientsComponent {
       postura: ['', Validators.required],
       rasgos: ['', [Validators.required, Validators.maxLength(150)]],
       condiciones: ['', [Validators.required, Validators.maxLength(150)]],
-      //se añaden validaciones para campos de longitud
-      nss:['',[Validators.maxLength(11)]],
-      nombre:['',[Validators.maxLength(50)]]
+      nss: ['', [Validators.maxLength(11)]],
+      nombre: ['', [Validators.maxLength(50)]],
+      imageFiles: [[]]
     });
   }
 
@@ -48,7 +58,10 @@ export class RegisterPatientsComponent {
       return;
     }
     this.loading = true;
+
+
     this.authService.registerPatients(this.registerPatients.value).pipe(
+
       tap(() => {
         this.errorMessage = null;
         this.router.navigate(['/dashboard']);
@@ -56,11 +69,21 @@ export class RegisterPatientsComponent {
       catchError(error => {
         console.error('Registro fallido', error);
         this.errorMessage = 'Error al registrar los datos.';
-        return of(null);  
+        return of(null);
       }),
       finalize(() => {
         this.loading = false;
       })
     ).subscribe();
+  }
+
+  onAddFile(event: any) {
+    const file = event.file;
+    const imageFilesControl = this.registerPatients.get('imageFiles') as FormArray;
+    imageFilesControl.push(this.formBuilder.control(file));
+  }
+
+  get imageFilesControl() {
+    return this.registerPatients.get('imageFiles') as FormArray;
   }
 }

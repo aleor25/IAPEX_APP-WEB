@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ContactRequestService } from '../../core/services/contactRequest/contact-request.service';
+import { ContactRequestService } from '../../core/services/dashboard/contactRequest/contact-request.service';
 import { Router } from '@angular/router';
 
 interface ContactRequest {

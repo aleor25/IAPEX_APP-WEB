@@ -11,7 +11,7 @@
               mail
             </span>
             <h5 class="fs-5 mb-0 fw-bold">Total</h5>
-            <p class="fs-2 mb-0 fw-bold text-primary">30</p>
+            <p class="fs-2 mb-0 fw-bold text-primary" id="totalRequests">0</p> 
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
               priority_high
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">Nuevas</h5>
-            <p class="card-number fs-2 mb-0 fw-bold text-primary">7</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary" id="newRequests">0</p> 
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
               autorenew
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">En revisión</h5>
-            <p class="card-number fs-2 mb-0 fw-bold text-primary">12</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary" id="inReviewRequests">0</p> 
           </div>
         </div>
       </div>
@@ -47,25 +47,31 @@
               check_circle
             </span>
             <h5 class="card-title fs-5 mb-0 fw-bold">Finalizadas</h5>
-            <p class="card-number fs-2 mb-0 fw-bold text-primary">11</p>
+            <p class="card-number fs-2 mb-0 fw-bold text-primary" id="completedRequests">0</p>
           </div>
         </div>
       </div>
     </div>
 
+
     <!-- Gráficas -->
     <div class="row">
       <div class="col-md-6">
+        <p class="mb-0 fw-medium">Solicitudes recibidas en los últimos 30 días</p>
         <div class="card w-100 h-100">
           <div class="card-body">
-            <canvas id="chartRequests"></canvas>
+            <div id="chartRequests" class="w-100" style="height: 200px"></div>
           </div>
         </div>
       </div>
+      
       <div class="col-md-6">
+        <p class="mb-0 fw-medium">Porcentaje del estatus de las solicitudes</p>
         <div class="card w-100 h-100">
           <div class="card-body">
-            <canvas id="statusChart" width="10" height="10"></canvas>
+            <div class="w-100 h-100">
+              <div id="statusChart" class="w-100 h-100"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -88,11 +94,11 @@
             groups
           </span>
           <h5 class="fs-5 mb-0 fw-bold">Total</h5>
-          <p class="card-number fs-2 mb-0 fw-bold text-primary">30</p>
+          <p id="totalNumber" class="card-number fs-2 mb-0 fw-bold text-primary">0</p>
         </div>
       </div>
     </div>
-
+  
     <div class="col-md-6">
       <div class="card h-100 d-flex justify-content-center align-items-center">
         <div class="card-body text-center">
@@ -100,41 +106,44 @@
             calendar_month
           </span>
           <h5 class="fs-5 mb-0 fw-bold">Registrados esta semana</h5>
-          <p class="card-number fs-2 mb-0 fw-bold text-primary">12</p>
+          <p id="weeklyRegistrations" class="card-number fs-2 mb-0 fw-bold text-primary">0</p>
         </div>
       </div>
     </div>
-
+  
     <div class="col-md-3">
       <div class="card h-100 d-flex justify-content-center align-items-center">
         <div class="card-body text-center">
           <span class="material-symbols-outlined fs-1 text-primary">
             personal_injury
           </span>
-          <h5 class="card-title fs-5 mb-0 fw-bold">Activos</h5>
-          <p class="card-number fs-2 mb-0 fw-bold text-primary">11</p>
+          <h5 class="fs-5 mb-0 fw-bold">Activos</h5>
+          <p id="activeCount" class="card-number fs-2 mb-0 fw-bold text-primary">0</p>
         </div>
       </div>
     </div>
-  </div>
+  </div>  
 
   <!-- Gráficas -->
   <div class="row">
     <div class="col-md-6">
+      <p class="mb-0 fw-medium">Pacientes recibidos en los últimos 30 días</p>
       <div class="card w-100 h-100">
         <div class="card-body">
           <canvas id="chartPatients"></canvas>
         </div>
       </div>
     </div>
+
     <div class="col-md-6">
-      <div class="card w-100 h-100">
+      <p class="mb-0 fw-medium">Sexo y edad del paciente</p>
+      <div class="card w-100 h-75">
         <div class="card-body d-flex justify-content-between">
-          <div class="w-50">
-            <canvas id="genderChart" width="10" height="10"></canvas>
+          <div class="w-100">
+            <div id="genderChart"></div>
           </div>
-          <div class="w-50">
-            <canvas id="ageChart" width="10" height="10"></canvas>
+          <div class="w-100">
+            <div id="ageChart"></div>
           </div>
         </div>
       </div>
@@ -144,7 +153,7 @@
 
 
   <!-- Búsqueda -->
-  <div class="container mt-5">
+  <!-- <div class="container mt-5">
     <h1 class="mb-4 fs-2">Búsqueda</h1>
 
     <div class="row text-center mb-4">
@@ -185,7 +194,7 @@
       </div>
     </div>
 
-    <!-- Gráficas -->
+     Gráficas
     <div class="row">
       <div class="col-md-6">
         <div class="card w-100 h-100">
@@ -202,9 +211,8 @@
         </div>
       </div>
     </div>
-    <!-- /Gráficas -->
-
-  </div>
+    /Gráficas
+  </div> -->
 
   <!-- /Búsqueda -->
 </div>

@@ -1,48 +1,32 @@
+<!-- En profile.component.html -->
 <div class="container">
   <h3 class="mb-4">Editar perfil</h3>
   <div class="card p-4 rounded-4">
-    <form>
+    <form [formGroup]="settingsForm">
       <div class="mb-3">
-        <label for="nombre" class="form-label fw-bold">Nombre(s)</label>
-        <input type="text" class="form-control bg-light" id="nombre" placeholder="Ingresa tu nombre" required>
+        <label for="name" class="form-label fw-bold">Nombre(s)</label>
+        <input type="text" class="form-control bg-light" id="name" formControlName="name" required placeholder="Ingresa tu nombre">
       </div>
 
       <div class="row mb-3">
         <div class="col">
-          <label for="apellidoMaterno" class="form-label fw-bold">Apellido materno</label>
-          <input type="text" class="form-control bg-light" id="apellidoMaterno"
-            placeholder="Ingresa tu apellido materno" required>
+          <label for="lastName" class="form-label fw-bold">Apellido paterno</label>
+          <input type="text" class="form-control bg-light" id="lastName" formControlName="lastName" required placeholder="Ingresa tu apellido paterno">
         </div>
         <div class="col">
-          <label for="apellidoPaterno" class="form-label fw-bold">Apellido paterno</label>
-          <input type="text" class="form-control bg-light" id="apellidoPaterno"
-            placeholder="Ingresa tu apellido paterno" required>
-        </div>
-      </div>
-
-      <div class="row mb-3">
-        <div class="col">
-          <label for="telefono" class="form-label fw-bold">Número de teléfono</label>
-          <input type="tel" class="form-control bg-light" id="telefono" placeholder="Ingresa tu número de teléfono"
-            required>
-        </div>
-        <div class="col">
-          <label for="correo" class="form-label fw-bold">Correo electrónico</label>
-          <input type="email" class="form-control bg-light" id="correo" placeholder="Ingresa tu correo electrónico"
-            required>
+          <label for="secondLastName" class="form-label fw-bold">Apellido materno</label>
+          <input type="text" class="form-control bg-light" id="secondLastName" formControlName="secondLastName" required placeholder="Ingresa tu apellido materno">
         </div>
       </div>
 
       <div class="row mb-3">
         <div class="col">
-          <label for="contrasena" class="form-label fw-bold">Contraseña</label>
-          <input type="password" class="form-control bg-light" id="contrasena" placeholder="Ingresa tu contraseña"
-            required>
+          <label for="position" class="form-label fw-bold">Cargo</label>
+          <input type="text" class="form-control bg-light" id="position" formControlName="position" required placeholder="Ingresa tu cargo">
         </div>
         <div class="col">
-          <label for="repetirContrasena" class="form-label fw-bold">Repetir contraseña</label>
-          <input type="password" class="form-control bg-light" id="repetirContrasena" placeholder="Repite tu contraseña"
-            required>
+          <label for="email" class="form-label fw-bold">Correo electrónico</label>
+          <input type="email" class="form-control bg-light" id="email" formControlName="email" required placeholder="Ingresa tu correo electrónico">
         </div>
       </div>
     </form>
@@ -61,7 +45,7 @@
           </span>
           <label for="size" class="ms-2">Tamaño del texto</label>
         </div>
-        <input type="range" class="form-range" id="customRange1">
+        <input type="range" class="form-range w-50" id="customRange1">
       </div>
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
@@ -70,7 +54,7 @@
           </span>
           <label for="bold">Texto en negritas</label>
         </div>
-        <input type="range" class="form-range" id="customRange1">
+        <input type="range" class="form-range w-50" id="customRange1">
       </div>
     </div>
     <div class="row my-2">
@@ -92,7 +76,7 @@
           </span>
           <label for="bold">Velocidad de lectura</label>
         </div>
-        <input type="range" class="form-range" id="customRange1">
+        <input type="range" class="form-range w-50" min="0" max="6" id="customRange1">
       </div>
     </div>
     <div class="row my-2">
@@ -101,7 +85,7 @@
           <span class="material-symbols-outlined">
             contrast
           </span>
-          <label for="size" class="ms-2">Texto oscuro sobre fondo claro</label>
+          <label for="size" class="ms-2">Texto oscuro sobre fondo blanco</label>
         </div>
         <div class="form-check form-switch" style="zoom: 1.5;">
           <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
@@ -112,7 +96,7 @@
           <span class="material-symbols-outlined">
             contrast
           </span>
-          <label for="size" class="ms-2">Texto claro sobre fondo oscuro</label>
+          <label for="size" class="ms-2">Texto blanco sobre fondo oscuro</label>
         </div>
         <div class="form-check form-switch" style="zoom: 1.5;">
           <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
@@ -121,3 +105,4 @@
     </div>
   </div>
 </div>
+

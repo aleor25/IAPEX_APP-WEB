@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ContactRequestService } from '../../core/services/contactRequest/contact-request.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ContactRequestService } from '../../../core/services/dashboard/contactRequest/contact-request.service';
 
 @Component({
   selector: 'app-contact-request-detail',
@@ -15,12 +15,12 @@ import { FormsModule } from '@angular/forms';
 export class ContactRequestDetailComponent implements OnInit {
   solicitud: any;
   updateMessage: string = '';
-  
+
 
   constructor(
     private route: ActivatedRoute,
     private contactRequestService: ContactRequestService
-  ) {}
+  ) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -45,7 +45,7 @@ export class ContactRequestDetailComponent implements OnInit {
       case 'NO_ENCONTRADA':
         return 'goldenrod';
       case 'NUEVA':
-        return 'green';  
+        return 'green';
       case 'ENCONTRADA':
         return 'green';
       case 'EN_REVISION':
@@ -60,7 +60,7 @@ export class ContactRequestDetailComponent implements OnInit {
       case 'NO_ENCONTRADA':
         return 'No encontrada';
       case 'NUEVA':
-        return 'Nueva';  
+        return 'Nueva';
       case 'ENCONTRADA':
         return 'Encontrada';
       case 'EN_REVISION':
@@ -72,26 +72,24 @@ export class ContactRequestDetailComponent implements OnInit {
 
   onStatusChange() {
     this.updateStatus();
-}
+  }
 
-updateStatus() {
-  if (this.solicitud && this.solicitud.id) {
+  updateStatus() {
+    if (this.solicitud && this.solicitud.id) {
       const updateRequest = { status: this.solicitud.status.toUpperCase() };
       this.contactRequestService.updateContactRequestById(this.solicitud.id, updateRequest)
-          .subscribe(
-              (response) => {
-                  console.log('Estado actualizado con éxito');
-                  this.updateMessage = 'Estado actualizado con éxito';
-                  setTimeout(() => this.updateMessage = '', 3000);
-              },
-              (error) => {
-                  console.error('Error al actualizar el estado', error);
-                  this.updateMessage = 'Error al actualizar el estado: ' + error.error.message;
-                  setTimeout(() => this.updateMessage = '', 3000);
-              }
-          );
+        .subscribe(
+          (response) => {
+            console.log('Estado actualizado con éxito');
+            this.updateMessage = 'Estado actualizado con éxito';
+            setTimeout(() => this.updateMessage = '', 3000);
+          },
+          (error) => {
+            console.error('Error al actualizar el estado', error);
+            this.updateMessage = 'Error al actualizar el estado: ' + error.error.message;
+            setTimeout(() => this.updateMessage = '', 3000);
+          }
+        );
+    }
   }
 }
-}
-
-
