@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import { RegisterPatientsServiceService } from '../../core/services/register-patients/register-patients.service.service';
 
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
@@ -20,6 +21,9 @@ registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RegisterPatientsComponent {
+
+  @ViewChild('myPond') myPond: any;
+
   registerPatients: FormGroup;
   errorMessage: string | null = null;
   loading = false;
@@ -31,59 +35,102 @@ export class RegisterPatientsComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private registerPatientsService: RegisterPatientsServiceService,
   ) {
     this.registerPatients = this.formBuilder.group({
-      colorCabello: ['', Validators.required],
-      tipoCabello: ['', Validators.required],
-      colorPiel: ['', Validators.required],
-      colorOjos: ['', Validators.required],
-      sexo: ['', Validators.required],
-      estatura: ['', [Validators.required, Validators.min(1)]],
-      peso: ['', [Validators.required, Validators.min(1), Validators.max(700), Validators.maxLength(3)]],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50)]],
+      secondLastName: ['', [Validators.required, Validators.maxLength(50)]],
+      gender: ['', Validators.required],
+      approximateAge: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.min(0), Validators.max(150)]],
+      skinColor: ['', Validators.required],
+      eyeColor: ['', Validators.required],
+      hairColor: ['', Validators.required],
+      hairLength: ['', Validators.required],
       complexion: ['', Validators.required],
-      postura: ['', Validators.required],
-      rasgos: ['', [Validators.required, Validators.maxLength(150)]],
-      condiciones: ['', [Validators.required, Validators.maxLength(150)]],
-      nss: ['', [Validators.maxLength(11)]],
-      nombre: ['', [Validators.maxLength(50)]],
-      imageFiles: [[]]
+      approximateHeight: ['', [Validators.required, Validators.min(50), Validators.max(300)]],
+      medicalConditions: ['', Validators.maxLength(255)],
+      distinctiveFeatures: ['', Validators.maxLength(255)],
+      additionalNotes: ['', Validators.maxLength(255)],
+      imageFiles: this.formBuilder.array([this.formBuilder.control('')], Validators.required)
     });
   }
 
+  
   onSubmit(): void {
-    if (this.registerPatients.invalid) {
+    if (this.registerPatients.valid) {
+      console.log(this.registerPatients.value);
+  
+      this.loading = true;
+  
+      this.registerPatientsService.registerPatients(this.registerPatients.value).pipe(
+        tap(() => {
+          this.errorMessage = null;
+          this.router.navigate(['/dashboard/general-view']);
+        }),
+        catchError(error => {
+          console.error('Registro fallido', error);
+          this.errorMessage = 'Error al registrar los datos.';
+          return of(null);
+        }),
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe();
+    } else {
       this.registerPatients.markAllAsTouched();
-      this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
-      return;
     }
-    this.loading = true;
+  }
+  
 
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: true,
+    labelIdle: 'Arrastra y suelta tus archivos o <span class="filepond--label-action">Examinar</span>',
+    acceptedFileTypes: 'image/jpeg, image/png',
+    status: 0,
+    required: true,
+    allowDrop: true,
+    allowBrowse: true,
+    allowPaste: true,
+    allowMultiple: true,
+    maxFiles: 12,
+    minFiles: 8,
+    instantUpload: true,
+    dropOnElement: true,
+    labelFileLoading: 'Cargando...',
+    labelFileLoadError: 'Error de carga',
+    labelFileProcessing: 'Procesando...',
+    labelFileProcessingComplete: 'Procesamiento completado',
+    labelFileProcessingAborted: 'Carga abortada',
+    labelFileProcessingError: 'Error en la carga',
+    labelFileRemoveError: 'Error al eliminar',
+    labelTapToCancel: 'Toca para cancelar',
+    labelTapToRetry: 'Toca para reintentar',
+    labelTapToUndo: 'Toca para deshacer',
+    credits: false
+  };
 
-    this.authService.registerPatients(this.registerPatients.value).pipe(
-
-      tap(() => {
-        this.errorMessage = null;
-        this.router.navigate(['/dashboard']);
-      }),
-      catchError(error => {
-        console.error('Registro fallido', error);
-        this.errorMessage = 'Error al registrar los datos.';
-        return of(null);
-      }),
-      finalize(() => {
-        this.loading = false;
-      })
-    ).subscribe();
+  pondHandleInit() {
+    console.log('Se ha inicializado FilePond', this.myPond);
   }
 
-  onAddFile(event: any) {
-    const file = event.file;
-    const imageFilesControl = this.registerPatients.get('imageFiles') as FormArray;
-    imageFilesControl.push(this.formBuilder.control(file));
+  pondHandleAddFile(event: any) {
+    console.log('Se ha agregado un archivo', event);
+    const imageFiles = this.registerPatients.get('imageFiles') as FormArray;
+    imageFiles.push(this.formBuilder.control(event.file));
+  }
+  
+  pondHandleRemoveFile(event: any) {
+    const imageFiles = this.registerPatients.get('imageFiles') as FormArray;
+    const index = imageFiles.controls.findIndex(control => control.value === event.file);
+    if (index !== -1) {
+      imageFiles.removeAt(index);
+    }
   }
 
-  get imageFilesControl() {
-    return this.registerPatients.get('imageFiles') as FormArray;
+  get imageFilesLength(): number {
+    return (this.registerPatients.get('imageFiles') as FormArray).length;
   }
+  
 }

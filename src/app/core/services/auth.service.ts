@@ -8,7 +8,7 @@ import { Observable, tap } from 'rxjs';
 })
 
 export class AuthService {
-  registerPatients(value: any): Observable<any> { //se agrega el :Observable<any> para los tipos de datos que se recibirán ya que no se especifica el tipo de dato
+  registerPatients(value: any): Observable<any> {
     throw new Error('Method not implemented.');
   }
   private LOGIN_URL = 'http://localhost:4200/api/v1/auth/login';

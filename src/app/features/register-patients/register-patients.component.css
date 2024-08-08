@@ -23,76 +23,7 @@ textarea {
     overflow-y: auto;
 }
 
-
-
-.filepond--item {
-    width: calc(50% - 0.5em);
+.filepond--credits {
+    opacity: 0;
 }
 
-@media (min-width: 30em) {
-    .filepond--item {
-        width: calc(50% - 0.5em);
-    }
-}
-
-@media (min-width: 50em) {
-    .filepond--item {
-        width: calc(33.33% - 0.5em);
-    }
-}
-
-.filepond--root {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-    max-height: 10em; /* Limitar la altura */
-}
-
-.filepond--file-action-button {
-    cursor: pointer;
-    background-color: rgba(255, 8, 218, 0.5);
-    color: rgb(255, 0, 0);
-}
-
-.filepond--file-action-button:hover,
-.filepond--file-action-button:focus {
-    box-shadow: 0 0 0 0.125em rgba(255, 255, 255, 0.9);
-}
-
-.filepond--drop-label {
-    color: #555;
-}
-
-.filepond--label-action {
-    text-decoration-color: #aaa;
-}
-
-.filepond--panel-root {
-    background-color: #eee;
-    border-radius: 0.5em;
-}
-
-.filepond--item-panel {
-    border-radius: 0.5em;
-    background-color: #555;
-}
-
-.filepond--drip-blob {
-    background-color: #999;
-}
-
-.filepond--file {
-    color: white;
-}
-
-[data-filepond-item-state*='error'] .filepond--item-panel,
-[data-filepond-item-state*='invalid'] .filepond--item-panel {
-    background-color: red;
-}
-
-[data-filepond-item-state='processing-complete'] .filepond--item-panel {
-    background-color: green;
-}
-
-.filepond--panel-root {
-    background-color: transparent;
-    border: 2px solid #2c3340;
-}
