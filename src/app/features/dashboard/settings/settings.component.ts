@@ -11,12 +11,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit implements OnInit {
+export class SettingsComponent implements OnInit {
+
   textSize: string = '16px'; // Tamaño inicial del texto
   isBold: boolean = false; // Estado inicial del texto en negritas
   isLightOnDark: boolean = false; // Estado inicial de texto claro sobre fondo oscuro
 
   ngOnInit() {
+    this.loadUserData();
     // Inicializar los estilos globales
     this.applyTextSize(this.textSize);
     this.applyTextBold(this.isBold);
@@ -77,10 +79,6 @@ export class SettingsComponent implements OnInit implements OnInit {
   onSubmit() {
     // Handle form submission logic here
     console.log(this.settingsForm.value);
-  }
-
-  ngOnInit(): void {
-    this.loadUserData();
   }
 
   private loadUserData(): void {
