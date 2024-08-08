@@ -117,7 +117,7 @@ export class GeneralViewComponent implements AfterViewInit {
         console.error('Error al cargar los pacientes', error);
       });
 
-       // Actualiza los elementos del DOM con los nuevos valores
+       // Actualiza los elementos del DOM con los nuevos valores de las solicitudes
     this.updateCardValues(totalRequests, newRequests, inReviewRequests, completedRequests);
 
 
@@ -166,7 +166,7 @@ export class GeneralViewComponent implements AfterViewInit {
 
     // Transformar datos si es necesario
     let transformedData = data.map((item, index) => {
-      return { day: `Día ${index + 1}`, requests: item.requests }; // Asegúrate de que `item.requests` existe
+      return { day: `Día ${index + 1}`, requests: item.requests };
     });
 
     // Crear eje Y
@@ -180,7 +180,7 @@ export class GeneralViewComponent implements AfterViewInit {
     let xAxis = chart.xAxes.push(
       am5xy.CategoryAxis.new(this.rootRequests, {
         renderer: am5xy.AxisRendererX.new(this.rootRequests, {}),
-        categoryField: "day" // Campo de categorías
+        categoryField: "day" 
       })
     );
     xAxis.data.setAll(transformedData); // Establecer los datos en el eje X
@@ -433,7 +433,7 @@ export class GeneralViewComponent implements AfterViewInit {
     };
 
     patients.forEach(patient => {
-      const age = patient.approximateAge; // Asegúrate de que `age` sea una propiedad válida
+      const age = patient.approximateAge;
       if (age > 65) {
         ageCounts["Mayor a 65 años"]++;
       } else if (age >= 18) {

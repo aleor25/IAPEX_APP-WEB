@@ -1,58 +1,52 @@
 <div class="container-fluid h-100">
     <div class="row h-100">
-        <div class="min-vh-100 bg-white d-flex flex-column justify-content-between border">
-            <div class="pt-4 px-2 text-center d-none d-lg-flex align-items-center justify-content-center">
-                <a type="submit" class="text-decoration-none d-flex align-items-center justify-content-center">
-                    <img class="me-2 mx-auto w-100" src="assets/images/logo.png" routerLink="/dashboard/login">
-                </a>
-            </div>
-
-            <ul class="nav nav-pills flex-column mt-5">
-                <li class="nav-item mb-2">
-                    <a routerLink="/dashboard/general-view" class="nav-link" routerLinkActive="active">
-                        <div class="d-none d-lg-flex align-items-center">
-                            <span class="material-symbols-outlined me-3">
-                                home
-                            </span>
-                            <span class="d-none d-lg-inline">Inicio</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a routerLink="/dashboard/registered-patients" class="nav-link" routerLinkActive="active">
-                        <div class="d-none d-lg-flex align-items-center">
-                            <span class="material-symbols-outlined me-3">
-                                personal_injury
-                            </span>
-                            <span class="d-none d-lg-inline">Pacientes</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a routerLink="/dashboard/requests" class="nav-link" routerLinkActive="active">
-                        <div class="d-none d-lg-flex align-items-center">
-                            <span class="material-symbols-outlined me-3">
-                                mail
-                            </span>
-                             <span class="d-none d-lg-inline">Solicitudes</span>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <div class="mt-auto mb-3">
-                    <ul class="nav nav-pills flex-column">
-                        <li class="nav-item mb-2">
-                            <a type="submit" class="nav-link">
-                                <div class="d-none d-lg-flex align-items-center">
-                                    <i (click)="logout()" class="material-icons text-black me-2">
-                                        logout
-                                    </i>
-                                    <span class="d-none d-lg-inline text-black" routerLink="/login">Cerrar sesión</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      <div class="min-vh-100 bg-white d-flex flex-column justify-content-between border">
+        <div class="pt-4 px-2 text-center d-none d-lg-flex align-items-center justify-content-center">
+          <a class="text-decoration-none d-flex align-items-center justify-content-center" routerLink="/dashboard/login">
+            <img class="me-2 mx-auto w-100" src="assets/images/logo.png">
+          </a>
         </div>
+  
+        <ul class="nav nav-pills flex-column mt-5">
+          <li class="nav-item mb-2">
+            <a routerLink="/dashboard/general-view" class="nav-link" routerLinkActive="active">
+              <div class="d-none d-lg-flex align-items-center">
+                <span class="material-symbols-outlined me-3">home</span>
+                <span class="d-none d-lg-inline">Inicio</span>
+              </div>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a routerLink="/dashboard/registered-patients" class="nav-link" routerLinkActive="active">
+              <div class="d-none d-lg-flex align-items-center">
+                <span class="material-symbols-outlined me-3">personal_injury</span>
+                <span class="d-none d-lg-inline">Pacientes</span>
+              </div>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a routerLink="/dashboard/requests" class="nav-link" routerLinkActive="active">
+              <div class="d-none d-lg-flex align-items-center">
+                <span class="material-symbols-outlined me-3">mail</span>
+                <span class="d-none d-lg-inline">Solicitudes</span>
+              </div>
+            </a>
+          </li>
+        </ul>
+  
+        <div class="mt-auto mb-3">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item mb-2">
+              <a class="nav-link" (click)="logout()" style="cursor: pointer;">
+                <div class="d-none d-lg-flex align-items-center">
+                  <i class="material-icons text-black me-2">logout</i>
+                  <span class="d-none d-lg-inline text-black">Cerrar sesión</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </div>
+  

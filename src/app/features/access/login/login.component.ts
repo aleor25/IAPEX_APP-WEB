@@ -13,37 +13,40 @@ import { LoginService } from '../../../core/services/access/login/login.service'
 })
 
 export class LoginComponent {
-
   loginForm: FormGroup;
   errorMessage: string | null = null;
 
-  private _loginService = inject(LoginService);  
-  private _router = inject(Router);
-  private _formBuilder = inject(FormBuilder);
-
-  constructor() {
-    this.loginForm = this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
+  constructor(
+    private fb: FormBuilder,
+    private loginService: LoginService,
+    private router: Router
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]]
     });
   }
 
-  login(): void {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-
-      this._loginService.login(email, password).subscribe(
-        response => {
-          console.log('Inicio de sesión exitoso', response);
-          this._router.navigate(['/dashboard/general-view']);
-        },
-        error => {
-          this.errorMessage = error;  // Muestra el mensaje de error
-        }
-      );
-    }
+  get email() {
+    return this.loginForm.get('email');
   }
 
-  get email() { return this.loginForm.get('email'); }
-  get password() { return this.loginForm.get('password'); }
+  get password() {
+    return this.loginForm.get('password');
+  }
+
+  login() {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      this.loginService.login(email, password).subscribe({
+        next: () => {
+          console.log("Logging in...");
+          this.router.navigate(['/dashboard/general-view']);
+        },
+        error: (err) => {
+          this.errorMessage = err;
+        }
+      });
+    }
+  }
 }

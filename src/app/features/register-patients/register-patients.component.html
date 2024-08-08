@@ -166,7 +166,7 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="approximateHeight">Altura aproximada (cm)*</label>
-                <input type="number" class="form-control" id="approximateHeight" formControlName="approximateHeight"
+                <input class="form-control" id="approximateHeight" formControlName="approximateHeight"
                     placeholder="Ingresa la altura aproximada del paciente" maxlength="3">
                 <div
                     *ngIf="registerPatients.get('approximateHeight')?.touched && registerPatients.get('approximateHeight')?.invalid">
