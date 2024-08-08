@@ -45,6 +45,7 @@ export class RegisterPatientsComponent {
       approximateAge: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.min(0), Validators.max(150)]],
       skinColor: ['', Validators.required],
       eyeColor: ['', Validators.required],
+      hair: ['', Validators.required],
       hairColor: ['', Validators.required],
       hairLength: ['', Validators.required],
       complexion: ['', Validators.required],
@@ -59,11 +60,25 @@ export class RegisterPatientsComponent {
   
   onSubmit(): void {
     if (this.registerPatients.valid) {
+      const formData = new FormData ();//
       console.log(this.registerPatients.value);
   
+          // Añadir los campos del formulario al FormData
+    Object.keys(this.registerPatients.value).forEach(key => {
+      if (key !== 'imageFiles') {
+        formData.append(key, this.registerPatients.value[key]);
+      }
+    });
+
+    // Añadir los archivos de imagen
+    const imageFiles = this.registerPatients.get('imageFiles') as FormArray;
+    imageFiles.controls.forEach((control, index) => {
+      formData.append('imageFile', control.value);
+    });
+
       this.loading = true;
   
-      this.registerPatientsService.registerPatients(this.registerPatients.value).pipe(
+      this.registerPatientsService.registerPatients(formData).pipe(
         tap(() => {
           this.errorMessage = null;
           this.router.navigate(['/dashboard/general-view']);

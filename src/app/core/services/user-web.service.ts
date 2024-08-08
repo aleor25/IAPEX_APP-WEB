@@ -1,14 +1,84 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { UserWebDTO } from '../models/users/UserWebDTO';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserWebService {
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = 'http://localhost:8080/api/v1/userWeb';
 
- 
+  constructor(private httpClient: HttpClient, private router: Router) {}
+
+  login(email: string, password: string): Observable<any> {
+    const loginUsuario = { email, password };
+    return this.httpClient.post<any>(`${this.apiUrl}/login`, loginUsuario).pipe(
+      tap(response => {
+        console.log('Respuesta de login:', response);
+        if (response && response.token) {
+          this.setTokenWithExpiration(response.token);
+          const role = response.authorities && response.authorities.length > 0 
+            ? response.authorities[0].authority 
+            : 'USER';
+          localStorage.setItem('userRole', role);
+        }
+      })
+    );
+  }
+
+  isUserWeb(): boolean {
+    const userRole = localStorage.getItem('userRole');
+    return userRole === 'USER_WEB';
+  }
+
+  setTokenWithExpiration(token: string): void {
+    //const expirationTime = new Date().getTime() + 60 * 1000; // 1 minuto desde que ingrese a la app
+    const expirationTime = new Date().getTime() + 10 * 60 * 1000; // 10 minutos desde que ingrese a la app
+    localStorage.setItem('token', token);
+    localStorage.setItem('tokenExpiration', expirationTime.toString());
+  }
+
+  getToken(): string | null {
+    const token = localStorage.getItem('token');
+    if (token && this.isTokenExpired()) {
+      this.logout();
+      return null;
+    }
+    return token;
+  }
+
+  
+  public isTokenExpired(): boolean {
+    const expiration = localStorage.getItem('tokenExpiration');
+    if (expiration) {
+        return new Date().getTime() > parseInt(expiration, 10); // Verifica si el tiempo actual es mayor que el tiempo de expiración
+    }
+    return true; // Si no hay tiempo de expiración almacenado, se considera que el token ha expirado
+  }
+
+
+  logout(): void {
+    this.removeToken();
+    localStorage.removeItem('userRole');
+    this.router.navigate(['/auth']);
+  }
+
+  removeToken(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('tokenExpiration');
+  }
+
+  isLoggedIn(): boolean {
+    const token = this.getToken();
+    const isLogged = !!token && !this.isTokenExpired();
+    return isLogged;
+  }
+
+
 }
+
+
+
