@@ -10,45 +10,29 @@
       <div class="row mb-3">
         <div class="col">
           <label for="apellidoMaterno" class="form-label fw-bold">Apellido materno</label>
-          <input type="text" class="form-control bg-light" id="apellidoMaterno"
-            placeholder="Ingresa tu apellido materno" required>
+          <input type="text" class="form-control bg-light" id="apellidoMaterno" placeholder="Ingresa tu apellido materno" required>
         </div>
         <div class="col">
           <label for="apellidoPaterno" class="form-label fw-bold">Apellido paterno</label>
-          <input type="text" class="form-control bg-light" id="apellidoPaterno"
-            placeholder="Ingresa tu apellido paterno" required>
+          <input type="text" class="form-control bg-light" id="apellidoPaterno" placeholder="Ingresa tu apellido paterno" required>
         </div>
       </div>
 
       <div class="row mb-3">
         <div class="col">
-          <label for="telefono" class="form-label fw-bold">Número de teléfono</label>
-          <input type="tel" class="form-control bg-light" id="telefono" placeholder="Ingresa tu número de teléfono"
-            required>
+          <label for="cargo" class="form-label fw-bold">Cargo</label>
+          <input type="tel" class="form-control bg-light" id="cargo" placeholder="Ingresa tu cargo" required>
         </div>
         <div class="col">
           <label for="correo" class="form-label fw-bold">Correo electrónico</label>
-          <input type="email" class="form-control bg-light" id="correo" placeholder="Ingresa tu correo electrónico"
-            required>
+          <input type="email" class="form-control bg-light" id="correo" placeholder="Ingresa tu correo electrónico" required>
         </div>
       </div>
 
-      <div class="row mb-3">
-        <div class="col">
-          <label for="contrasena" class="form-label fw-bold">Contraseña</label>
-          <input type="password" class="form-control bg-light" id="contrasena" placeholder="Ingresa tu contraseña"
-            required>
-        </div>
-        <div class="col">
-          <label for="repetirContrasena" class="form-label fw-bold">Repetir contraseña</label>
-          <input type="password" class="form-control bg-light" id="repetirContrasena" placeholder="Repite tu contraseña"
-            required>
-        </div>
-      </div>
+    
     </form>
   </div>
 </div>
-
 
 <div class="container mt-5">
   <h3 class="mb-4">Accesibilidad</h3>
@@ -56,67 +40,51 @@
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            format_size
-          </span>
-          <label for="size" class="ms-2">Tamaño del texto</label>
+          <span class="material-symbols-outlined">format_size</span>
+          <label for="textSizeRange" class="ms-2">Tamaño del texto</label>
         </div>
-        <input type="range" class="form-range" id="customRange1">
+        <input type="range" class="form-range" id="textSizeRange" min="16" max="30" step="6" value="12" (input)="onTextSizeChange($event)" style="width: 80%;">
       </div>
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            format_bold
-          </span>
-          <label for="bold">Texto en negritas</label>
+          <span class="material-symbols-outlined">format_bold</span>
+          <label for="textBoldSwitch">Texto en negritas</label>
         </div>
-        <input type="range" class="form-range" id="customRange1">
+        <div class="form-check form-switch" style="zoom: 1.5;">
+          <input type="checkbox" class="form-check-input" id="bold" (change)="onTextBoldChange($event)">
+        </div>
       </div>
     </div>
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            speech_to_text
-          </span>
-          <label for="size" class="ms-2">Texto a voz</label>
+          <span class="material-symbols-outlined">speech_to_text</span>
+          <label for="textToSpeech" class="ms-2">Texto a voz</label>
         </div>
         <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <input class="form-check-input" type="checkbox" role="switch" id="textToSpeech">
         </div>
       </div>
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            fast_forward
-          </span>
-          <label for="bold">Velocidad de lectura</label>
+          <span class="material-symbols-outlined">fast_forward</span>
+          <label for="readingSpeed">Velocidad de lectura</label>
         </div>
-        <input type="range" class="form-range" id="customRange1">
+        <input type="range" class="form-range" id="readingSpeed" min="1" max="10" step="1">
       </div>
     </div>
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            contrast
-          </span>
-          <label for="size" class="ms-2">Texto oscuro sobre fondo claro</label>
+          <span class="material-symbols-outlined">contrast</span>
+          <label for="lightMode" class="ms-2">Texto claro sobre fondo oscuro</label>
         </div>
         <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <input class="form-check-input" type="checkbox" role="switch" id="light-on-dark" (change)="onLightOnDarkChange($event)">
         </div>
       </div>
       <div class="col d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            contrast
-          </span>
-          <label for="size" class="ms-2">Texto claro sobre fondo oscuro</label>
-        </div>
-        <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        </div>
+       
       </div>
     </div>
   </div>
