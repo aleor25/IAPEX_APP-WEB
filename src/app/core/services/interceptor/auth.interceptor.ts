@@ -20,7 +20,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       setHeaders: { Authorization: `Bearer ${token}` }
     });
 
-    //console.log('Interceptor: Agregando encabezado de autorización con token');
+    //console.log('Interceptor: Agregando encabeyzado de autorización con token');
     
     return next(clonedReq).pipe(
       tap(event => {
@@ -50,3 +50,4 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 function shouldAddAuthorizationHeader(req: HttpRequest<any>): boolean {
   return true;
 }
+

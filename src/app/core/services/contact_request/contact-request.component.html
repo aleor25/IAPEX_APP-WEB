@@ -1,0 +1,35 @@
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <h4>Pacientes Registrados</h4>
+    </div>
+    <table class="table table-striped table-borderless">
+        <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Correo Electrónico</th>
+              <th>Mensaje</th>
+              <th>Institución</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+      <tbody>
+        <tr *ngFor="let request of contactRequests">
+            <td>{{ request.id }}</td>
+            <td>{{ request.name }}</td>
+            <td>{{ request.email }}</td>
+            <td>{{ request.message }}</td>
+            <td>{{ request.institution.name }}</td>
+            <td>
+              <button class="btn btn-secondary" (click)="getContactRequestById(request.id)">
+                Ver Detalles
+              </button>
+              <button class="btn btn-primary" (click)="updateContactRequestById(request.id, request)">
+                Actualizar
+              </button>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+    </div>
+  

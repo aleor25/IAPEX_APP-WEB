@@ -91,3 +91,4 @@ export class RegisteredPatientsComponent implements OnInit {
     return formData;
   }
 }
+

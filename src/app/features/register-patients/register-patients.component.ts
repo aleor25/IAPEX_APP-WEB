@@ -8,8 +8,7 @@ import { of } from 'rxjs';
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import { RegisterPatientsServiceService } from '../../core/services/register-patients/register-patients.service.service';
-
+import { RegisterPatientsService } from '../../core/services/register-patients/register-patients.service';
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 @Component({
@@ -35,7 +34,7 @@ export class RegisterPatientsComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private registerPatientsService: RegisterPatientsServiceService,
+    private registerPatientsService: RegisterPatientsService,
   ) {
     this.registerPatients = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -94,8 +93,8 @@ export class RegisterPatientsComponent {
       ).subscribe();
     } else {
       this.registerPatients.markAllAsTouched();
-    }
-  }
+    }
+  }
   
 
   pondOptions = {

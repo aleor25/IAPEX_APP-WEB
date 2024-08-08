@@ -2,20 +2,32 @@
 <div class="container">
   <h3 class="mb-4">Editar perfil</h3>
   <div class="card p-4 rounded-4">
-    <form [formGroup]="settingsForm">
+    <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label for="name" class="form-label fw-bold">Nombre(s)</label>
         <input type="text" class="form-control bg-light" id="name" formControlName="name" required placeholder="Ingresa tu nombre">
+        <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="text-danger">
+          <div *ngIf="name?.errors?.['required']">El nombre es requerido.</div>
+          <div *ngIf="name?.errors?.['maxlength']">El nombre no puede exceder los 50 caracteres.</div>
+        </div>
       </div>
 
       <div class="row mb-3">
         <div class="col">
           <label for="lastName" class="form-label fw-bold">Apellido paterno</label>
           <input type="text" class="form-control bg-light" id="lastName" formControlName="lastName" required placeholder="Ingresa tu apellido paterno">
+          <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="text-danger">
+            <div *ngIf="lastName?.errors?.['required']">El apellido paterno es requerido.</div>
+            <div *ngIf="lastName?.errors?.['maxlength']">El apellido paterno no puede exceder los 50 caracteres.</div>
+          </div>
         </div>
         <div class="col">
           <label for="secondLastName" class="form-label fw-bold">Apellido materno</label>
           <input type="text" class="form-control bg-light" id="secondLastName" formControlName="secondLastName" required placeholder="Ingresa tu apellido materno">
+          <div *ngIf="secondLastName?.invalid && (secondLastName?.dirty || secondLastName?.touched)" class="text-danger">
+            <div *ngIf="secondLastName?.errors?.['required']">El apellido materno es requerido.</div>
+            <div *ngIf="secondLastName?.errors?.['maxlength']">El apellido materno no puede exceder los 50 caracteres.</div>
+          </div>
         </div>
       </div>
 
@@ -23,15 +35,26 @@
         <div class="col">
           <label for="position" class="form-label fw-bold">Cargo</label>
           <input type="text" class="form-control bg-light" id="position" formControlName="position" required placeholder="Ingresa tu cargo">
+          <div *ngIf="position?.invalid && (position?.dirty || position?.touched)" class="text-danger">
+            <div *ngIf="position?.errors?.['required']">El cargo es requerido.</div>
+            <div *ngIf="position?.errors?.['maxlength']">El cargo no puede exceder los 25 caracteres.</div>
+          </div>
         </div>
         <div class="col">
           <label for="email" class="form-label fw-bold">Correo electrónico</label>
           <input type="email" class="form-control bg-light" id="email" formControlName="email" required placeholder="Ingresa tu correo electrónico">
+          <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
+            <div *ngIf="email?.errors?.['required']">El correo electrónico es requerido.</div>
+            <div *ngIf="email?.errors?.['email']">Ingrese una dirección de correo electrónico válida.</div>
+            <div *ngIf="email?.errors?.['maxlength']">El correo electrónico no puede exceder los 100 caracteres.</div>
+          </div>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+
 
 
 <div class="container mt-5">
@@ -40,19 +63,18 @@
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            format_size
-          </span>
-          <label for="size" class="ms-2">Tamaño del texto</label>
+          <span class="material-symbols-outlined">format_size</span>
+          <label for="textSizeRange" class="ms-2">Tamaño del texto</label>
         </div>
-        <input type="range" class="form-range w-50" id="customRange1">
+        <input type="range" class="form-range" id="textSizeRange" min="16" max="30" step="6" value="12" (input)="onTextSizeChange($event)" style="width: 80%;">
       </div>
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            format_bold
-          </span>
-          <label for="bold">Texto en negritas</label>
+          <span class="material-symbols-outlined">format_bold</span>
+          <label for="textBoldSwitch">Texto en negritas</label>
+        </div>
+        <div class="form-check form-switch" style="zoom: 1.5;">
+          <input type="checkbox" class="form-check-input" id="bold" (change)="onTextBoldChange($event)">
         </div>
         <input type="range" class="form-range w-50" id="customRange1">
       </div>
@@ -60,49 +82,35 @@
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            speech_to_text
-          </span>
-          <label for="size" class="ms-2">Texto a voz</label>
+          <span class="material-symbols-outlined">speech_to_text</span>
+          <label for="textToSpeech" class="ms-2">Texto a voz</label>
         </div>
         <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <input class="form-check-input" type="checkbox" role="switch" id="textToSpeech">
         </div>
       </div>
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            fast_forward
-          </span>
-          <label for="bold">Velocidad de lectura</label>
+          <span class="material-symbols-outlined">fast_forward</span>
+          <label for="readingSpeed">Velocidad de lectura</label>
         </div>
+        <input type="range" class="form-range" id="readingSpeed" min="1" max="10" step="1">
         <input type="range" class="form-range w-50" min="0" max="6" id="customRange1">
       </div>
     </div>
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            contrast
-          </span>
-          <label for="size" class="ms-2">Texto oscuro sobre fondo blanco</label>
+          <span class="material-symbols-outlined">contrast</span>
+          <label for="lightMode" class="ms-2">Texto claro sobre fondo oscuro</label>
         </div>
         <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <input class="form-check-input" type="checkbox" role="switch" id="light-on-dark" (change)="onLightOnDarkChange($event)">
         </div>
       </div>
       <div class="col d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            contrast
-          </span>
-          <label for="size" class="ms-2">Texto blanco sobre fondo oscuro</label>
-        </div>
-        <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        </div>
+       
       </div>
     </div>
   </div>
 </div>
-

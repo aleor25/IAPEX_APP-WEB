@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { RestorePasswordService } from '../../../core/services/access/restore-password/restore-password.service';
 
 @Component({
   selector: 'app-restore-password',
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './restore-password.component.html',
   styleUrls: ['./restore-password.component.css']
 })

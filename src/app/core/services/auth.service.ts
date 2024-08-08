@@ -8,16 +8,14 @@ import { Observable, tap } from 'rxjs';
 })
 
 export class AuthService {
-  registerPatients(value: any): Observable<any> {
-    throw new Error('Method not implemented.');
-  }
+ 
   private LOGIN_URL = 'http://localhost:4200/api/v1/auth/login';
-  private tokenKey = 'authToken';
-
+/*   private tokenKey = 'authToken';
+ */
   constructor(private httpClient: HttpClient, private router: Router) {}
 
   
-  login(email: string, password: string): Observable<any> {
+  /* login(email: string, password: string): Observable<any> {
     return this.httpClient.post<any>(this.LOGIN_URL, { email, password }).pipe(
       tap(response => {
         if (response.token) {
@@ -27,21 +25,21 @@ export class AuthService {
         }
       })
     );
-  }
+  } */
 
-  private setToken(token: string): void {
+ /*  private setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
   }
-
-  private getToken(): string | null {
+ */
+  /* private getToken(): string | null {
     if (typeof window !== 'undefined') {
       return localStorage.getItem(this.tokenKey);
     } else {
       return null;
     }
-  }
+  } */
 
-  isAuthenticated(): boolean {
+  /* isAuthenticated(): boolean {
     const token = this.getToken();
     if (!token) {
       return this.localIsAuthenticated();
@@ -51,7 +49,7 @@ export class AuthService {
     const exp = payload.exp * 1000;
     return Date.now() < exp;
   }
-
+ */
   private localLogin(email: string, password: string): void {
     const savedFormData = localStorage.getItem('registerFormData');
     if (savedFormData) {
@@ -68,9 +66,9 @@ export class AuthService {
     return !!savedFormData && isAuthenticated === 'true';
   }
 
-  logout(): void {
+  /* logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem('isAuthenticated');
 
-  }
+  } */
 }

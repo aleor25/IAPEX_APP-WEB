@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-import { UserWebDTO } from '../models/users/UserWebDTO';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserWebService {
-
   private apiUrl = 'http://localhost:8080/api/v1/userWeb';
 
   constructor(private httpClient: HttpClient, private router: Router) {}
@@ -35,7 +33,6 @@ export class UserWebService {
   }
 
   setTokenWithExpiration(token: string): void {
-    //const expirationTime = new Date().getTime() + 60 * 1000; // 1 minuto desde que ingrese a la app
     const expirationTime = new Date().getTime() + 10 * 60 * 1000; // 10 minutos desde que ingrese a la app
     localStorage.setItem('token', token);
     localStorage.setItem('tokenExpiration', expirationTime.toString());
@@ -50,15 +47,13 @@ export class UserWebService {
     return token;
   }
 
-  
   public isTokenExpired(): boolean {
     const expiration = localStorage.getItem('tokenExpiration');
     if (expiration) {
-        return new Date().getTime() > parseInt(expiration, 10); // Verifica si el tiempo actual es mayor que el tiempo de expiración
+      return new Date().getTime() > parseInt(expiration, 10); // Verifica si el tiempo actual es mayor que el tiempo de expiración
     }
     return true; // Si no hay tiempo de expiración almacenado, se considera que el token ha expirado
   }
-
 
   logout(): void {
     this.removeToken();
@@ -77,8 +72,32 @@ export class UserWebService {
     return isLogged;
   }
 
+  getCurrentUser(): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.get<any>(this.apiUrl + '/myAccount', { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Ocurrió un error.';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      switch (error.status) {
+        case 401:
+          errorMessage = 'No autorizado.';
+          break;
+        case 404:
+          errorMessage = 'Servicio no encontrado.';
+          break;
+        case 500:
+          errorMessage = 'Error interno del servidor. Inténtalo más tarde.';
+          break;
+      }
+    }
+    console.error('Error:', errorMessage);
+    return throwError(errorMessage);
+  }
 }
-
-
-
