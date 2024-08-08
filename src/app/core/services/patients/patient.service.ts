@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Patient } from '../../models/patients/patient.model';
 
 @Injectable({
     providedIn: 'root'
@@ -15,34 +16,28 @@ export class PatientService {
         return this.httpClient.get(this.URL);
     }
 
-/* 
-    public getPatientById(id: number): Observable<any> {
-        return this.httpClient.get(`${this.URL}/${id}`);
+    // Obtener un paciente por ID
+    public getPatient(id: number): Observable<Patient> {
+        const url = `${this.URL}/${id}`;
+        return this.httpClient.get<Patient>(url);
     }
 
-    public getAllActivePatients(): Observable<any> {
-        return this.httpClient.get(`${this.URL}/active`);
+    // Añadir un nuevo paciente
+    public addPatient(patient: FormData): Observable<Patient> {
+        return this.httpClient.post<Patient>(this.URL, patient);
     }
 
-    public getActivePatientById(id: number): Observable<any> {
-        return this.httpClient.get(`${this.URL}/${id}/active`);
+
+    // Actualizar un paciente existente
+    public updatePatient(id: number, patient: FormData): Observable<Patient> {
+        const url = `${this.URL}/${id}`;
+        return this.httpClient.put<Patient>(url, patient);
     }
 
-    public getPatientsByInstitution(): Observable<any> {
-        return this.httpClient.get(`${this.URL}/current-user/institution`);
+    // Eliminar un paciente
+    public deletePatient(id: number): Observable<void> {
+        const url = `${this.URL}/${id}`;
+        return this.httpClient.delete<void>(url);
     }
-
-    public registerPatient(patient: FormData): Observable<any> {
-        return this.httpClient.post(this.URL, patient, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
-    }
-
-    public updatePatient(id: number, patient: FormData): Observable<any> {
-        return this.httpClient.put(`${this.URL}/${id}`, patient, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
-    }
- */
 
 }

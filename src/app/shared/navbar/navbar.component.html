@@ -9,12 +9,18 @@
     <div class="d-flex justify-content-end align-items-center px-3">
       <button class="btn btn-primary ms-3" type="button" routerLink="/register-patients">+ Registrar paciente</button>
       <div class="d-flex justify-content-end align-items-center ml-4 ms-4">
-        <span class="material-symbols-outlined mx-2" style="cursor: pointer; color: #666666;" routerLink="/dashboard/notifications">
-          notifications
-        </span>
-        <span class="material-symbols-outlined mx-2" style="cursor: pointer; color: #666666;" routerLink="/dashboard/settings">
-          settings
-        </span>
+        <div routerLinkActive="active" class="nav-link">
+          <span class="material-symbols-outlined mx-2" style="cursor: pointer; color: #666666;"
+            routerLink="/dashboard/notifications">
+            notifications
+          </span>
+        </div>
+        <div>
+          <span class="material-symbols-outlined mx-2" style="cursor: pointer; color: #666666;"
+            routerLink="/dashboard/settings">
+            settings
+          </span>
+        </div>
       </div>
     </div>
   </div>
