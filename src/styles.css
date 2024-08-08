@@ -7,5 +7,18 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-}
 
+    /* Estilos para ajustes de accesibilidad */
+    font-size: var(--text-size, 16px); /* Tamaño por defecto */
+    font-weight: var(--font-weight, normal); /* Peso por defecto */
+    background-color: var(--background-color, white); /* Fondo por defecto */
+    color: var(--text-color, black); /* Color de texto por defecto */
+}
+.card, .sidebar {
+    background-color: var(--background-color); /* Fondo de contenedores */
+    color: var(--text-color, black); /* Color de texto en contenedores */
+}
+.navbar, .sidebar {
+  background-color: var(--background-color, white);
+  color: var(--text-color, black);
+}

@@ -63,19 +63,18 @@
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            format_size
-          </span>
-          <label for="size" class="ms-2">Tamaño del texto</label>
+          <span class="material-symbols-outlined">format_size</span>
+          <label for="textSizeRange" class="ms-2">Tamaño del texto</label>
         </div>
-        <input type="range" class="form-range w-50" id="customRange1">
+        <input type="range" class="form-range" id="textSizeRange" min="16" max="30" step="6" value="12" (input)="onTextSizeChange($event)" style="width: 80%;">
       </div>
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            format_bold
-          </span>
-          <label for="bold">Texto en negritas</label>
+          <span class="material-symbols-outlined">format_bold</span>
+          <label for="textBoldSwitch">Texto en negritas</label>
+        </div>
+        <div class="form-check form-switch" style="zoom: 1.5;">
+          <input type="checkbox" class="form-check-input" id="bold" (change)="onTextBoldChange($event)">
         </div>
         <input type="range" class="form-range w-50" id="customRange1">
       </div>
@@ -83,49 +82,35 @@
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            speech_to_text
-          </span>
-          <label for="size" class="ms-2">Texto a voz</label>
+          <span class="material-symbols-outlined">speech_to_text</span>
+          <label for="textToSpeech" class="ms-2">Texto a voz</label>
         </div>
         <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <input class="form-check-input" type="checkbox" role="switch" id="textToSpeech">
         </div>
       </div>
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            fast_forward
-          </span>
-          <label for="bold">Velocidad de lectura</label>
+          <span class="material-symbols-outlined">fast_forward</span>
+          <label for="readingSpeed">Velocidad de lectura</label>
         </div>
+        <input type="range" class="form-range" id="readingSpeed" min="1" max="10" step="1">
         <input type="range" class="form-range w-50" min="0" max="6" id="customRange1">
       </div>
     </div>
     <div class="row my-2">
       <div class="col d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            contrast
-          </span>
-          <label for="size" class="ms-2">Texto oscuro sobre fondo blanco</label>
+          <span class="material-symbols-outlined">contrast</span>
+          <label for="lightMode" class="ms-2">Texto claro sobre fondo oscuro</label>
         </div>
         <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <input class="form-check-input" type="checkbox" role="switch" id="light-on-dark" (change)="onLightOnDarkChange($event)">
         </div>
       </div>
       <div class="col d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center">
-          <span class="material-symbols-outlined">
-            contrast
-          </span>
-          <label for="size" class="ms-2">Texto blanco sobre fondo oscuro</label>
-        </div>
-        <div class="form-check form-switch" style="zoom: 1.5;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        </div>
+       
       </div>
     </div>
   </div>
 </div>
-
