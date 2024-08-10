@@ -6,6 +6,7 @@
     <thead class="thead-light">
       <tr>
         <th scope="col">No.</th>
+        <th scope="col">Nombre completo</th>
         <th scope="col">Sexo</th>
         <th scope="col">Descripción</th>
         <th scope="col">Habitación</th>
@@ -15,14 +16,12 @@
     <tbody>
       <tr *ngFor="let patient of patients; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ patient.gender }}</td>
         <td>
           <strong>{{ patient.name }} {{ patient.lastName }} {{ patient.secondLastName }}</strong><br>
-          Edad Aproximada: {{ patient.approximateAge }} años<br>
-          Color de Piel: {{ patient.skinColor }}<br>
-          Altura Aproximada: {{ patient.approximateHeight }} cm
         </td>
-        <td>{{ patient.institution.name }}</td>
+        <td>{{ patient.gender }}</td>
+        <td>{{ patient.approximateAge }}</td>
+        <td>{{ patient.active }}</td>
         <td>
           <button class="btn btn-secondary mr-2" (click)="updatePatient(patient)">Actualizar</button>
           <button class="btn btn-danger" (click)="deletePatient(patient.id)">Eliminar</button>
@@ -30,4 +29,4 @@
       </tr>
     </tbody>
   </table>
-  </div>
+</div>

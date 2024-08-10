@@ -59,7 +59,6 @@ export class RegisteredPatientsComponent implements OnInit {
     formData.append('gender', patient.gender);
     formData.append('approximateAge', patient.approximateAge.toString());
     formData.append('registrationDateTime', patient.registrationDateTime);
-    formData.append('registeringUserId', patient.registeringUserId.toString());
     formData.append('active', patient.active.toString());
     formData.append('skinColor', patient.skinColor);
     formData.append('hair', patient.hair);

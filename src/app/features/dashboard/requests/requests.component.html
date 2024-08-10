@@ -1,26 +1,41 @@
 <div class="container">
-  <div class="d-flex justify-content-between align-items-center">
-      <h4>Solicitudes</h4>
-  </div>
-  <table class="table table-striped table-borderless">
-      <thead class="thead-light">
-          <tr>
-              <th scope="col">No.</th>
-              <th scope="col">Paciente</th>
-              <th scope="col">Interesado(a)</th>
-              <th scope="col">No. de teléfono</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Estatus</th>
-          </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let request of displayedRequests">
-          <td>{{ request.id }}</td>
-          <td>{{ request.patient }}</td>
-          <td>{{ request.interested }}</td>
-          <td>{{ request.phone }}</td>
-          <td>{{ request.date }}</td>
-          <td>{{ request.status }}</td>
-      </tr>
-  </tbody>
-</table>
+    <div class="d-flex justify-content-between align-items-center">
+        <h4>Solicitudes</h4>
+    </div>
+    <table class="table table-striped table-borderless">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Interesado(a)</th>
+                <th scope="col">No. de teléfono</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Estatus</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Juan Pérez</td>
+                <td>María López</td>
+                <td>+52 555 555 5555</td>
+                <td>2022-01-01</td>
+                <td>En proceso</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Juan Pérez</td>
+                <td>María López</td>
+                <td>+52 555 555 5555</td>
+                <td>2022-01-01</td>
+                <td>Finalizada</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Juan Pérez</td>
+                <td>María López</td>
+                <td>+52 555 555 5555</td>
+                <td>2022-01-01</td>
+                <td>Cancelada</td>
+        </tbody>
+    </table>

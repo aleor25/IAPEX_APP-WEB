@@ -132,7 +132,8 @@
                     <option value="Moreno">Moreno</option>
                 </select>
                 <div *ngIf="registerPatients.get('hair')?.touched && registerPatients.get('hair')?.invalid">
-                    <small class="error-message" *ngIf="registerPatients.get('hair')?.errors?.['required']">El color de cabello del paciente es requerido.</small>
+                    <small class="error-message" *ngIf="registerPatients.get('hair')?.errors?.['required']">El color de
+                        cabello del paciente es requerido.</small>
                 </div>
             </div>
             <div class="col">
@@ -246,13 +247,11 @@
         <div id="fotos">
             <h4 class="mt-5">Añadir imágenes</h4>
             <p>Suba imágenes del paciente que desea registrar. Considere la toma de las imágenes en diferentes ángulos
-                para facilitar la búsqueda y reconocimiento por parte del usuario. <b>Debes de subir al menos 8 fotos. El máximo es de 12.</b></p>
+                para facilitar la búsqueda y reconocimiento por parte del usuario. <b>Debes de subir al menos 8 fotos.
+                    El máximo es de 12.</b></p>
             <div id="filePond" class="w-100 h-50 bg-light rounded-3">
-                <file-pond #myPond 
-                [formArrayName]="'imageFiles'" 
-                [options]="pondOptions"
-                (oninit)="pondHandleInit()"
-                (onaddfile)="pondHandleAddFile($event)">
+                <file-pond #myPond [formArrayName]="'imageFiles'" [options]="pondOptions" (oninit)="pondHandleInit()"
+                    (onaddfile)="pondHandleAddFile($event)">
                 </file-pond>
             </div>
         </div>
@@ -261,4 +260,3 @@
         </button>
     </form>
 </div>
-
