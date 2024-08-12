@@ -1,0 +1,16 @@
+.status-no-encontrada {
+    color: goldenrod !important;
+  }
+  
+  .status-nueva {
+    color: green !important;
+  }
+  
+  .status-encontrada {
+    color: green !important;
+  }
+  
+  .status-en-revision {
+    color: rgb(245, 68, 45) !important;
+  }
+  
