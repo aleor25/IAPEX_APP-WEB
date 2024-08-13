@@ -11,18 +11,24 @@ export class ForgotPasswordService {
 
   constructor(private http: HttpClient) {}
 
+  // Enviar el código de verificación
   sendVerificationCode(email: string): Observable<any> {
     let params = new HttpParams().set('email', email);
     return this.http.get<any>(`${this.apiUrl}/resend-verification`, { params });
   }
 
- /*  sendPasswordResetCode(email: string): Observable<any> {
-    const params = new HttpParams().set('email', email);
-    return this.http.post(`${this.apiUrl}/password-reset/request`, null, { params });
+  // Solicitar el restablecimiento de contraseña/ Solicitar el restablecimiento de contraseña
+  requestPasswordReset(email: string): Observable<any> {
+    let params = new HttpParams().set('email', email);
+    return this.http.post<any>(`${this.apiUrl}/password-reset/request`, null, { params });
   }
 
-  resendPasswordResetCode(email: string): Observable<any> {
-    const params = new HttpParams().set('email', email);
-    return this.http.post(`${this.apiUrl}/password-reset/resend`, null, { params });
-  } */
+  // Restablecer la contraseña
+  resetPassword(verificationCode: string, newPassword: string): Observable<any> {
+    const body = {
+      verificationCode: verificationCode,
+      newPassword: newPassword
+    };
+    return this.http.post<any>(`${this.apiUrl}/password-reset`, body);
+  }
 }

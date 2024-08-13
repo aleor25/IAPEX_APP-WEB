@@ -24,14 +24,16 @@ export class ForgotPasswordComponent {
   onSubmit(): void {
     if (this.passwordResetForm.valid) {
       const email = this.passwordResetForm.get('email')?.value;
-      this.forgotPasswordService.sendVerificationCode(email).subscribe(
+      this.forgotPasswordService.requestPasswordReset(email).subscribe(
         response => {
-          console.log('Código de verificación enviado', response);
+          console.log('Solicitud de restablecimiento de contraseña enviada', response);
           localStorage.setItem('email', email);
-          this._router.navigate(['/access/verified-email']);
+          alert('Se ha enviado un correo electrónico a la dirección de correo proporcionada. Por favor, sigue las instrucciones en el correo para restablecer tu contraseña.');
+          this._router.navigate(['/access/login']);
         },
         error => {
-          console.error('Error al enviar el código de verificación', error);
+          console.error('Error al enviar la solicitud de restablecimiento de contraseña', error);
+          alert('No se ha podido enviar la solicitud de restablecimiento de contraseña. Por favor, asegúrate de que el correo esté vinculado a una cuenta existente');
         }
       );
     }

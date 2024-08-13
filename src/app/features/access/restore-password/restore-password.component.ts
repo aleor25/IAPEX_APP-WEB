@@ -25,6 +25,13 @@ export class RestorePasswordComponent implements OnInit {
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     }, { validator: this.passwordMatchValidator });
+
+    // Recuperar el código de verificación desde la URL y almacenarlo en el almacenamiento local
+    const urlParams = new URLSearchParams(window.location.search);
+    const verificationCode = urlParams.get('code');
+    if (verificationCode) {
+      localStorage.setItem('verificationCode', verificationCode);
+    }
   }
 
   passwordMatchValidator(form: FormGroup): { [key: string]: boolean } | null {
@@ -39,6 +46,7 @@ export class RestorePasswordComponent implements OnInit {
       
       if (verificationCode === null) {
         console.error('Código de verificación no encontrado en el almacenamiento local');
+        alert('Código de verificación no encontrado. Por favor, inténtalo de nuevo.');
         return;
       }
 
@@ -52,14 +60,17 @@ export class RestorePasswordComponent implements OnInit {
       this.restorePasswordService.resetPassword(request).subscribe(
         response => {
           console.log('Contraseña actualizada correctamente', response);
+          alert('Contraseña actualizada correctamente.');
           this.router.navigate(['/access/login']);
         },
         error => {
           console.error('Error al restablecer la contraseña', error);
+          alert('Error al restablecer la contraseña. Por favor, inténtalo de nuevo.');
         }
       );
     } else {
       console.warn('El formulario no es válido. Verifica los campos y vuelve a intentar.');
+      alert('El formulario no es válido, ambos campos deben coincidir. Verifica los campos y vuelve a intentar.');
       console.log('Estado del formulario:', this.restorePasswordForm.value);
       console.log('Errores del formulario:', this.restorePasswordForm.errors);
     }
