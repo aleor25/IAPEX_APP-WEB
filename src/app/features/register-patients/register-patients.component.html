@@ -119,17 +119,11 @@
                 <label for="hair">Tipo de cabello</label>
                 <select id="hair" class="form-select" formControlName="hair">
                     <option value="" selected>Seleccione un Tipo de cabello</option>
-                    <option value="Negro">Negro</option>
-                    <option value="Castaño">Castaño</option>
-                    <option value="Rubio">Rubio</option>
-                    <option value="Pelirrojo">Pelirrojo</option>
-                    <option value="Gris">Gris</option>
-                    <option value="Blanco">Blanco</option>
-                    <option value="Canoso">Canoso</option>
-                    <option value="Castaño Oscuro">Castaño Oscuro</option>
-                    <option value="Castaño Claro">Castaño Claro</option>
-                    <option value="Castaño Cobrizo">Castaño Cobrizo</option>
-                    <option value="Moreno">Moreno</option>
+                    <option value="Liso">Liso</option>
+                    <option value="Ondulado">Ondulado</option>
+                    <option value="Rizado">Rizado</option>
+                    <option value="Crespo">Crespo</option>
+                    <option value="Gris">Calvo</option>
                 </select>
                 <div *ngIf="registerPatients.get('hair')?.touched && registerPatients.get('hair')?.invalid">
                     <small class="error-message" *ngIf="registerPatients.get('hair')?.errors?.['required']">El color de

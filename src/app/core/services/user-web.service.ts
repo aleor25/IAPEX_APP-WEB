@@ -97,6 +97,7 @@ export class UserWebService {
           break;
       }
     }
+    
     console.error('Error:', errorMessage);
     return throwError(errorMessage);
   }
