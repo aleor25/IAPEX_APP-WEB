@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
-import { ContactRequestDTO, ContactRequestService } from '../../../../core/services/contact-request/contact-request.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ContactRequestService } from '../../../../core/services/dashboard/contact-request/contact-request.service';
+import { ContactRequest } from '../../../../core/models/contact-request/contact-request.model';
+import { FormatDateTimePipe } from '../../../../shared/pipes/format-date-time.pipe';
 
 @Component({
   selector: 'app-contact-requests',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormatDateTimePipe],
   templateUrl: './contact-requests.component.html',
   styleUrl: './contact-requests.component.css'
 })
 export class ContactRequestsComponent {
-  contactRequests: ContactRequestDTO[] = [];
+  contactRequests: ContactRequest[] = [];
   loading: boolean = true;
   error: string | null = null;
 
@@ -71,7 +73,7 @@ export class ContactRequestsComponent {
     }
   }
 
-
+  /** Muestra la informacion detallada de una solicitud de contacto cuando se proporciona su id.*/
   viewDetails(id: number | undefined): void {
     this.router.navigate(['/contact-request-detail', id]);
   }

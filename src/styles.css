@@ -22,3 +22,46 @@ body {
   background-color: var(--background-color, white);
   color: var(--text-color, black);
 }
+
+/*  Icono de basura a color blanco */
+.bi-trash{
+    color: white !important;
+}
+/* Negrita para el texto de los campos en formularios */
+.form-label{
+    font-weight: bold
+}
+/* Linea inferior en divs */
+.border-bottom-dark-gray {
+    border-bottom: 1.5px solid gray; 
+  }
+  
+/* Cualquier botón rojo de la aplicación */
+.btn-danger {
+    background-color: #ff0019 !important;
+    color: #ffffff !important;
+}
+
+.btn-dark {
+    background-color: black !important;
+    color: white !important;
+
+}
+
+.deletemodal{
+    background-color: red;
+    color: white;
+}
+
+.icon-red {
+    margin: 10%;
+    font-size: 25px;
+    color: red;
+}
+
+.icon-center {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px;
+}

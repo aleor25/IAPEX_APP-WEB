@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { ContactRequestService } from '../../../../core/services/dashboard/contactRequest/contact-request.service';
-import { ContactRequestDTO } from '../../../../core/services/contact-request/contact-request.service';
+import { ContactRequestService } from '../../../../core/services/dashboard/contact-request/contact-request.service';
+import { ContactRequest } from '../../../../core/models/contact-request/contact-request.model';
+import { UpdateContactRequest } from '../../../../core/models/contact-request/update-contact-request.model';
 
 @Component({
   selector: 'app-contact-request-detail',
@@ -15,7 +16,7 @@ import { ContactRequestDTO } from '../../../../core/services/contact-request/con
 })
 export class ContactRequestDetailComponent implements OnInit {
   updateMessage: string = '';
-  solicitud: ContactRequestDTO | null = null;
+  request: ContactRequest | null = null;
   loading: boolean = true;
   error: string | null = null;  
   originalStatus: string = '';
@@ -28,83 +29,95 @@ export class ContactRequestDetailComponent implements OnInit {
     { value: 'EN_REVISION', label: 'En revisión' }
   ];
 
-    constructor(
-      private route: ActivatedRoute,
-      private contactRequestService: ContactRequestService,
-      private router: Router
-    ) { }
-  
-    ngOnInit() {
-      const id = this.route.snapshot.paramMap.get('id');
-      if (id) {
-        this.loadSolicitud(+id);
-      }
+  constructor(
+    private route: ActivatedRoute,
+    private contactRequestService: ContactRequestService,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadSolicitud(+id);
     }
-  
-    loadSolicitud(id: number) {
-      this.loading = true;
-      this.contactRequestService.getContactRequestById(id).subscribe(
-        (data) => {
-          this.solicitud = data;
-          if (this.solicitud) {
-            this.solicitud.status = this.solicitud.status.toUpperCase();
-            this.originalStatus = this.solicitud.status; // Guarda el estado original
+  }
+
+  loadSolicitud(id: number) {
+    this.loading = true;
+    this.contactRequestService.getContactRequestById(id).subscribe(
+      (data) => {
+        this.request = data;
+        if (this.request) {
+          this.request.status = this.request.status.toUpperCase();
+          this.originalStatus = this.request.status;
+        }
+        this.loading = false;
+        this.statusChanged = false;
+      },
+      (error) => {
+        console.error('Error fetching contact request', error);
+        this.error = 'Error al cargar los detalles de la solicitud';
+        this.loading = false;
+      }
+    );
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'NO_ENCONTRADA':
+        return 'status-no-encontrada';
+      case 'NUEVA':
+        return 'status-nueva';
+      case 'ENCONTRADA':
+        return 'status-encontrada';
+      case 'EN_REVISION':
+        return 'status-en-revision';
+      default:
+        return '';
+    }
+  }
+
+  onStatusChange() {
+    if (this.request) {
+      this.statusChanged = this.request.status !== this.originalStatus;
+    }
+  }
+
+  updateStatus() {
+    if (this.request && this.request.id && this.statusChanged) {
+      const updateRequest: UpdateContactRequest = { status: this.request.status };
+      this.contactRequestService.updateContactRequestById(this.request.id, updateRequest)
+        .subscribe(
+          (response) => {
+            console.log('Estado actualizado con éxito');
+            this.updateMessage = 'Estado actualizado con éxito';
+            this.originalStatus = this.request!.status;
+            this.statusChanged = false;
+            setTimeout(() => this.updateMessage = '', 3000);
+            this.router.navigate(['/dashboard/contact-requests']);
+          },
+          (error) => {
+            console.error('Error al actualizar el estado', error);
+            this.updateMessage = 'Error al actualizar el estado: ' + error.error.message;
+            setTimeout(() => this.updateMessage = '', 3000);
           }
-          this.loading = false;
-          this.statusChanged = false; // Reinicia el indicador de cambio
-        },
-        (error) => {
-          console.error('Error fetching contact request', error);
-          this.error = 'Error al cargar los detalles de la solicitud';
-          this.loading = false;
-        }
-      );
+        );
+    } else if (!this.statusChanged) {
+      this.updateMessage = 'No se han realizado cambios en el estado';
+      setTimeout(() => this.updateMessage = '', 3000);
     }
-  
-    getStatusClass(status: string): string {
-      switch (status) {
-        case 'NO_ENCONTRADA':
-          return 'status-no-encontrada';
-        case 'NUEVA':
-          return 'status-nueva';
-        case 'ENCONTRADA':
-          return 'status-encontrada';
-        case 'EN_REVISION':
-          return 'status-en-revision';
-        default:
-          return '';
-      }
-    }
-  
-onStatusChange() {
-  if (this.solicitud) {
-    this.statusChanged = this.solicitud.status !== this.originalStatus;
+  }
+
+  formatDateTime(dateTime: string | Date): string {
+    const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
+    return date.toLocaleString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    });
   }
 }
-  
-updateStatus() {
-  if (this.solicitud && this.solicitud.id && this.statusChanged) {
-    const updateRequest = { status: this.solicitud.status };
-    this.contactRequestService.updateContactRequestById(this.solicitud.id, updateRequest)
-      .subscribe(
-        (response) => {
-          console.log('Estado actualizado con éxito');
-          this.updateMessage = 'Estado actualizado con éxito';
-          this.originalStatus = this.solicitud!.status; // Actualiza el estado original
-          this.statusChanged = false; // Reinicia el indicador de cambio
-          setTimeout(() => this.updateMessage = '', 3000);
-          this.router.navigate(['/dashboard/contact-requests']);
-        },
-        (error) => {
-          console.error('Error al actualizar el estado', error);
-          this.updateMessage = 'Error al actualizar el estado: ' + error.error.message;
-          setTimeout(() => this.updateMessage = '', 3000);
-        }
-      );
-  } else if (!this.statusChanged) {
-    this.updateMessage = 'No se han realizado cambios en el estado';
-    setTimeout(() => this.updateMessage = '', 3000);
-  }
-}
-  }
-  

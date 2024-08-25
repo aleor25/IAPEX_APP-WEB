@@ -1,86 +1,83 @@
-<div class="bg-light vh-100">
-  <div class="order-dark bg-white d-flex flex-column justify-content-center py-3">
-    <div class="d-flex align-items-center mb-2">
+<div class="bg-light vh-100 overflow-auto">
+  <div class="border-bottom-dark-gray bg-white d-flex flex-column justify-content-center py-3">
+      <div class="d-flex align-items-center mb-2">
         <i class="material-icons text-black mr-2 px-3" routerLink="/dashboard/contact-requests" style="cursor: pointer;">arrow_back</i>
-        <h2 class="text-black mb-0 ">Detalles de la solicitud</h2>
-    </div>
-</div>
-
-  <main class="container my-5">
-    <section class="mb-5">
-      <h2 class="h4">Información principal</h2>
-      <p class="text-muted">En esta sección podrás observar información relevante sobre una solicitud específica de un paciente.</p>
-    </section>
-    <section *ngIf="solicitud">
-      <form class="bg-white p-4 rounded shadow-sm">
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label for="interestedPersonName" class="form-label">Nombre del interesado</label>
-            <input type="text" id="interestedPersonName" class="form-control" [value]="solicitud.missingPersonName" disabled >
-          </div>
-          <div class="col-md-6">
-            <label for="missingPersonName" class="form-label">Nombre de la persona desaparecida</label>
-            <input type="text" id="missingPersonName" class="form-control" [value]="solicitud.missingPersonName" disabled>
-          </div>
-        </div>
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label for="relationship" class="form-label">Relación</label>
-            <input type="text" id="relationship" class="form-control" [value]="solicitud.relationship" disabled>
-          </div>
-          <div class="col-md-6">
-            <label for="phoneNumber" class="form-label">Número de teléfono</label>
-            <input type="text" id="phoneNumber" class="form-control" [value]="solicitud.phoneNumber" disabled>
-          </div>
-        </div>
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label for="email" class="form-label">Correo electrónico</label>
-            <input type="email" id="email" class="form-control" [value]="solicitud.email" disabled>
-          </div>
-          <div class="col-md-6">
-            <label for="requestDateTime" class="form-label">Fecha y hora de la solicitud</label>
-            <input type="text" id="requestDateTime" class="form-control" [value]="solicitud.requestDateTime | date:'yyyy-MM-dd HH:mm'" disabled>
-          </div>
-        </div>
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label for="status" class="form-label">Estado</label>
-            <select id="status" class="form-select" [(ngModel)]="solicitud.status" name="status" [ngClass]="getStatusClass(solicitud.status)" (change)="onStatusChange()">
-              <option *ngFor="let option of statusOptions" [value]="option.value" [ngClass]="getStatusClass(option.value)">
-                {{option.label}}
-              </option>
-            </select>
-          </div>        
-          <div class="col-md-6">
-            <label for="attendingUser" class="form-label">Usuario atendiendo</label>
-            <input type="text" id="attendingUser" class="form-control" [value]="solicitud.attendingUser || 'No asignado'" disabled>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="message" class="form-label">Mensaje</label>
-          <textarea id="message" class="form-control" rows="3" readonly>{{solicitud.message}}</textarea>
-        </div>
-      </form>
-      <p class="text-muted mt-3">Por favor, recuerda actualizar el estado de la solicitud una vez haya sido atendida.</p>
-      <div *ngIf="updateMessage" class="alert mt-3" [ngClass]="{'alert-success': updateMessage.includes('éxito'), 'alert-danger': updateMessage.includes('Error')}">
-        {{ updateMessage }}
+        <h1 class="text-black mb-0">Solicitud No. {{request?.id}}</h1>
       </div>
-      <div *ngIf="updateMessage" class="alert mt-3" [ngClass]="{'alert-success': updateMessage.includes('éxito'), 'alert-danger': updateMessage.includes('Error')}">
-        {{ updateMessage }}
-      </div>
-      
-      <div class="d-flex justify-content-end align-items-center mt-4">
-        <div *ngIf="statusChanged" class="alert alert-warning mb-0 flex-grow-1 me-3">
-          Se han realizado cambios. No olvide actualizar.
-        </div>
-        <button type="button" class="btn btn-primary" (click)="updateStatus()" [disabled]="!statusChanged">Actualizar</button>      
-      </div>
-    </section>
+  </div>         
+  <main class="container-fluid w-100 px-5 pb-5 pt-3">
+      <h2 class="text-black my-3">Información principal de solicitud</h2>
+      <section *ngIf="request">
+        <form class="bg-white p-4 rounded shadow-sm">
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="interestedPersonName" class="form-label">Nombre del interesado:</label>
+              <input type="text" id="interestedPersonName" class="form-control" [value]="request.missingPersonName" disabled>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="missingPersonName" class="form-label">Nombre de la persona desaparecida:</label>
+              <input type="text" id="missingPersonName" class="form-control" [value]="request.missingPersonName" disabled>
+            </div>
+          </div>
+  
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="relationship" class="form-label">Relación:</label>
+              <input type="text" id="relationship" class="form-control" [value]="request.relationship" disabled>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="phoneNumber" class="form-label">Número de teléfono:</label>
+              <input type="text" id="phoneNumber" class="form-control" [value]="request.phoneNumber" disabled>
+            </div>
+          </div>
+  
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="email" class="form-label">Correo electrónico:</label>
+              <input type="email" id="email" class="form-control" [value]="request.email" disabled>
+            </div>
+
+            <div class="col-md-6">
+              <label for="requestDateTime" class="form-label">Fecha y hora de la solicitud:</label>
+              <input type="text" id="requestDateTime" class="form-control" [value]="formatDateTime(request.requestDateTime)" disabled>
+            </div>
+          </div>
+  
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="status" class="form-label">Estado</label>
+              <select id="status" class="form-select" [(ngModel)]="request.status" name="status" [ngClass]="getStatusClass(request.status)" (change)="onStatusChange()">
+                <option *ngFor="let option of statusOptions" [value]="option.value" [ngClass]="getStatusClass(option.value)">
+                  {{option.label}}
+                </option>
+              </select>
+            </div>       
+
+            <div class="col-md-6">
+              <label for="attendingUser" class="form-label">Usuario atendiendo:</label>
+              <input type="text" id="attendingUser" class="form-control" [value]="request.attendingUser || 'No asignado'" disabled>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Mensaje</label>
+            <textarea id="message" class="form-control" rows="3" readonly>{{request.message}}</textarea>
+          </div>
+
+          <p class="text-muted mt-3">Por favor, recuerda actualizar el estado de la solicitud una vez haya sido atendida.</p>
+          <div *ngIf="updateMessage" class="alert mt-3" [ngClass]="{'alert-success': updateMessage.includes('éxito'), 'alert-danger': updateMessage.includes('Error')}">
+            {{ updateMessage }}
+          </div>
+          
+          <div class="d-flex justify-content-end align-items-center mt-4">
+            <div *ngIf="statusChanged" class="alert alert-warning mb-0 flex-grow-1 me-3">
+              Se han realizado cambios. No olvide actualizar.
+            </div>
+            <button type="button" class="btn btn-primary" (click)="updateStatus()" [disabled]="!statusChanged">Actualizar</button>      
+          </div>
+
+        </form>
+      </section>
   </main>
 </div>
-

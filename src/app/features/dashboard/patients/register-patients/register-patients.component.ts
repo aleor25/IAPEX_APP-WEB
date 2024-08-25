@@ -2,13 +2,13 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import { RegisterPatientsService } from '../../core/services/register-patients/register-patients.service';
+import { PatientService } from '../../../../core/services/dashboard/patients/patient.service';
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 @Component({
@@ -34,7 +34,7 @@ export class RegisterPatientsComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private registerPatientsService: RegisterPatientsService,
+    private patientService: PatientService,
   ) {
     this.registerPatients = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -59,28 +59,27 @@ export class RegisterPatientsComponent {
   
   onSubmit(): void {
     if (this.registerPatients.valid) {
-      const formData = new FormData ();//
-      console.log(this.registerPatients.value);
+      const formData = new FormData();
+      
+      // Añadir los campos del formulario al FormData
+      Object.keys(this.registerPatients.value).forEach(key => {
+        if (key !== 'imageFiles') {
+          formData.append(key, this.registerPatients.value[key]);
+        }
+      });
   
-          // Añadir los campos del formulario al FormData
-    Object.keys(this.registerPatients.value).forEach(key => {
-      if (key !== 'imageFiles') {
-        formData.append(key, this.registerPatients.value[key]);
-      }
-    });
-
-    // Añadir los archivos de imagen
-    const imageFiles = this.registerPatients.get('imageFiles') as FormArray;
-    imageFiles.controls.forEach((control, index) => {
-      formData.append('imageFile', control.value);
-    });
-
+      // Añadir los archivos de imagen
+      const imageFiles = this.registerPatients.get('imageFiles') as FormArray;
+      imageFiles.controls.forEach((control, index) => {
+        formData.append('imageFile', control.value);
+      });
+  
       this.loading = true;
   
-      this.registerPatientsService.registerPatients(formData).pipe(
+      this.patientService.registerPatients(formData).pipe(
         tap(() => {
           this.errorMessage = null;
-          this.router.navigate(['/dashboard/general-view']);
+          this.router.navigate(['/dashboard/patients']);
         }),
         catchError(error => {
           console.error('Registro fallido', error);
@@ -93,9 +92,8 @@ export class RegisterPatientsComponent {
       ).subscribe();
     } else {
       this.registerPatients.markAllAsTouched();
-    }
-  }
-  
+    }
+  }
 
   pondOptions = {
     class: 'my-filepond',
@@ -132,7 +130,7 @@ export class RegisterPatientsComponent {
   pondHandleAddFile(event: any) {
     console.log('Se ha agregado un archivo', event);
     const imageFiles = this.registerPatients.get('imageFiles') as FormArray;
-    imageFiles.push(this.formBuilder.control(event.file));
+    imageFiles.push(this.formBuilder.control(event.file.file));
   }
   
   pondHandleRemoveFile(event: any) {
@@ -148,3 +146,4 @@ export class RegisterPatientsComponent {
   }
   
 }
+

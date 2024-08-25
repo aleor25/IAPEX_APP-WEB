@@ -1,11 +1,11 @@
 import { Component, AfterViewInit } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { ContactRequestService } from '../../../core/services/dashboard/contactRequest/contact-request.service';
-import { PatientService } from '../../../core/services/patients/patient.service';
 import { Patient } from '../../../core/models/patients/patient.model';
 import * as am5percent from "@amcharts/amcharts5/percent";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
+import { ContactRequestService } from '../../../core/services/dashboard/contact-request/contact-request.service';
+import { PatientService } from '../../../core/services/dashboard/patients/patient.service';
 
 @Component({
   selector: 'general-view',

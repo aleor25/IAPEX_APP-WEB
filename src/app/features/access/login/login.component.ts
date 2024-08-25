@@ -70,7 +70,6 @@ export class LoginComponent {
         console.log('Email y contraseña presentes, intentando iniciar sesión...');
         this.userWebService.login(email, password).subscribe(
           response => {
-            console.log('Respuesta de login:', response);
             if (response.token) {
               console.log('Token recibido, estableciendo token y navegando al dashboard...');
               this.userWebService.setTokenWithExpiration(response.token);
