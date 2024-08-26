@@ -93,26 +93,6 @@
                 <small class="text-danger" *ngIf="patientForm.get('hair')?.errors?.['required']">El tipo de cabello es requerido.</small>
               </div>
             </div>
-            <div class="col">
-              <label for="hairColor" class="form-label">Color de cabello*</label>
-              <select id="hairColor" class="form-select" formControlName="hairColor">
-                <option value="" selected>Seleccione un color de cabello</option>
-                <option *ngFor="let color of hairColorOptions" [value]="color">{{color}}</option>
-              </select>
-              <div *ngIf="patientForm.get('hairColor')?.touched && patientForm.get('hairColor')?.invalid">
-                <small class="text-danger" *ngIf="patientForm.get('hairColor')?.errors?.['required']">El color de cabello es requerido.</small>
-              </div>
-            </div>
-            <div class="col">
-              <label for="hairLength" class="form-label">Largo del cabello*</label>
-              <select id="hairLength" class="form-select" formControlName="hairLength">
-                <option value="" selected>Seleccione el largo del cabello</option>
-                <option *ngFor="let length of hairLengthOptions" [value]="length">{{length}}</option>
-              </select>
-              <div *ngIf="patientForm.get('hairLength')?.touched && patientForm.get('hairLength')?.invalid">
-                <small class="text-danger" *ngIf="patientForm.get('hairLength')?.errors?.['required']">El largo del cabello es requerido.</small>
-              </div>
-            </div>
           </div>
   
           <div class="row mb-3">
@@ -195,3 +175,4 @@
       </section>        
     </main>
   </div>
+  

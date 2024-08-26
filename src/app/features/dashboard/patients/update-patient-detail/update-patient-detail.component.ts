@@ -46,8 +46,6 @@ export class UpdatePatientDetailComponent implements OnInit {
       eyeColor: ['', Validators.required],
       skinColor: ['', Validators.required],
       hair: ['', Validators.required],
-      hairColor: ['', Validators.required],
-      hairLength: ['', Validators.required],
       complexion: ['', Validators.required],
       medicalConditions: ['', Validators.maxLength(255)],
       distinctiveFeatures: ['', Validators.maxLength(255)],
@@ -154,7 +152,7 @@ export class UpdatePatientDetailComponent implements OnInit {
       if (image.imageUrl) {
         const response = await fetch(image.imageUrl);
         const blob = await response.blob();
-        const file = new File([blob], `existing_image_${index}.jpg`, { type: 'image/jpeg' });
+        const file = new File([blob], image.image, { type: 'image/jpeg' });
         formData.append('imageFile', file);
       }
     }) || [];
