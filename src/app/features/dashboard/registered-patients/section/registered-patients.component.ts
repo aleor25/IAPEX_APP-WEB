@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { PatientService } from '../../../../core/services/patients/patient.service';
 import { Patient } from '../../../../core/models/patients/patient.model';
+import { StatusPipe } from '../../../../shared/pipes/status.pipe';
+import { TextDatePipe } from '../../../../shared/pipes/text-date.pipe';
 
 @Component({
   selector: 'app-registered-patients',
   templateUrl: './registered-patients.component.html',
   styleUrls: ['./registered-patients.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, StatusPipe, TextDatePipe]
 })
 export class RegisteredPatientsComponent implements OnInit {
   patients: Patient[] = [];
@@ -45,10 +47,12 @@ export class RegisteredPatientsComponent implements OnInit {
   }
 
   deletePatient(id: number): void {
-    this.patientService.deletePatient(id).subscribe(() => {
-      this.patients = this.patients.filter(patient => patient.id !== id);
-      console.log('Paciente eliminado con ID:', id);
-    });
+    if (confirm('¿Estás seguro de que deseas eliminar este paciente?')) {
+      this.patientService.deletePatient(id).subscribe(() => {
+        this.patients = this.patients.filter(patient => patient.id !== id);
+        console.log('Paciente eliminado:', id);
+      });
+    }
   }
 
   private createFormData(patient: Patient): FormData {

@@ -117,8 +117,7 @@ export class GeneralViewComponent implements AfterViewInit {
         console.error('Error al cargar los pacientes', error);
       });
 
-       // Actualiza los elementos del DOM con los nuevos valores de las solicitudes
-    this.updateCardValues(totalRequests, newRequests, inReviewRequests, completedRequests);
+      
 
 
     });
@@ -408,22 +407,7 @@ export class GeneralViewComponent implements AfterViewInit {
   }
 
 
-  updateCardValues(total: number, weekly: number, active: number, completed: number) {
-    const totalElement = document.getElementById('totalNumber');
-    if (totalElement !== null) {
-      totalElement.innerText = total.toString();
-    }
   
-    const weeklyElement = document.getElementById('weeklyRegistrations');
-    if (weeklyElement !== null) {
-      weeklyElement.innerText = weekly.toString();
-    }
-  
-    const activeElement = document.getElementById('activeCount');
-    if (activeElement !== null) {
-      activeElement.innerText = active.toString();
-    }
-  }
 
   processAgeData(patients: Patient[]): any[] {
     const ageCounts: { [key: string]: number } = {
