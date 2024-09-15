@@ -14,3 +14,11 @@
     color: rgb(245, 68, 45) !important;
   }
   
+  input[disabled] {
+    background-color: transparent;
+    color: inherit; /* Mantiene el color del texto original */
+    border: none; /* Elimina los bordes */
+    box-shadow: none; /* Elimina cualquier sombra que pueda parecer un borde */
+    text-align: start;
+    padding: 0px;
+  }

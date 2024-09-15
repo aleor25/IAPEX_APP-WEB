@@ -7,7 +7,7 @@ export interface Patient {
     gender: string;
     approximateAge: number;
     registrationDateTime: string;
-    registeringUserId: number;
+    registeringUser: number;
     active: boolean;
     skinColor: string;
     hair: string;
@@ -16,7 +16,7 @@ export interface Patient {
     approximateHeight: number;
     medicalConditions?: string;
     distinctiveFeatures?: string;
-    institution: Institution;
+    institution: string;
     images: Image[];
     additionalNotes?: string;
 }

@@ -1,0 +1,14 @@
+input[disabled] {
+    background-color: transparent;
+    color: inherit; /* Mantiene el color del texto original */
+    border: none; /* Elimina los bordes */
+    box-shadow: none; /* Elimina cualquier sombra que pueda parecer un borde */
+  }
+  
+  .input-group-text {
+    background-color: transparent; /* Hace el fondo del ícono transparente */
+    border: none; /* Elimina los bordes del ícono */
+    box-shadow: none; /* Elimina cualquier sombra del ícono */
+  }
+
+  

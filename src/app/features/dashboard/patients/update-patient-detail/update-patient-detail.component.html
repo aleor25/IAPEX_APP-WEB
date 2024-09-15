@@ -1,0 +1,178 @@
+<div class="bg-light vh-100 overflow-auto">
+    <div class="border-bottom-dark-gray bg-white d-flex flex-column justify-content-center py-3">
+      <div class="d-flex align-items-center mb-2">
+        <i class="material-icons text-black mr-2 px-3" routerLink="/dashboard/patients" style="cursor: pointer;">arrow_back</i>
+        <h1 class="text-black mb-0">Actualizar Paciente No. {{selectedPatient?.id}}</h1>
+      </div>
+    </div>         
+    <main class="container-fluid w-100 px-5 pb-5 pt-3">
+      <h2 class="text-black my-3">Actualizar información del paciente</h2>
+      <section *ngIf="selectedPatient">
+        <form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="bg-white p-5 rounded-4 shadow-sm">
+          <div class="row mb-3">
+            <div class="col">
+              <label for="name" class="form-label">Nombre*</label>
+              <input type="text" id="name" class="form-control" formControlName="name">
+              <div *ngIf="patientForm.get('name')?.touched && patientForm.get('name')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('name')?.errors?.['required']">El nombre es requerido.</small>
+                <small class="text-danger" *ngIf="patientForm.get('name')?.errors?.['maxlength']">El nombre no puede exceder los 50 caracteres.</small>
+              </div>
+            </div>
+            <div class="col">
+              <label for="lastName" class="form-label">Apellido paterno*</label>
+              <input type="text" id="lastName" class="form-control" formControlName="lastName">
+              <div *ngIf="patientForm.get('lastName')?.touched && patientForm.get('lastName')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('lastName')?.errors?.['required']">El apellido paterno es requerido.</small>
+                <small class="text-danger" *ngIf="patientForm.get('lastName')?.errors?.['maxlength']">El apellido paterno no puede exceder los 50 caracteres.</small>
+              </div>
+            </div>
+            <div class="col">
+              <label for="secondLastName" class="form-label">Apellido materno*</label>
+              <input type="text" id="secondLastName" class="form-control" formControlName="secondLastName">
+              <div *ngIf="patientForm.get('secondLastName')?.touched && patientForm.get('secondLastName')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('secondLastName')?.errors?.['required']">El apellido materno es requerido.</small>
+                <small class="text-danger" *ngIf="patientForm.get('secondLastName')?.errors?.['maxlength']">El apellido materno no puede exceder los 50 caracteres.</small>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col">
+              <label for="gender" class="form-label">Sexo*</label>
+              <select id="gender" class="form-select" formControlName="gender">
+                <option value="" selected>Seleccione el sexo</option>
+                <option *ngFor="let gender of genderOptions" [value]="gender">{{gender}}</option>
+              </select>
+              <div *ngIf="patientForm.get('gender')?.touched && patientForm.get('gender')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('gender')?.errors?.['required']">El sexo es requerido.</small>
+              </div>
+            </div>
+            <div class="col">
+              <label for="approximateAge">Edad aparente*</label>
+              <input type="number" id="approximateAge" formControlName="approximateAge" class="form-control" placeholder="Ingresa la edad aparente del paciente" maxlength="3">
+              <div *ngIf="patientForm.get('approximateAge')?.touched && patientForm.get('approximateAge')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('approximateAge')?.errors?.['required']">La edad aparente es requerida.</small>
+                <small class="text-danger" *ngIf="patientForm.get('approximateAge')?.errors?.['pattern']">La edad debe ser un número entero.</small>
+                <small class="text-danger" *ngIf="patientForm.get('approximateAge')?.errors?.['min']">La edad no puede ser menor a 0.</small>
+                <small class="text-danger" *ngIf="patientForm.get('approximateAge')?.errors?.['max']">La edad no puede ser mayor a 150.</small>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col">
+              <label for="skinColor" class="form-label">Color de piel*</label>
+              <select id="skinColor" class="form-select" formControlName="skinColor">
+                <option value="" selected>Seleccione un color de piel</option>
+                <option *ngFor="let color of skinColorOptions" [value]="color">{{color}}</option>
+              </select>
+              <div *ngIf="patientForm.get('skinColor')?.touched && patientForm.get('skinColor')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('skinColor')?.errors?.['required']">El color de piel es requerido.</small>
+              </div>
+            </div>
+            <div class="col">
+              <label for="eyeColor" class="form-label">Color de ojos*</label>
+              <select id="eyeColor" class="form-select" formControlName="eyeColor">
+                <option value="" selected>Seleccione un color de ojos</option>
+                <option *ngFor="let color of eyeColorOptions" [value]="color">{{color}}</option>
+              </select>
+              <div *ngIf="patientForm.get('eyeColor')?.touched && patientForm.get('eyeColor')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('eyeColor')?.errors?.['required']">El color de ojos es requerido.</small>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col">
+              <label for="hair" class="form-label">Tipo de cabello*</label>
+              <select id="hair" class="form-select" formControlName="hair">
+                <option value="" selected>Seleccione un Tipo de cabello</option>
+                <option *ngFor="let type of hairOptions" [value]="type">{{type}}</option>
+              </select>
+              <div *ngIf="patientForm.get('hair')?.touched && patientForm.get('hair')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('hair')?.errors?.['required']">El tipo de cabello es requerido.</small>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col">
+              <label for="complexion" class="form-label">Complexión*</label>
+              <select id="complexion" class="form-select" formControlName="complexion">
+                <option value="" selected>Seleccione la complexión del paciente</option>
+                <option *ngFor="let type of complexionOptions" [value]="type">{{type}}</option>
+              </select>
+              <div *ngIf="patientForm.get('complexion')?.touched && patientForm.get('complexion')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('complexion')?.errors?.['required']">La complexión es requerida.</small>
+              </div>
+            </div>
+            <div class="col">
+              <label for="approximateHeight">Altura aproximada (cm)*</label>
+              <input type="number" id="approximateHeight" formControlName="approximateHeight" class="form-control" placeholder="Ingresa la altura aproximada del paciente" maxlength="3">
+              <div *ngIf="patientForm.get('approximateHeight')?.touched && patientForm.get('approximateHeight')?.invalid">
+                <small class="text-danger" *ngIf="patientForm.get('approximateHeight')?.errors?.['required']">La altura aproximada es requerida.</small>
+                <small class="text-danger" *ngIf="patientForm.get('approximateHeight')?.errors?.['min']">La altura no puede ser menor a 50 cm.</small>
+                <small class="text-danger" *ngIf="patientForm.get('approximateHeight')?.errors?.['max']">La altura no puede ser mayor a 300 cm.</small>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col">
+              <label for="active" class="form-label">Estado*</label>
+              <select id="active" class="form-select" formControlName="active">
+                <option *ngFor="let option of statusOptions" [ngValue]="option.value">{{option.label}}</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="medicalConditions" class="form-label">Condiciones médicas</label>
+            <textarea id="medicalConditions" class="form-control" rows="3" formControlName="medicalConditions" placeholder="Ingresa las condiciones médicas del paciente"></textarea>
+            <div *ngIf="patientForm.get('medicalConditions')?.touched && patientForm.get('medicalConditions')?.invalid">
+              <small class="text-danger" *ngIf="patientForm.get('medicalConditions')?.errors?.['maxlength']">Las condiciones médicas no pueden exceder los 255 caracteres.</small>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="distinctiveFeatures" class="form-label">Señas particulares</label>
+            <textarea id="distinctiveFeatures" class="form-control" rows="3" formControlName="distinctiveFeatures" placeholder="Ingresa las señas particulares del paciente"></textarea>
+            <div *ngIf="patientForm.get('distinctiveFeatures')?.touched && patientForm.get('distinctiveFeatures')?.invalid">
+              <small class="text-danger" *ngIf="patientForm.get('distinctiveFeatures')?.errors?.['maxlength']">Las señas particulares no pueden exceder los 255 caracteres.</small>
+            </div>
+          </div>  
+  
+          <div class="mb-3">
+            <label for="additionalNotes" class="form-label">Notas adicionales</label>
+            <textarea id="additionalNotes" class="form-control" rows="3" formControlName="additionalNotes" placeholder="Ingresa notas adicionales del paciente"></textarea>
+            <div *ngIf="patientForm.get('additionalNotes')?.touched && patientForm.get('additionalNotes')?.invalid">
+              <small class="text-danger" *ngIf="patientForm.get('additionalNotes')?.errors?.['maxlength']">Las notas adicionales no pueden exceder los 255 caracteres.</small>
+            </div>
+          </div>
+  
+          <div class="mt-3">
+            <button type="submit" class="btn btn-primary" [disabled]="patientForm.invalid">Guardar cambios</button>
+            <button type="button" class="btn btn-secondary ms-2" (click)="cancelEdit()">Cancelar</button>
+          </div>
+        </form>
+      </section>
+  
+      <section *ngIf="selectedPatient">
+        <h2 class="text-black mb-3 mt-5">Actualizar imágenes del paciente</h2>
+        <form class="bg-white p-4 rounded-4 shadow-sm">
+          <div class="mb-3">
+            <div class="row">
+              <div *ngFor="let image of selectedPatient.images" class="col-3 p-1 d-flex justify-content-center align-items-center">
+                <img [src]="image.imageUrl" alt="Patient Image" class="img-thumbnail" style="max-width: 100%; max-height: 150px;">
+              </div>
+            </div>
+          </div>  
+          <div class="mb-3">
+            <label for="images" class="form-label">Actualizar imágenes (8-12 imágenes requeridas)</label>
+            <input type="file" id="images" class="form-control" (change)="onFileSelected($event)" multiple accept="image/*">
+          </div>        
+        </form>
+      </section>        
+    </main>
+  </div>
+  
