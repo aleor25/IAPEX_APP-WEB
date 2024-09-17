@@ -7,14 +7,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatDateTimePipe implements PipeTransform {
   transform(dateTime: string | Date): string {
     const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
-    return date.toLocaleString('es-ES', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    });
+
+    // Extraer los componentes de la fecha
+    const day = date.toLocaleString('es-ES', { day: 'numeric' });
+    const month = date.toLocaleString('es-ES', { month: 'long' });
+    const year = date.toLocaleString('es-ES', { year: 'numeric' });
+    const hour = date.toLocaleString('es-ES', { hour: 'numeric', hour12: true });
+    const minute = date.toLocaleString('es-ES', { minute: 'numeric' });
+
+    // Formato final
+    return `${day} de ${month} de ${year} a las ${hour}:${minute}`;
   }
 }

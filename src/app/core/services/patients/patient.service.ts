@@ -41,7 +41,7 @@ export class PatientService {
 
     registerPatients(formData: FormData): Observable<any> {
         return this.httpClient.post(this.URL, formData);
-      }
+    }
 
 }
 

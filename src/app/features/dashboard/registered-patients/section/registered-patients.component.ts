@@ -4,21 +4,27 @@ import { PatientService } from '../../../../core/services/patients/patient.servi
 import { Patient } from '../../../../core/models/patients/patient.model';
 import { StatusPipe } from '../../../../shared/pipes/status.pipe';
 import { TextDatePipe } from '../../../../shared/pipes/text-date.pipe';
+import DataTable from 'datatables.net-dt';
+
 
 @Component({
   selector: 'app-registered-patients',
   templateUrl: './registered-patients.component.html',
-  styleUrls: ['./registered-patients.component.css'],
   standalone: true,
   imports: [CommonModule, StatusPipe, TextDatePipe]
 })
 export class RegisteredPatientsComponent implements OnInit {
   patients: Patient[] = [];
 
+  
+
   constructor(private patientService: PatientService) {}
 
   ngOnInit(): void {
     this.getAllPatients();
+    let table = new DataTable('#myTable', {
+      
+  });
   }
 
   getAllPatients(): void {

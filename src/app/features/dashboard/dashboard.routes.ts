@@ -3,7 +3,6 @@ import { DashboardComponent } from "./dashboard.component";
 import { GeneralViewComponent } from "./general-view/general-view.component";
 import { NotificationsComponent } from "./notifications/notifications.component";
 import { SettingsComponent } from "./settings/settings.component";
-import { ContactRequestDetailComponent } from "./contact-requests/contact-request-detail/contact-request-detail.component";
 import { ContactRequestsComponent } from "./contact-requests/section/contact-requests.component";
 import { PatientsComponent } from "./patients/section/patients.component";
 

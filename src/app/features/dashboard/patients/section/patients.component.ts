@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Patient } from '../../../../core/models/patients/patient.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { PatientService } from '../../../../core/services/dashboard/patients/patient.service';
+import { PatientsTableComponent } from '../../../../shared/tables/patients-table/patients-table.component';
 @Component({
   selector: 'app-patients',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, PatientsTableComponent],
   templateUrl: './patients.component.html',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], 
 })
 export class PatientsComponent implements OnInit {
   patients: Patient[] = [];
@@ -21,6 +23,8 @@ export class PatientsComponent implements OnInit {
     private patientService: PatientService,
     private router: Router
   ) {}
+
+  table: string[] = [];
 
   ngOnInit(): void {
     this.getAllPatients();
@@ -39,7 +43,7 @@ export class PatientsComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        this.error = 'Error al cargar los pacientes: ' + err.message;
+        this.error = 'Error al cargar los datos: ' + err.message;
         this.loading = false;
       }
     });
