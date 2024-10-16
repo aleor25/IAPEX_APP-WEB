@@ -1,0 +1,163 @@
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ContactRequest } from '../../../core/models/contact-request/contact-request.model';
+import { Router } from '@angular/router';
+import { ContactRequestService } from '../../../core/services/dashboard/contact-request/contact-request.service';
+declare var $: any;
+
+@Component({
+  selector: 'app-contacts-table',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './contacts-table.component.html',
+  styleUrls: ['./contacts-table.component.css']
+})
+export class ContactsTableComponent implements OnInit {
+  @Input() table: string[] = [];
+  contactsData: ContactRequest[] = [];
+  private _contactRequestService = inject(ContactRequestService);
+  private _router = inject(Router);
+
+  ngOnInit(): void {
+    this.loadContactRequests();
+  }
+
+  private loadContactRequests(): void {
+    this._contactRequestService.getAllContactRequests().subscribe({
+      next: (data) => {
+        console.log('Datos de solicitudes de contacto recibidos:', data);
+        this.contactsData = data;
+        this.initContactsTable();
+      },
+      error: (err) => console.error('Error al obtener los datos: ', err)
+    });
+  }
+
+  private initContactsTable(): void {
+    const table = $('#contactsTable').DataTable({
+      ordering: false,
+      columnDefs: [
+        { "width": "108px", "targets": [3] },
+        { "width": "173px", "targets": [5] }
+      ],
+      scrollX: true,
+      data: this.contactsData,
+      columns: [
+        { data: 'id' },
+        { data: 'interestedPersonName' },
+        { data: 'missingPersonName' },
+        { data: 'relationship' },
+        { data: 'phoneNumber' },
+        { data: 'email' },
+        { data: 'requestDateTime', render: (data: any) => this.formatDateTime(data) },
+        {
+          data: 'status',
+          render: (data: any) => `<span class="${this.getStatusClass(data)}">${this.formatStatus(data)}</span>`
+        },
+      ],
+      language: {
+        "processing": "Procesando...",
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "zeroRecords": "No se encontraron resultados",
+        "emptyTable": "Ningún dato disponible en esta tabla",
+        "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "search": "Buscar:",
+        "loadingRecords": "Cargando...",
+        "paginate": {
+          "first": "‹‹",
+          "last": "››",
+          "next": "›",
+          "previous": "‹"
+        },
+      },
+      initComplete: () => {
+        this.initComplete();
+      }
+    });
+
+    $('#contactsTable tbody').on('click', 'tr', (event: any) => {
+        const data = table.row(event.currentTarget).data();
+        if (data && data.id) {
+          this.viewDetails(data.id);
+        }
+    });
+  }
+
+  viewDetails(id: number | undefined): void {
+    if (id !== undefined) {
+      this._router.navigate(['/contact-request-detail', id]);
+    }
+}
+  private initComplete(): void {
+    const table = $('#contactsTable').DataTable();
+    const resetButton = document.createElement('button');
+    resetButton.className = 'btn btn-sm btn-outline-secondary ms-3 d-flex align-items-center';
+    resetButton.innerHTML = `
+      <span class="d-none d-md-inline me-2">Restablecer filtros</span>
+      <i class="bi bi-arrow-clockwise" title="Restablecer filtros"></i>
+    `;
+    resetButton.addEventListener('click', () => this.resetFilters(table));
+    
+    const paginationContainer = document.querySelector('.dt-start');
+    if (paginationContainer) {
+      paginationContainer.classList.add('d-flex', 'align-items-center');
+      paginationContainer.appendChild(resetButton);
+    }
+  }
+
+  private resetFilters(table: any): void {
+    table.search('').columns().search('').draw();
+  }
+
+  refreshTable(): void {
+    this._contactRequestService.getAllContactRequests().subscribe({
+      next: (data) => {
+        console.log('Datos actualizados:', data);
+        this.contactsData = data;
+        const table = $('#contactsTable').DataTable();
+        table.clear().rows.add(this.contactsData).draw();
+      },
+      error: (err) => console.error('Error al actualizar las solicitudes de contacto', err)
+    });
+  }
+
+  private formatDateTime(dateTime: string | Date): string {
+    const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('es-ES', { month: 'long' });
+    const year = date.getFullYear();
+    const time = date.toLocaleString('es-ES', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    });
+    return `${day} de ${month} de ${year} a las ${time}`;
+  }
+
+  private formatStatus(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      'nueva': 'Nueva',
+      'no_encontrada': 'No encontrada',
+      'encontrada': 'Encontrada',
+      'en_revision': 'En revisión'
+    };
+    return statusMap[status.toLowerCase()] || status;
+  }
+
+  private getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'nueva':
+        return 'badge bg-primary';
+      case 'no_encontrada':
+        return 'badge bg-warning';
+      case 'encontrada':
+        return 'badge bg-success';
+      case 'en_revision':
+        return 'badge bg-danger';
+      default:
+        return 'badge bg-secondary';
+    }
+  }
+}
