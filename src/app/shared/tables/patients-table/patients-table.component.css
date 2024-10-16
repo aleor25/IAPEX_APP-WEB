@@ -1,6 +1,21 @@
-/* Asegurar que el texto se ajuste dentro de la celda y pase a la siguiente línea */
+table {
+  table-layout: fixed; /* Fija el ancho de las columnas */
+  width: 100%; /* Asegúrate de que la tabla ocupe todo el ancho disponible */
+}
+
+td,
 th {
-    white-space: normal; /* Permite que el texto haga saltos de línea */
-    word-wrap: break-word; /* Rompe palabras largas que exceden el ancho de la columna */
-  }
-  
+  white-space: nowrap; /* Evita el salto de línea en celdas */
+}
+
+.fixed-action-column {
+  position: sticky;
+  right: 0; /* Mantiene la columna fija a la derecha */
+  background: white; /* Color de fondo para la columna fija */
+  z-index: 1; /* Asegúrate de que esté sobre otros elementos */
+}
+
+/* Opcional: Agregar un borde a la columna fija */
+.fixed-action-column {
+  border-left: 1px solid #ffffff; /* O el color que prefieras */
+}

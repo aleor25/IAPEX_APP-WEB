@@ -56,13 +56,25 @@ export class PatientsTableComponent implements OnInit {
         { data: 'registrationDateTime', render: (data: any) => this.formatDateTime(data) },
         { data: 'registeringUser' },
         { data: 'active', render: (data: any) => this.status(data) },
-        { data: null,
+        {
+          data: null,
           render: (data: any) => `Color de piel: ${data.skinColor}.
                                   Color de pelo: ${data.hair}.
                                   ${data.complexion}.
                                   ${data.eyeColor}.
                                   ${data.approximateHeight} cm`
-         },
+        },
+        {
+          data: null,
+          className: 'text-center align-middle text-nowrap-small',
+          render: (data: any) => `
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-primary btn-sm me-1 edit-button" data-id="${data.id}">
+                <span class="material-symbols-outlined fs-5">visibility</span>
+              </button>
+            </div>
+          `
+        }        
       ],
       language: {
         "processing": "Procesando...",
@@ -88,19 +100,29 @@ export class PatientsTableComponent implements OnInit {
       }
     });
 
-    // Aquí añadimos el evento de click a las filas de la tabla
-    $('#patientsTable tbody').on('click', 'tr', (event: any) => {
-      const data = table.row(event.currentTarget).data(); // Obtener los datos de la fila seleccionada
-      if (data && data.id) {
-        this.navigateToPatientDetail(data.id); // Navegar a la vista de detalles del paciente
-      }
+    // Evento de clic para editar
+    $('#patientsTable tbody').on('click', '.edit-button', (event: any) => {
+      const patientId = $(event.currentTarget).data('id');
+      this.openEditPatientModal(patientId); // Llama a la función para abrir el modal de edición
+    });
+
+    // Evento de clic para eliminar
+    $('#patientsTable tbody').on('click', '.delete-button', (event: any) => {
+      const patientId = $(event.currentTarget).data('id');
+      this.confirmDeletePatient(patientId); // Llama a la función para confirmar la eliminación
     });
   }
 
-  private navigateToPatientDetail(patientId: number): void {
-    this._router.navigate(['/get-patient-detail', patientId]); // Navegar a la página del detalle del paciente
+  openEditPatientModal(patientId: number): void {
+    this._router.navigate(['/get-patient-detail', patientId]); // Navega a la ruta de edición del paciente
+    // Aquí abrirías el modal de edición para ese paciente
   }
-  
+
+  confirmDeletePatient(patientId: number): void {
+    console.log('Borrar paciente con ID:', patientId);
+    // Aquí abrirías el modal de confirmación para eliminar
+  }
+
 
   initComplete() {
     const table = $('#patientsTable').DataTable();
@@ -185,5 +207,5 @@ export class PatientsTableComponent implements OnInit {
   status(status: boolean): string {
     return status ? 'No encontrado' : 'Encontrado';
   }
-  
+
 }

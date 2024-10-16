@@ -227,7 +227,8 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="medicalConditions">Condiciones médicas</label>
-                    <textarea type="text" class="form-control" id="medicalConditions" formControlName="medicalConditions"
+                    <textarea type="text" class="form-control" id="medicalConditions"
+                        formControlName="medicalConditions"
                         placeholder="Ingresa las condiciones médicas del paciente"> </textarea>
                     <div
                         *ngIf="registerPatients.get('medicalConditions')?.touched && registerPatients.get('medicalConditions')?.invalid">
@@ -243,7 +244,8 @@
                 <div class="col">
                     <label for="distinctiveFeatures">Señas particulares</label>
                     <textarea type="text" class="form-control" id="distinctiveFeatures"
-                        formControlName="distinctiveFeatures" placeholder="Ingresa las señas particulares del paciente"> </textarea>
+                        formControlName="distinctiveFeatures"
+                        placeholder="Ingresa las señas particulares del paciente"> </textarea>
                     <div
                         *ngIf="registerPatients.get('distinctiveFeatures')?.touched && registerPatients.get('distinctiveFeatures')?.invalid">
                         <small class="error-message"

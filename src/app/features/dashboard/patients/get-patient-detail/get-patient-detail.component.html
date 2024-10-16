@@ -1,12 +1,26 @@
 <div class="bg-white d-flex flex-column justify-content-center py-3 header border">
-  <div class="d-flex align-items-center ps-4">
+  <div class="d-flex align-items-center ps-4 pe-5">
     <span class="material-symbols-outlined mr-2 px-3 fs-1" routerLink="/dashboard/patients"
       style="cursor: pointer; color: #666666;">
       arrow_back
     </span>
     <h2 class="mb-0" style="color: #666666;">Paciente No. {{selectedPatient?.id}}</h2>
+
+
+    <div class="ms-auto">
+      <button class="btn btn-primary btn-sm me-2" title="Editar paciente" [disabled]="!isFormModified" (click)="savePatient()">
+        <span class="material-symbols-outlined fs-5">edit</span>
+      </button>
+
+      <button class="btn btn-danger btn-sm delete-button" 
+    (click)="selectedPatient ? deletePatient(selectedPatient.id) : null">
+    <span class="material-symbols-outlined fs-5">delete</span>
+</button>
+
+    </div>
   </div>
 </div>
+
 
 <div class="m-5 content">
   <div class="bg-white px-5 py-4 rounded-4 shadow-sm">
@@ -14,10 +28,21 @@
       <h4>Información principal</h4>
     </div>
     <section *ngIf="selectedPatient">
+      <form [formGroup]="patientForm">
       <div class="row mb-3">
         <div class="col">
           <label for="name">Nombre</label>
-          <input type="text" class="form-control" id="name" [value]="selectedPatient.name" formControlName="name">
+          <input type="text" class="form-control" id="name" [value]="selectedPatient.name" formControlName="name"
+          placeholder="Ingresa el nombre del paciente">
+          <div *ngIf="patientForm.get('name')?.touched && patientForm.get('name')?.invalid">
+            <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['required']">
+                El nombre del paciente es requerido.
+            </small>
+            <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['maxlength']">
+                El nombre no puede exceder los 50 caracteres.
+            </small>
+        </div>
+        
         </div>
 
         <div class="col">
@@ -36,8 +61,10 @@
 
         <div class="col">
           <label for="secondLastName">Sexo</label>
-          <input type="text" class="form-control" id="secondLastName" [value]="selectedPatient.gender"
-            formControlName="gender">
+            <select id="gender" class="form-select" formControlName="gender" [value]="selectedPatient.gender">
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+          </select>
         </div>
       </div>
 
@@ -50,27 +77,32 @@
 
         <div class="col">
           <label for="skinColor">Color de piel</label>
-          <input type="text" class="form-control" id="skinColor" [value]="selectedPatient.skinColor"
-            formControlName="skinColor">
+            <select id="skinColor" class="form-select" formControlName="skinColor" [value]="selectedPatient.skinColor">
+              <option value="Clara">Clara</option>
+              <option value="Media">Moreno</option>
+              <option value="Oscura">Negro</option>
+          </select>
         </div>
       </div>
 
       <div class="row mb-3">
         <div class="col">
           <label for="eyeColor">Color de ojos</label>
-          <input type="text" class="form-control" id="eyeColor" [value]="selectedPatient.eyeColor"
-            formControlName="eyeColor">
+            <select id="eyeColor" class="form-select" formControlName="eyeColor" [value]="selectedPatient.eyeColor">
+              <option value="Azul">Azul</option>
+              <option value="Verde">Verde</option>
+              <option value="Café">Café</option>
+              <option value="Gris">Gris</option>
+              <option value="Negro">Negro</option>
+              <option value="Avellana">Avellana</option>
+              <option value="Ambar">Ámbar</option>
+              <option value="Heterocromático">Heterocromático</option>
+          </select>
         </div>
 
         <div class="col">
-          <label for="hair">Tipo de cabello</label>
+          <label for="hair">Cabello</label>
           <input type="text" class="form-control" id="hair" [value]="selectedPatient.hair" formControlName="hair">
-        </div>
-
-        <div class="col">
-          <label for="hairColor">Color de cabello</label>
-          <input type="text" class="form-control" id="hairColor" [value]="selectedPatient.eyeColor"
-            formControlName="hairColor">
         </div>
       </div>
 
@@ -82,8 +114,12 @@
         </div> -->
         <div class="col">
           <label for="complexion">Complexión</label>
-          <input type="text" class="form-control" id="complexion" [value]="selectedPatient.complexion"
-            formControlName="complexion">
+            <select id="complexion" class="form-select" formControlName="complexion" [value]="selectedPatient.complexion">
+              <option value="Delgada">Delgada</option>
+              <option value="Atlética">Atlética</option>
+              <option value="Promedio">Promedio</option>
+              <option value="Robusta">Robusta</option>
+          </select>
         </div>
       </div>
 
@@ -131,8 +167,8 @@
           </div>
         </div>
       </div>
-
+      </form>
     </section>
-    
+
   </div>
 </div>
