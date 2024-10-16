@@ -1,6 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { PatientService } from '../../../core/services/patients/patient.service';
 import { Patient } from '../../../core/models/patients/patient.model';
+import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -18,6 +19,8 @@ export class PatientsTableComponent implements OnInit {
   patientsData: Patient[] = [];
 
   private _patientsService = inject(PatientService)
+  private _router = inject(Router); // Inyecta el router
+
 
   ngOnInit(): void {
     this._patientsService.getAllPatients().subscribe(
@@ -33,10 +36,14 @@ export class PatientsTableComponent implements OnInit {
   private initPatientsTable(): void {
     const table = $('#patientsTable').DataTable({
       ordering: false,
+      columnDefs: [
+        { "width": "108px", "targets": [3] },
+        { "width": "173px", "targets": [5] }
+      ],
       scrollX: true,
       data: this.patientsData,
       columns: [
-        { data: 'id', visible: false },
+        { data: 'id' },
         {
           data: null,
           render: (data: any) => `${data.name} ${data.lastName} ${data.secondLastName}`,
@@ -49,8 +56,13 @@ export class PatientsTableComponent implements OnInit {
         { data: 'registrationDateTime', render: (data: any) => this.formatDateTime(data) },
         { data: 'registeringUser' },
         { data: 'active', render: (data: any) => this.status(data) },
-        { data: 'distinctiveFeatures' }, 
-        { data: 'additionalNotes', className: 'dt-column size-column' },
+        { data: null,
+          render: (data: any) => `Color de piel: ${data.skinColor}.
+                                  Color de pelo: ${data.hair}.
+                                  ${data.complexion}.
+                                  ${data.eyeColor}.
+                                  ${data.approximateHeight} cm`
+         },
       ],
       language: {
         "processing": "Procesando...",
@@ -75,7 +87,20 @@ export class PatientsTableComponent implements OnInit {
         this.initComplete();
       }
     });
+
+    // Aquí añadimos el evento de click a las filas de la tabla
+    $('#patientsTable tbody').on('click', 'tr', (event: any) => {
+      const data = table.row(event.currentTarget).data(); // Obtener los datos de la fila seleccionada
+      if (data && data.id) {
+        this.navigateToPatientDetail(data.id); // Navegar a la vista de detalles del paciente
+      }
+    });
   }
+
+  private navigateToPatientDetail(patientId: number): void {
+    this._router.navigate(['/get-patient-detail', patientId]); // Navegar a la página del detalle del paciente
+  }
+  
 
   initComplete() {
     const table = $('#patientsTable').DataTable();
@@ -160,4 +185,5 @@ export class PatientsTableComponent implements OnInit {
   status(status: boolean): string {
     return status ? 'No encontrado' : 'Encontrado';
   }
+  
 }

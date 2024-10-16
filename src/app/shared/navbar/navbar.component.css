@@ -10,7 +10,7 @@
     transition: background-color 0.3s, border-radius 0.3s;
 }
 
-.nav-link {
+.nav-link-icon {
     background-color: transparent;
     color: #666666;
     border-radius: 50%;

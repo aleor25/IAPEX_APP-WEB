@@ -2,14 +2,14 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Patient } from '../../../../core/models/patients/patient.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { PatientService } from '../../../../core/services/dashboard/patients/patient.service';
 import { PatientsTableComponent } from '../../../../shared/tables/patients-table/patients-table.component';
 @Component({
   selector: 'app-patients',
   standalone: true,
-  imports: [FormsModule, CommonModule, PatientsTableComponent],
+  imports: [FormsModule, CommonModule, PatientsTableComponent, RouterLink],
   templateUrl: './patients.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA], 
 })

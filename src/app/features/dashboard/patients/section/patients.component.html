@@ -1,6 +1,14 @@
-<div class="container mt-4">
+<div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4>Pacientes registrados</h4>
+        <h4 class="m-0">Pacientes registrados</h4>
+        <div>
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <button class="btn btn-primary" type="button" routerLink="/register-patients">
+                        Registrar paciente</button>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div class="rounded-3 bg-white py-1 px-2">
@@ -9,18 +17,18 @@
         }
 
         @if (error) {
-            <div class="alert alert-danger" role="alert">
-                {{ error }}
-            </div>
-            }
-        
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        }
+
         @if (loading) {
-            <div class="text-center">
-                <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Cargando...</span>
-                </div>
+        <div class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Cargando...</span>
             </div>
-            }
+        </div>
+        }
     </div>
-    
+
 </div>

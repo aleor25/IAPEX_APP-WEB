@@ -1,0 +1,6 @@
+/* Asegurar que el texto se ajuste dentro de la celda y pase a la siguiente línea */
+th {
+    white-space: normal; /* Permite que el texto haga saltos de línea */
+    word-wrap: break-word; /* Rompe palabras largas que exceden el ancho de la columna */
+  }
+  
