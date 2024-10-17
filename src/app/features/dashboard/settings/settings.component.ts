@@ -13,54 +13,8 @@ import { CommonModule } from '@angular/common';
 })
 export class SettingsComponent implements OnInit {
 
-  textSize: string = '16px'; // Tamaño inicial del texto
-  isBold: boolean = false; // Estado inicial del texto en negritas
-  isLightOnDark: boolean = false; // Estado inicial de texto claro sobre fondo oscuro
-
-  ngOnInit() {
-    this.loadUserData();
-    // Inicializar los estilos globales
-    this.applyTextSize(this.textSize);
-    this.applyTextBold(this.isBold);
-    this.applyLightOnDark(this.isLightOnDark);
-  }
-
-  onTextSizeChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.textSize = `${input.value}px`;
-    this.applyTextSize(this.textSize);
-  }
-
-  onTextBoldChange(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    this.isBold = checkbox.checked;
-    this.applyTextBold(this.isBold);
-  }
-
-  onLightOnDarkChange(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    this.isLightOnDark = checkbox.checked;
-    this.applyLightOnDark(this.isLightOnDark);
-  }
-
-  private applyTextSize(size: string) {
-    document.documentElement.style.setProperty('--text-size', size);
-  }
-
-  private applyTextBold(isBold: boolean) {
-    document.documentElement.style.setProperty('--font-weight', isBold ? 'bold' : 'normal');
-  }
-
-  private applyLightOnDark(isLightOnDark: boolean) {
-    if (isLightOnDark) {
-      document.documentElement.style.setProperty('--background-color', 'black');
-      document.documentElement.style.setProperty('--text-color', 'white');
-    } else {
-      document.documentElement.style.setProperty('--background-color', 'white');
-      document.documentElement.style.setProperty('--text-color', 'black');
-    }
-  }
-  settingsForm: FormGroup;
+  settingsForm!: FormGroup;
+  isFormModified: boolean = false;
 
   private _userWebService = inject(UserWebService);
   private _loginService = inject(LoginService);
@@ -75,11 +29,41 @@ export class SettingsComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]]
     });
   }
+ 
+  ngOnInit() {
+    this.loadUserData();
 
-  onSubmit() {
-    // Handle form submission logic here
-    console.log(this.settingsForm.value);
+    this.settingsForm.valueChanges.subscribe(() => {
+      this.isFormModified = this.settingsForm.dirty; // Activar botón si se modificó el formulario
+    });
   }
+  
+
+  editProfile() {
+    if (this.settingsForm.valid) {
+      const id = this._loginService.getUser()?.id;
+      console.log('Usuario obtenido:', id); // <-- Asegúrate de que este usuario tiene un ID
+
+
+      const formData = {
+        name: this.settingsForm.get('name')?.value,
+        lastName: this.settingsForm.get('lastName')?.value,
+        secondLastName: this.settingsForm.get('secondLastName')?.value,
+        position: this.settingsForm.get('position')?.value,
+        email: this.settingsForm.get('email')?.value
+      };
+      
+      // Llamar al servicio con el ID y los datos del formulario
+      this._userWebService.updateUserWeb(id, formData).subscribe(
+        response => {
+          console.log('Usuario actualizado con éxito', response);
+        },
+        error => {
+          console.error('Error al actualizar el usuario', error);
+        }
+      );
+    }
+  } 
 
   private loadUserData(): void {
     const user = this._loginService.getUser();

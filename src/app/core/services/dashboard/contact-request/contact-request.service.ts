@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ContactRequest } from './../../../models/contact-request/contact-request.model';
 import { UpdateContactRequest } from './../../../models/contact-request/update-contact-request.model';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +21,8 @@ export class ContactRequestService {
   }
 
   getContactRequestsByInstitution(): Observable<ContactRequest[]> {
-    return this.http.get<ContactRequest[]>(`${this.URL}/current-user/institution`);
+    // Cambiado para que coincida con el controlador
+    return this.http.get<ContactRequest[]>(`${this.URL}/me/institution`);
   }
 
   createContactRequest(request: ContactRequest): Observable<Response> {

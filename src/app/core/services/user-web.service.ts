@@ -1,15 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserWebService {
-  private apiUrl = 'http://localhost:8080/api/v1/userWeb';
+  private apiUrl = 'http://localhost:8080/api/v1/users/web';
 
   constructor(private httpClient: HttpClient, private router: Router) {}
+
+  getAuthenticatedUserId(): Observable<number> {
+    return this.getCurrentUser().pipe(
+      map((user: any) => user.id) // Aquí se asume que el ID del usuario viene en la propiedad 'id'
+    );
+  }  
+
+  public updateUserWeb(userId: number, updatedData: any): Observable<any> {
+    return this.httpClient.put(this.apiUrl + `${userId}`, updatedData, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+  
 
   login(email: string, password: string): Observable<any> {
     const loginUsuario = { email, password };
@@ -58,7 +74,7 @@ export class UserWebService {
   logout(): void {
     this.removeToken();
     localStorage.removeItem('userRole');
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/access/login']);
   }
 
   removeToken(): void {
@@ -74,7 +90,7 @@ export class UserWebService {
 
   getCurrentUser(): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.httpClient.get<any>(this.apiUrl + '/myAccount', { headers })
+    return this.httpClient.get<any>(this.apiUrl + '/me', { headers })
       .pipe(
         catchError(this.handleError)
       );

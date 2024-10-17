@@ -29,5 +29,5 @@ export interface Institution {
 export interface Image {
     id: number;
     image: string;
-    imageUrl: string;
+    imageUrl: string;
 }

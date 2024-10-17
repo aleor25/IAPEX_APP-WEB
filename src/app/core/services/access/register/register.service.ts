@@ -8,12 +8,11 @@ import { catchError } from 'rxjs/operators';
 })
 export class RegisterService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/userWeb/register';
+  private apiUrl = 'http://localhost:8080/api/v1/users/web/register';
 
   constructor(private http: HttpClient) {}
 
   register(user: any): Observable<any> {
-
     return this.http.post<any>(this.apiUrl, user)
       .pipe(
         catchError(this.handleError)
@@ -49,5 +48,6 @@ export class RegisterService {
 
     console.error('Error:', errorMessage);
     return throwError(errorMessage);
+    
   }
 }

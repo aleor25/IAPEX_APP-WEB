@@ -1,4 +1,4 @@
-<div class="bg-white d-flex flex-column justify-content-center py-3 header border">
+<div class="bg-white d-flex flex-column justify-content-center py-3 mx-5 header border custom-rounded">
   <div class="d-flex align-items-center ps-4 pe-5">
     <span class="material-symbols-outlined mr-2 px-3 fs-1" routerLink="/dashboard/patients"
       style="cursor: pointer; color: #666666;">
@@ -6,88 +6,86 @@
     </span>
     <h2 class="mb-0" style="color: #666666;">Paciente No. {{selectedPatient?.id}}</h2>
 
-
     <div class="ms-auto">
-      <button class="btn btn-primary btn-sm me-2" title="Editar paciente" [disabled]="!isFormModified" (click)="savePatient()">
+      <button class="btn btn-primary btn-sm me-1 border-0" title="Editar paciente" [disabled]="!isFormModified"
+        (click)="savePatient()">
         <span class="material-symbols-outlined fs-5">edit</span>
       </button>
 
-      <button class="btn btn-danger btn-sm delete-button" 
-    (click)="selectedPatient ? deletePatient(selectedPatient.id) : null">
-    <span class="material-symbols-outlined fs-5">delete</span>
-</button>
-
+      <button class="btn btn-danger btn-sm ms-1 border-0"title="Eliminar paciente"
+        (click)="selectedPatient ? deletePatient(selectedPatient.id) : null">
+        <span class="material-symbols-outlined fs-5">delete_forever</span>
+      </button>
     </div>
   </div>
 </div>
 
-
 <div class="m-5 content">
-  <div class="bg-white px-5 py-4 rounded-4 shadow-sm">
+  <div class="bg-white px-5 py-4 rounded-5 border">
     <div class="mb-5">
       <h4>Información principal</h4>
     </div>
     <section *ngIf="selectedPatient">
       <form [formGroup]="patientForm">
-      <div class="row mb-3">
-        <div class="col">
-          <label for="name">Nombre</label>
-          <input type="text" class="form-control" id="name" [value]="selectedPatient.name" formControlName="name"
-          placeholder="Ingresa el nombre del paciente">
-          <div *ngIf="patientForm.get('name')?.touched && patientForm.get('name')?.invalid">
-            <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['required']">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name" [value]="selectedPatient.name" formControlName="name"
+              placeholder="Ingresa el nombre del paciente">
+            <div *ngIf="patientForm.get('name')?.touched && patientForm.get('name')?.invalid">
+              <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['required']">
                 El nombre del paciente es requerido.
-            </small>
-            <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['maxlength']">
+              </small>
+              <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['maxlength']">
                 El nombre no puede exceder los 50 caracteres.
-            </small>
-        </div>
-        
+              </small>
+            </div>
+
+          </div>
+
+          <div class="col">
+            <label for="lastName">Apellido paterno</label>
+            <input type="text" class="form-control" id="lastName" [value]="selectedPatient.lastName"
+              formControlName="lastName">
+          </div>
         </div>
 
-        <div class="col">
-          <label for="lastName">Apellido paterno</label>
-          <input type="text" class="form-control" id="lastName" [value]="selectedPatient.lastName"
-            formControlName="lastName">
-        </div>
-      </div>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="secondLastName">Apellido materno</label>
+            <input type="text" class="form-control" id="secondLastName" [value]="selectedPatient.secondLastName"
+              formControlName="secondLastName">
+          </div>
 
-      <div class="row mb-3">
-        <div class="col">
-          <label for="secondLastName">Apellido materno</label>
-          <input type="text" class="form-control" id="secondLastName" [value]="selectedPatient.secondLastName"
-            formControlName="secondLastName">
-        </div>
-
-        <div class="col">
-          <label for="secondLastName">Sexo</label>
+          <div class="col">
+            <label for="secondLastName">Sexo</label>
             <select id="gender" class="form-select" formControlName="gender" [value]="selectedPatient.gender">
               <option value="Masculino">Masculino</option>
               <option value="Femenino">Femenino</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row mb-3">
-        <div class="col">
-          <label for="approximateAge">Edad aproximada</label>
-          <input type="text" class="form-control" id="approximateAge" [value]="selectedPatient.approximateAge"
-            formControlName="approximateAge">
+            </select>
+          </div>
         </div>
 
-        <div class="col">
-          <label for="skinColor">Color de piel</label>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="approximateAge">Edad aproximada</label>
+            <input type="text" class="form-control" id="approximateAge" [value]="selectedPatient.approximateAge"
+              formControlName="approximateAge">
+          </div>
+
+          <div class="col">
+            <label for="skinColor">Color de piel</label>
             <select id="skinColor" class="form-select" formControlName="skinColor" [value]="selectedPatient.skinColor">
               <option value="Clara">Clara</option>
               <option value="Media">Moreno</option>
               <option value="Oscura">Negro</option>
-          </select>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col">
-          <label for="eyeColor">Color de ojos</label>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="eyeColor">Color de ojos</label>
             <select id="eyeColor" class="form-select" formControlName="eyeColor" [value]="selectedPatient.eyeColor">
               <option value="Azul">Azul</option>
               <option value="Verde">Verde</option>
@@ -97,76 +95,77 @@
               <option value="Avellana">Avellana</option>
               <option value="Ambar">Ámbar</option>
               <option value="Heterocromático">Heterocromático</option>
-          </select>
+            </select>
+          </div>
+
+          <div class="col">
+            <label for="hair">Cabello</label>
+            <input type="text" class="form-control" id="hair" [value]="selectedPatient.hair" formControlName="hair">
+          </div>
         </div>
 
-        <div class="col">
-          <label for="hair">Cabello</label>
-          <input type="text" class="form-control" id="hair" [value]="selectedPatient.hair" formControlName="hair">
-        </div>
-      </div>
-
-      <div class="row mb-3">
-        <!-- <div class="col">
+        <div class="row mb-3">
+          <!-- <div class="col">
           <label for="hairLength">Largo del cabello</label>
           <input type="text" class="form-control" id="hairLength" [value]="selectedPatient.hair"
             formControlName="complexion">
         </div> -->
-        <div class="col">
-          <label for="complexion">Complexión</label>
-            <select id="complexion" class="form-select" formControlName="complexion" [value]="selectedPatient.complexion">
+          <div class="col">
+            <label for="complexion">Complexión</label>
+            <select id="complexion" class="form-select" formControlName="complexion"
+              [value]="selectedPatient.complexion">
               <option value="Delgada">Delgada</option>
               <option value="Atlética">Atlética</option>
               <option value="Promedio">Promedio</option>
               <option value="Robusta">Robusta</option>
-          </select>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col">
-          <label for="approximateHeight">Altura aproximada (cm)</label>
-          <input type="text" class="form-control" id="approximateHeight" [value]="selectedPatient.approximateHeight"
-            formControlName="approximateHeight">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="approximateHeight">Altura aproximada (cm)</label>
+            <input type="text" class="form-control" id="approximateHeight" [value]="selectedPatient.approximateHeight"
+              formControlName="approximateHeight">
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col">
-          <label for="medicalConditions">Condiciones médicas</label>
-          <textarea class="form-control" id="medicalConditions"
-            formControlName="medicalConditions">{{selectedPatient.medicalConditions}}</textarea>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="medicalConditions">Condiciones médicas</label>
+            <textarea class="form-control" id="medicalConditions"
+              formControlName="medicalConditions">{{selectedPatient.medicalConditions}}</textarea>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col">
-          <label for="distinctiveFeatures">Señas particulares</label>
-          <textarea class="form-control" id="distinctiveFeatures"
-            formControlName="distinctiveFeatures">{{selectedPatient.distinctiveFeatures}}</textarea>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="distinctiveFeatures">Señas particulares</label>
+            <textarea class="form-control" id="distinctiveFeatures"
+              formControlName="distinctiveFeatures">{{selectedPatient.distinctiveFeatures}}</textarea>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col">
-          <label for="additionalNotes">Notas adicionales</label>
-          <textarea class="form-control" id="additionalNotes"
-            formControlName="additionalNotes">{{selectedPatient.additionalNotes}}</textarea>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="additionalNotes">Notas adicionales</label>
+            <textarea class="form-control" id="additionalNotes"
+              formControlName="additionalNotes">{{selectedPatient.additionalNotes}}</textarea>
+          </div>
         </div>
-      </div>
 
-      <div id="fotos" class="container">
-        <h4 class="mt-5">Imágenes del paciente</h4>
-        <p>Aquí se muestran las imágenes del paciente registrado.</p>
-        <div class="row">
-          <div class="col-3" *ngFor="let img of selectedPatient.images">
-            <div class="card mb-4">
-              <img [src]="img.imageUrl" class="card-img-top img-fluid" alt="Imagen del paciente"
-                style="max-height: 200px; object-fit: contain;">
+        <div id="fotos" class="container">
+          <h4 class="mt-5">Imágenes del paciente</h4>
+          <p>Aquí se muestran las imágenes del paciente registrado.</p>
+          <div class="row">
+            <div class="col-3" *ngFor="let img of selectedPatient.images">
+              <div class="card mb-4">
+                <img [src]="img.imageUrl" class="card-img-top img-fluid" alt="Imagen del paciente"
+                  style="max-height: 200px; object-fit: contain;">
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </form>
     </section>
 

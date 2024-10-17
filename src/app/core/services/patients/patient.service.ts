@@ -27,7 +27,7 @@ export class PatientService {
         return this.httpClient.post<Patient>(this.URL, patient);
     }
 
-    updatePatient(id: number, formData: FormData): Observable<any> {
+    public updatePatient(id: number, formData: FormData): Observable<any> {
         return this.httpClient.put(`${this.URL}/${id}`, formData, {
           reportProgress: true,
           observe: 'events'

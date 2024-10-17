@@ -19,7 +19,8 @@ textarea {
 
 /* Contenedor del contenido restante */
 .content {
-    padding-top: 60px; /* Ajusta esto según la altura de tu encabezado fijo */
+    padding-top: 60px;
+    padding-bottom: 30px; 
 }
 
 .filepond--credits {
@@ -42,4 +43,9 @@ label {
     height: auto; /* Mantiene la proporción */
     max-height: 150px; /* Ajusta el tamaño máximo de la imagen */
     object-fit: cover; /* Asegura que la imagen se mantenga contenida en su área */
+  }
+
+  .custom-rounded {
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
   }

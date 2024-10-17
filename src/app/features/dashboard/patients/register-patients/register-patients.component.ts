@@ -28,8 +28,8 @@ export class RegisterPatientsComponent {
   loading = false;
 
   labelIdle = "Arrastre y suelte sus archivos o <span class='filepond--label-action'> Examin|ar </span>";
-  maxFiles = 12;
-  minFiles = 8;
+  maxFiles = 4;
+  minFiles = 2;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -106,8 +106,8 @@ export class RegisterPatientsComponent {
     allowBrowse: true,
     allowPaste: true,
     allowMultiple: true,
-    maxFiles: 12,
-    minFiles: 8,
+    maxFiles: 4,
+    minFiles: 2,
     instantUpload: true,
     dropOnElement: true,
     labelFileLoading: 'Cargando...',

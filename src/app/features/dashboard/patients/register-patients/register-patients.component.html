@@ -1,5 +1,5 @@
-<div class="bg-white d-flex flex-column justify-content-center py-3 header border">
-    <div class="d-flex align-items-center ps-4">
+<div class="bg-white d-flex flex-column justify-content-center py-3 mx-5 header border custom-rounded">
+    <div class="d-flex align-items-center ps-3">
         <span class="material-symbols-outlined mr-2 px-3 fs-1" routerLink="/dashboard/patients"
             style="cursor: pointer; color: #666666;">
             arrow_back
@@ -8,8 +8,8 @@
     </div>
 </div>
 
-<div class="m-5 content">
-    <div class="bg-white px-5 py-4 rounded-4 shadow-sm">
+<div class="m-5 pb-4 content">
+    <div class="bg-white px-5 py-4 rounded-5 border">
         <div class="mb-5">
             <h4>Información principal</h4>
             <p>Complete los siguientes campos con la información solicitada.</p>
@@ -99,8 +99,8 @@
                     <select id="skinColor" class="form-select" formControlName="skinColor">
                         <option value="" selected>Seleccione un color de piel</option>
                         <option value="Clara">Clara</option>
-                        <option value="Media">Moreno</option>
-                        <option value="Oscura">Negro</option>
+                        <option value="Morena">Morena</option>
+                        <option value="Oscura">Oscura</option>
                     </select>
                     <div
                         *ngIf="registerPatients.get('skinColor')?.touched && registerPatients.get('skinColor')?.invalid">
@@ -117,12 +117,12 @@
                         <option value="" selected>Seleccione un color de ojos</option>
                         <option value="Azul">Azul</option>
                         <option value="Verde">Verde</option>
-                        <option value="Café">Café</option>
+                        <option value="Cafe">Café</option>
                         <option value="Gris">Gris</option>
                         <option value="Negro">Negro</option>
                         <option value="Avellana">Avellana</option>
                         <option value="Ambar">Ámbar</option>
-                        <option value="Heterocromático">Heterocromático</option>
+                        <option value="Heterocromatico">Heterocromático</option>
                     </select>
                     <div *ngIf="registerPatients.get('eyeColor')?.touched && registerPatients.get('eyeColor')?.invalid">
                         <small class="error-message" *ngIf="registerPatients.get('eyeColor')?.errors?.['required']">El
@@ -138,8 +138,8 @@
                         <option value="Ondulado">Ondulado</option>
                         <option value="Rizado">Rizado</option>
                         <option value="Crespo">Crespo</option>
-                        <option value="Gris">Calvo</option>
-                        <option value="Otro">Otro</option>
+                        <option value="PocoCab">Poco cabello</option>
+                        <option value="Calvo">Calvo</option>
                     </select>
                     <div *ngIf="registerPatients.get('hair')?.touched && registerPatients.get('hair')?.invalid">
                         <small class="error-message" *ngIf="registerPatients.get('hair')?.errors?.['required']">El
@@ -152,10 +152,8 @@
                     <select id="hairColor" class="form-select" formControlName="hairColor">
                         <option value="" selected>Seleccione un color de cabello</option>
                         <option value="Negro">Negro</option>
-                        <option value="CastañoOscuro">Castaño oscuro</option>
-                        <option value="CastañoClaro">Castaño claro</option>
-                        <option value="RubioOscuro">Rubio oscuro</option>
-                        <option value="RubioClaro">Rubio claro</option>
+                        <option value="Castano">Castaño</option>
+                        <option value="Rubio">Rubio</option>
                         <option value="Pelirrojo">Pelirrojo</option>
                         <option value="Canoso">Canoso</option>
                         <option value="Otro">Otro</option>
@@ -176,9 +174,6 @@
                         <option value="Corto">Corto</option>
                         <option value="Medio">Medio</option>
                         <option value="Largo">Largo</option>
-                        <option value="Rapado">Rapado</option>
-                        <option value="Calvo">Calvo</option>
-                        <option value="Otro">Otro</option>
                     </select>
                     <div
                         *ngIf="registerPatients.get('hairLength')?.touched && registerPatients.get('hairLength')?.invalid">
@@ -191,9 +186,9 @@
                     <select id="complexion" class="form-select" formControlName="complexion">
                         <option value="" selected>Seleccione la complexión del paciente</option>
                         <option value="Delgada">Delgada</option>
-                        <option value="Atlética">Atlética</option>
-                        <option value="Promedio">Promedio</option>
+                        <option value="Media">Media</option>
                         <option value="Robusta">Robusta</option>
+                        <option value="Sobrepeso">Sobrepeso</option>
                     </select>
                     <div
                         *ngIf="registerPatients.get('complexion')?.touched && registerPatients.get('complexion')?.invalid">
@@ -274,9 +269,9 @@
                 <h4 class="mt-5">Añadir imágenes</h4>
                 <p>Suba imágenes del paciente que desea registrar. Considere la toma de las imágenes en diferentes
                     ángulos
-                    para facilitar la búsqueda y reconocimiento por parte del usuario. <b>Debes de subir al menos 8
+                    para facilitar la búsqueda y reconocimiento por parte del usuario. <b>Debes de subir al menos 2
                         fotos.
-                        El máximo es de 12.</b></p>
+                        El máximo es de 4.</b></p>
                 <div id="filePond" class="w-100 h-50 bg-light rounded-3">
                     <file-pond #myPond [formArrayName]="'imageFiles'" [options]="pondOptions"
                         (oninit)="pondHandleInit()" (onaddfile)="pondHandleAddFile($event)">

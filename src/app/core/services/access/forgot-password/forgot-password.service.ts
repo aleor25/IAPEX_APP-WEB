@@ -7,14 +7,14 @@ import { Observable } from 'rxjs';
 })
 export class ForgotPasswordService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/userWeb';
+  private apiUrl = 'http://localhost:8080/api/v1/users/web';
 
   constructor(private http: HttpClient) {}
 
   // Enviar el código de verificación
   sendVerificationCode(email: string): Observable<any> {
     let params = new HttpParams().set('email', email);
-    return this.http.get<any>(`${this.apiUrl}/resend-verification`, { params });
+    return this.http.get<any>(`${this.apiUrl}/password-reset/resend`, { params });
   }
 
   // Solicitar el restablecimiento de contraseña/ Solicitar el restablecimiento de contraseña

@@ -29,8 +29,8 @@ export class PatientService {
 
     updatePatient(id: number, formData: FormData): Observable<any> {
         return this.httpClient.put(`${this.URL}/${id}`, formData, {
-          reportProgress: true,
-          observe: 'events'
+            reportProgress: true,
+            observe: 'events'
         });
     }
     // Eliminar un paciente
@@ -41,7 +41,6 @@ export class PatientService {
 
     registerPatients(formData: FormData): Observable<any> {
         return this.httpClient.post(this.URL, formData);
-      }
-
+    }
 }
 
