@@ -19,7 +19,7 @@ export class InstitutionsService {
 
   // Obtener una institucion por ID
   public getInstitution(id: number): Observable<Institution> {
-    const url = `${this.URL}/getInstitutionById/${id}`;
+    const url = `${this.URL}/${id}`;
     return this.httpClient.get<Institution>(url).pipe(
       catchError(error => {
         console.error('Error al obtener la institución:', error);
