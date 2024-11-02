@@ -54,6 +54,17 @@ export class ContactsTableComponent implements OnInit {
           data: 'status',
           render: (data: any) => `<span class="${this.getStatusClass(data)}">${this.formatStatus(data)}</span>`
         },
+        {
+          data: null,
+          className: 'text-center align-middle text-nowrap-small',
+          render: (data: any) => `
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-primary btn-sm me-1 view-button" data-id="${data.id}">
+                <span class="material-symbols-outlined fs-5">visibility</span>
+              </button>
+            </div>
+          `
+        }
       ],
       language: {
         "processing": "Procesando...",
@@ -70,56 +81,18 @@ export class ContactsTableComponent implements OnInit {
           "last": "››",
           "next": "›",
           "previous": "‹"
-        },
+        }
       },
       initComplete: () => {
-        this.initComplete();
+        $('#contactsTable').on('click', '.view-button', (event: any) => {
+          const id = $(event.currentTarget).data('id');
+          const contactRequest = this.contactsData.find(contact => contact.id === id);
+          if (contactRequest) {
+            console.log('Datos de la solicitud de contacto:', contactRequest);
+            this._router.navigate(['/contact-request-detail', id]);
+          }
+        });
       }
-    });
-
-    $('#contactsTable tbody').on('click', 'tr', (event: any) => {
-        const data = table.row(event.currentTarget).data();
-        if (data && data.id) {
-          this.viewDetails(data.id);
-        }
-    });
-  }
-
-  viewDetails(id: number | undefined): void {
-    if (id !== undefined) {
-      this._router.navigate(['/contact-request-detail', id]);
-    }
-}
-  private initComplete(): void {
-    const table = $('#contactsTable').DataTable();
-    const resetButton = document.createElement('button');
-    resetButton.className = 'btn btn-sm btn-outline-secondary ms-3 d-flex align-items-center';
-    resetButton.innerHTML = `
-      <span class="d-none d-md-inline me-2">Restablecer filtros</span>
-      <i class="bi bi-arrow-clockwise" title="Restablecer filtros"></i>
-    `;
-    resetButton.addEventListener('click', () => this.resetFilters(table));
-    
-    const paginationContainer = document.querySelector('.dt-start');
-    if (paginationContainer) {
-      paginationContainer.classList.add('d-flex', 'align-items-center');
-      paginationContainer.appendChild(resetButton);
-    }
-  }
-
-  private resetFilters(table: any): void {
-    table.search('').columns().search('').draw();
-  }
-
-  refreshTable(): void {
-    this._contactRequestService.getAllContactRequests().subscribe({
-      next: (data) => {
-        console.log('Datos actualizados:', data);
-        this.contactsData = data;
-        const table = $('#contactsTable').DataTable();
-        table.clear().rows.add(this.contactsData).draw();
-      },
-      error: (err) => console.error('Error al actualizar las solicitudes de contacto', err)
     });
   }
 

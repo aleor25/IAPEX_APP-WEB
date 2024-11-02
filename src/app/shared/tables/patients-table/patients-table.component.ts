@@ -207,5 +207,4 @@ export class PatientsTableComponent implements OnInit {
   status(status: boolean): string {
     return status ? 'No encontrado' : 'Encontrado';
   }
-
 }

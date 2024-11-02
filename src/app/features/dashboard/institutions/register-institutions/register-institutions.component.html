@@ -1,0 +1,205 @@
+<div class="bg-white d-flex flex-column justify-content-center py-3 mx-5 header border custom-rounded">
+  <div class="d-flex align-items-center ps-3">
+    <span class="material-symbols-outlined mr-2 px-3 fs-1" routerLink="/dashboard/institutions"
+      style="cursor: pointer; color: #666666;">
+      arrow_back
+    </span>
+    <h2 class="mb-0" style="color: #666666;">Registrar institución</h2>
+  </div>
+</div>
+
+<div class="m-5 pb-4 content">
+  <div class="bg-white px-5 py-4 rounded-5 border">
+    <!-- Sección de encabezado -->
+    <div class="mb-5">
+      <h4>Información principal</h4>
+      <p>Complete los siguientes campos con la información solicitada.</p>
+    </div>
+
+    <!-- Formulario principal -->
+    <form [formGroup]="registerInstitutions" (ngSubmit)="onSubmit()">
+      <!-- Sección de nombre y tipo -->
+      <div class="row mb-3">
+        <div class="col">
+          <label for="name" class="form-label">Nombre de la institución</label>
+          <input type="text" class="form-control" id="name" formControlName="name"
+            placeholder="Ingresa el nombre de la institución"
+            [ngClass]="{'is-invalid': registerInstitutions.get('name')?.invalid && registerInstitutions.get('name')?.touched}">
+          <div class="invalid-feedback" *ngIf="registerInstitutions.get('name')?.touched">
+            <div *ngIf="registerInstitutions.get('name')?.errors?.['required']">
+              El nombre de la institución es requerido.
+            </div>
+            <div *ngIf="registerInstitutions.get('name')?.errors?.['maxlength']">
+              El nombre no puede exceder los 50 caracteres.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <label for="type" class="form-label">Tipo de institución</label>
+          <select class="form-select" id="type" formControlName="type"
+            [ngClass]="{'is-invalid': registerInstitutions.get('type')?.invalid && registerInstitutions.get('type')?.touched}">
+            <option value="">Seleccione un tipo</option>
+            <option value="Hospital">Hospital</option>
+            <option value="Clínica">Clínica</option>
+            <option value="Centro Médico">Centro Médico</option>
+            <option value="Consultorio">Consultorio</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <div class="invalid-feedback"
+            *ngIf="registerInstitutions.get('type')?.touched && registerInstitutions.get('type')?.errors?.['required']">
+            El tipo de institución es requerido.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de dirección -->
+      <div class="mb-4" formGroupName="direction">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="state" class="form-label">Estado</label>
+            <input type="text" class="form-control" id="state" formControlName="state"
+              [ngClass]="{'is-invalid': registerInstitutions.get('direction.state')?.invalid && registerInstitutions.get('direction.state')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="registerInstitutions.get('direction.state')?.touched && registerInstitutions.get('direction.state')?.errors?.['required']">
+              El estado es requerido.
+            </div>
+          </div>
+          <div class="col">
+            <label for="city" class="form-label">Ciudad</label>
+            <input type="text" class="form-control" id="city" formControlName="city"
+              [ngClass]="{'is-invalid': registerInstitutions.get('direction.city')?.invalid && registerInstitutions.get('direction.city')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="registerInstitutions.get('direction.city')?.touched && registerInstitutions.get('direction.city')?.errors?.['required']">
+              La ciudad es requerida.
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="postalCode" class="form-label">Código Postal</label>
+            <input type="text" class="form-control" id="postalCode" formControlName="postalCode"
+              [ngClass]="{'is-invalid': registerInstitutions.get('direction.postalCode')?.invalid && registerInstitutions.get('direction.postalCode')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="registerInstitutions.get('direction.postalCode')?.touched && registerInstitutions.get('direction.postalCode')?.errors?.['required']">
+              El código postal es requerido.
+            </div>
+          </div>
+          <div class="col">
+            <label for="neighborhood" class="form-label">Colonia</label>
+            <input type="text" class="form-control" id="neighborhood" formControlName="neighborhood"
+              [ngClass]="{'is-invalid': registerInstitutions.get('direction.neighborhood')?.invalid && registerInstitutions.get('direction.neighborhood')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="registerInstitutions.get('direction.neighborhood')?.touched && registerInstitutions.get('direction.neighborhood')?.errors?.['required']">
+              La colonia es requerida.
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="street" class="form-label">Calle</label>
+            <input type="text" class="form-control" id="street" formControlName="street"
+              [ngClass]="{'is-invalid': registerInstitutions.get('direction.street')?.invalid && registerInstitutions.get('direction.street')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="registerInstitutions.get('direction.street')?.touched && registerInstitutions.get('direction.street')?.errors?.['required']">
+              La calle es requerida.
+            </div>
+          </div>
+          <div class="col">
+            <label for="number" class="form-label">Número</label>
+            <input type="text" class="form-control" id="number" formControlName="number"
+              [ngClass]="{'is-invalid': registerInstitutions.get('direction.number')?.invalid && registerInstitutions.get('direction.number')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="registerInstitutions.get('direction.number')?.touched && registerInstitutions.get('direction.number')?.errors?.['required']">
+              El número es requerido.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información de contacto -->
+      <div class="row mb-3">
+        <div class="col">
+          <label for="openingHours" class="form-label">Horario de atención</label>
+          <input type="text" class="form-control" id="openingHours" formControlName="openingHours"
+            placeholder="Ej: Lunes a Viernes 9:00 - 18:00">
+        </div>
+        <div class="col">
+          <label for="emails" class="form-label">Correos electrónicos</label>
+          <input type="text" class="form-control" id="emails" formControlName="emails"
+            placeholder="Separa múltiples correos con comas"
+            [ngClass]="{'is-invalid': registerInstitutions.get('emails')?.invalid && registerInstitutions.get('emails')?.touched}">
+          <div class="invalid-feedback"
+            *ngIf="registerInstitutions.get('emails')?.touched && registerInstitutions.get('emails')?.errors?.['pattern']">
+            Por favor, ingresa correos electrónicos válidos.
+          </div>
+        </div>
+      </div>
+
+      <!-- Información de contacto adicional -->
+      <div class="row mb-3">
+        <div class="col">
+          <label for="phoneNumbers" class="form-label">Números telefónicos</label>
+          <input type="text" class="form-control" id="phoneNumbers" formControlName="phoneNumbers"
+            placeholder="Separa múltiples números con comas">
+        </div>
+        <div class="col">
+          <label for="websites" class="form-label">Sitios web</label>
+          <input type="text" class="form-control" id="websites" formControlName="websites"
+            placeholder="Separa múltiples sitios web con comas">
+        </div>
+      </div>
+
+      <!-- Ubicación y verificación -->
+      <div class="row mb-3">
+        <div class="col">
+          <label for="mapUrl" class="form-label">URL de Google Maps</label>
+          <input type="text" class="form-control" id="mapUrl" formControlName="mapUrl"
+            placeholder="https://maps.google.com/...">
+        </div>
+        <div class="col">
+          <label for="verificationKey" class="form-label">Clave de verificación</label>
+          <input type="text" class="form-control" id="verificationKey" formControlName="verificationKey">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="status" class="form-label">Estado de la institución</label>
+          <div class="d-flex align-items-start">
+            <select class="form-select w-100" id="active" formControlName="active">
+              <option value="true">Institución activa</option>
+              <option value="false">Institución inactiva</option>
+            </select>
+          </div>
+        </div>
+      </div>      
+
+      <!-- Sección de carga de imágenes -->
+      <div id="fotos">
+        <h4 class="mt-5">Añadir imágen</h4>
+        <p>Suba la imagen de la institución que desea registrar. <b>Debe subir al menos 1 imagen</b></p>
+        <div id="filePond" class="w-100 h-50 bg-light rounded-3">
+          <file-pond #myPond [formArrayName]="'imageFiles'" [options]="pondOptions" (oninit)="pondHandleInit()"
+            (onaddfile)="pondHandleAddFile($event)" (onremovefile)="pondHandleRemoveFile($event)">
+          </file-pond>
+        </div>
+      </div>
+
+      <!-- Mostrar mensaje de error -->
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Botón de envío -->
+      <div class="d-flex justify-content-end mt-4">
+        <button type="submit" class="btn btn-primary"
+          [disabled]="registerInstitutions.invalid || imageFiles.length === 0 || loading">
+          <span class="spinner-border spinner-border-sm me-2" *ngIf="loading"></span>
+          {{ loading ? 'Registrando...' : 'Registrar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
