@@ -140,7 +140,5 @@ deletePatient(id: number) {
       console.log('ID de paciente no válido');
   }
 }
-
-
-
 }
+

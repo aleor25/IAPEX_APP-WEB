@@ -1,0 +1,57 @@
+input,
+select,
+textarea {
+    background-color: #F8F9FA;
+}
+
+.error-message {
+    color: #e42323;
+    font-size: 0.9em;
+}
+
+/* Mantener el primer div estático en la parte superior */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Contenedor del contenido restante */
+.content {
+    padding-top: 60px;
+    padding-bottom: 30px;
+}
+
+.filepond--credits {
+    opacity: 0;
+}
+
+label {
+    padding-bottom: 5px;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 columnas */
+    gap: 15px;
+    /* Espacio entre las imágenes */
+    margin-top: 20px;
+}
+
+.image-item img {
+    width: 100%;
+    /* Ajusta el ancho de la columna */
+    height: auto;
+    /* Mantiene la proporción */
+    max-height: 150px;
+    /* Ajusta el tamaño máximo de la imagen */
+    object-fit: cover;
+    /* Asegura que la imagen se mantenga contenida en su área */
+}
+
+.custom-rounded {
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+}
