@@ -92,35 +92,6 @@ export class ContactsTableComponent implements OnInit {
 }
   private initComplete(): void {
     const table = $('#contactsTable').DataTable();
-    const resetButton = document.createElement('button');
-    resetButton.className = 'btn btn-sm btn-outline-secondary ms-3 d-flex align-items-center';
-    resetButton.innerHTML = `
-      <span class="d-none d-md-inline me-2">Restablecer filtros</span>
-      <i class="bi bi-arrow-clockwise" title="Restablecer filtros"></i>
-    `;
-    resetButton.addEventListener('click', () => this.resetFilters(table));
-    
-    const paginationContainer = document.querySelector('.dt-start');
-    if (paginationContainer) {
-      paginationContainer.classList.add('d-flex', 'align-items-center');
-      paginationContainer.appendChild(resetButton);
-    }
-  }
-
-  private resetFilters(table: any): void {
-    table.search('').columns().search('').draw();
-  }
-
-  refreshTable(): void {
-    this._contactRequestService.getAllContactRequests().subscribe({
-      next: (data) => {
-        console.log('Datos actualizados:', data);
-        this.contactsData = data;
-        const table = $('#contactsTable').DataTable();
-        table.clear().rows.add(this.contactsData).draw();
-      },
-      error: (err) => console.error('Error al actualizar las solicitudes de contacto', err)
-    });
   }
 
   private formatDateTime(dateTime: string | Date): string {

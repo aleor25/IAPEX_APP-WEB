@@ -11,53 +11,46 @@
 <div class="m-5 pb-4 content">
     <div class="bg-white px-5 py-4 rounded-5 border">
         <div class="mb-5">
-            <h4>Información principal</h4>
-            <p>Complete los siguientes campos con la información solicitada.</p>
+            <h4>Información personal</h4>
         </div>
         <form [formGroup]="registerPatients" (ngSubmit)="onSubmit()">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="name">Nombre*</label>
+                    <label for="name">Nombre</label>
                     <input type="text" class="form-control" id="name" formControlName="name"
                         placeholder="Ingresa el nombre del paciente">
                     <div *ngIf="registerPatients.get('name')?.touched && registerPatients.get('name')?.invalid">
-                        <small class="error-message" *ngIf="registerPatients.get('name')?.errors?.['required']">El
-                            nombre
-                            del paciente es requerido.</small>
-                        <small class="error-message" *ngIf="registerPatients.get('name')?.errors?.['maxlength']">El
-                            nombre
-                            no puede exceder los 50 caracteres.</small>
+                        <small class="error-message" *ngIf="registerPatients.get('name')?.errors?.['maxlength']">
+                            El nombre no puede exceder los 50 caracteres.</small>
                     </div>
                 </div>
+                
                 <div class="col">
-                    <label for="lastName">Apellido paterno*</label>
+                    <label for="lastName">Apellido paterno</label>
                     <input type="text" class="form-control" id="lastName" formControlName="lastName"
                         placeholder="Ingresa el apellido paterno del paciente">
                     <div *ngIf="registerPatients.get('lastName')?.touched && registerPatients.get('lastName')?.invalid">
-                        <small class="error-message" *ngIf="registerPatients.get('lastName')?.errors?.['required']">El
-                            apellido paterno del paciente es requerido.</small>
-                        <small class="error-message" *ngIf="registerPatients.get('lastName')?.errors?.['maxlength']">El
-                            apellido paterno no puede exceder los 50 caracteres.</small>
+                        <small class="error-message" *ngIf="registerPatients.get('lastName')?.errors?.['maxlength']">
+                            El apellido paterno no puede exceder los 50 caracteres.</small>
                     </div>
                 </div>
-            </div>
 
-            <div class="row mb-3">
                 <div class="col">
-                    <label for="secondLastName">Apellido materno*</label>
+                    <label for="secondLastName">Apellido materno</label>
                     <input type="text" class="form-control" id="secondLastName" formControlName="secondLastName"
                         placeholder="Ingresa el apellido materno del paciente">
                     <div
                         *ngIf="registerPatients.get('secondLastName')?.touched && registerPatients.get('secondLastName')?.invalid">
-                        <small class="error-message"
-                            *ngIf="registerPatients.get('secondLastName')?.errors?.['required']">El
-                            apellido materno del paciente es requerido.</small>
                         <small class="error-message"
                             *ngIf="registerPatients.get('secondLastName')?.errors?.['maxlength']">El apellido
                             materno no
                             puede exceder los 50 caracteres.</small>
                     </div>
                 </div>
+            </div>
+
+            <div class="row mb-3">
+                
                 <div class="col">
                     <label for="gender">Sexo*</label>
                     <select id="gender" class="form-select" formControlName="gender">
@@ -94,6 +87,12 @@
                             no puede ser menor a 0 años.</small>
                     </div>
                 </div>
+
+
+                <div class="mt-5 mb-3">
+                    <h4>Información morfológica</h4>
+                </div>
+
                 <div class="col">
                     <label for="skinColor">Color de piel*</label>
                     <select id="skinColor" class="form-select" formControlName="skinColor">
@@ -131,14 +130,13 @@
                     </div>
                 </div>
                 <div class="col">
-                    <label for="hair">Tipo de cabello</label>
+                    <label for="hair">Tipo de cabello (opcional)</label>
                     <select id="hair" class="form-select" formControlName="hair">
                         <option value="" selected>Seleccione un Tipo de cabello</option>
                         <option value="Liso">Liso</option>
                         <option value="Ondulado">Ondulado</option>
                         <option value="Rizado">Rizado</option>
                         <option value="Crespo">Crespo</option>
-                        <option value="PocoCab">Poco cabello</option>
                         <option value="Calvo">Calvo</option>
                     </select>
                     <div *ngIf="registerPatients.get('hair')?.touched && registerPatients.get('hair')?.invalid">

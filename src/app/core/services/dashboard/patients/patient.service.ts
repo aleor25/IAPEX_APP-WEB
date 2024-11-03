@@ -6,6 +6,7 @@ import { Patient } from '../../../models/patients/patient.model';
 @Injectable({
     providedIn: 'root'
 })
+
 export class PatientService {
 
     private URL = "http://localhost:8080/api/v1/patients";
@@ -27,7 +28,7 @@ export class PatientService {
         return this.httpClient.post<Patient>(this.URL, patient);
     }
 
-    updatePatient(id: number, formData: FormData): Observable<any> {
+    public updatePatient(id: number, formData: FormData): Observable<any> {
         return this.httpClient.put(`${this.URL}/${id}`, formData, {
             reportProgress: true,
             observe: 'events'
@@ -39,7 +40,7 @@ export class PatientService {
         return this.httpClient.delete<void>(url);
     }
 
-    registerPatients(formData: FormData): Observable<any> {
+    public registerPatients(formData: FormData): Observable<any> {
         return this.httpClient.post(this.URL, formData);
     }
 }

@@ -1,31 +1,35 @@
-<div class="container">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-      <h4 class="m-0">Solicitudes de contacto</h4>
-      <div>
-          <ul class="nav nav-pills">
-              
-          </ul>
-      </div>
-  </div>
+<div class="container-fluid p-3 mb-4">
 
-  <div class="bg-white px-3 py-2 rounded-4 shadow-sm mb-5">
-    @defer {
-      <app-contacts-table [table]="table"></app-contacts-table>
-      }
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="m-0">Solicitudes de contacto</h4>
+            <div>
+                <ul class="nav nav-pills">
 
-      @if (error) {
-      <div class="alert alert-danger" role="alert">
-          {{ error }}
-      </div>
-      }
+                </ul>
+            </div>
+        </div>
 
-      @if (loading) {
-      <div class="text-center">
-          <div class="spinner-border" role="status">
-              <span class="visually-hidden">Cargando...</span>
-          </div>
-      </div>
-      }
-  </div>
+        <div class="card bg-white px-3 py-2 rounded-4 mb-5">
+
+            @defer {
+            <app-contacts-table [table]="table"></app-contacts-table>
+            }
+
+            @if (error) {
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            }
+
+            @if (loading) {
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
 </div>
-

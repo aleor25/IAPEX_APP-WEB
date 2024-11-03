@@ -3,10 +3,7 @@ table {
   width: 100%; /* Asegúrate de que la tabla ocupe todo el ancho disponible */
 }
 
-td,
-th {
-  white-space: nowrap; /* Evita el salto de línea en celdas */
-}
+
 
 .fixed-action-column {
   position: sticky;

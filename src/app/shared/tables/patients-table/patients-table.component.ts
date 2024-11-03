@@ -35,12 +35,17 @@ export class PatientsTableComponent implements OnInit {
 
   private initPatientsTable(): void {
     const table = $('#patientsTable').DataTable({
-      ordering: false,
+      ordering: true,
       columnDefs: [
+        { "width": "150px", "targets": [1] },
         { "width": "108px", "targets": [3] },
-        { "width": "173px", "targets": [5] }
+        { "width": "173px", "targets": [4] },
+        { "width": "173px", "targets": [5] },
+        { "width": "94px",  "targets": [6] },
+        { "width": "300px", "targets": [7] },
+        { "width": "95px",  "targets": [8] }
       ],
-      scrollX: true,
+      scrollX: true,    
       data: this.patientsData,
       columns: [
         { data: 'id' },
@@ -58,11 +63,8 @@ export class PatientsTableComponent implements OnInit {
         { data: 'active', render: (data: any) => this.status(data) },
         {
           data: null,
-          render: (data: any) => `Color de piel: ${data.skinColor}.
-                                  Color de pelo: ${data.hair}.
-                                  ${data.complexion}.
-                                  ${data.eyeColor}.
-                                  ${data.approximateHeight} cm`
+          render: (data: any) => `El paciente tiene la piel de color ${data.skinColor}, con cabello ${data.hair} y una complexión ${data.complexion}. 
+                        Sus ojos son de color ${data.eyeColor}, y su estatura aproximada es de ${data.approximateHeight} cm.`
         },
         {
           data: null,
@@ -100,66 +102,28 @@ export class PatientsTableComponent implements OnInit {
       }
     });
 
-    // Evento de clic para editar
     $('#patientsTable tbody').on('click', '.edit-button', (event: any) => {
       const patientId = $(event.currentTarget).data('id');
-      this.openEditPatientModal(patientId); // Llama a la función para abrir el modal de edición
+      this.openEditPatientModal(patientId); 
     });
 
-    // Evento de clic para eliminar
     $('#patientsTable tbody').on('click', '.delete-button', (event: any) => {
       const patientId = $(event.currentTarget).data('id');
-      this.confirmDeletePatient(patientId); // Llama a la función para confirmar la eliminación
+      this.confirmDeletePatient(patientId); 
     });
   }
 
   openEditPatientModal(patientId: number): void {
-    this._router.navigate(['/get-patient-detail', patientId]); // Navega a la ruta de edición del paciente
-    // Aquí abrirías el modal de edición para ese paciente
+    this._router.navigate(['/get-patient-detail', patientId]); 
   }
 
   confirmDeletePatient(patientId: number): void {
     console.log('Borrar paciente con ID:', patientId);
-    // Aquí abrirías el modal de confirmación para eliminar
   }
 
 
   initComplete() {
     const table = $('#patientsTable').DataTable();
-
-    // Crear el botón para restablecer todos los filtros
-    const resetButton = document.createElement('button');
-    resetButton.className = 'btn btn-sm btn-outline-secondary ms-3 d-flex align-items-center';
-
-    // HTML del botón con clases de Bootstrap para manejar la visibilidad
-    resetButton.innerHTML = `
-      <span class="d-none d-md-inline me-2">Restablecer filtros</span>
-      <i class="bi bi-arrow-clockwise" title="Restablecer filtros"></i>
-    `;
-
-    // Encontrar el contenedor de paginación
-    const paginationContainer = document.querySelector('.dt-start');
-
-    if (paginationContainer) {
-      // Insertar el botón
-      paginationContainer.classList.add('d-flex', 'align-items-center');
-      paginationContainer.appendChild(resetButton);
-    }
-  }
-
-  refreshTable(): void {
-    this._patientsService.getAllPatients().subscribe(
-      (data) => {
-        console.log('Datos actualizadas:', data);
-        this.patientsData = data;
-
-        const table = $('#patientsTable').DataTable();
-        table.clear();
-        table.rows.add(this.patientsData);
-        table.draw();
-      },
-      (err) => console.error('Error al actualizar los pacientes', err)
-    )
   }
 
   getRowData(row: any): any {
@@ -187,19 +151,16 @@ export class PatientsTableComponent implements OnInit {
   formatDateTime(dateTime: string | Date): string {
     const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
 
-    // Extraer los componentes de la fecha
     const day = date.toLocaleString('es-ES', { day: 'numeric' });
     const month = date.toLocaleString('es-ES', { month: 'long' });
     const year = date.toLocaleString('es-ES', { year: 'numeric' });
 
-    // Extraer la hora y los minutos juntos en formato de 12 horas
     const time = date.toLocaleString('es-ES', {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true
     });
 
-    // Formato final
     return `${day} de ${month} de ${year} a las ${time}`;
   }
 

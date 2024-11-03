@@ -42,26 +42,13 @@ export class GeneralViewComponent implements AfterViewInit {
             label: 'Pacientes recibidos',
             data: [1, 16, 9, 17, 6, 14, 6, 15, 11, 17, 13, 18, 10, 18, 16, 12, 15, 13, 15, 18, 19, 10, 14, 18, 16, 17, 11, 14, 17],
             borderColor: 'rgba(0, 123, 255, 1)',
-            borderWidth: 2,
-            fill: false
           }]
         },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              beginAtZero: true
-            },
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
+        
       });
     } else {
       console.error('No se pudo obtener el contexto 2D para chartRequests.');
     }
-
   }
 
   loadData() {
@@ -117,10 +104,8 @@ export class GeneralViewComponent implements AfterViewInit {
         console.error('Error al cargar los pacientes', error);
       });
 
-      
-
-
     });
+    
   }
 
   updateRequestCounts(total: number, newCount: number, inReview: number, completed: number) {
