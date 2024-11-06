@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
-import { PatientService } from '../../../../core/services/patients/patient.service';
-import { Patient } from '../../../../core/models/patients/patient.model';
+import { CommonModule } from '@angular/common';
+import DataTable from 'datatables.net-dt';
 import { StatusPipe } from '../../../../shared/pipes/status.pipe';
 import { TextDatePipe } from '../../../../shared/pipes/text-date.pipe';
-import DataTable from 'datatables.net-dt';
+import { Patient } from '../../../../core/models/patients/patient.model';
+import { Institution } from '../../../../core/models/patients/patient.model';
+import { PatientService } from '../../../../core/services/dashboard/patients/patient.service';
 
 
 @Component({
@@ -15,16 +16,17 @@ import DataTable from 'datatables.net-dt';
 })
 export class RegisteredPatientsComponent implements OnInit {
   patients: Patient[] = [];
-
   
 
-  constructor(private patientService: PatientService) {}
+
+
+  constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
     this.getAllPatients();
     let table = new DataTable('#myTable', {
-      
-  });
+
+    });
   }
 
   getAllPatients(): void {

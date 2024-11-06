@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Patient } from '../../../../core/models/patients/patient.model';
 import { HttpEventType } from '@angular/common/http';
-import { PatientService } from '../../../../core/services/dashboard/patients/patient.service';
+import { PatientService } from '../../../../core/services/patients/patient.service';
 
 @Component({
   selector: 'app-update-patient-detail',

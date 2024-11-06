@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import { PatientService } from '../../../../core/services/dashboard/patients/patient.service';
+import { PatientService } from '../../../../core/services/patients/patient.service';
 
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
 

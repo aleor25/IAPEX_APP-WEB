@@ -5,7 +5,7 @@ import * as am5percent from "@amcharts/amcharts5/percent";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import { ContactRequestService } from '../../../core/services/dashboard/contact-request/contact-request.service';
-import { PatientService } from '../../../core/services/dashboard/patients/patient.service';
+import { PatientService } from '../../../core/services/patients/patient.service';
 
 @Component({
   selector: 'general-view',

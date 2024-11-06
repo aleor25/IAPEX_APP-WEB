@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Patient } from '../../../../core/models/patients/patient.model';
-import { PatientService } from '../../../../core/services/dashboard/patients/patient.service';
 import { FormatDateTimePipe } from '../../../../shared/pipes/format-date-time.pipe';
+import { PatientService } from '../../../../core/services/patients/patient.service';
 
 @Component({
   selector: 'app-get-patient-detail',

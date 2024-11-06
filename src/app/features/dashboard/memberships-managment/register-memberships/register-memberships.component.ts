@@ -6,11 +6,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { MembershipsService } from '../../../../core/services/memberships/memberships.service';
 import { tap, catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { InstitutionsService } from '../../../../core/services/institutions/institutions.service';
+import { MembershipsService } from '../../../../core/services/memberships/memberships.service';
 
 @Component({
   selector: 'app-register-memberships',

@@ -8,7 +8,6 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [SidebarComponent, NavbarComponent, RouterOutlet],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
 

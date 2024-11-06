@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import * as bootstrap from 'bootstrap';
-import { PatientService } from '../../../../core/services/dashboard/patients/patient.service';
 import { PatientsTableComponent } from '../../../../shared/tables/patients-table/patients-table.component';
+import { PatientService } from '../../../../core/services/patients/patient.service';
 
 @Component({
   selector: 'app-patients',
