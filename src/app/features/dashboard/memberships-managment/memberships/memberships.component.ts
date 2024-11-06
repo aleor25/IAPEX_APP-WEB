@@ -9,6 +9,8 @@ import { MembershipsTableComponent } from '../../../../shared/tables/memberships
   standalone: true,
   imports: [FormsModule, CommonModule, MembershipsTableComponent, RouterLink],
   templateUrl: './memberships.component.html',
+  styleUrls: ['./memberships.component.css'],
+
 })
 export class MembershipsComponent {
   error: string | null = null;

@@ -42,7 +42,7 @@ export class PatientsTableComponent implements OnInit {
         { "width": "173px", "targets": [4] },
         { "width": "173px", "targets": [5] },
         { "width": "94px",  "targets": [6] },
-        { "width": "300px", "targets": [7] },
+        { "width": "350px", "targets": [7] },
         { "width": "95px",  "targets": [8] }
       ],
       scrollX: true,    
@@ -82,7 +82,7 @@ export class PatientsTableComponent implements OnInit {
         "processing": "Procesando...",
         "lengthMenu": "Mostrar _MENU_ registros",
         "zeroRecords": "No se encontraron resultados",
-        "emptyTable": "Ningún dato disponible en esta tabla",
+        "emptyTable": "Aún no hay registros.",
         "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
         "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
         "infoFiltered": "(filtrado de un total de _MAX_ registros)",

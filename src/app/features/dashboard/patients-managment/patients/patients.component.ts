@@ -12,6 +12,7 @@ import { PatientService } from '../../../../core/services/patients/patient.servi
   standalone: true,
   imports: [FormsModule, CommonModule, PatientsTableComponent, RouterLink],
   templateUrl: './patients.component.html',
+  styleUrls: ['./patients.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], 
 })
 export class PatientsComponent implements OnInit {

@@ -9,6 +9,8 @@ import { InstitutionsTableComponent } from '../../../../shared/tables/institutio
   standalone: true,
   imports: [FormsModule, CommonModule, InstitutionsTableComponent, RouterLink],
   templateUrl: './institutions.component.html',
+  styleUrls: ['./institutions.component.css'],
+
 })
 export class InstitutionsComponent {
   error: string | null = null;

@@ -57,8 +57,9 @@ export class GeneralViewComponent implements AfterViewInit {
       // Calcula los totales
       const totalRequests = data.length;
       const newRequests = data.filter(request => request.status === 'nueva').length;
-      const inReviewRequests = data.filter(request => request.status === 'en revisión').length;
-      const completedRequests = data.filter(request => request.status === 'finalizada').length;
+      const inReviewRequests = data.filter(request => request.status === 'en_revision').length;
+      const foundRequests = data.filter(request => request.status === 'finalizada').length;
+
 
       // Actualiza el HTML con los valores
       const totalRequestsElement = document.getElementById('totalRequests');
@@ -76,9 +77,9 @@ export class GeneralViewComponent implements AfterViewInit {
         inReviewRequestsElement.innerText = inReviewRequests.toString();
       }
 
-      const completedRequestsElement = document.getElementById('completedRequests');
-      if (completedRequestsElement !== null) {
-        completedRequestsElement.innerText = completedRequests.toString();
+      const foundRequestsElement = document.getElementById('foundRequests');
+      if (foundRequestsElement !== null) {
+        foundRequestsElement.innerText = foundRequests.toString();
       }
 
       // Crea la gráfica con los datos transformados
@@ -124,9 +125,9 @@ export class GeneralViewComponent implements AfterViewInit {
       inReviewRequestsElement.innerText = inReview.toString();
     }
 
-    const completedRequestsElement = document.getElementById('completedRequests');
-    if (completedRequestsElement) {
-      completedRequestsElement.innerText = completed.toString();
+    const foundRequestsElement = document.getElementById('foundRequests');
+    if (foundRequestsElement) {
+      foundRequestsElement.innerText = completed.toString();
     }
   }
 
@@ -250,12 +251,12 @@ export class GeneralViewComponent implements AfterViewInit {
       if (request.status === 'nueva') {
         counts.Nueva++;
       } else if (request.status === 'en revisión') {
-        counts['En revisión']++;
+        counts.En_revision++;
       } else if (request.status === 'finalizada') {
         counts.Finalizada++;
       }
       return counts;
-    }, { Nueva: 0, 'En revisión': 0, Finalizada: 0 });
+    }, { Nueva: 0, 'En_revision': 0, Finalizada: 0 });
 
     // Establece los datos para la serie
     series.data.setAll(
