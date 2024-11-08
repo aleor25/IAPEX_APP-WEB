@@ -1,0 +1,71 @@
+<div class="bg-white p-4 rounded-4 border">
+
+    <h5 class="mb-4">Información principal</h5>
+
+    <form class="mb-0" [formGroup]="registerMemberships" (ngSubmit)="onSubmit()">
+        <div class="row mb-3">
+            <div class="col">
+                <label for="institutionName" class="form-label">Nombre de la institución</label>
+                <select class="form-select" id="institutionName" formControlName="institutionName">
+                    <option *ngFor="let name of institutionNames" [value]="name">{{ name }}</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="registerMemberships.get('institutionName')?.touched">
+                    <div *ngIf="registerMemberships.get('institutionName')?.errors?.['required']">
+                        El nombre de la institución es requerido.
+                    </div>
+                    <div *ngIf="registerMemberships.get('institutionName')?.errors?.['maxlength']">
+                        El nombre no puede exceder los 100 caracteres.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="status" class="form-label">Estado de la membresía</label>
+                <select class="form-select" id="status" formControlName="status"
+                    [ngClass]="{'is-invalid': registerMemberships.get('status')?.invalid && registerMemberships.get('status')?.touched}">
+                    <option value="">Seleccione un estado</option>
+                    <option [value]="true">Activa</option>
+                    <option [value]="false">Inactiva</option>
+                </select>
+                <div class="invalid-feedback"
+                    *ngIf="registerMemberships.get('status')?.touched && registerMemberships.get('status')?.errors?.['required']">
+                    El estado de la membresía es requerido.
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de fechas -->
+        <div class="row mb-3">
+            <div class="col">
+                <label for="startDate" class="form-label">Fecha de inicio</label>
+                <input type="date" class="form-control" id="startDate" formControlName="startDate"
+                    [ngClass]="{'is-invalid': registerMemberships.get('startDate')?.invalid && registerMemberships.get('startDate')?.touched}">
+                <div class="invalid-feedback"
+                    *ngIf="registerMemberships.get('startDate')?.touched && registerMemberships.get('startDate')?.errors?.['required']">
+                    La fecha de inicio es requerida.
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="endDate" class="form-label">Fecha de finalización</label>
+                <input type="date" class="form-control" id="endDate" formControlName="endDate"
+                    [ngClass]="{'is-invalid': registerMemberships.get('endDate')?.invalid && registerMemberships.get('endDate')?.touched}">
+                <div class="invalid-feedback"
+                    *ngIf="registerMemberships.get('endDate')?.touched && registerMemberships.get('endDate')?.errors?.['required']">
+                    La fecha de fin es requerida.
+                </div>
+            </div>
+        </div>
+
+        <!-- Mostrar mensaje de error -->
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+            {{ errorMessage }}
+        </div>
+
+        <!-- Botón de envío -->
+        <div class="d-flex align-items-end justify-content-end">
+            <button type="submit" class="btn btn-primary mt-4" [disabled]="registerMemberships.invalid">Registrar membresía
+            </button>
+        </div>
+    </form>
+</div>

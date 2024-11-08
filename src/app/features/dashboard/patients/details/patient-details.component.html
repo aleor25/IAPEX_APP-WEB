@@ -1,0 +1,148 @@
+<div class="bg-white p-4 rounded-4 border">
+  <form class="mb-0" [formGroup]="patientForm">
+    <h5 class="mb-4">Información personal</h5>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="name" [value]="selectedPatient.name" formControlName="name"
+          placeholder="Ingresa el nombre del paciente">
+        <div *ngIf="patientForm.get('name')?.touched && patientForm.get('name')?.invalid">
+          <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['required']">
+            El nombre del paciente es requerido.
+          </small>
+          <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['maxlength']">
+            El nombre no puede exceder los 50 caracteres.
+          </small>
+        </div>
+
+      </div>
+
+      <div class="col">
+        <label for="lastName" class="form-label">Apellido paterno</label>
+        <input type="text" class="form-control" id="lastName" [value]="selectedPatient.lastName"
+          formControlName="lastName">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="secondLastName" class="form-label">Apellido materno</label>
+        <input type="text" class="form-control" id="secondLastName" [value]="selectedPatient.secondLastName"
+          formControlName="secondLastName">
+      </div>
+
+      <div class="col">
+        <label for="secondLastName" class="form-label">Sexo</label>
+        <select id="gender" class="form-select" formControlName="gender" [value]="selectedPatient.gender">
+          <option value="masculino">Masculino</option>
+          <option value="femenino">Femenino</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="approximateAge" class="form-label">Edad aproximada</label>
+        <input type="text" class="form-control" id="approximateAge" [value]="selectedPatient.approximateAge"
+          formControlName="approximateAge">
+      </div>
+
+      <h5 class="my-4">Información morfológica</h5>
+
+      <div class="col">
+        <label for="skinColor" class="form-label">Color de piel</label>
+        <select id="skinColor" class="form-select" formControlName="skinColor" [value]="selectedPatient.skinColor">
+          <option value="clara">Clara</option>
+          <option value="morena">Morena</option>
+          <option value="oscura">Oscura</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="eyeColor" class="form-label">Color de ojos</label>
+        <select id="eyeColor" class="form-select" formControlName="eyeColor" [value]="selectedPatient.eyeColor">
+          <option value="azul">Azul</option>
+          <option value="verde">Verde</option>
+          <option value="café">Café</option>
+          <option value="gris">Gris</option>
+          <option value="negro">Negro</option>
+          <option value="avellana">Avellana</option>
+          <option value="ambar">Ámbar</option>
+          <option value="heterocromático">Heterocromático</option>
+        </select>
+      </div>
+
+      <div class="col">
+        <label for="hair" class="form-label">Cabello</label>
+        <input type="text" class="form-control" id="hair" [value]="selectedPatient.hair" formControlName="hair">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <!-- <div class="col">
+          <label for="hairLength">Largo del cabello</label>
+          <input type="text" class="form-control" id="hairLength" [value]="selectedPatient.hair"
+            formControlName="complexion">
+        </div> -->
+      <div class="col">
+        <label for="complexion" class="form-label">Complexión</label>
+        <select id="complexion" class="form-select" formControlName="complexion" [value]="selectedPatient.complexion">
+          <option value="delgada">Delgada</option>
+          <option value="media">Media</option>
+          <option value="robusta">Robusta</option>
+          <option value="sobrepeso">Sobrepeso</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="approximateHeight" class="form-label">Altura aproximada (cm)</label>
+        <input type="text" class="form-control" id="approximateHeight" [value]="selectedPatient.approximateHeight"
+          formControlName="approximateHeight">
+      </div>
+    </div>
+
+    <h5 class="my-4">Información adicional</h5>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="medicalConditions" class="form-label">Condiciones médicas</label>
+        <textarea class="form-control" id="medicalConditions"
+          formControlName="medicalConditions">{{selectedPatient.medicalConditions}}</textarea>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="distinctiveFeatures" class="form-label">Señas particulares</label>
+        <textarea class="form-control" id="distinctiveFeatures"
+          formControlName="distinctiveFeatures">{{selectedPatient.distinctiveFeatures}}</textarea>
+      </div>
+    </div>
+
+    <h5 class="my-4">Imágenes del paciente</h5>
+    <p>Aquí se muestran las imágenes del paciente registrado.</p>
+    <div class="row">
+      <div class="col-3" *ngFor="let img of selectedPatient.images">
+        <div class="card">
+          <img [src]="img.imageUrl" alt="Imagen del paciente" style="max-height: 200px; object-fit: contain;">
+        </div>
+      </div>
+    </div>
+
+    <!-- <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div> -->
+
+    <div class="d-flex justify-content-end align-items-end mt-4 gap-2">
+      <button type="button" class="btn btn-primary" (click)="savePatient()" [disabled]="!isFormModified">Actualizar
+        paciente</button>
+      <button type="button" class="btn btn-danger"
+        (click)="selectedPatient ? deletePatient(selectedPatient.id) : null">Eliminar paciente</button>
+    </div>
+  </form>
+</div>

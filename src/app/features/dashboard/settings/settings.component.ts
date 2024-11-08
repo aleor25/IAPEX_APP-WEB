@@ -1,23 +1,21 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { LoginService } from '../../../core/services/access/login/login.service';
-import { UserWebService } from '../../../core/services/user-web.service';
+import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  templateUrl: './settings.component.html'
 })
 export class SettingsComponent implements OnInit {
 
   settingsForm!: FormGroup;
   isFormModified: boolean = false;
 
-  private _userWebService = inject(UserWebService);
-  private _loginService = inject(LoginService);
+  private _userWebService = inject(UserService);
+  private _userService = inject(UserService);
   private _formBuilder = inject(FormBuilder);
 
   constructor() {
@@ -29,7 +27,7 @@ export class SettingsComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]]
     });
   }
- 
+
   ngOnInit() {
     this.loadUserData();
 
@@ -37,13 +35,12 @@ export class SettingsComponent implements OnInit {
       this.isFormModified = this.settingsForm.dirty; // Activar botón si se modificó el formulario
     });
   }
-  
+
 
   editProfile() {
     if (this.settingsForm.valid) {
-      const id = this._loginService.getUser()?.id;
+      const id = this._userService.getUser()?.id;
       console.log('Usuario obtenido:', id); // <-- Asegúrate de que este usuario tiene un ID
-
 
       const formData = {
         name: this.settingsForm.get('name')?.value,
@@ -52,7 +49,7 @@ export class SettingsComponent implements OnInit {
         position: this.settingsForm.get('position')?.value,
         email: this.settingsForm.get('email')?.value
       };
-      
+
       // Llamar al servicio con el ID y los datos del formulario
       this._userWebService.updateUserWeb(id, formData).subscribe(
         response => {
@@ -63,10 +60,10 @@ export class SettingsComponent implements OnInit {
         }
       );
     }
-  } 
+  }
 
   private loadUserData(): void {
-    const user = this._loginService.getUser();
+    const user = this._userService.getUser();
     if (user && user.email) {
       this.settingsForm.patchValue({
         name: user.name,

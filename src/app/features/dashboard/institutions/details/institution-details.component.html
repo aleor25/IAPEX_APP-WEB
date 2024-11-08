@@ -1,0 +1,157 @@
+<div class="bg-white p-4 rounded-4 border">
+  <form class="mb-0" [formGroup]="institutionForm" (ngSubmit)="updateInstitutionById()">
+    <h5 class="mb-4">Información principal</h5>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="name" class="form-label">Nombre de la institución</label>
+        <input type="text" class="form-control" id="name" [value]="selectedInstitution.name" formControlName="name"
+          placeholder="Ingresa el nombre de la institución">
+        <div *ngIf="institutionForm.get('name')?.touched && institutionForm.get('name')?.invalid">
+          <small class="error-message" *ngIf="institutionForm.get('name')?.errors?.['required']">
+            El nombre de la institución es requerido.
+          </small>
+          <small class="error-message" *ngIf="institutionForm.get('name')?.errors?.['maxlength']">
+            El nombre no puede exceder los 100 caracteres.
+          </small>
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="type" class="form-label">Tipo de institución</label>
+        <select class="form-select" id="type" formControlName="type" [value]="selectedInstitution.type">
+          <option value="Hospital">Hospital</option>
+          <option value="Clínica">Clínica</option>
+          <option value="Centro Médico">Centro Médico</option>
+          <option value="Consultorio">Consultorio</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <div formGroupName="direction">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="state" class="form-label">Estado</label>
+            <input type="text" class="form-control" id="state" formControlName="state"
+              [value]="selectedInstitution.direction.state">
+          </div>
+
+          <div class="col">
+            <label for="city" class="form-label">Ciudad</label>
+            <input type="text" class="form-control" id="city" formControlName="city"
+              [value]="selectedInstitution.direction.city">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="postalCode" class="form-label">Código Postal</label>
+            <input type="text" class="form-control" id="postalCode" formControlName="postalCode"
+              [value]="selectedInstitution.direction.postalCode">
+          </div>
+
+          <div class="col">
+            <label for="neighborhood" class="form-label">Colonia</label>
+            <input type="text" class="form-control" id="neighborhood" formControlName="neighborhood"
+              [value]="selectedInstitution.direction.neighborhood">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="street" class="form-label">Calle</label>
+            <input type="text" class="form-control" id="street" formControlName="street"
+              [value]="selectedInstitution.direction.street">
+          </div>
+
+          <div class="col">
+            <label for="number" class="form-label">Número</label>
+            <input type="text" class="form-control" id="number" formControlName="number"
+              [value]="selectedInstitution.direction.number">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h5 class="my-4">Información de contacto</h5>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="openingHours" class="form-label">Horario de atención</label>
+        <input type="text" class="form-control" id="openingHours" formControlName="openingHours"
+          [value]="selectedInstitution.openingHours">
+      </div>
+
+      <div class="col">
+        <label for="emails" class="form-label">Correos electrónicos</label>
+        <input type="text" class="form-control" id="emails" formControlName="emails"
+          [value]="selectedInstitution.emails" placeholder="Separa múltiples correos con comas">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="phoneNumbers" class="form-label">Números telefónicos</label>
+        <input type="text" class="form-control" id="phoneNumbers" formControlName="phoneNumbers"
+          [value]="selectedInstitution.phoneNumbers" placeholder="Separa múltiples números con comas">
+      </div>
+
+      <div class="col">
+        <label for="websites" class="form-label">Sitios web</label>
+        <input type="text" class="form-control" id="websites" formControlName="websites"
+          [value]="selectedInstitution.websites" placeholder="Separa múltiples sitios web con comas">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="mapUrl" class="form-label">URL de Google Maps</label>
+        <input type="text" class="form-control" id="mapUrl" formControlName="mapUrl"
+          [value]="selectedInstitution.mapUrl">
+      </div>
+
+      <div class="col">
+        <label for="verificationKey" class="form-label">Clave de verificación</label>
+        <input type="text" class="form-control" id="verificationKey" formControlName="verificationKey"
+          [value]="selectedInstitution.verificationKey">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="active" class="form-label">Estado de la institución</label>
+        <select class="form-select w-100" id="active" formControlName="active">
+          <option value="true">Institución activa</option>
+          <option value="false">Institución inactiva</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="imagen" class="container mt-5">
+      <h5 class="my-4">Imagen de la institución</h5>
+      <div class="row">
+        <div class="col-4">
+          <div class="card">
+            <img [src]="selectedInstitution.imageUrl" class="card-img-top img-fluid" alt="Imagen de la institución"
+              style="max-height: 200px; object-fit: contain;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <div class="d-flex justify-content-end align-items-end mt-4 gap-2">
+      <button type="button" class="btn btn-primary" (click)="updateInstitutionById()"
+        [disabled]="!isFormModified">Actualizar institución</button>
+      <button type="button" class="btn btn-danger"
+        (click)="selectedInstitution ? deleteInstitutionById(selectedInstitution.id) : null">Eliminar
+        institución</button>
+    </div>
+
+  </form>
+</div>

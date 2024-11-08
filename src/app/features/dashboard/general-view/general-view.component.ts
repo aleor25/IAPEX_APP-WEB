@@ -1,27 +1,24 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, inject } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { Patient } from '../../../core/models/patients/patient.model';
 import * as am5percent from "@amcharts/amcharts5/percent";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
-import { ContactRequestService } from '../../../core/services/dashboard/contact-request/contact-request.service';
-import { PatientService } from '../../../core/services/patients/patient.service';
+import { ContactRequestService } from '../../../core/services/contact-request.service';
+import { PatientService } from '../../../core/services/patient.service';
+import { Patient } from '../../../core/models/patient.model';
 
 @Component({
   selector: 'general-view',
   standalone: true,
   imports: [],
-  templateUrl: './general-view.component.html',
-  styleUrls: ['./general-view.component.css']
+  templateUrl: './general-view.component.html'
 })
 
 export class GeneralViewComponent implements AfterViewInit {
 
   private rootRequests!: am5.Root;
-
-  constructor(
-    private contactRequestService: ContactRequestService,
-    private patientService: PatientService) { }
+  private _patientService = inject(PatientService);
+  private _contactRequestService = inject(ContactRequestService);
 
   ngAfterViewInit() {
 
@@ -44,7 +41,7 @@ export class GeneralViewComponent implements AfterViewInit {
             borderColor: 'rgba(0, 123, 255, 1)',
           }]
         },
-        
+
       });
     } else {
       console.error('No se pudo obtener el contexto 2D para chartRequests.');
@@ -53,7 +50,7 @@ export class GeneralViewComponent implements AfterViewInit {
 
   loadData() {
     // Muestra los datos del estatus de las solicitudes
-    this.contactRequestService.getAllContactRequests().subscribe(data => {
+    this._contactRequestService.getAllContactRequests().subscribe(data => {
       // Calcula los totales
       const totalRequests = data.length;
       const newRequests = data.filter(request => request.status === 'nueva').length;
@@ -88,7 +85,7 @@ export class GeneralViewComponent implements AfterViewInit {
       this.updateStatusChart(data);
 
       // Muestra los datos del género de los pacientes
-      this.patientService.getAllPatients().subscribe(patients => {
+      this._patientService.getAllPatients().subscribe(patients => {
         const labels = ['Hombres', 'Mujeres'];
         const data = [
           patients.filter((p: Patient) => p.gender === 'Masculino').length,
@@ -104,9 +101,7 @@ export class GeneralViewComponent implements AfterViewInit {
       }, error => {
         console.error('Error al cargar los pacientes', error);
       });
-
     });
-    
   }
 
   updateRequestCounts(total: number, newCount: number, inReview: number, completed: number) {
@@ -165,7 +160,7 @@ export class GeneralViewComponent implements AfterViewInit {
     let xAxis = chart.xAxes.push(
       am5xy.CategoryAxis.new(this.rootRequests, {
         renderer: am5xy.AxisRendererX.new(this.rootRequests, {}),
-        categoryField: "day" 
+        categoryField: "day"
       })
     );
     xAxis.data.setAll(transformedData); // Establecer los datos en el eje X
@@ -314,8 +309,6 @@ export class GeneralViewComponent implements AfterViewInit {
     legend.data.setAll(series.dataItems);
   }
 
-
-
   // Método para la gráfica de pastel: Género de los pacientes
   updateGenderChart(labels: string[], data: number[]) {
 
@@ -391,9 +384,6 @@ export class GeneralViewComponent implements AfterViewInit {
     // Configura la leyenda para mostrar los ítems de la serie
     legend.data.setAll(series.dataItems);
   }
-
-
-  
 
   processAgeData(patients: Patient[]): any[] {
     const ageCounts: { [key: string]: number } = {

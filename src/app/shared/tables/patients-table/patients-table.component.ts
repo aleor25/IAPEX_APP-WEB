@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { PatientService } from '../../../core/services/patients/patient.service';
-import { Patient } from '../../../core/models/patients/patient.model';
 import { Router } from '@angular/router';
+import { Patient } from '../../../core/models/patient.model';
+import { PatientService } from '../../../core/services/patient.service';
 declare var $: any;
 
 @Component({
@@ -15,12 +15,10 @@ declare var $: any;
 export class PatientsTableComponent implements OnInit {
 
   @Input() table: string[] = [];
-
   patientsData: Patient[] = [];
 
   private _patientsService = inject(PatientService)
-  private _router = inject(Router); // Inyecta el router
-
+  private _router = inject(Router);
 
   ngOnInit(): void {
     this._patientsService.getAllPatients().subscribe(
@@ -41,11 +39,11 @@ export class PatientsTableComponent implements OnInit {
         { "width": "108px", "targets": [3] },
         { "width": "173px", "targets": [4] },
         { "width": "173px", "targets": [5] },
-        { "width": "94px",  "targets": [6] },
+        { "width": "94px", "targets": [6] },
         { "width": "350px", "targets": [7] },
-        { "width": "95px",  "targets": [8] }
+        { "width": "95px", "targets": [8] }
       ],
-      scrollX: true,    
+      scrollX: true,
       data: this.patientsData,
       columns: [
         { data: 'id' },
@@ -76,7 +74,7 @@ export class PatientsTableComponent implements OnInit {
               </button>
             </div>
           `
-        }        
+        }
       ],
       language: {
         "processing": "Procesando...",
@@ -87,7 +85,7 @@ export class PatientsTableComponent implements OnInit {
         "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
         "infoFiltered": "(filtrado de un total de _MAX_ registros)",
         "infoPostFix": "",
-        "search": "Buscar:" ,
+        "search": "Buscar:",
         "url": "",
         "loadingRecords": "Cargando...",
         "oPaginate": {
@@ -104,23 +102,22 @@ export class PatientsTableComponent implements OnInit {
 
     $('#patientsTable tbody').on('click', '.edit-button', (event: any) => {
       const patientId = $(event.currentTarget).data('id');
-      this.openEditPatientModal(patientId); 
+      this.openEditPatientModal(patientId);
     });
 
     $('#patientsTable tbody').on('click', '.delete-button', (event: any) => {
       const patientId = $(event.currentTarget).data('id');
-      this.confirmDeletePatient(patientId); 
+      this.confirmDeletePatient(patientId);
     });
   }
 
   openEditPatientModal(patientId: number): void {
-    this._router.navigate(['/get-patient-detail', patientId]); 
+    this._router.navigate(['/dashboard/patients/details', patientId]);
   }
 
   confirmDeletePatient(patientId: number): void {
     console.log('Borrar paciente con ID:', patientId);
   }
-
 
   initComplete() {
     const table = $('#patientsTable').DataTable();

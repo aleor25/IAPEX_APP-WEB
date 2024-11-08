@@ -3,15 +3,17 @@ import { DashboardComponent } from "./dashboard.component";
 import { GeneralViewComponent } from "./general-view/general-view.component";
 import { NotificationsComponent } from "./notifications/notifications.component";
 import { SettingsComponent } from "./settings/settings.component";
-import { PatientsComponent } from "./patients-managment/patients/patients.component";
-import { InstitutionsComponent } from "./institutions-managment/institutions/institutions.component";
-import { RegisterInstitutionsComponent } from "./institutions-managment/register-institutions/register-institutions.component";
-import { MembershipDetailComponent } from "./memberships-managment/membership-detail/membership-detail.component";
-import { MembershipsComponent } from "./memberships-managment/memberships/memberships.component";
-import { RegisterMembershipsComponent } from "./memberships-managment/register-memberships/register-memberships.component";
-import { RegisterPatientsComponent } from "./patients-managment/register-patients/register-patients.component";
-import { ContactRequestsComponent } from "./requests-managment/contact-requests/contact-requests.component";
-
+import { ContactRequestsComponent } from "./contact-requests/contact-requests.component";
+import { InstitutionsComponent } from "./institutions/institutions.component";
+import { RegisterInstitutionsComponent } from "./institutions/register/register-institutions.component";
+import { MembershipsComponent } from "./memberships/memberships.component";
+import { RegisterMembershipsComponent } from "./memberships/register/register-memberships.component";
+import { PatientsComponent } from "./patients/patients.component";
+import { RegisterPatientsComponent } from "./patients/register/register-patients.component";
+import { ContactRequestDetailsComponent } from "./contact-requests/details/contact-request-details.component";
+import { InstitutionDetailsComponent } from "./institutions/details/institution-details.component";
+import { PatientDetailsComponent } from "./patients/details/patient-details.component";
+import { MembershipDetailsComponent } from "./memberships/details/membership-details.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -19,33 +21,26 @@ export const DashboardRoutes: Routes = [
         component: DashboardComponent,
         children: [
             { path: '', redirectTo: 'general-view', pathMatch: 'full' },
-            { path: 'general-view', component: GeneralViewComponent, },
-            { path: 'patients',
-                component: PatientsComponent,
-                children: [
-                        { path: 'register-patients', component: RegisterPatientsComponent },
-                      ]},
-                ]
-            },
-            { path: 'requests-managment',
-                children: [
-                    { path: 'contact-requests', component: ContactRequestsComponent }
-                ]
-            },
-            { path: 'institutions-managment',
-                children: [
-                    { path: 'institutions', component: InstitutionsComponent },
-                    { path: 'register-institutions', component: RegisterInstitutionsComponent }
-                ]
-            },
-            { path: 'memberships-managment',
-                children: [
-                    { path: 'membership-detail', component: MembershipDetailComponent },
-                    { path: 'memberships', component: MembershipsComponent },
-                    { path: 'register-memberships', component: RegisterMembershipsComponent }
-                ]
-            },
+            { path: 'general-view', component: GeneralViewComponent },
+            
+            { path: 'patients', component: PatientsComponent },
+            { path: 'patients/register', component: RegisterPatientsComponent },
+            { path: 'patients/details/:id', component: PatientDetailsComponent },
 
-            { path: 'notifications', component: NotificationsComponent },
-            { path: 'settings', component: SettingsComponent },
-        ];
+            { path: 'contact-requests', component: ContactRequestsComponent },
+            { path: 'contact-requests/details/:id', component: ContactRequestDetailsComponent },
+
+            { path: 'institutions', component: InstitutionsComponent },
+            { path: 'institutions/register', component: RegisterInstitutionsComponent },
+            { path: 'institutions/details/:id', component: InstitutionDetailsComponent },
+
+            { path: 'memberships', component: MembershipsComponent },
+            { path: 'memberships/register', component: RegisterMembershipsComponent },
+            { path: 'memberships/details/:id', component: MembershipDetailsComponent },
+            
+            // { path: 'notifications', component: NotificationsComponent },
+            // { path: 'settings', component: SettingsComponent },
+        ]
+    },
+
+];

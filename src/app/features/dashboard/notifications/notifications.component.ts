@@ -5,8 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-notifications',
   standalone: true,
   imports: [NgFor],
-  templateUrl: './notifications.component.html',
-  styleUrl: './notifications.component.css'
+  templateUrl: './notifications.component.html'
 })
 export class NotificationsComponent {
   notificaciones = new Array(5); // Array con 5 elementos

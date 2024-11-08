@@ -1,0 +1,80 @@
+<div class="row vh-100 g-0">
+    <!-- Left column -->
+    <div class="col-lg-6 position-relative d-none d-lg-block">
+        <div class="bg-holder" style="background-image: url('./assets/images/bg-login.jpg')"></div>
+    </div>
+    <!--/ Left column -->
+
+    <!-- Right column -->
+    <div class="col-lg-6 bg-white py-3 d-flex align-items-center justify-content-center">
+        <!-- Contenido -->
+        <div class="d-flex align-items-center h-100 px-5">
+            <div class="col-sm-6 col-lg-7 col-xl-6 w-100">
+                <div class="mb-5">
+                    <div class="d-flex mb-2">
+                        <img class="logo-image" src="assets/images/logo.png" alt="logo">
+                    </div>
+                    <h1 class="fw-bold fs-2 mb-3">Iniciar sesión</h1>
+                    <p>Por favor, introduza sus credenciales de acceso para continuar.</p>
+                </div>
+
+                <!-- Formulario -->
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico*</label>
+                        <input type="email" formControlName="email" class="form-control" id="email"
+                            placeholder="correo@ejemplo.com">
+                        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
+                            <div *ngIf="email?.errors?.['required']">El correo electrónico es requerido</div>
+                            <div *ngIf="email?.errors?.['email']">Lo insertado no es un correo electrónico</div>
+                            <div *ngIf="email?.errors?.['maxlength']">El correo electrónico no es válido</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label for="password" class="form-label">Contraseña*</label>
+                            <a routerLink="/auth/forgot-password" class="text-decoration-none mb-2">¿Olvidó su
+                                contraseña?</a>
+                        </div>
+                        <input type="password" formControlName="password" class="form-control" id="password"
+                            placeholder="Su contraseña" maxlength="16">
+                        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="text-danger">
+                            <div *ngIf="password?.errors?.['required']">La contraseña es requerida</div>
+                            <div *ngIf="password?.errors?.['minlength']">La contraseña debe de ser mínimo de 8
+                                caracteres.</div>
+                            <div *ngIf="password?.errors?.['maxlength']">La contraseña debe de ser máximo de 16
+                                caracteres.</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center" id="checkbox">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                <span>Recuérdame</span>
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" type="submit" [disabled]="loginForm.invalid">Iniciar
+                            sesión</button>
+                    </div>
+                    <div class="pt-5 justify-content-center align-items-center d-flex">
+                        <p>¿No tiene una cuenta? <a routerLink="/auth/register"
+                                class="text-decoration-none">¡Regístrate!</a>
+                        </p>
+                    </div>
+
+                    <!-- Mostrar mensaje de error aquí -->
+
+                    <div class="error-container d-flex align-items-center justify-content-center mx-auto w-50">
+                        <small *ngIf="errorMessage" class="text-danger text-center w-100">
+                            {{ errorMessage }}
+                        </small>
+                    </div>
+
+                </form>
+                <!-- Formulario -->
+            </div>
+        </div>
+    </div>
+    <!--/ Contenido -->
+</div>
+<!--/ Right column -->

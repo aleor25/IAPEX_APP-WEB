@@ -7,71 +7,37 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-
-    /* Estilos para ajustes de accesibilidad */
-    font-size: var(--text-size, 16px);
-    /* Tamaño por defecto */
-    font-weight: var(--font-weight, normal);
-    /* Peso por defecto */
-    color: var(--text-color, black);
-    /* Color de texto por defecto */
 }
 
-.card,
-.sidebar {
-    background-color: var(--background-color);
-    /* Fondo de contenedores */
-    color: var(--text-color, black);
-    /* Color de texto en contenedores */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 20px;
 }
 
-.navbar,
-.sidebar {
-    background-color: var(--background-color, white);
-    color: var(--text-color, black);
+.image-item img {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    object-fit: cover;
 }
 
-/*  Icono de basura a color blanco */
-.bi-trash {
-    color: white !important;
+.logo-image {
+    float: left;
+    width: 170px;
+    height: auto;
+    padding-bottom: 10px;
 }
 
-/* Negrita para el texto de los campos en formularios */
-.form-label {
-    font-weight: bold
-}
-
-/* Linea inferior en divs */
-.border-bottom-dark-gray {
-    border-bottom: 1.5px solid gray;
-}
-
-/* Cualquier botón rojo de la aplicación */
-.btn-danger {
-    background-color: #ff0019 !important;
-    color: #ffffff !important;
-}
-
-.btn-dark {
-    background-color: black !important;
-    color: white !important;
-
-}
-
-.deletemodal {
-    background-color: red;
-    color: white;
-}
-
-.icon-red {
-    margin: 10%;
-    font-size: 25px;
-    color: red;
-}
-
-.icon-center {
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-    padding: 10px;
+.bg-holder {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1F89EA;
 }

@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContactRequest } from '../../../core/models/contact-request/contact-request.model';
 import { Router } from '@angular/router';
-import { ContactRequestService } from '../../../core/services/dashboard/contact-request/contact-request.service';
+import { ContactRequestService } from '../../../core/services/contact-request.service';
 declare var $: any;
 
 @Component({
@@ -15,6 +15,7 @@ declare var $: any;
 export class ContactsTableComponent implements OnInit {
   @Input() table: string[] = [];
   contactsData: ContactRequest[] = [];
+
   private _contactRequestService = inject(ContactRequestService);
   private _router = inject(Router);
 
@@ -89,7 +90,7 @@ export class ContactsTableComponent implements OnInit {
           const contactRequest = this.contactsData.find(contact => contact.id === id);
           if (contactRequest) {
             console.log('Datos de la solicitud de contacto:', contactRequest);
-            this._router.navigate(['/contact-request-detail', id]);
+            this._router.navigate(['/dashboard/contact-requests/details', id]);
           }
         });
       }
@@ -98,9 +99,9 @@ export class ContactsTableComponent implements OnInit {
 
   viewDetails(id: number | undefined): void {
     if (id !== undefined) {
-      this._router.navigate(['/contact-request-detail', id]);
+      this._router.navigate(['/dashboard/contact-requests/details', id]);
     }
-}
+  }
   private initComplete(): void {
     const table = $('#contactsTable').DataTable();
   }

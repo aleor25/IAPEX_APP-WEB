@@ -1,0 +1,21 @@
+@if (currentSection != 'Datos estadisticos') {
+<div class="bg-white d-flex justify-content-between align-items-center header border-bottom p-3">
+    <h4 class="m-0">{{ currentSection }}</h4>
+
+    <div class="d-flex justify-content-end">
+        @if (isRegisterPage || isDetailsPage) {
+        <!-- Botón de "Volver" con flecha, redirige a la sección actual -->
+        <a class="btn btn-sm" type="button" [routerLink]="['/dashboard', getRoutePath()]">
+            <span class="material-symbols-outlined px-3 fs-1">arrow_back</span>
+        </a>
+        } @else {
+        <!-- Botón de "Registrar" -->
+        @if (getButtonLabel() != 'Datos estadisticos') {
+        <a class="btn btn-primary" type="button" [routerLink]="['/dashboard', getRoutePath(), 'register']">
+            {{ getButtonLabel() }}
+        </a>
+        }
+        }
+    </div>
+</div>
+}

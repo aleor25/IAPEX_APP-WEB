@@ -5,15 +5,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { ToastService } from '../services/util/toast.service';
-import { LoginService } from '../services/access/login/login.service';
+import { UserService } from '../services/user.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const _router = inject(Router);
   const _toastService = inject(ToastService);
-  const _loginService = inject(LoginService);
+  const _userService = inject(UserService);
 
   // Obtener el token desde el LoginService
-  const user = _loginService.getUser();
+  const user = _userService.getUser();
   const token = user ? user.token : null;
 
   if (token) {

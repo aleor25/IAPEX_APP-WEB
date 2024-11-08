@@ -1,8 +1,8 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MembershipsService } from '../../../core/services/memberships/memberships.service';
+import { MembershipService } from '../../../core/services/membership.service';
 import { Router } from '@angular/router';
-import { Membership } from '../../../core/models/memberships/membership.model';
+import { Membership } from '../../../core/models/membership.model';
 declare var $: any;
 
 @Component({
@@ -13,12 +13,14 @@ declare var $: any;
   styleUrl: './memberships-table.component.css'
 })
 export class MembershipsTableComponent implements OnInit {
-  private _membershipsService = inject(MembershipsService);
+
+  private _membershipsService = inject(MembershipService);
   private _router = inject(Router);
+
   @Input() table: string[] = [];
 
   membershipsData: Membership[] = [];
-  
+
   ngOnInit(): void {
     this.loadMemberships();
   }
@@ -33,7 +35,7 @@ export class MembershipsTableComponent implements OnInit {
       minute: 'numeric',
       hour12: true
     });
-    
+
     return `${day} de ${month} de ${year} a las ${time}`;
   }
 
@@ -59,21 +61,21 @@ export class MembershipsTableComponent implements OnInit {
       ordering: false,
       scrollX: true,
       columns: [
-        { 
+        {
           data: 'id',
           name: 'id'
         },
-        { 
+        {
           data: 'startDate',
           name: 'startDate',
           render: (data: string) => this.formatDate(data)
         },
-        { 
+        {
           data: 'endDate',
           name: 'endDate',
           render: (data: string) => this.formatDate(data)
         },
-        { 
+        {
           data: 'status',
           name: 'status',
           render: (data: boolean) => {
@@ -123,7 +125,7 @@ export class MembershipsTableComponent implements OnInit {
           const membership = this.membershipsData.find(mem => mem.id === id);
           if (membership) {
             console.log('Datos de la membresía:', membership);
-            this._router.navigate(['/membership-detail', id]);
+            this._router.navigate(['/dashboard/memberships/details', id]);
           }
         });
       }

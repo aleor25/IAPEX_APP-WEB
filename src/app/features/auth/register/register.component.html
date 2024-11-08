@@ -1,0 +1,155 @@
+<main class="container-fluid h-100">
+    <div class="row h-100">
+        <!-- Left column -->
+        <div class="col-lg-6 position-relative d-none d-lg-block" style="position: fixed; height: 100%;">
+            <div class="bg-holder"
+                style="background-image: url('./assets/images/bg-register.jpg'); height: 100%; width: 100%;"></div>
+        </div>
+        <!--/ Left column -->
+
+        <!-- Right column -->
+        <div
+            class="container-fluid navbar-nav-scroll mh-100 col-lg-6 bg-white d-flex align-items-center justify-content-center">
+            <!-- Contenido -->
+            <div class="d-flex align-items-center h-100 custom-padding px-5">
+                <div class="col-sm-6 col-lg-7 col-xl-6 w-100">
+                    <div class="mb-5">
+                        <div class="d-flex mb-2">
+                            <img class="logo-image" src="assets/images/logo.png" alt="logo">
+                        </div>
+                        <h1 class="fw-bold fs-2 mb-3">Registrarse</h1>
+                        <p>Complete el formulario a continuación para crear una nueva cuenta.</p>
+                    </div>
+
+                    <!-- Formulario -->
+                    <form [formGroup]="registerForm" (ngSubmit)="register()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre(s)*</label>
+                            <input formControlName="name" type="text" class="form-control" id="name"
+                                placeholder="Ingresa tu nombre o nombres">
+
+                            <!-- mensajes de error de validaciones -->
+                            <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="text-danger">
+                                <div *ngIf="name?.errors?.['required']">
+                                    El nombre es requerido
+                                </div>
+                                <div *ngIf="name?.errors?.['maxlength']">
+                                    El nombre no es valido
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="lastName" class="form-label">Primer apellido*</label>
+                                <input formControlName="lastName" type="text" class="form-control" id="lastName"
+                                    placeholder="Ingresa tu apellido paterno">
+                                <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="lastName?.errors?.['required']">
+                                        El primer apellido es requerido
+                                    </div>
+                                    <div *ngIf="lastName?.errors?.['maxlength']">
+                                        El primer apellido no es valido
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="secondLastName" class="form-label">Segundo apellido</label>
+                                <input formControlName="secondLastName" type="text" class="form-control"
+                                    id="secondLastName" placeholder="Ingresa tu apellido materno">
+                                <div *ngIf="secondLastName?.invalid && (secondLastName?.dirty || secondLastName?.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="secondLastName?.errors?.['maxlength']">
+                                        El segundo apellido no es valido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="institution" class="form-label">Institución de salud*</label>
+                                <input type="text" formControlName="institution" class="form-control"
+                                    id="institution" placeholder="Ingrese una institución" />
+                                <div *ngIf="institution?.invalid && (institution?.dirty || institution?.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="institution?.errors?.['required']">
+                                        La institución es requerida
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="position" class="form-label">Cargo*</label>
+                                <input formControlName="position" type="text" class="form-control" id="position"
+                                    placeholder="Ingresa tu cargo">
+                                <div *ngIf="position?.invalid && (position?.dirty || position?.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="position?.errors?.['required']">
+                                        El cargo es requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico*</label>
+                            <input formControlName="email" type="email" class="form-control" id="email"
+                                placeholder="correo@ejemplo.com">
+                            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
+                                <div *ngIf="email?.errors?.['required']">
+                                    El correo electronico es requerido
+                                </div>
+                                <div *ngIf="email?.errors?.['email']">
+                                    Lo insertado no es un correo electronico
+                                </div>
+                                <div *ngIf="email?.errors?.['maxLength']">
+                                    El correo electronico no es valido
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña*</label>
+                            <input formControlName="password" type="password" class="form-control" id="password"
+                                placeholder="Su contraseña">
+                            <div *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+                                class="text-danger">
+                                <div *ngIf="password?.errors?.['required']">
+                                    La contraseña es requerida
+                                </div>
+                                <div *ngIf="password?.errors?.['minlength']">
+                                    La contraseña no es valida
+                                </div>
+                                <div *ngIf="password?.errors?.['maxLength']">
+                                    La contraseña no es valida
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="repeatPassword" class="form-label">Repetir contraseña*</label>
+                            <input formControlName="repeatPassword" type="password" class="form-control"
+                                id="repeatPassword" placeholder="Repita su contraseña">
+                            <div *ngIf="repeatPassword?.invalid && (repeatPassword?.dirty || repeatPassword?.touched)"
+                                class="text-danger">
+                                <div *ngIf="repeatPassword?.errors?.['passwordMismatch']">
+                                    Las contraseñas no coinciden
+                                </div>
+                            </div>
+                        </div>
+                        <!-- validaciones de confirmar contraseña -->
+                        <div
+                            *ngIf="registerForm.errors?.['passwordMismatch'] && (registerForm?.dirty || registerForm?.touched)">
+                            Las contraseñas no coinciden.
+                        </div>
+
+                        <div class="pt-3 justify-content-between align-items-center d-flex">
+                            <p class="m-0">¿Ya tienes una cuenta? <a class="active text-decoration-none"
+                                    routerLink="/auth/login">¡Inicia sesión!</a> </p>
+                            <button class="btn btn-primary fw-bold" type="submit">Registrarse</button>
+                        </div>
+                    </form>
+                    <!-- Formulario -->
+                </div>
+            </div>
+        </div>
+        <!--/ Contenido -->
+    </div>
+    <!--/ Right column -->
+</main>
