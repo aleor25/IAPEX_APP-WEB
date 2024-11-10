@@ -6,8 +6,7 @@ import { filter } from 'rxjs';
   selector: 'app-navbar',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
   currentSection: string = '';
@@ -31,7 +30,7 @@ export class NavbarComponent implements OnInit {
     this.isDetailsPage = url.includes('/details'); // Detecta cualquier URL que contenga "/edit"
     const path = url.split('/').slice(2)[0]; // Obtiene la sección antes de "register"
 
-    console.log('path:', path);
+    // console.log('path:', path);
 
     if (this.isRegisterPage) {
       // Cambia el título en la página de registro según la sección

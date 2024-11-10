@@ -1,170 +1,93 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
-import * as bootstrap from 'bootstrap';
-import { PatientsTableComponent } from '../../../shared/tables/patients-table/patients-table.component';
+import { Component, inject, OnInit } from '@angular/core';
+// import { PatientsTableComponent } from '../../../shared/tables/patients-table/patients-table.component';
 import { Patient } from '../../../core/models/patient.model';
 import { PatientService } from '../../../core/services/patient.service';
+import { TableComponent } from '../../../shared/components/table/table.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patients',
   standalone: true,
-  imports: [FormsModule, CommonModule, PatientsTableComponent, RouterLink],
-  templateUrl: './patients.component.html',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [TableComponent],
+  template: `
+    <app-table [data]="patientsData" [columns]="columns" [tableId]="'patientsTable'"
+               [onRowAction]="onRowAction">
+    </app-table>
+  `
 })
 export class PatientsComponent implements OnInit {
-  patients: Patient[] = [];
-  loading: boolean = true;
-  error: string | null = null;
-  patientIdToDelete: number | null = null;
 
-  private _patientService = inject(PatientService);
+  patientsData: Patient[] = [];
+  private _patientsService = inject(PatientService);
   private _router = inject(Router);
 
-  table: string[] = [];
-
   ngOnInit(): void {
-    this.getAllPatients();
-  }
-
-  refreshList(): void {
-    this.loading = true;
-    this.error = null;
-    this.getAllPatients();
-  }
-
-  getAllPatients(): void {
-    this._patientService.getAllPatients().subscribe({
-      next: (data: Patient[]) => {
-        this.patients = data;
-        this.loading = false;
+    this._patientsService.getAllPatients().subscribe(
+      (data) => {
+        this.patientsData = data;
+        console.log('Datos obtenidos: ', this.patientsData);
       },
-      error: (err) => {
-        this.error = 'Error al cargar los datos: ' + err.message;
-        this.loading = false;
-      }
-    });
+      (error) => console.error('Error al obtener los datos: ', error)
+    );
   }
 
-  addPatient(patient: Patient): void {
-    const formData = this.createFormData(patient);
-    this._patientService.addPatient(formData).subscribe({
-      next: (newPatient) => {
-        this.patients.push(newPatient);
-        console.log('Paciente agregado:', newPatient);
-      },
-      error: (err) => {
-        console.error('Error al agregar paciente:', err);
-        this.error = 'Error al agregar paciente: ' + err.message;
-      }
-    });
-  }
-
-  private createFormData(patient: Patient): FormData {
-    const formData = new FormData();
-    formData.append('name', patient.name);
-    formData.append('lastName', patient.lastName);
-    formData.append('secondLastName', patient.secondLastName);
-    formData.append('gender', patient.gender);
-    formData.append('approximateAge', patient.approximateAge.toString());
-    formData.append('registrationDateTime', patient.registrationDateTime);
-    formData.append('active', patient.active.toString());
-    formData.append('skinColor', patient.skinColor);
-    formData.append('hair', patient.hair);
-    formData.append('complexion', patient.complexion);
-    formData.append('eyeColor', patient.eyeColor);
-    formData.append('approximateHeight', patient.approximateHeight.toString());
-
-    if (patient.medicalConditions) {
-      formData.append('medicalConditions', patient.medicalConditions);
+  columns = [
+    { data: 'id', title: 'ID' },
+    { data: 'name', title: 'Nombre completo', render: (data: any, type: any, row: any) => `${row.name} ${row.lastName} ${row.secondLastName}` },
+    { data: 'gender', title: 'Género', render: (data: any) => data.charAt(0).toUpperCase() + data.slice(1) },
+    { data: 'approximateAge', title: 'Edad aproximada', render: (data: any) => `${data} años` },
+    { data: 'registrationDateTime', title: 'Fecha de registro', render: (data: any) => this.formatDateTime(data) },
+    { data: 'registeringUser', title: 'Registrado por' },
+    { data: null, title: 'Descripción', render: (data: any) => `Paciente con piel ${data.skinColor}, cabello ${data.hair}, complexión ${data.complexion}, ojos color ${data.eyeColor} y estatura aproximada de ${data.approximateHeight} cm.` },
+    { data: 'active', title: 'Estado',
+      render: (data: any) => `<span class="${this.getStatusClass(data)}">${this.formatStatus(data)}</span>`
+    },
+    {
+      data: null, title: 'Más detalles', className: 'text-center align-middle text-nowrap-small',
+      render: (data: any) => `
+        <button title="Ver detalles" class="btn btn-primary btn-sm see-details-btn" data-id="${data.id}">
+          <span class="material-symbols-outlined fs-5">visibility</span>
+        </button>
+      `
     }
-    if (patient.distinctiveFeatures) {
-      formData.append('distinctiveFeatures', patient.distinctiveFeatures);
-    }
+  ];
 
-    formData.append('institutionId', patient.institution.toString());
+  formatDateTime(dateTime: string | Date): string {
+    const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
 
-    patient.images.forEach((image, index) => {
-      formData.append(`images[${index}].id`, image.id.toString());
-      formData.append(`images[${index}].image`, image.image);
-      formData.append(`images[${index}].imageUrl`, image.imageUrl);
+    const day = date.toLocaleString('es-ES', { day: 'numeric' });
+    const month = date.toLocaleString('es-ES', { month: 'long' });
+    const year = date.toLocaleString('es-ES', { year: 'numeric' });
+
+    const time = date.toLocaleString('es-ES', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
     });
 
-    if (patient.additionalNotes) {
-      formData.append('additionalNotes', patient.additionalNotes);
-    }
-
-    return formData;
+    return `${day} de ${month} de ${year} a las ${time}`;
   }
 
-  /** Editar un paciente cuando se proporciona su id.*/
-  updatePatient(patient: any, event: Event): void {
-    event.stopPropagation();
-    this._router.navigate(['/update-patient-detail', patient.id], { queryParams: { edit: 'true' } });
+  private formatStatus(status: boolean): string {
+    const statusMap: { [key: string]: string } = {
+      false: 'Encontrado',
+      true: 'No encontrado'
+    };
+    return statusMap[String(status)];
   }
 
-  /** Muestra la informacion detallada de un paciente cuando se proporciona su id.*/
-  viewDetails(id: number | undefined): void {
-    if (id !== undefined) {
-      this._router.navigate(['/get-patient-detail', id]);
-    }
-  }
-
-  /** Confrimar la eliminacion de un paciente.*/
-  confirmDelete(): void {
-    if (this.patientIdToDelete !== null) {
-      this.deletePatient(this.patientIdToDelete);
-      this.patientIdToDelete = null;
+  private getStatusClass(status: boolean): string {
+    switch (status) {
+      case false:
+        return 'badge bg-success';
+      case true:
+        return 'badge bg-danger';
+      default:
+        return 'badge bg-secondary';
     }
   }
 
-  /* Abre el modal para confirmar la eliminacion de un paciente.*/
-  openDeleteModal(patientId: number, event: Event): void {
-    event.stopPropagation();
-    this.patientIdToDelete = patientId;
-    const modalElement = document.getElementById('deleteConfirmationModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  /**Eliminar un paciente.*/
-  deletePatient(id: number): void {
-    this._patientService.deletePatient(id).subscribe({
-      next: () => {
-        this.patients = this.patients.filter(patient => patient.id !== id);
-        console.log('Paciente eliminado con ID:', id);
-        this.closeModal();
-      },
-      error: (err) => {
-        console.error('Error al eliminar paciente:', err);
-        this.error = 'Error al eliminar paciente: ' + err.message;
-      }
-    });
-  }
-
-  /*Cierra el modal de confirmacion de eliminacion de paciente.*/
-  closeModal(): void {
-    const modalElement = document.getElementById('deleteConfirmationModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
-      }
-    }
-  }
-
-  /*Formatea la descripcion de un paciente en una oracion*/
-  formatDescription(patient: Patient): string {
-    return `${patient.gender}
-    , de aproximadamente ${patient.approximateAge} 
-    años, con piel ${patient.skinColor.toLowerCase()}
-    , cabello ${patient.hair.toLowerCase()}
-    , complexión ${patient.complexion.toLowerCase()}
-    , ojos ${patient.eyeColor.toLowerCase()}
-    , y una altura aproximada de ${patient.approximateHeight} cm.`;
+  onRowAction(id: number): void {
+    this._router.navigate(['/dashboard/patients/details', id]);
   }
 }

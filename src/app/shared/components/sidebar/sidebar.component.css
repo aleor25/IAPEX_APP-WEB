@@ -3,13 +3,7 @@
     color: #fff;
 }
 
-
 .nav-link:not(.active) .d-none.d-lg-inline,
 .nav-link:not(.active) .material-symbols-outlined {
     color: black;
 }
-
-.custom-rounded {
-    border-top-right-radius: 1.5rem; /* Equivalente a rounded-4 */
-    border-bottom-right-radius: 1.5rem; /* Equivalente a rounded-4 */
-  }
