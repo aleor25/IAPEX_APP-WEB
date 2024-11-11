@@ -72,7 +72,7 @@ export class LoginComponent {
               this.userWebService.setTokenWithExpiration(response.token);
               const role = response.authorities && response.authorities.length > 0
                 ? response.authorities[0].authority
-                : 'USER';
+                : 'USER_WEB';
               localStorage.setItem('userRole', role);
               this._router.navigate(['/dashboard/general-view']);
             } else {

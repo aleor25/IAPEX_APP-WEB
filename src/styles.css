@@ -1,5 +1,11 @@
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif !important;
+}
+
+input,
+select,
+textarea {
+    background-color: #F8F9FA;
 }
 
 html,
@@ -40,4 +46,24 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-color: #1F89EA;
+}
+
+
+.dropdown-hover {
+    position: relative;
+}
+
+.dropdown-hover .dropdown-menu {
+    display: block;
+    min-width: 325px;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    position: absolute;
+}
+
+.dropdown-hover:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
 }

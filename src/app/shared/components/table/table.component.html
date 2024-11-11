@@ -1,79 +1,79 @@
 <div class="border bg-white px-3 rounded-4">
     @if (loading) {
-        <div>
-            <div class="row d-flex justify-content-between align-items-center py-3 placeholder-wave">
-                <div class="col d-flex justify-content-start">
-                    <span class="my-1 placeholder col-2"></span>
-                    <select class="mx-2">
-                        <option></option>
-                        <option>100</option>
-                    </select>
-                    <span class="my-1 placeholder col-2"></span>
-                </div>
-                <div class="col d-flex justify-content-end">
-                    <span class="my-1 placeholder col-2"></span>
-                    <input class="ms-2 h-100">
-                </div>
+    <div>
+        <div class="row d-flex justify-content-between align-items-center py-3 placeholder-wave">
+            <div class="col d-flex justify-content-start">
+                <span class="my-1 placeholder col-2"></span>
+                <select class="mx-2">
+                    <option></option>
+                    <option>100</option>
+                </select>
+                <span class="my-1 placeholder col-2"></span>
             </div>
-    
-            <div class="overflow-x-scroll">
-                <table class="display table">
-                    <thead>
-                        <tr>
-                            @for (itheader of [].constructor(6); track $index) {
-                            <th>
-                                <span class="placeholder w-100"></span>
-                            </th>
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (itrowem of [].constructor(11); track $index) {
-                        <tr>
-                            @for (itheader of [].constructor(6); track $index) {
-                            <td class="placeholder-glow">
-                                <span class="placeholder w-100"></span>
-                            </td>
-                            }
-                        </tr>
+            <div class="col d-flex justify-content-end">
+                <span class="my-1 placeholder col-2"></span>
+                <input class="ms-2 h-100">
+            </div>
+        </div>
+
+        <div class="overflow-x-scroll">
+            <table class="display table">
+                <thead>
+                    <tr>
+                        @for (itheader of [].constructor(6); track $index) {
+                        <th>
+                            <span class="placeholder w-100"></span>
+                        </th>
                         }
-                    </tbody>
-                </table>
-            </div>
-    
-            <nav class="d-flex justify-content-between align-items-center my-3">
-                <p class="placeholder-wave w-100 mb-0">
-                    <span class="placeholder col-7"></span>
-                </p>
-                <ul class="pagination mb-0">
-                    <li class="page-item">
-                        <a class="page-link link-secondary">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link link-secondary">
-                            <span aria-hidden="true">&lsaquo;</span>
-                        </a>
-                    </li>
-                    @for (page of [].constructor(5); track $index) {
-                    <li class="page-item placeholder-wave">
-                        <span class="page-link link-dark placeholder">10</span>
-                    </li>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (itrowem of [].constructor(11); track $index) {
+                    <tr>
+                        @for (itheader of [].constructor(6); track $index) {
+                        <td class="placeholder-glow">
+                            <span class="placeholder w-100"></span>
+                        </td>
+                        }
+                    </tr>
                     }
-                    <li class="page-item">
-                        <a class="page-link link-secondary">
-                            <span aria-hidden="true">&rsaquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link link-secondary">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            </div>
+                </tbody>
+            </table>
+        </div>
+
+        <nav class="d-flex justify-content-between align-items-center my-3">
+            <p class="placeholder-wave w-100 mb-0">
+                <span class="placeholder col-7"></span>
+            </p>
+            <ul class="pagination mb-0">
+                <li class="page-item">
+                    <a class="page-link link-secondary">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link link-secondary">
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </a>
+                </li>
+                @for (page of [].constructor(5); track $index) {
+                <li class="page-item placeholder-wave">
+                    <span class="page-link link-dark placeholder">10</span>
+                </li>
+                }
+                <li class="page-item">
+                    <a class="page-link link-secondary">
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link link-secondary">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     }
 
     @if (error) {

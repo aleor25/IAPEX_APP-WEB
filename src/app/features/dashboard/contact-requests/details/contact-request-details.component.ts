@@ -90,7 +90,7 @@ export class ContactRequestDetailsComponent implements OnInit {
             this.originalStatus = this.request!.status;
             this.statusChanged = false;
             setTimeout(() => this.updateMessage = '', 3000);
-            this._router.navigate(['/dashboard/requests-managment/contact-requests']);
+            this._router.navigate(['/dashboard/contact-requests']);
           },
           (error) => {
             console.error('Error al actualizar el estado', error);

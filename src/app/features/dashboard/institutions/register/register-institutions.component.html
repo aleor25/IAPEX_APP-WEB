@@ -35,6 +35,23 @@
           *ngIf="registerInstitutions.get('type')?.touched && registerInstitutions.get('type')?.errors?.['required']">
           El tipo de institución es requerido.
         </div>
+
+        <!-- Campo adicional solo visible si se selecciona 'Otro' -->
+        <div *ngIf="registerInstitutions.get('type')?.value === 'Otro'" class="mt-3">
+          <label for="otherType" class="form-label">Especificar tipo</label>
+          <input type="text" class="form-control" id="otherType" formControlName="otherType"
+            placeholder="Especifica el tipo de institución"
+            [ngClass]="{'is-invalid': registerInstitutions.get('otherType')?.invalid && registerInstitutions.get('otherType')?.touched}">
+          <div class="invalid-feedback" *ngIf="registerInstitutions.get('otherType')?.touched">
+            <div *ngIf="registerInstitutions.get('otherType')?.errors?.['required']">
+              El tipo especificado es requerido.
+            </div>
+            <div *ngIf="registerInstitutions.get('otherType')?.errors?.['maxlength']">
+              El tipo no puede exceder los 50 caracteres.
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -175,7 +192,8 @@
 
     <!-- Botón de envío -->
     <div class="d-flex align-items-end justify-content-end">
-      <button type="submit" class="btn btn-primary mt-4" [disabled]="registerInstitutions.invalid || imageFiles.length === 0">Registrar institución
+      <button type="submit" class="btn btn-primary mt-4"
+        [disabled]="registerInstitutions.invalid || imageFiles.length === 0">Registrar institución
       </button>
     </div>
   </form>

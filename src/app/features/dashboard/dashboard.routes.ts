@@ -22,7 +22,7 @@ export const DashboardRoutes: Routes = [
         children: [
             { path: '', redirectTo: 'general-view', pathMatch: 'full' },
             { path: 'general-view', component: GeneralViewComponent },
-            
+
             { path: 'patients', component: PatientsComponent },
             { path: 'patients/register', component: RegisterPatientsComponent },
             { path: 'patients/details/:id', component: PatientDetailsComponent },
@@ -42,5 +42,4 @@ export const DashboardRoutes: Routes = [
             // { path: 'settings', component: SettingsComponent },
         ]
     },
-
 ];

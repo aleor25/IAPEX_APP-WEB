@@ -28,6 +28,7 @@ export class RegisterInstitutionsComponent {
     this.registerInstitutions = this._fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type: ['', Validators.required],
+      otherType: ['', Validators.maxLength(50)],
       direction: this._fb.group({
         state: ['', Validators.required],
         city: ['', Validators.required],
@@ -50,6 +51,17 @@ export class RegisterInstitutionsComponent {
       verificationKey: [''],
       imageFiles: this._fb.array([]),
     });
+
+    // Lógica para mostrar otro input si se selecciona "otro"
+    this.registerInstitutions.get('type')?.valueChanges.subscribe(value => {
+      if (value === 'Otro') {
+        this.registerInstitutions.get('otherType')?.setValidators([Validators.required, Validators.maxLength(50)]);
+      } else {
+        this.registerInstitutions.get('otherType')?.clearValidators();
+        this.registerInstitutions.get('otherType')?.setValue('');
+      }
+      this.registerInstitutions.get('otherType')?.updateValueAndValidity();
+    });
   }
 
   get imageFiles() {
@@ -65,7 +77,6 @@ export class RegisterInstitutionsComponent {
       Object.keys(formValue).forEach((key) => {
         if (key !== 'direction' && key !== 'imageFiles') {
           formData.append(key, formValue[key]);
-          console.log(`Agregando ${key}:`, formValue[key]);
         }
       });
 
@@ -77,17 +88,13 @@ export class RegisterInstitutionsComponent {
       formData.append('neighborhood', direction.neighborhood);
       formData.append('street', direction.street);
       formData.append('number', direction.number);
-      console.log('Campos de dirección agregados:', direction);
 
       // Agregar archivos de imagen
       if (this.imageFiles.length > 0) {
         this.imageFiles.controls.forEach((control, index) => {
           formData.append('imageFile', control.value);
-          console.log(`Agregando archivo de imagen ${index + 1}:`, control.value);
         });
       }
-
-      console.log('Datos del formulario siendo enviados:', formData);
 
       this.loading = true;
 
@@ -95,26 +102,22 @@ export class RegisterInstitutionsComponent {
         .addInstitution(formData)
         .pipe(
           tap((response) => {
-            console.log('Respuesta del servidor:', response);
             this.errorMessage = null;
             this._router.navigate(['/dashboard/institutions']);
           }),
           catchError((error) => {
-            console.error('Registro fallido', error);
             this.errorMessage =
               error.error?.message || 'Error al registrar los datos.';
             return of(null);
           }),
           finalize(() => {
             this.loading = false;
-            console.log('Envío del formulario finalizado.');
           })
         )
         .subscribe();
     } else {
       this.markFormGroupTouched(this.registerInstitutions);
       this.errorMessage = 'Por favor, complete todos los campos requeridos.';
-      console.log('El formulario no es válido. Marcando todos los controles como tocados.');
     }
   }
 
