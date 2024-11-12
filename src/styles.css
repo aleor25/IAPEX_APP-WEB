@@ -67,3 +67,12 @@ body {
     opacity: 1;
     visibility: visible;
 }
+
+.upload-area {
+    border-style: dashed; 
+    cursor: pointer;
+    height: 200px;
+}
+.upload-area:hover {
+    background-color: #f9f9f9;
+}

@@ -1,6 +1,6 @@
 <div class="bg-white p-4 rounded-4 border">
     <h5 class="mb-4">Información personal</h5>
-    
+
     <form class="mb-0" [formGroup]="registerPatients" (ngSubmit)="onSubmit()">
 
         <div class="row mb-3">
@@ -9,22 +9,11 @@
                 <input type="text" class="form-control" id="name" formControlName="name"
                     placeholder="Ingresa el nombre del paciente"
                     [class.is-invalid]="registerPatients.get('name')?.invalid && (registerPatients.get('name')?.dirty || registerPatients.get('name')?.touched)">
-                <div>
-                    @if (registerPatients.get('name')?.errors?.['maxlength']) {
-                    <small class="text-danger">
-                        El nombre no puede exceder los 50 caracteres.
-                    </small>
-                    }
-                </div>
-                <div>
-                    @if (registerPatients.get('name')?.touched &&
-                    registerPatients.get('name')?.invalid &&
-                    registerPatients.get('name')?.errors?.['required']) {
-                    <small class="text-danger">
-                        El nombre del paciente es requerido.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('name')?.errors?.['maxlength']) {
+                <p class="small text-danger mt-2">
+                    El nombre no puede exceder los 50 caracteres.
+                </p>
+                }
             </div>
 
             <div class="col">
@@ -32,22 +21,11 @@
                 <input type="text" class="form-control" id="lastName" formControlName="lastName"
                     placeholder="Ingresa el apellido paterno"
                     [class.is-invalid]="registerPatients.get('lastName')?.invalid && (registerPatients.get('lastName')?.dirty || registerPatients.get('lastName')?.touched)">
-                <div>
-                    @if (registerPatients.get('lastName')?.errors?.['maxlength']) {
-                    <small class="text-danger">
-                        El apellido paterno no puede exceder los 50 caracteres.
-                    </small>
-                    }
-                </div>
-                <div>
-                    @if (registerPatients.get('lastName')?.touched &&
-                    registerPatients.get('lastName')?.invalid &&
-                    registerPatients.get('lastName')?.errors?.['required']) {
-                    <small class="text-danger">
-                        El apellido paterno del paciente es requerido.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('lastName')?.errors?.['maxlength']) {
+                <p class="small text-danger mt-2">
+                    El apellido paterno no puede exceder los 50 caracteres.
+                </p>
+                }
             </div>
 
             <div class="col">
@@ -55,13 +33,11 @@
                 <input type="text" class="form-control" id="secondLastName" formControlName="secondLastName"
                     placeholder="Ingresa el apellido materno"
                     [class.is-invalid]="registerPatients.get('secondLastName')?.invalid && (registerPatients.get('secondLastName')?.dirty || registerPatients.get('secondLastName')?.touched)">
-                <div>
-                    @if (registerPatients.get('secondLastName')?.errors?.['maxlength']) {
-                    <small class="text-danger">
-                        El apellido materno no puede exceder los 50 caracteres.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('secondLastName')?.errors?.['maxlength']) {
+                <p class="small text-danger mt-2">
+                    El apellido materno no puede exceder los 50 caracteres.
+                </p>
+                }
             </div>
         </div>
 
@@ -74,15 +50,13 @@
                     <option value="masculino">Masculino</option>
                     <option value="femenino">Femenino</option>
                 </select>
-                <div>
-                    @if (registerPatients.get('gender')?.touched &&
-                    registerPatients.get('gender')?.invalid &&
-                    registerPatients.get('gender')?.errors?.['required']) {
-                    <small class="text-danger">
-                        El sexo del paciente es requerido.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('gender')?.touched &&
+                registerPatients.get('gender')?.invalid &&
+                registerPatients.get('gender')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    El sexo del paciente es requerido.
+                </p>
+                }
             </div>
 
             <div class="col-4">
@@ -90,31 +64,29 @@
                 <input class="form-control" id="approximateAge" formControlName="approximateAge"
                     placeholder="Ingresa la edad del paciente" maxlength="3"
                     [class.is-invalid]="registerPatients.get('approximateAge')?.invalid && (registerPatients.get('approximateAge')?.dirty || registerPatients.get('approximateAge')?.touched)">
-                <div>
-                    @if (registerPatients.get('approximateAge')?.touched &&
-                    registerPatients.get('approximateAge')?.invalid) {
-                    @if (registerPatients.get('approximateAge')?.errors?.['required']) {
-                    <small class="text-danger">
-                        Ingrese la edad del paciente.
-                    </small>
-                    }
-                    @if (registerPatients.get('approximateAge')?.errors?.['pattern']) {
-                    <small class="text-danger">
-                        La edad debe ser un número entero.
-                    </small>
-                    }
-                    @if (registerPatients.get('approximateAge')?.errors?.['max']) {
-                    <small class="text-danger">
-                        La edad no puede ser mayor a 150 años.
-                    </small>
-                    }
-                    @if (registerPatients.get('approximateAge')?.errors?.['min']) {
-                    <small class="text-danger">
-                        La edad no puede ser menor a 0 años.
-                    </small>
-                    }
-                    }
-                </div>
+                @if (registerPatients.get('approximateAge')?.touched &&
+                registerPatients.get('approximateAge')?.invalid) {
+                @if (registerPatients.get('approximateAge')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    Ingrese la edad del paciente.
+                </p>
+                }
+                @if (registerPatients.get('approximateAge')?.errors?.['pattern']) {
+                <p class="small text-danger mt-2">
+                    La edad debe ser un número entero.
+                </p>
+                }
+                @if (registerPatients.get('approximateAge')?.errors?.['max']) {
+                <p class="small text-danger mt-2">
+                    La edad no puede ser mayor a 150 años.
+                </p>
+                }
+                @if (registerPatients.get('approximateAge')?.errors?.['min']) {
+                <p class="small text-danger mt-2">
+                    La edad no puede ser menor a 0 años.
+                </p>
+                }
+                }
             </div>
         </div>
 
@@ -127,19 +99,17 @@
                 <select id="skinColor" class="form-select" formControlName="skinColor"
                     [class.is-invalid]="registerPatients.get('skinColor')?.invalid && (registerPatients.get('skinColor')?.dirty || registerPatients.get('skinColor')?.touched)">
                     <option value="" selected>Seleccione un color de piel</option>
-                    <option value="Clara">Clara</option>
-                    <option value="Morena">Morena</option>
-                    <option value="Oscura">Oscura</option>
+                    <option value="clara">Clara</option>
+                    <option value="morena">Morena</option>
+                    <option value="oscura">Oscura</option>
                 </select>
-                <div>
-                    @if (registerPatients.get('skinColor')?.touched &&
-                    registerPatients.get('skinColor')?.invalid &&
-                    registerPatients.get('skinColor')?.errors?.['required']) {
-                    <small class="text-danger">
-                        El color de piel del paciente es requerido.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('skinColor')?.touched &&
+                registerPatients.get('skinColor')?.invalid &&
+                registerPatients.get('skinColor')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    El color de piel del paciente es requerido.
+                </p>
+                }
             </div>
 
             <div class="col">
@@ -156,15 +126,13 @@
                     <option value="ambar">Ámbar</option>
                     <option value="heterocromatico">Heterocromático</option>
                 </select>
-                <div>
-                    @if (registerPatients.get('eyeColor')?.touched &&
-                    registerPatients.get('eyeColor')?.invalid &&
-                    registerPatients.get('eyeColor')?.errors?.['required']) {
-                    <small class="text-danger">
-                        El color de ojos del paciente es requerido.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('eyeColor')?.touched &&
+                registerPatients.get('eyeColor')?.invalid &&
+                registerPatients.get('eyeColor')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    El color de ojos del paciente es requerido.
+                </p>
+                }
             </div>
 
             <div class="col">
@@ -172,26 +140,24 @@
                 <input class="form-control" id="approximateHeight" formControlName="approximateHeight"
                     placeholder="Ingresa la altura aproximada" maxlength="3"
                     [class.is-invalid]="registerPatients.get('approximateHeight')?.invalid && (registerPatients.get('approximateHeight')?.dirty || registerPatients.get('approximateHeight')?.touched)">
-                <div>
-                    @if (registerPatients.get('approximateHeight')?.touched &&
-                    registerPatients.get('approximateHeight')?.invalid) {
-                    @if (registerPatients.get('approximateHeight')?.errors?.['required']) {
-                    <small class="text-danger">
-                        La altura del paciente es requerida.
-                    </small>
-                    }
-                    @if (registerPatients.get('approximateHeight')?.errors?.['min']) {
-                    <small class="text-danger">
-                        La altura no puede ser menor a 50 cm.
-                    </small>
-                    }
-                    @if (registerPatients.get('approximateHeight')?.errors?.['max']) {
-                    <small class="text-danger">
-                        La altura no puede ser mayor a 300 cm.
-                    </small>
-                    }
-                    }
-                </div>
+                @if (registerPatients.get('approximateHeight')?.touched &&
+                registerPatients.get('approximateHeight')?.invalid) {
+                @if (registerPatients.get('approximateHeight')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    La altura del paciente es requerida.
+                </p>
+                }
+                @if (registerPatients.get('approximateHeight')?.errors?.['min']) {
+                <p class="small text-danger mt-2">
+                    La altura no puede ser menor a 50 cm.
+                </p>
+                }
+                @if (registerPatients.get('approximateHeight')?.errors?.['max']) {
+                <p class="small text-danger mt-2">
+                    La altura no puede ser mayor a 300 cm.
+                </p>
+                }
+                }
             </div>
         </div>
 
@@ -208,15 +174,13 @@
                     <option value="poco cabello">Poco cabello</option>
                     <option value="calvo">Calvo</option>
                 </select>
-                <div>
-                    @if (registerPatients.get('hair')?.touched &&
-                    registerPatients.get('hair')?.invalid &&
-                    registerPatients.get('hair')?.errors?.['required']) {
-                    <small class="text-danger">
-                        El tipo de cabello del paciente es requerido.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('hair')?.touched &&
+                registerPatients.get('hair')?.invalid &&
+                registerPatients.get('hair')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    El tipo de cabello del paciente es requerido.
+                </p>
+                }
             </div>
 
             <div class="col">
@@ -224,48 +188,41 @@
                 <select id="hairColor" class="form-select" formControlName="hairColor"
                     [class.is-invalid]="registerPatients.get('hairColor')?.invalid && (registerPatients.get('hairColor')?.dirty || registerPatients.get('hairColor')?.touched)">
                     <option value="" selected>Seleccione un color de cabello</option>
-                    <option value="Negro">Negro</option>
-                    <option value="Castano">Castaño</option>
-                    <option value="Rubio">Rubio</option>
-                    <option value="Pelirrojo">Pelirrojo</option>
-                    <option value="Canoso">Canoso</option>
-                    <option value="Otro">Otro</option>
+                    <option value="negro">Negro</option>
+                    <option value="castano">Castaño</option>
+                    <option value="rubio">Rubio</option>
+                    <option value="pelirrojo">Pelirrojo</option>
+                    <option value="canoso">Canoso</option>
+                    <option value="otro">Otro</option>
                 </select>
 
                 <!-- Campo adicional para el color personalizado -->
-                @if (registerPatients.get('hairColor')?.value === 'Otro') {
+                @if (registerPatients.get('hairColor')?.value === 'otro') {
                 <div class="col mt-3">
                     <label for="customHairColor">Especifique el color de cabello</label>
                     <input id="customHairColor" type="text" class="form-control" formControlName="customHairColor">
-
-                    <!-- Mensajes de error para el campo personalizado -->
-                    <div>
-                        @if (registerPatients.get('customHairColor')?.touched &&
-                        registerPatients.get('customHairColor')?.invalid) {
-                        @if (registerPatients.get('customHairColor')?.errors?.['required']) {
-                        <small class="text-danger">
-                            Especifique el color de cabello.
-                        </small>
-                        }
-                        @if (registerPatients.get('customHairColor')?.errors?.['maxlength']) {
-                        <small class="text-danger">
-                            El color de cabello no debe superar los 50 caracteres.
-                        </small>
-                        }
-                        }
-                    </div>
-                </div>
-                }
-
-                <div>
+                    @if (registerPatients.get('customHairColor')?.touched &&
+                    registerPatients.get('customHairColor')?.invalid) {
+                    @if (registerPatients.get('customHairColor')?.errors?.['required']) {
+                    <p class="small text-danger mt-2">
+                        Especifique el color de cabello.
+                    </p>
+                    }
+                    @if (registerPatients.get('customHairColor')?.errors?.['maxlength']) {
+                    <p class="small text-danger mt-2">
+                        El color de cabello no debe superar los 50 caracteres.
+                    </p>
+                    }
+                    }
                     @if (registerPatients.get('hairColor')?.touched &&
                     registerPatients.get('hairColor')?.invalid &&
                     registerPatients.get('hairColor')?.errors?.['required']) {
-                    <small class="text-danger">
+                    <p class="small text-danger mt-2">
                         El color de cabello del paciente es requerido.
-                    </small>
+                    </p>
                     }
                 </div>
+                }
             </div>
 
             <div class="col">
@@ -277,40 +234,35 @@
                     <option value="medio">Medio</option>
                     <option value="largo">Largo</option>
                 </select>
-                <div>
-                    @if (registerPatients.get('hairLength')?.touched &&
-                    registerPatients.get('hairLength')?.invalid &&
-                    registerPatients.get('hairLength')?.errors?.['required']) {
-                    <small class="text-danger">
-                        El largo de cabello del paciente es requerido.
-                    </small>
-                    }
-                </div>
-            </div>  
+                @if (registerPatients.get('hairLength')?.touched &&
+                registerPatients.get('hairLength')?.invalid &&
+                registerPatients.get('hairLength')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    El largo de cabello del paciente es requerido.
+                </p>
+                }
+            </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-4">
                 <label for="complexion" class="form-label">Complexión*</label>
-                <select id="complexion" class="form-select" formControlName="complexion">
+                <select id="complexion" class="form-select" formControlName="complexion"
+                    [class.is-invalid]="registerPatients.get('complexion')?.invalid && (registerPatients.get('complexion')?.dirty || registerPatients.get('complexion')?.touched)">
                     <option value="" selected>Seleccione la complexión</option>
                     <option value="delgada">Delgada</option>
                     <option value="media">Media</option>
                     <option value="robusta">Robusta</option>
                     <option value="sobrepeso">Sobrepeso</option>
                 </select>
-                <div>
-                    @if (registerPatients.get('complexion')?.touched &&
-                    registerPatients.get('complexion')?.invalid &&
-                    registerPatients.get('complexion')?.errors?.['required']) {
-                    <small class="text-danger">
-                        La complexión del paciente es requerida.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('complexion')?.touched &&
+                registerPatients.get('complexion')?.invalid &&
+                registerPatients.get('complexion')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    La complexión del paciente es requerida.
+                </p>
+                }
             </div>
-
-        
         </div>
 
         <h5 class="my-4">Información adicional</h5>
@@ -320,15 +272,13 @@
                 <label for="medicalConditions" class="form-label">Condiciones médicas</label>
                 <textarea type="text" class="form-control" id="medicalConditions" formControlName="medicalConditions"
                     placeholder="Ingresa las condiciones médicas del paciente"></textarea>
-                <div>
-                    @if (registerPatients.get('medicalConditions')?.touched &&
-                    registerPatients.get('medicalConditions')?.invalid &&
-                    registerPatients.get('medicalConditions')?.errors?.['maxlength']) {
-                    <small class="text-danger">
-                        Las condiciones médicas no pueden ser mayor a 255 caracteres.
-                    </small>
-                    }
-                </div>
+                @if (registerPatients.get('medicalConditions')?.touched &&
+                registerPatients.get('medicalConditions')?.invalid &&
+                registerPatients.get('medicalConditions')?.errors?.['maxlength']) {
+                <p class="small text-danger mt-2">
+                    Las condiciones médicas no pueden ser mayor a 255 caracteres.
+                </p>
+                }
             </div>
 
             <div class="col-6">
@@ -336,107 +286,92 @@
                 <textarea type="text" class="form-control" id="distinctiveFeatures"
                     formControlName="distinctiveFeatures"
                     placeholder="Ingresa las señas particulares del paciente"></textarea>
-                <div>
-                    @if (registerPatients.get('distinctiveFeatures')?.touched &&
-                    registerPatients.get('distinctiveFeatures')?.invalid &&
-                    registerPatients.get('distinctiveFeatures')?.errors?.['maxlength']) {
-                    <small class="text-danger">
-                        Las señas particulares no pueden ser mayor a 255 caracteres.
-                    </small>
-                    }
-                </div>
-            </div>
-        </div>
-
-        <div>
-            <div class="d-flex align-items-center my-4">
-                <h5 for="serviceImages" class="form-label me-2">Subir imágenes</h5>
-                <div class="dropdown dropdown-hover mb-2">
-                    <i class="bi bi-info-circle"></i>
-                    <div class="dropdown-menu p-3">
-                        <p class="small m-1 border-bottom">
-                            Debes de subir mínimo 3 imágenes, máximo 6.
-                        </p>
-                        <p class="small m-1 border-bottom">
-                            La imagen subida se ajustará a una escala de 1:1.
-                        </p>
-                        <p class="small m-1 border-bottom">
-                            Formatos de imagen permitidos son JPG, PNG, JPEG, WEBP y HEIF.
-                        </p>
-                        <p class="small m-1 border-bottom">
-                            Cada imagen debe tener un tamaño menor a 4 MB.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <input class="form-control d-none" type="file" id="productImages" (change)="onFilesSelected($event)"
-                multiple>
-
-            <div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group pointer" (click)="triggerFileInput()">
-                            <span class="input-group-text" [class.border-danger]="imageUploadError.length"
-                                title="Subir imágenes">
-                                <i class="bi bi-arrow-up-circle"></i></span>
-                            <input readonly class="form-control pointer" [class.is-invalid]="imageUploadError.length"
-                                placeholder="Subir imágenes">
-                        </div>
-                    </div>
-                    @if (tempImages.length > 0) {
-                    <div class="col-md-6">
-                        <div class="input-group pointer" [class.pointer]="selectedImages.length > 0"
-                            (click)="removeSelectedImages()">
-                            <span class="input-group-text" title="Eliminar imágenes seleccionadas"><i
-                                    class="bi bi-trash"></i></span>
-                            <input readonly class="form-control pointer" placeholder="Eliminar imágenes seleccionadas"
-                                [class.pointer]="selectedImages.length > 0" [disabled]="selectedImages.length === 0">
-                        </div>
-                    </div>
-                    }
-                </div>
-            </div>
-            @if (imageUploadError.length > 0) {
-            <div>
-                @for (error of imageUploadError; track $index) {
-                <small class="text-danger my-3 d-block">{{ error.error }}</small>
+                @if (registerPatients.get('distinctiveFeatures')?.touched &&
+                registerPatients.get('distinctiveFeatures')?.invalid &&
+                registerPatients.get('distinctiveFeatures')?.errors?.['maxlength']) {
+                <p class="small text-danger mt-2">
+                    Las señas particulares no pueden ser mayor a 255 caracteres.
+                </p>
                 }
             </div>
-            }
-            @if (tempImages.length > 0) {
-            <div class="row row-cols-3 g-2 mt-3">
-                @for (preview of tempImages; track $index) {
-                <div class="col">
-                    <div class="position-relative">
-                        <img [src]="preview" alt="Vista previa de la imagen"
-                            class="img-fluid w-100 h-100 object-fit-cover pointer"
-                            (mousedown)="selectImage($index, $event)">
-                        <input type="checkbox" [checked]="selectedImages.includes($index)"
-                            (change)="toggleSelection($index)"
-                            class="form-check-input position-absolute z-3 bottom-0 end-0 m-2">
-                    </div>
+        </div>
+
+        <div class="d-flex align-items-center my-4">
+            <h5 class="form-label my-0 me-2">Subir imágenes</h5>
+            <div class="dropdown dropdown-hover d-flex align-items-center">
+                <i class="bi bi-info-circle" style="cursor: pointer;"></i>
+                <div class="dropdown-menu p-3">
+                    <p class="m-1 border-bottom">
+                        Debes de subir mínimo 3 imágenes, máximo 6.
+                    </p>
+                    <p class="m-1 border-bottom">
+                        La imagen subida se ajustará a una escala de 1:1.
+                    </p>
+                    <p class="m-1 border-bottom">
+                        Formatos de imagen permitidos son JPG, PNG, JPEG, WEBP y HEIF.
+                    </p>
+                    <p class="m-1 border-bottom">
+                        Cada imagen debe tener un tamaño menor a 4 MB.
+                    </p>
                 </div>
-                }
+            </div>
+        </div>
+
+        <input class="form-control d-none" type="file" id="patientImages" (change)="onFilesSelected($event)" multiple>
+
+        <!-- Sección de carga de fotos -->
+        <div class="upload-area border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
+            (drop)="handleDrop($event)" (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
+
+            <!-- Icono y mensaje de arrastrar y soltar -->
+            <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
+            <p class="mb-1">Arrastra tus fotos aquí o</p>
+            <button class="btn btn-primary">Selecciona archivos</button>
+            <!-- <p class="small text-muted mt-2">Formatos permitidos: JPEG, PNG, GIF</p> -->
+
+            <!-- Input oculto para seleccionar archivos manualmente -->
+            <input type="file" #fileInput multiple (change)="onFilesSelected($event)" accept=".jpg,.jpeg,.png,.gif"
+                style="display: none;">
+        </div>
+
+        <!-- Vista previa de las imágenes cargadas -->
+        @if (tempImages.length > 0) {
+        <div class="row row-cols-3 g-2 mt-3">
+            @for (preview of tempImages; track $index) {
+            <div class="col">
+                <div class="position-relative">
+                    <img [src]="preview" alt="Vista previa de la imagen"
+                        class="img-fluid rounded border w-100 h-100 object-fit-cover">
+
+                    <!-- Icono de eliminación dentro de un círculo blanco -->
+                    <button (click)="removeImage($index)" title="Eliminar imagen"
+                        class="btn btn-link position-absolute top-0 start-0 m-2 p-1 bg-white rounded-circle">
+                        <i class="bi bi-trash text-danger"></i>
+                    </button>
+                </div>
             </div>
             }
         </div>
+        }
 
-        <!-- Mostrar mensaje de error -->
-        <div>
-            @if (errorMessage) {
-            <div class="alert alert-danger mt-3">
-                {{ errorMessage }}
-            </div>
-            }
-        </div>
+        <!-- Mensaje de error si hay problemas de subida -->
+        @if (imageUploadError.length > 0) {
+        @for (error of imageUploadError; track $index) {
+        <p class="small text-danger mt-2">{{ error.error }}</p>
+        }
+        }
 
-        <!-- Botón de envío -->
-        <div class="d-flex align-items-end justify-content-end">
-            <button type="submit" class="btn btn-primary mt-4" (click)="triggerSubmit()">
+        <!-- Botón de envío y mensaje de error -->
+        <div class="d-flex flex-column align-items-end">
+            <button type="submit" class="btn btn-primary mt-4">
                 Registrar paciente
             </button>
+            <!-- Mostrar mensaje de error -->
+            @if (errorMessage) {
+            <p class="small text-danger mt-2 mb-0">
+                {{ errorMessage }}
+            </p>
+            }
         </div>
-        
     </form>
-
 </div>
