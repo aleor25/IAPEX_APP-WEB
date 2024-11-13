@@ -1,5 +1,4 @@
 <div class="bg-white p-4 rounded-4 border">
-
   <h5 class="mb-4">Información principal</h5>
 
   <form class="mb-0" [formGroup]="registerInstitutions" (ngSubmit)="onSubmit()">
@@ -175,20 +174,7 @@
     </div>
 
     <!-- Sección de carga de imágenes -->
-    <div id="fotos">
-      <h5 class="my-4">Añadir imagen</h5>
-      <p>Suba la imagen de la institución que desea registrar. <b>Debe subir al menos 1 imagen</b></p>
-      <div id="filePond" class="w-100 h-25 bg-light rounded-3">
-        <file-pond #myPond [formArrayName]="'imageFiles'" [options]="pondOptions" (oninit)="pondHandleInit()"
-          (onaddfile)="pondHandleAddFile($event)" (onremovefile)="pondHandleRemoveFile($event)">
-        </file-pond>
-      </div>
-    </div>
-
-    <!-- Mostrar mensaje de error -->
-    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-      {{ errorMessage }}
-    </div>
+    
 
     <!-- Botón de envío -->
     <div class="d-flex align-items-end justify-content-end">
@@ -196,5 +182,7 @@
         [disabled]="registerInstitutions.invalid || imageFiles.length === 0">Registrar institución
       </button>
     </div>
+
   </form>
+
 </div>
