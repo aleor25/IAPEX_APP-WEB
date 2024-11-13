@@ -6,7 +6,6 @@ import { catchError, finalize, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { PatientService } from '../../../../core/services/patient.service';
 
-
 @Component({
   selector: 'app-register-patients',
   standalone: true,
@@ -29,8 +28,8 @@ export class RegisterPatientsComponent {
 
   constructor() {
     this.registerPatients = this._fb.group({
-      name: ['', [Validators.required, Validators.maxLength(50)]],
-      lastName: ['', [Validators.required, Validators.maxLength(50)]],
+      name: ['', [Validators.maxLength(50)]],
+      lastName: ['', [Validators.maxLength(50)]],
       secondLastName: ['', [Validators.maxLength(50)]],
       gender: ['', Validators.required],
       approximateAge: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.min(0), Validators.max(150)]],
@@ -66,7 +65,7 @@ export class RegisterPatientsComponent {
 
     this.registerPatients.get('hairColor')?.valueChanges.subscribe(value => {
       const customHairColorControl = this.registerPatients.get('customHairColor');
-      if (value === 'Otro') {
+      if (value === 'otro') {
         customHairColorControl?.setValidators([Validators.required, Validators.maxLength(50)]);
         customHairColorControl?.enable();
       } else {
@@ -77,6 +76,65 @@ export class RegisterPatientsComponent {
       customHairColorControl?.updateValueAndValidity();
     });
 
+  }
+
+  // Método para arrastrar archivos sobre el área
+  handleDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  // Método para manejar el drop (soltar) de archivos
+  handleDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (event.dataTransfer?.files) {
+      this.onFilesDropped(event.dataTransfer.files);
+    }
+  }
+
+  // Procesa los archivos soltados
+  onFilesDropped(files: FileList) {
+    const allowedFormats = ['image/jpg', 'image/png', 'image/jpeg', 'image/webp', 'image/heif'];
+    const maxSizeInMB = 5;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+    const newImageFiles = Array.from(files);
+    const totalFiles = this.tempImages.length + newImageFiles.length;
+
+    if (totalFiles <= 6) {
+      this.imageUploadError = [];
+    } else {
+      this.imageUploadError.push({
+        error: 'No puedes subir más de 6 imágenes en total.'
+      });
+      return;
+    }
+
+    newImageFiles.forEach((file) => {
+      if (!allowedFormats.includes(file.type)) {
+        this.imageUploadError.push({
+          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
+        });
+        return;
+      }
+
+      if (file.size > maxSizeInBytes) {
+        this.imageUploadError.push({
+          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${maxSizeInMB} MB.`
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
+          this.tempImages.push(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   onSubmit(): void {
@@ -106,7 +164,7 @@ export class RegisterPatientsComponent {
       });
 
       // Añadir el valor de customHairColor si hairColor es "Otro"
-      if (this.registerPatients.get('hairColor')?.value === 'Otro') {
+      if (this.registerPatients.get('hairColor')?.value === 'otro') {
         formData.append('hairColor', this.registerPatients.get('customHairColor')?.value || '');
       }
 
@@ -156,7 +214,6 @@ export class RegisterPatientsComponent {
     }
   }
 
-
   onFilesSelected(event: Event) {
     this.isImagesChanges = true;
     const input = event.target as HTMLInputElement;
@@ -199,12 +256,8 @@ export class RegisterPatientsComponent {
 
       const reader = new FileReader();
       reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          this.resizeImage(reader.result, 800, 600, 1.0).then((resizedImage) => {
-            if (!this.tempImages.includes(resizedImage)) {
-              this.tempImages.push(resizedImage);
-            }
-          });
+        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
+          this.tempImages.push(reader.result);
         }
       };
       reader.readAsDataURL(file);
@@ -213,61 +266,16 @@ export class RegisterPatientsComponent {
     input.value = '';
   }
 
-
-  resizeImage(dataUrl: string, width: number, height: number, quality: number = 1.0): Promise<string> {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.src = dataUrl;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(img, 0, 0, width, height);
-          resolve(canvas.toDataURL('image/png', quality));
-        }
-      };
-    });
-  }
-
   triggerFileInput() {
-    const fileInput = document.getElementById('productImages') as HTMLInputElement;
+    const fileInput = document.getElementById('patientImages') as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
     }
   }
-
-  triggerSubmit() {
-    const btnSubmit = document.getElementById('btnSubmit') as HTMLInputElement;
-    if (btnSubmit) {
-      btnSubmit.click();
-    }
-  }
-
-  toggleSelection(index: number): void {
-    const idx = this.selectedImages.indexOf(index);
-    if (idx > -1) {
-      this.selectedImages.splice(idx, 1);
-    } else {
-      this.selectedImages.push(index);
-    }
-  }
-
-  selectImage(index: number, event: MouseEvent) {
-    event.preventDefault();
-    this.toggleSelection(index);
-  }
-
   removeImage(index: number) {
     this.tempImages.splice(index, 1);
     this.selectedImages = this.selectedImages.filter((i) => i !== index)
       .map((i) => (i > index ? i - 1 : i));
-  }
-
-  removeSelectedImages() {
-    this.isImagesChanges = true;
-    this.selectedImages.sort((a, b) => b - a).forEach((index) => this.removeImage(index));
   }
 
   getExtensionFromMimeType(mimeType: string): string | null {
@@ -284,5 +292,4 @@ export class RegisterPatientsComponent {
         return null; // Devuelve null si el formato no es permitido
     }
   }
-
 }
