@@ -12,6 +12,7 @@ export interface Toast {
 })
 export class ToastService {
     private toastSubject = new Subject<Toast>();
+    private currentToasts: Toast[] = [];
 
     getToasts() {
         return this.toastSubject.asObservable();
@@ -22,6 +23,19 @@ export class ToastService {
         message: string,
         actions?: Array<{ label: string; onClick: () => void }>
     ): void {
-        this.toastSubject.next({ title, message, actions });
+        // Verifica si ya existe un toast con el mismo título y mensaje
+        const existingToast = this.currentToasts.find(
+            (toast) => toast.title === title && toast.message === message
+        );
+
+        if (!existingToast) {
+            const newToast = { title, message, actions };
+            this.currentToasts.push(newToast);
+            this.toastSubject.next(newToast);
+        }
+    }
+
+    removeToast(toast: Toast): void {
+        this.currentToasts = this.currentToasts.filter((t) => t !== toast);
     }
 }

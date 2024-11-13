@@ -208,6 +208,10 @@ export class RegisterPatientsComponent {
             this.loading = false;
           })
         ).subscribe();
+        console.log(formData);
+      for (const pair of (formData as any).entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
       });
     } else {
       this.errorMessage = 'Por favor, complete todos los campos correctamente.';
@@ -272,6 +276,7 @@ export class RegisterPatientsComponent {
       fileInput.click();
     }
   }
+
   removeImage(index: number) {
     this.tempImages.splice(index, 1);
     this.selectedImages = this.selectedImages.filter((i) => i !== index)

@@ -2,7 +2,6 @@ import { Routes } from "@angular/router";
 import { DashboardComponent } from "./dashboard.component";
 import { GeneralViewComponent } from "./general-view/general-view.component";
 import { NotificationsComponent } from "./notifications/notifications.component";
-import { SettingsComponent } from "./settings/settings.component";
 import { ContactRequestsComponent } from "./contact-requests/contact-requests.component";
 import { InstitutionsComponent } from "./institutions/institutions.component";
 import { RegisterInstitutionsComponent } from "./institutions/register/register-institutions.component";
@@ -39,7 +38,6 @@ export const DashboardRoutes: Routes = [
             { path: 'memberships/details/:id', component: MembershipDetailsComponent },
             
             // { path: 'notifications', component: NotificationsComponent },
-            // { path: 'settings', component: SettingsComponent },
         ]
     },
 ];

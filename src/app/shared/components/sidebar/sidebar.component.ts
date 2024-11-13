@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { UserService } from '../../../core/services/user.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,10 +12,10 @@ import { UserService } from '../../../core/services/user.service';
 export class SidebarComponent {
 
   private _router = inject(Router);
-  private _userService = inject(UserService);
+  private _authService = inject(AuthService);
 
   logout(): void {
-    this._userService.logout();
+    this._authService.logout();
     this._router.navigate(['/auth/login']);
   }
 }
