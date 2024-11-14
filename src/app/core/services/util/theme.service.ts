@@ -1,23 +1,23 @@
 import { effect, Injectable, signal } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class ThemeService {
 
-    themeSignal = signal<string>(
-        JSON.parse(window.localStorage.getItem('themeSignal') ?? 'dark')
-    );
+  themeSignal = signal<string>(
+    window.localStorage.getItem('themeSignal') ?? 'dark'
+  );
 
-    updateTheme() {
-        this.themeSignal.update((value) => (value === 'ligth' ? 'dark' : 'ligth'));
-    }
+  updateTheme() {
+    this.themeSignal.update((value) => (value === 'light' ? 'dark' : 'light'));
+  }
 
-    constructor() {
-        effect(() => {
-            console.log('ThemeService: ', this.themeSignal());
-            document.documentElement.setAttribute('data-bs-theme', this.themeSignal());
-            window.localStorage.setItem('themeSignal', JSON.stringify(this.themeSignal()));
-        });
-    }
+  constructor() {
+    effect(() => {
+      console.log('ThemeService: ', this.themeSignal());
+      document.documentElement.setAttribute('data-bs-theme', this.themeSignal());
+      window.localStorage.setItem('themeSignal', this.themeSignal());
+    });
+  }
 }

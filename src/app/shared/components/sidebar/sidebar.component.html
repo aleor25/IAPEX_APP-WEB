@@ -1,6 +1,6 @@
 <div class="container-fluid h-100">
   <div class="row h-100">
-    <div class="min-vh-100 bg-white d-flex flex-column justify-content-between border-end">
+    <div class="min-vh-100 bg-light-subtle d-flex flex-column justify-content-between border-end">
       <div class="pt-2 px-2 text-center d-none d-lg-flex align-items-center justify-content-center">
         <a class="text-decoration-none d-flex align-items-center justify-content-center"
           routerLink="/dashboard/general-view">
@@ -48,7 +48,7 @@
               <span class="d-none d-lg-inline">Membresías</span>
             </div>
           </a>
-        </li>        
+        </li>
       </ul>
 
       <div class="mt-auto mb-3">
@@ -66,7 +66,7 @@
 
 
         <ul class="nav nav-pills flex-column">
-            <!-- <li class="nav-item mb-2">
+          <!-- <li class="nav-item mb-2">
               <a routerLink="/dashboard/settings" class="nav-link" routerLinkActive="active">
                 <div class="d-none d-lg-flex align-items-center">
                   <span class="material-symbols-outlined me-3">settings</span>
@@ -76,10 +76,22 @@
             </li> -->
 
           <li class="nav-item mb-2">
+            <a class="nav-link" (click)="toggleTheme()" style="cursor: pointer;">
+              <div class="d-none d-lg-flex align-items-center">
+                <i class="me-3"
+                  [ngClass]="_themeService.themeSignal() === 'dark' ? 'bi-moon-fill' : 'bi-brightness-high-fill'"></i>
+                <span class="d-none d-lg-inline">
+                  {{ _themeService.themeSignal() === 'dark' ? 'Tema oscuro' : 'Tema claro' }}
+                </span>
+              </div>
+            </a>
+          </li>
+
+          <li class="nav-item mb-2">
             <a class="nav-link" (click)="logout()" style="cursor: pointer;">
               <div class="d-none d-lg-flex align-items-center">
                 <span class="material-symbols-outlined me-3">logout</span>
-                <span class="d-none d-lg-inline text-black">Cerrar sesión</span>
+                <span class="d-none d-lg-inline">Cerrar sesión</span>
               </div>
             </a>
           </li>

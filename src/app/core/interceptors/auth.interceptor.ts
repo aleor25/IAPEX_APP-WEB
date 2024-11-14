@@ -6,15 +6,17 @@ import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { ToastService } from '../services/util/toast.service';
 import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const _router = inject(Router);
   const _toastService = inject(ToastService);
-  const _userService = inject(UserService);
+  // const _userService = inject(UserService);
+  const _authService = inject(AuthService);
 
   // Obtener el token desde el LoginService
-  const user = _userService.getUser();
-  const token = user ? user.token : null;
+  // const user = _userService.getUser();
+  const token = _authService.getAuthToken();
 
   if (token) {
     req = req.clone({
@@ -37,8 +39,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           break;
         case 401:
           // Remover el token de localStorage y sessionStorage si es necesario
-          localStorage.removeItem('authToken');
-          sessionStorage.removeItem('authToken');
+          localStorage.removeItem('auth_user');
+          sessionStorage.removeItem('auth_user');
           _toastService.showToast(
             'Acceso denegado',
             'Inicie sesión nuevamente.',

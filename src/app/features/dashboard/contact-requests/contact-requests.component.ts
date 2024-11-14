@@ -32,8 +32,8 @@ export class ContactRequestsComponent implements OnInit {
 
   columns = [
     { data: 'id', title: 'ID' },
-    { data: 'interestedPersonName', title: 'Nombre de la persona interesada' },
-    { data: 'missingPersonName', title: 'Nombre de la persona desaparecida' },
+    { data: 'interestedPersonName', title: 'Persona interesada' },
+    { data: 'missingPersonName', title: 'Persona desaparecida' },
     { data: 'relationship', title: 'Parentesco' },
     { data: 'phoneNumber', title: 'Número de teléfono' },
     { data: 'email', title: 'Correo electrónico' },
