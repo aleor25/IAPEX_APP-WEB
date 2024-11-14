@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { catchError, finalize, tap } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { PatientService } from '../../../../core/services/patient.service';
 @Component({
   selector: 'app-register-patients',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register-patients.component.html',
 })
 export class RegisterPatientsComponent {
@@ -21,6 +21,8 @@ export class RegisterPatientsComponent {
   tempImages: string[] = [];
   selectedImages: number[] = [];
   imageUploadError: { error: string }[] = [];
+  allowedFormats = ['image/jpg', 'image/jpeg', 'image/png', 'image/bmp', 'image/webp', 'image/tiff', 'image/heif'];
+  maxSizeInMB = 5;
 
   private _router = inject(Router);
   private _patientService = inject(PatientService);
@@ -62,7 +64,6 @@ export class RegisterPatientsComponent {
       }
     });
 
-
     this.registerPatients.get('hairColor')?.valueChanges.subscribe(value => {
       const customHairColorControl = this.registerPatients.get('customHairColor');
       if (value === 'otro') {
@@ -96,10 +97,7 @@ export class RegisterPatientsComponent {
 
   // Procesa los archivos soltados
   onFilesDropped(files: FileList) {
-    const allowedFormats = ['image/jpg', 'image/png', 'image/jpeg', 'image/webp', 'image/heif'];
-    const maxSizeInMB = 5;
-    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-
+    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
     const newImageFiles = Array.from(files);
     const totalFiles = this.tempImages.length + newImageFiles.length;
 
@@ -113,7 +111,7 @@ export class RegisterPatientsComponent {
     }
 
     newImageFiles.forEach((file) => {
-      if (!allowedFormats.includes(file.type)) {
+      if (!this.allowedFormats.includes(file.type)) {
         this.imageUploadError.push({
           error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
         });
@@ -122,7 +120,7 @@ export class RegisterPatientsComponent {
 
       if (file.size > maxSizeInBytes) {
         this.imageUploadError.push({
-          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${maxSizeInMB} MB.`
+          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
         });
         return;
       }
@@ -169,7 +167,6 @@ export class RegisterPatientsComponent {
       }
 
       // Subida de imágenes
-      const allowedFormats = ['image/jpeg', 'image/png', 'image/webp', 'image/heif'];
       const imagePromises: Promise<void>[] = [];
 
       this.tempImages.forEach((image, index) => {
@@ -177,7 +174,7 @@ export class RegisterPatientsComponent {
           const promise = fetch(image)
             .then(res => res.blob())
             .then(blob => {
-              if (allowedFormats.includes(blob.type)) {
+              if (this.allowedFormats.includes(blob.type)) {
                 const extension = this.getExtensionFromMimeType(blob.type);
                 formData.append('imageFile', blob, `image${index}.${extension}`);
               } else {
@@ -209,9 +206,9 @@ export class RegisterPatientsComponent {
           })
         ).subscribe();
         console.log(formData);
-      for (const pair of (formData as any).entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
-      }
+        for (const pair of (formData as any).entries()) {
+          console.log(`${pair[0]}: ${pair[1]}`);
+        }
       });
     } else {
       this.errorMessage = 'Por favor, complete todos los campos correctamente.';
@@ -221,9 +218,7 @@ export class RegisterPatientsComponent {
   onFilesSelected(event: Event) {
     this.isImagesChanges = true;
     const input = event.target as HTMLInputElement;
-    const allowedFormats = ['image/jpg', 'image/png', 'image/jpeg', 'image/webp', 'image/heif'];
-    const maxSizeInMB = 4;
-    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
 
     if (!input || !input.files) {
       return;
@@ -244,7 +239,7 @@ export class RegisterPatientsComponent {
     }
 
     newImageFiles.forEach((file) => {
-      if (!allowedFormats.includes(file.type)) {
+      if (!this.allowedFormats.includes(file.type)) {
         this.imageUploadError.push({
           error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
         });
@@ -253,7 +248,7 @@ export class RegisterPatientsComponent {
 
       if (file.size > maxSizeInBytes) {
         this.imageUploadError.push({
-          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${maxSizeInMB} MB.`
+          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
         });
         return;
       }
