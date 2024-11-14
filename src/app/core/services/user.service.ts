@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, Observable, switchMap, tap } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'

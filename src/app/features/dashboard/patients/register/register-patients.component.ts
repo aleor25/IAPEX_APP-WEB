@@ -147,9 +147,9 @@ export class RegisterPatientsComponent {
     });
 
     // Validación de imágenes
-    if (this.tempImages.length === 0) {
+    if (this.tempImages.length < 3) {
       this.imageUploadError.push({
-        error: `Las imágenes son obligatorias.`
+        error: `Debes subir por lo menos 3 imágenes.`
       });
     }
 
@@ -292,4 +292,5 @@ export class RegisterPatientsComponent {
         return null; // Devuelve null si el formato no es permitido
     }
   }
+
 }
