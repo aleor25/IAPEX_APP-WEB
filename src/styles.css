@@ -47,7 +47,6 @@ body {
     background-color: #1F89EA;
 }
 
-
 .dropdown-hover {
     position: relative;
 }
@@ -74,7 +73,8 @@ body {
 }
 
 .upload-area:hover {
-    background-color: #F8F9FA;
+    /*  background-color: #F8F9FA; */
+    opacity: 50%;
 }
 
 .image-container {
