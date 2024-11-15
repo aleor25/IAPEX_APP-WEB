@@ -196,6 +196,14 @@
                     <option value="otro">Otro</option>
                 </select>
 
+                @if (registerPatients.get('hairColor')?.touched &&
+                registerPatients.get('hairColor')?.invalid &&
+                registerPatients.get('hairColor')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    El color de cabello del paciente es requerido.
+                </p>
+                }
+
                 <!-- Campo adicional para el color personalizado -->
                 @if (registerPatients.get('hairColor')?.value === 'otro') {
                 <div class="col mt-3">

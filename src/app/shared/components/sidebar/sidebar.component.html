@@ -78,10 +78,9 @@
           <li class="nav-item mb-2">
             <a class="nav-link" (click)="toggleTheme()" style="cursor: pointer;">
               <div class="d-none d-lg-flex align-items-center">
-                <i class="me-3"
-                  [ngClass]="_themeService.themeSignal() === 'dark' ? 'bi-moon-fill' : 'bi-brightness-high-fill'"></i>
-                <span class="d-none d-lg-inline">
-                  {{ _themeService.themeSignal() === 'dark' ? 'Tema oscuro' : 'Tema claro' }}
+                <span class="me-4"
+                  [ngClass]="_themeService.themeSignal() === 'dark' ? 'bi-moon-fill' : 'bi-brightness-high-fill'"></span>
+                <span class="d-none d-lg-inline"> {{ _themeService.themeSignal() === 'dark' ? 'Tema oscuro' : 'Tema claro' }}
                 </span>
               </div>
             </a>
