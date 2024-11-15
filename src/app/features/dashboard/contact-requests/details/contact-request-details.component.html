@@ -1,50 +1,50 @@
 <div class="bg-light-subtle p-4 rounded-4 border">
-  <form>
+  <form class="m-0" [formGroup]="requestForm">
     <h5 class="mb-4">Información de la solicitud</h5>
 
     <div class="row mb-3">
       <div class="col">
         <label for="interestedPersonName" class="form-label">Nombre del interesado</label>
-        <input type="text" id="interestedPersonName" class="form-control" [value]="request.missingPersonName" disabled>
+        <input type="text" id="interestedPersonName" class="form-control" formControlName="interestedPersonName">
       </div>
 
       <div class="col">
         <label for="missingPersonName" class="form-label">Nombre de la persona desaparecida</label>
-        <input type="text" id="missingPersonName" class="form-control" [value]="request.missingPersonName" disabled>
+        <input type="text" id="missingPersonName" class="form-control" formControlName="missingPersonName">
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col">
         <label for="relationship" class="form-label">Relación</label>
-        <input type="text" id="relationship" class="form-control" [value]="request.relationship" disabled>
+        <input type="text" id="relationship" class="form-control" formControlName="relationship">
       </div>
 
       <div class="col">
         <label for="phoneNumber" class="form-label">Número de teléfono</label>
-        <input type="text" id="phoneNumber" class="form-control" [value]="request.phoneNumber" disabled>
+        <input type="text" id="phoneNumber" class="form-control" formControlName="phoneNumber">
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col">
         <label for="email" class="form-label">Correo electrónico</label>
-        <input type="email" id="email" class="form-control" [value]="request.email" disabled>
+        <input type="email" id="email" class="form-control" formControlName="email">
       </div>
 
       <div class="col">
         <label for="requestDateTime" class="form-label">Fecha y hora de la solicitud</label>
-        <input type="text" id="requestDateTime" class="form-control" [value]="formatDateTime(request.requestDateTime)"
-          disabled>
+        <input type="text" id="requestDateTime" class="form-control" formControlName="requestDateTime">
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col">
         <label for="status" class="form-label">Estado</label>
-        <select id="status" class="form-select fw-bold" [(ngModel)]="request.status" name="status"
-          [ngClass]="getStatusClass(request.status)" (change)="onStatusChange()">
-          <option *ngFor="let option of statusOptions" [value]="option.value" [ngClass]="getStatusClass(option.value)">
+        <select id="status" class="form-select fw-bold" formControlName="status"
+          [ngClass]="getStatusClass(requestForm.get('status')?.value)">
+          <option *ngFor="let option of statusOptions" [value]="option.value" 
+            [ngClass]="getStatusClass(option.value)">
             {{option.label}}
           </option>
         </select>
@@ -52,21 +52,25 @@
 
       <div class="col">
         <label for="attendingUser" class="form-label">Usuario atendiendo</label>
-        <input type="text" id="attendingUser" class="form-control" [value]="request.attendingUser || 'No asignado'"
-          disabled>
+        <input type="text" id="attendingUser" class="form-control" formControlName="attendingUser">
       </div>
     </div>
-    <div class="mb-3" class="form-label">
-      <label for="message">Mensaje</label>
-      <textarea id="message" class="form-control" rows="3" readonly disabled>{{request.message}}</textarea>
+
+    <div class="mb-3">
+      <label for="message" class="form-label">Mensaje</label>
+      <textarea id="message" class="form-control" rows="3" formControlName="message"></textarea>
     </div>
 
     <p class="text-muted mt-3">Por favor, recuerda actualizar el estado de la solicitud una vez haya sido atendida.</p>
 
-    <div class="d-flex justify-content-end align-items-end mt-4">
-      <button type="button" class="btn btn-primary" (click)="updateStatus()" [disabled]="!statusChanged">Actualizar
-        solicitud</button>
+    <div *ngIf="updateMessage" class="alert" [ngClass]="{'alert-success': !updateMessage.includes('Error'), 'alert-danger': updateMessage.includes('Error')}">
+      {{ updateMessage }}
     </div>
 
+    <div class="d-flex justify-content-end align-items-end mt-4">
+      <button type="button" class="btn btn-primary" (click)="updateStatus()" [disabled]="!isFormModified">
+        Actualizar solicitud
+      </button>
+    </div>
   </form>
 </div>
