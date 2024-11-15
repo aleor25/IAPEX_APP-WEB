@@ -2,6 +2,11 @@ body {
     font-family: "Poppins", sans-serif !important;
 }
 
+.form-control.gray,
+.form-select.gray {
+    background-color: #F8F9FA;
+}
+
 html,
 body {
     height: 100%;
@@ -68,12 +73,16 @@ body {
 }
 
 .upload-area:hover {
+    /*  background-color: #F8F9FA; */
     opacity: 50%;
 }
 
 .image-container {
-    aspect-ratio: 1 / 1;
+    width: 320px;
+    height: 280px;
     overflow: hidden;
+    border-radius: 5px;
+    border: 1px solid #ddd;
     position: relative;
 }
 

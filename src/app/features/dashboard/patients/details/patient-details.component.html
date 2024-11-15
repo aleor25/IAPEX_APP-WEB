@@ -1,69 +1,125 @@
 <div class="bg-light-subtle p-4 rounded-4 border">
+  <h5 class="mb-4">Información personal</h5>
+
   <form class="mb-0" [formGroup]="patientForm">
-    <h5 class="mb-4">Información personal</h5>
 
     <div class="row mb-3">
       <div class="col">
         <label for="name" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="name" [value]="selectedPatient.name" formControlName="name"
-          placeholder="Ingresa el nombre del paciente">
-        <div *ngIf="patientForm.get('name')?.touched && patientForm.get('name')?.invalid">
-          <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['required']">
-            El nombre del paciente es requerido.
-          </small>
-          <small class="error-message" *ngIf="patientForm.get('name')?.errors?.['maxlength']">
-            El nombre no puede exceder los 50 caracteres.
-          </small>
-        </div>
-
+        <input type="text" class="form-control bg-body-tertiary" id="name" formControlName="name"
+          [value]="selectedPatient.name" placeholder="Ingresa el nombre del paciente"
+          [class.is-invalid]="patientForm.get('name')?.invalid && (patientForm.get('name')?.dirty || patientForm.get('name')?.touched)">
+        @if (patientForm.get('name')?.errors?.['maxlength']) {
+        <p class="small text-danger mt-2">
+          El nombre no puede exceder los 50 caracteres.
+        </p>
+        }
       </div>
 
       <div class="col">
         <label for="lastName" class="form-label">Apellido paterno</label>
-        <input type="text" class="form-control" id="lastName" [value]="selectedPatient.lastName"
-          formControlName="lastName">
+        <input type="text" class="form-control bg-body-tertiary" id="lastName" formControlName="lastName"
+          [value]="selectedPatient.lastName" placeholder="Ingresa el apellido paterno"
+          [class.is-invalid]="patientForm.get('lastName')?.invalid && (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)">
+        @if (patientForm.get('lastName')?.errors?.['maxlength']) {
+        <p class="small text-danger mt-2">
+          El apellido paterno no puede exceder los 50 caracteres.
+        </p>
+        }
+      </div>
+
+      <div class="col">
+        <label for="secondLastName" class="form-label">Apellido materno</label>
+        <input type="text" class="form-control bg-body-tertiary" id="secondLastName" formControlName="secondLastName"
+          [value]="selectedPatient.secondLastName" placeholder="Ingresa el apellido materno"
+          [class.is-invalid]="patientForm.get('secondLastName')?.invalid && (patientForm.get('secondLastName')?.dirty || patientForm.get('secondLastName')?.touched)">
+        @if (patientForm.get('secondLastName')?.errors?.['maxlength']) {
+        <p class="small text-danger mt-2">
+          El apellido materno no puede exceder los 50 caracteres.
+        </p>
+        }
       </div>
     </div>
 
     <div class="row mb-3">
-      <div class="col">
-        <label for="secondLastName" class="form-label">Apellido materno</label>
-        <input type="text" class="form-control" id="secondLastName" [value]="selectedPatient.secondLastName"
-          formControlName="secondLastName">
-      </div>
-
-      <div class="col">
-        <label for="secondLastName" class="form-label">Sexo</label>
-        <select id="gender" class="form-select" formControlName="gender" [value]="selectedPatient.gender">
+      <div class="col-4">
+        <label for="gender" class="form-label">Sexo*</label>
+        <select id="gender" class="form-select bg-body-tertiary" formControlName="gender"
+          [value]="selectedPatient.gender"
+          [class.is-invalid]="patientForm.get('gender')?.invalid && (patientForm.get('gender')?.dirty || patientForm.get('gender')?.touched)">
+          <option value="" selected>Seleccione el sexo</option>
           <option value="masculino">Masculino</option>
           <option value="femenino">Femenino</option>
         </select>
+        @if (patientForm.get('gender')?.touched &&
+        patientForm.get('gender')?.invalid &&
+        patientForm.get('gender')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          El sexo del paciente es requerido.
+        </p>
+        }
+      </div>
+
+      <div class="col-4">
+        <label for="approximateAge" class="form-label">Edad aparente*</label>
+        <input class="form-control bg-body-tertiary" id="approximateAge" formControlName="approximateAge"
+          [value]="selectedPatient.approximateAge" placeholder="Ingresa la edad del paciente" maxlength="3"
+          [class.is-invalid]="patientForm.get('approximateAge')?.invalid && (patientForm.get('approximateAge')?.dirty || patientForm.get('approximateAge')?.touched)">
+        @if (patientForm.get('approximateAge')?.touched &&
+        patientForm.get('approximateAge')?.invalid) {
+        @if (patientForm.get('approximateAge')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          Ingrese la edad del paciente.
+        </p>
+        }
+        @if (patientForm.get('approximateAge')?.errors?.['pattern']) {
+        <p class="small text-danger mt-2">
+          La edad debe ser un número entero.
+        </p>
+        }
+        @if (patientForm.get('approximateAge')?.errors?.['max']) {
+        <p class="small text-danger mt-2">
+          La edad no puede ser mayor a 150 años.
+        </p>
+        }
+        @if (patientForm.get('approximateAge')?.errors?.['min']) {
+        <p class="small text-danger mt-2">
+          La edad no puede ser menor a 0 años.
+        </p>
+        }
+        }
       </div>
     </div>
 
-    <div class="row mb-3">
-      <div class="col">
-        <label for="approximateAge" class="form-label">Edad aproximada</label>
-        <input type="text" class="form-control" id="approximateAge" [value]="selectedPatient.approximateAge"
-          formControlName="approximateAge">
-      </div>
 
+    <div class="row mb-3">
       <h5 class="my-4">Información morfológica</h5>
 
       <div class="col">
-        <label for="skinColor" class="form-label">Color de piel</label>
-        <select id="skinColor" class="form-select" formControlName="skinColor" [value]="selectedPatient.skinColor">
+        <label for="skinColor" class="form-label">Color de piel*</label>
+        <select id="skinColor" class="form-select bg-body-tertiary" formControlName="skinColor"
+          [value]="selectedPatient.skinColor"
+          [class.is-invalid]="patientForm.get('skinColor')?.invalid && (patientForm.get('skinColor')?.dirty || patientForm.get('skinColor')?.touched)">
+          <option value="" selected>Seleccione un color de piel</option>
           <option value="clara">Clara</option>
           <option value="morena">Morena</option>
           <option value="oscura">Oscura</option>
         </select>
+        @if (patientForm.get('skinColor')?.touched &&
+        patientForm.get('skinColor')?.invalid &&
+        patientForm.get('skinColor')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          El color de piel del paciente es requerido.
+        </p>
+        }
       </div>
-    </div>
 
-    <div class="row mb-3">
       <div class="col">
-        <label for="eyeColor" class="form-label">Color de ojos</label>
-        <select id="eyeColor" class="form-select" formControlName="eyeColor" [value]="selectedPatient.eyeColor">
+        <label for="eyeColor" class="form-label">Color de ojos*</label>
+        <select id="eyeColor" class="form-select bg-body-tertiary" formControlName="eyeColor"
+          [value]="selectedPatient.eyeColor"
+          [class.is-invalid]="patientForm.get('eyeColor')?.invalid && (patientForm.get('eyeColor')?.dirty || patientForm.get('eyeColor')?.touched)">
+          <option value="" selected>Seleccione un color de ojos</option>
           <option value="azul">Azul</option>
           <option value="verde">Verde</option>
           <option value="café">Café</option>
@@ -71,72 +127,257 @@
           <option value="negro">Negro</option>
           <option value="avellana">Avellana</option>
           <option value="ambar">Ámbar</option>
-          <option value="heterocromático">Heterocromático</option>
+          <option value="heterocromatico">Heterocromático</option>
         </select>
+        @if (patientForm.get('eyeColor')?.touched &&
+        patientForm.get('eyeColor')?.invalid &&
+        patientForm.get('eyeColor')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          El color de ojos del paciente es requerido.
+        </p>
+        }
       </div>
 
       <div class="col">
-        <label for="hair" class="form-label">Cabello</label>
-        <input type="text" class="form-control" id="hair" [value]="selectedPatient.hair" formControlName="hair">
+        <label for="approximateHeight" class="form-label">Altura aproximada (cm)*</label>
+        <input class="form-control bg-body-tertiary" id="approximateHeight" formControlName="approximateHeight"
+          [value]="selectedPatient.approximateHeight" placeholder="Ingresa la altura aproximada" maxlength="3"
+          [class.is-invalid]="patientForm.get('approximateHeight')?.invalid && (patientForm.get('approximateHeight')?.dirty || patientForm.get('approximateHeight')?.touched)">
+        @if (patientForm.get('approximateHeight')?.touched &&
+        patientForm.get('approximateHeight')?.invalid) {
+        @if (patientForm.get('approximateHeight')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          La altura del paciente es requerida.
+        </p>
+        }
+        @if (patientForm.get('approximateHeight')?.errors?.['min']) {
+        <p class="small text-danger mt-2">
+          La altura no puede ser menor a 50 cm.
+        </p>
+        }
+        @if (patientForm.get('approximateHeight')?.errors?.['max']) {
+        <p class="small text-danger mt-2">
+          La altura no puede ser mayor a 300 cm.
+        </p>
+        }
+        }
       </div>
     </div>
 
     <div class="row mb-3">
-      <!-- <div class="col">
-          <label for="hairLength">Largo del cabello</label>
-          <input type="text" class="form-control" id="hairLength" [value]="selectedPatient.hair"
-            formControlName="complexion">
-        </div> -->
       <div class="col">
-        <label for="complexion" class="form-label">Complexión</label>
-        <select id="complexion" class="form-select" formControlName="complexion" [value]="selectedPatient.complexion">
+        <label for="hair" class="form-label">Tipo de cabello*</label>
+        <select id="hair" class="form-select bg-body-tertiary" formControlName="hair" [value]="selectedPatient.hair"
+          [class.is-invalid]="patientForm.get('hair')?.invalid && (patientForm.get('hair')?.dirty || patientForm.get('hair')?.touched)">
+          <option value="" selected>Seleccione un tipo de cabello</option>
+          <option value="liso">Liso</option>
+          <option value="ondulado">Ondulado</option>
+          <option value="rizado">Rizado</option>
+          <option value="crespo">Crespo</option>
+          <option value="poco cabello">Poco cabello</option>
+          <option value="calvo">Calvo</option>
+        </select>
+        @if (patientForm.get('hair')?.touched &&
+        patientForm.get('hair')?.invalid &&
+        patientForm.get('hair')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          El tipo de cabello del paciente es requerido.
+        </p>
+        }
+      </div>
+
+      <div class="col">
+        <label for="hairColor" class="form-label">Color de cabello*</label>
+        <select id="hairColor" class="form-select bg-body-tertiary" formControlName="hairColor" [value]=""
+          [class.is-invalid]="patientForm.get('hairColor')?.invalid && (patientForm.get('hairColor')?.dirty || patientForm.get('hairColor')?.touched)">
+          <option value="" selected>Seleccione un color de cabello</option>
+          <option value="negro">Negro</option>
+          <option value="castano">Castaño</option>
+          <option value="rubio">Rubio</option>
+          <option value="pelirrojo">Pelirrojo</option>
+          <option value="canoso">Canoso</option>
+          <option value="otro">Otro</option>
+        </select>
+
+        @if (patientForm.get('hairColor')?.touched &&
+        patientForm.get('hairColor')?.invalid &&
+        patientForm.get('hairColor')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          El color de cabello del paciente es requerido.
+        </p>
+        }
+
+        <!-- Campo adicional para el color personalizado -->
+        @if (patientForm.get('hairColor')?.value === 'otro') {
+        <div class="col mt-3">
+          <label for="customHairColor">Especifique el color de cabello</label>
+          <input id="customHairColor" type="text" class="form-control bg-body-tertiary"
+            formControlName="customHairColor">
+          @if (patientForm.get('customHairColor')?.touched &&
+          patientForm.get('customHairColor')?.invalid) {
+          @if (patientForm.get('customHairColor')?.errors?.['required']) {
+          <p class="small text-danger mt-2">
+            Especifique el color de cabello.
+          </p>
+          }
+          @if (patientForm.get('customHairColor')?.errors?.['maxlength']) {
+          <p class="small text-danger mt-2">
+            El color de cabello no debe superar los 50 caracteres.
+          </p>
+          }
+          }
+          @if (patientForm.get('hairColor')?.touched &&
+          patientForm.get('hairColor')?.invalid &&
+          patientForm.get('hairColor')?.errors?.['required']) {
+          <p class="small text-danger mt-2">
+            El color de cabello del paciente es requerido.
+          </p>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="col">
+        <label for="hairLength" class="form-label">Largo del cabello*</label>
+        <select id="hairLength" class="form-select bg-body-tertiary" formControlName="hairLength"
+          [class.is-invalid]="patientForm.get('hairLength')?.invalid && (patientForm.get('hairLength')?.dirty || patientForm.get('hairLength')?.touched)">
+          <option value="" selected>Seleccione el largo del cabello</option>
+          <option value="corto">Corto</option>
+          <option value="medio">Medio</option>
+          <option value="largo">Largo</option>
+        </select>
+        @if (patientForm.get('hairLength')?.touched &&
+        patientForm.get('hairLength')?.invalid &&
+        patientForm.get('hairLength')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          El largo de cabello del paciente es requerido.
+        </p>
+        }
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-4">
+        <label for="complexion" class="form-label">Complexión*</label>
+        <select id="complexion" class="form-select bg-body-tertiary" formControlName="complexion"
+          [value]="selectedPatient.complexion"
+          [class.is-invalid]="patientForm.get('complexion')?.invalid && (patientForm.get('complexion')?.dirty || patientForm.get('complexion')?.touched)">
+          <option value="" selected>Seleccione la complexión</option>
           <option value="delgada">Delgada</option>
           <option value="media">Media</option>
           <option value="robusta">Robusta</option>
           <option value="sobrepeso">Sobrepeso</option>
         </select>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col">
-        <label for="approximateHeight" class="form-label">Altura aproximada (cm)</label>
-        <input type="text" class="form-control" id="approximateHeight" [value]="selectedPatient.approximateHeight"
-          formControlName="approximateHeight">
+        @if (patientForm.get('complexion')?.touched &&
+        patientForm.get('complexion')?.invalid &&
+        patientForm.get('complexion')?.errors?.['required']) {
+        <p class="small text-danger mt-2">
+          La complexión del paciente es requerida.
+        </p>
+        }
       </div>
     </div>
 
     <h5 class="my-4">Información adicional</h5>
 
     <div class="row mb-3">
-      <div class="col">
+      <div class="col-6">
         <label for="medicalConditions" class="form-label">Condiciones médicas</label>
-        <textarea class="form-control" id="medicalConditions"
-          formControlName="medicalConditions">{{selectedPatient.medicalConditions}}</textarea>
+        <textarea type="text" class="form-control bg-body-tertiary" id="medicalConditions"
+          formControlName="medicalConditions" [value]="selectedPatient.medicalConditions"
+          placeholder="Ingresa las condiciones médicas del paciente"></textarea>
+        @if (patientForm.get('medicalConditions')?.touched &&
+        patientForm.get('medicalConditions')?.invalid &&
+        patientForm.get('medicalConditions')?.errors?.['maxlength']) {
+        <p class="small text-danger mt-2">
+          Las condiciones médicas no pueden ser mayor a 255 caracteres.
+        </p>
+        }
       </div>
-    </div>
 
-    <div class="row mb-3">
-      <div class="col">
+      <div class="col-6">
         <label for="distinctiveFeatures" class="form-label">Señas particulares</label>
-        <textarea class="form-control" id="distinctiveFeatures"
-          formControlName="distinctiveFeatures">{{selectedPatient.distinctiveFeatures}}</textarea>
+        <textarea type="text" class="form-control bg-body-tertiary" id="distinctiveFeatures"
+          formControlName="distinctiveFeatures" [value]="selectedPatient.distinctiveFeatures"
+          placeholder="Ingresa las señas particulares del paciente"></textarea>
+        @if (patientForm.get('distinctiveFeatures')?.touched &&
+        patientForm.get('distinctiveFeatures')?.invalid &&
+        patientForm.get('distinctiveFeatures')?.errors?.['maxlength']) {
+        <p class="small text-danger mt-2">
+          Las señas particulares no pueden ser mayor a 255 caracteres.
+        </p>
+        }
       </div>
     </div>
 
-    <h5 class="my-4">Imágenes del paciente</h5>
-    <p>Aquí se muestran las imágenes del paciente registrado.</p>
-    <div class="row">
-      <div class="col-3" *ngFor="let img of selectedPatient.images">
-        <div class="card">
-          <img [src]="img.imageUrl" alt="Imagen del paciente" style="max-height: 200px; object-fit: contain;">
+    <div class="d-flex align-items-center my-4">
+      <h5 class="form-label my-0 me-2">Imágenes del paciente*</h5>
+      <div class="dropdown dropdown-hover d-flex align-items-center">
+        <i class="bi bi-info-circle" style="cursor: pointer;"></i>
+        <div class="dropdown-menu p-3">
+          <p class="m-1 border-bottom">
+            Debe de haber entre 3 y 6 imágenes.
+          </p>
+          <p class="m-1 border-bottom">
+            Formatos admitidos: JPG, JPEG, PNG, BMP, WEBP, TIFF, HEIF.
+          </p>
+          <p class="m-1 border-bottom">
+            El tamaño máximo por imagen es de 5 MB.
+          </p>
+          <p class="m-1 border-bottom">
+            Usa imágenes claras del rostro y desde diferentes ángulos.
+          </p>
+          <p class="m-1 border-bottom">
+            Resolución máxima permitida: 4080x4080 píxeles.
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div> -->
+    <input class="form-control bg-body-tertiary d-none" type="file" id="patientImages"
+      (change)="onFilesSelected($event)" multiple>
+
+    <!-- Sección de carga de fotos -->
+    <div
+      class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
+      (drop)="handleDrop($event)" (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
+
+      <!-- Icono y mensaje de arrastrar y soltar -->
+      <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
+      <p class="mb-1">Arrastra tus fotos aquí o</p>
+      <button class="btn btn-primary">Selecciona archivos</button>
+      <!-- <p class="small text-muted mt-2">Formatos permitidos: JPEG, PNG, GIF</p> -->
+
+      <!-- Input oculto para seleccionar archivos manualmente -->
+      <input type="file" #fileInput multiple (change)="onFilesSelected($event)" accept=".jpg,.jpeg,.png,.heif"
+        style="display: none;">
+    </div>
+
+    <!-- Mensaje de error si hay problemas de subida -->
+    @if (imageUploadError.length > 0) {
+    @for (error of imageUploadError; track $index) {
+    <p class="small text-danger mt-2">{{ error.error }}</p>
+    }
+    }
+
+    <!-- Vista previa de las imágenes cargadas -->
+    @if (tempImages.length > 0) {
+    <div class="row row-cols-3 g-2 mt-3">
+      @for (preview of tempImages; track $index) {
+      <div class="col">
+        <div class="position-relative image-container border rounded-4">
+          <img [src]="preview" alt="Vista previa de la imagen">
+
+          <!-- Icono de eliminación dentro de un círculo blanco -->
+          <button (click)="removeImage($index)" title="Eliminar imagen"
+            class="btn btn-sm btn-link position-absolute top-0 start-0 m-2 p-1 bg-light-subtle rounded-circle">
+            <i class="bi bi-trash text-danger"></i>
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+    }
 
     <div class="d-flex justify-content-end align-items-end mt-4 gap-2">
       <button type="button" class="btn btn-primary" (click)="savePatient()" [disabled]="!isFormModified">Actualizar
