@@ -2,9 +2,10 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { catchError, finalize, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
 import { PatientService } from '../../../../core/services/patient.service';
+import { ToastService } from '../../../../core/services/util/toast.service';
 
 @Component({
   selector: 'app-register-patients',
@@ -14,7 +15,7 @@ import { PatientService } from '../../../../core/services/patient.service';
 })
 export class RegisterPatientsComponent {
 
-  registerPatients: FormGroup;
+  patientForm: FormGroup;
   errorMessage: string | null = null;
   loading = false;
   isImagesChanges: boolean = false;
@@ -26,32 +27,32 @@ export class RegisterPatientsComponent {
 
   private _router = inject(Router);
   private _patientService = inject(PatientService);
+  private _toastService = inject(ToastService);
   private _fb = inject(FormBuilder);
 
   constructor() {
-    this.registerPatients = this._fb.group({
-      name: ['', [Validators.maxLength(50)]],
-      lastName: ['', [Validators.maxLength(50)]],
-      secondLastName: ['', [Validators.maxLength(50)]],
+    this.patientForm = this._fb.group({
+      name: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
+      secondLastName: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
       gender: ['', Validators.required],
       approximateAge: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.min(0), Validators.max(150)]],
       skinColor: ['', Validators.required],
       eyeColor: ['', Validators.required],
-      hair: ['', Validators.required],
-      hairColor: ['', Validators.required],
-      customHairColor: [{ value: '', disabled: true }, Validators.required],
       hairLength: ['', Validators.required],
+      hairType: ['', Validators.required],
+      hairColor: ['', Validators.required],
+      customHairColor: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
       complexion: ['', Validators.required],
       approximateHeight: ['', [Validators.required, Validators.min(50), Validators.max(300)]],
       medicalConditions: ['', Validators.maxLength(255)],
       distinctiveFeatures: ['', Validators.maxLength(255)],
-      additionalNotes: ['', Validators.maxLength(255)],
       imageFiles: this._fb.array([this._fb.control('')], Validators.required)
     });
     // Desactivar inputs si se selecciona Calvo
-    this.registerPatients.get('hair')?.valueChanges.subscribe(value => {
-      const hairColorControl = this.registerPatients.get('hairColor');
-      const hairLengthControl = this.registerPatients.get('hairLength');
+    this.patientForm.get('hairLength')?.valueChanges.subscribe(value => {
+      const hairColorControl = this.patientForm.get('hairColor');
+      const hairLengthControl = this.patientForm.get('hairType');
 
       if (value === 'calvo') {
         hairColorControl?.disable();
@@ -64,10 +65,10 @@ export class RegisterPatientsComponent {
       }
     });
 
-    this.registerPatients.get('hairColor')?.valueChanges.subscribe(value => {
-      const customHairColorControl = this.registerPatients.get('customHairColor');
+    this.patientForm.get('hairColor')?.valueChanges.subscribe(value => {
+      const customHairColorControl = this.patientForm.get('customHairColor');
       if (value === 'otro') {
-        customHairColorControl?.setValidators([Validators.required, Validators.maxLength(50)]);
+        customHairColorControl?.setValidators([Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]);
         customHairColorControl?.enable();
       } else {
         customHairColorControl?.clearValidators();
@@ -76,7 +77,6 @@ export class RegisterPatientsComponent {
       }
       customHairColorControl?.updateValueAndValidity();
     });
-
   }
 
   // Método para arrastrar archivos sobre el área
@@ -135,86 +135,6 @@ export class RegisterPatientsComponent {
     });
   }
 
-  onSubmit(): void {
-    this.errorMessage = '';
-    this.imageUploadError = [];
-
-    // Marcar todos los controles como tocados
-    Object.values(this.registerPatients.controls).forEach(control => {
-      control.markAsTouched();
-    });
-
-    // Validación de imágenes
-    if (this.tempImages.length < 3) {
-      this.imageUploadError.push({
-        error: `Debes subir por lo menos 3 imágenes.`
-      });
-    }
-
-    if (this.registerPatients.valid && this.tempImages.length > 0) {
-      const formData = new FormData();
-
-      // Añadir los campos del formulario al FormData
-      Object.keys(this.registerPatients.value).forEach(key => {
-        if (key !== 'imageFiles' && key !== 'customHairColor') {
-          formData.append(key, this.registerPatients.value[key]);
-        }
-      });
-
-      // Añadir el valor de customHairColor si hairColor es "Otro"
-      if (this.registerPatients.get('hairColor')?.value === 'otro') {
-        formData.append('hairColor', this.registerPatients.get('customHairColor')?.value || '');
-      }
-
-      // Subida de imágenes
-      const imagePromises: Promise<void>[] = [];
-
-      this.tempImages.forEach((image, index) => {
-        if (image.startsWith('data:image')) {
-          const promise = fetch(image)
-            .then(res => res.blob())
-            .then(blob => {
-              if (this.allowedFormats.includes(blob.type)) {
-                const extension = this.getExtensionFromMimeType(blob.type);
-                formData.append('imageFile', blob, `image${index}.${extension}`);
-              } else {
-                this.imageUploadError.push({
-                  error: `La imagen ${index + 1} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-                });
-              }
-            });
-          imagePromises.push(promise);
-        }
-      });
-
-      // Asegura que todas las imágenes se hayan procesado antes de enviar el formulario
-      Promise.all(imagePromises).then(() => {
-        this.loading = true;
-
-        this._patientService.registerPatients(formData).pipe(
-          tap(() => {
-            this.errorMessage = null;
-            this._router.navigate(['/dashboard/patients']);
-          }),
-          catchError(error => {
-            console.error('Registro fallido', error);
-            this.errorMessage = 'Error al registrar los datos.';
-            return of(null);
-          }),
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe();
-        console.log(formData);
-        for (const pair of (formData as any).entries()) {
-          console.log(`${pair[0]}: ${pair[1]}`);
-        }
-      });
-    } else {
-      this.errorMessage = 'Por favor, complete todos los campos correctamente.';
-    }
-  }
-
   onFilesSelected(event: Event) {
     this.isImagesChanges = true;
     const input = event.target as HTMLInputElement;
@@ -265,17 +185,114 @@ export class RegisterPatientsComponent {
     input.value = '';
   }
 
+  removeImage(index: number) {
+    this.tempImages.splice(index, 1);
+    this.selectedImages = this.selectedImages.filter((i) => i !== index)
+      .map((i) => (i > index ? i - 1 : i));
+  }
+
+  addPatient() {
+    this.errorMessage = '';
+    this.imageUploadError = [];
+
+    // Marcar todos los controles como tocados
+    Object.values(this.patientForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
+    // Validación de imágenes
+    if (this.tempImages.length < 3) {
+      this.imageUploadError.push({
+        error: `Debes subir por lo menos 3 imágenes.`
+      });
+    }
+
+    if (this.patientForm.valid && this.tempImages.length >= 3) {
+      const formData = new FormData();
+
+      // Crear el valor combinado para el campo "hair"
+      const hairLength = this.patientForm.get('hairLength')?.value || '';
+      const hairType = this.patientForm.get('hairType')?.value || '';
+      let hairColor = this.patientForm.get('hairColor')?.value || '';
+
+      // Si el color de cabello es "otro", usar el valor de customHairColor
+      if (hairColor === 'otro') {
+        hairColor = this.patientForm.get('customHairColor')?.value || '';
+      }
+
+      // Construir el campo "hair" dinámicamente, evitando comas innecesarias
+      let hair = '';
+      if (hairLength) {
+        hair = hairLength;
+      }
+      if (hairType) {
+        hair = hair ? `${hair}, ${hairType}` : hairType;
+      }
+      if (hairColor) {
+        hair = hair ? `${hair}, ${hairColor}` : hairColor;
+      }
+
+      // Añadir los campos del formulario al FormData
+      Object.keys(this.patientForm.value).forEach(key => {
+        if (key !== 'imageFiles' && key !== 'customHairColor' && key !== 'hairLength' && key !== 'hairType' && key !== 'hairColor') {
+          formData.append(key, this.patientForm.value[key]);
+        }
+      });
+
+      // Añadir el valor combinado de "hair" al FormData solo si tiene algún valor
+      if (hair) {
+        formData.append('hair', hair);
+      }
+
+      // Subida de imágenes
+      const imagePromises: Promise<void>[] = [];
+
+      this.tempImages.forEach((image, index) => {
+        if (image.startsWith('data:image')) {
+          const promise = fetch(image)
+            .then(res => res.blob())
+            .then(blob => {
+              if (this.allowedFormats.includes(blob.type)) {
+                const extension = this.getExtensionFromMimeType(blob.type);
+                formData.append('imageFile', blob, `image${index}.${extension}`);
+              } else {
+                this.imageUploadError.push({
+                  error: `La imagen ${index + 1} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
+                });
+              }
+            });
+          imagePromises.push(promise);
+        }
+      });
+
+      // Asegura que todas las imágenes se hayan procesado antes de enviar el formulario
+      from(Promise.all(imagePromises)).pipe(
+        tap(() => this.loading = true),
+        switchMap(() => this._patientService.addPatient(formData)),
+        tap(() => {
+          this._toastService.showToast('Paciente registrado',
+            'Los datos del paciente se han registrado correctamente.', 'success');
+          this.errorMessage = null;
+          this._router.navigate(['/dashboard/patients']);
+        }),
+        catchError(error => {
+          console.error('Registro fallido', error);
+          this._toastService.showToast('Error', 'Error al registrar los datos del paciente.', 'error');
+          this.errorMessage = 'Error al registrar los datos del paciente.';
+          return of(null);
+        }),
+        finalize(() => this.loading = false)
+      ).subscribe();
+    } else {
+      this.errorMessage = 'Por favor, complete todos los campos correctamente.';
+    }
+  }
+
   triggerFileInput() {
     const fileInput = document.getElementById('patientImages') as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
     }
-  }
-
-  removeImage(index: number) {
-    this.tempImages.splice(index, 1);
-    this.selectedImages = this.selectedImages.filter((i) => i !== index)
-      .map((i) => (i > index ? i - 1 : i));
   }
 
   getExtensionFromMimeType(mimeType: string): string | null {
@@ -292,5 +309,4 @@ export class RegisterPatientsComponent {
         return null; // Devuelve null si el formato no es permitido
     }
   }
-
 }

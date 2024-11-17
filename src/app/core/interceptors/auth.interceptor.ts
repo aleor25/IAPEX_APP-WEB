@@ -44,6 +44,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           _toastService.showToast(
             'Acceso denegado',
             'Inicie sesión nuevamente.',
+            'error',
             [
               {
                 label: 'Ir al inicio de sesión',

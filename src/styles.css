@@ -73,22 +73,21 @@ body {
 }
 
 .upload-area:hover {
-    /*  background-color: #F8F9FA; */
     opacity: 50%;
 }
 
 .image-container {
-    width: 320px;
-    height: 280px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
-    border-radius: 5px;
-    border: 1px solid #ddd;
     position: relative;
 }
 
 .image-container img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     position: absolute;
     top: 50%;
     left: 50%;

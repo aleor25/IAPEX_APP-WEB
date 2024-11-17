@@ -22,24 +22,17 @@ export class PatientService {
         return this._http.get<Patient>(apiUrl);
     }
 
-    // Añadir un nuevo paciente
-    public addPatient(patient: FormData): Observable<Patient> {
-        return this._http.post<Patient>(this.apiUrl, patient);
-    }
-
     public updatePatient(id: number, formData: FormData): Observable<any> {
-        return this._http.put(`${this.apiUrl}/${id}`, formData, {
-            reportProgress: true,
-            observe: 'events'
-        });
-    }
+        return this._http.put(`${this.apiUrl}/${id}`, formData);
+      }
+
     // Eliminar un paciente
     public deletePatient(id: number): Observable<void> {
         const apiUrl = `${this.apiUrl}/${id}`;
         return this._http.delete<void>(apiUrl);
     }
-    
-    public registerPatients(formData: FormData): Observable<any> {
+
+    public addPatient(formData: FormData): Observable<any> {
         return this._http.post(this.apiUrl, formData);
     }
 }
