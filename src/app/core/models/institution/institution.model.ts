@@ -17,7 +17,6 @@ export interface Institution {
     registrationDateTime: Date;
     image: string;
     imageUrl: string;
-    mapUrl: string;
     verificationKey: string;
     active: boolean;
   }

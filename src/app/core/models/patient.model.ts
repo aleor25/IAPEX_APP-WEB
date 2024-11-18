@@ -17,7 +17,6 @@ export interface Patient {
     distinctiveFeatures?: string;
     institution: string;
     images: Image[];
-    additionalNotes?: string;
 }
 
 export interface Institution {
