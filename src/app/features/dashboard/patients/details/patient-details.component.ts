@@ -295,7 +295,7 @@ export class PatientDetailsComponent implements OnInit {
     // Validación de imágenes
     if (this.tempImages.length < 3) {
       this.imageUploadError.push({
-        error: `Debes subir por lo menos 3 imágenes.`
+        error: `Debe subir por lo menos 3 imágenes.`
       });
     }
 

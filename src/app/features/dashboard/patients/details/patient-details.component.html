@@ -7,7 +7,7 @@
       <div class="col">
         <label for="name" class="form-label">Nombre</label>
         <input type="text" class="form-control bg-body-tertiary" id="name" formControlName="name"
-          placeholder="Ingresa el nombre del paciente"
+          placeholder="Ingrese el nombre del paciente"
           [class.is-invalid]="patientForm.get('name')?.invalid && (patientForm.get('name')?.dirty || patientForm.get('name')?.touched)">
         @if (patientForm.get('name')?.errors?.['maxlength']) {
         <p class="small invalid-feedback mt-2 mb-0">
@@ -24,7 +24,7 @@
       <div class="col">
         <label for="lastName" class="form-label">Apellido paterno</label>
         <input type="text" class="form-control bg-body-tertiary" id="lastName" formControlName="lastName"
-          placeholder="Ingresa el apellido paterno"
+          placeholder="Ingrese el apellido paterno"
           [class.is-invalid]="patientForm.get('lastName')?.invalid && (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)">
         @if (patientForm.get('lastName')?.errors?.['maxlength']) {
         <p class="small invalid-feedback mt-2 mb-0">
@@ -41,7 +41,7 @@
       <div class="col">
         <label for="secondLastName" class="form-label">Apellido materno</label>
         <input type="text" class="form-control bg-body-tertiary" id="secondLastName" formControlName="secondLastName"
-          placeholder="Ingresa el apellido materno"
+          placeholder="Ingrese el apellido materno"
           [class.is-invalid]="patientForm.get('secondLastName')?.invalid && (patientForm.get('secondLastName')?.dirty || patientForm.get('secondLastName')?.touched)">
         @if (patientForm.get('secondLastName')?.errors?.['maxlength']) {
         <p class="small invalid-feedback mt-2 mb-0">
@@ -75,7 +75,7 @@
       <div class="col-4">
         <label for="approximateAge" class="form-label">Edad aparente*</label>
         <input class="form-control bg-body-tertiary" id="approximateAge" formControlName="approximateAge"
-          placeholder="Ingresa la edad del paciente" maxlength="3"
+          placeholder="Ingrese la edad del paciente" maxlength="3"
           [class.is-invalid]="patientForm.get('approximateAge')?.invalid && (patientForm.get('approximateAge')?.dirty || patientForm.get('approximateAge')?.touched)">
         @if (patientForm.get('approximateAge')?.errors?.['required']) {
         <p class="small invalid-feedback mt-2 mb-0">
@@ -143,7 +143,7 @@
       <div class="col">
         <label for="approximateHeight" class="form-label">Altura aproximada (cm)*</label>
         <input class="form-control bg-body-tertiary" id="approximateHeight" formControlName="approximateHeight"
-          placeholder="Ingresa la altura aproximada" maxlength="3"
+          placeholder="Ingrese la altura aproximada" maxlength="3"
           [class.is-invalid]="patientForm.get('approximateHeight')?.invalid && (patientForm.get('approximateHeight')?.dirty || patientForm.get('approximateHeight')?.touched)">
         @if (patientForm.get('approximateHeight')?.errors?.['required']) {
         <p class="small invalid-feedback mt-2 mb-0">
@@ -220,9 +220,8 @@
         <!-- Campo adicional para el color personalizado -->
         @if (patientForm.get('hairColor')?.value === 'otro') {
         <div class="col mt-3">
-          <label for="customHairColor" class="form-label">Especifique el color de cabello</label>
           <input id="customHairColor" type="text" class="form-control bg-body-tertiary"
-            formControlName="customHairColor"
+            formControlName="customHairColor" placeholder="Especifique el color de cabello"
             [class.is-invalid]="patientForm.get('customHairColor')?.invalid && (patientForm.get('customHairColor')?.dirty || patientForm.get('customHairColor')?.touched)">
           @if (patientForm.get('customHairColor')?.errors?.['required']) {
           <p class="small invalid-feedback mt-2 mb-0">
@@ -270,7 +269,7 @@
       <div class="col-6">
         <label for="medicalConditions" class="form-label">Condiciones médicas</label>
         <textarea type="text" class="form-control bg-body-tertiary" id="medicalConditions"
-          formControlName="medicalConditions" placeholder="Ingresa las condiciones médicas del paciente"></textarea>
+          formControlName="medicalConditions" placeholder="Ingrese las condiciones médicas del paciente"></textarea>
         @if (patientForm.get('medicalConditions')?.errors?.['maxlength']) {
         <p class="small invalid-feedback mt-2 mb-0">
           Las condiciones médicas no pueden ser mayor a 255 caracteres.
@@ -281,7 +280,7 @@
       <div class="col-6">
         <label for="distinctiveFeatures" class="form-label">Señas particulares</label>
         <textarea type="text" class="form-control bg-body-tertiary" id="distinctiveFeatures"
-          formControlName="distinctiveFeatures" placeholder="Ingresa las señas particulares del paciente"></textarea>
+          formControlName="distinctiveFeatures" placeholder="Ingrese las señas particulares del paciente"></textarea>
         @if (patientForm.get('distinctiveFeatures')?.errors?.['maxlength']) {
         <p class="small invalid-feedback mt-2 mb-0">
           Las señas particulares no pueden ser mayor a 255 caracteres.
@@ -296,7 +295,7 @@
         <i class="bi bi-info-circle" [class.text-danger]="imageUploadError.length > 0" style="cursor: pointer;"></i>
         <div class="dropdown-menu p-3">
           <p class="m-1 border-bottom">
-            Debe de haber entre 3 y 6 imágenes.
+            Debe subir entre 3 y 6 imágenes.
           </p>
           <p class="m-1 border-bottom">
             Formatos admitidos: JPG, JPEG, PNG, BMP, WEBP, TIFF, HEIF.
@@ -325,8 +324,8 @@
 
       <!-- Icono y mensaje de arrastrar y soltar -->
       <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
-      <p class="mb-2">Arrastra tus fotos aquí o</p>
-      <button class="btn btn-primary">Selecciona archivos</button>
+      <p class="mb-2">Arrastre sus fotos aquí o</p>
+      <button class="btn btn-primary">Seleccionaearchivos</button>
 
       <!-- Mensaje de error si hay problemas de subida -->
       @if (imageUploadError.length > 0) {

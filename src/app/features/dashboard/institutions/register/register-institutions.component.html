@@ -6,11 +6,11 @@
       <div class="col">
         <label for="name" class="form-label">Nombre de la institución*</label>
         <input type="text" class="form-control bg-body-tertiary" id="name" formControlName="name"
-          placeholder="Ingresa el nombre de la institución"
+          placeholder="Ingrese el nombre de la institución"
           [class.is-invalid]="institutionForm.get('name')?.invalid && (institutionForm.get('name')?.dirty || institutionForm.get('name')?.touched)">
         @if (institutionForm.get('name')?.errors?.['required']) {
         <p class="small invalid-feedback mt-2 mb-0">
-          El nombre de la institución es requerido.
+          El nombre es requerido.
         </p>
         }
         @if (institutionForm.get('name')?.errors?.['maxlength']) {
@@ -25,10 +25,14 @@
         <select class="form-select bg-body-tertiary" id="type" formControlName="type"
           [class.is-invalid]="institutionForm.get('type')?.invalid && (institutionForm.get('type')?.dirty || institutionForm.get('type')?.touched)">
           <option value="">Seleccione un tipo de institución</option>
-          <option value="hospital">Hospital</option>
-          <option value="clínica">Clínica</option>
-          <option value="centro médico">Centro Médico</option>
-          <option value="consultorio">Consultorio</option>
+          <option value="hospital general">Hospital general</option>
+          <option value="centro salud">Centro de salud</option>
+          <option value="centro atencion primaria">Centro de atención primaria</option>
+          <option value="centro atencion urgencias">Centro de atención de urgencias</option>
+          <option value="hospital pediatrico">Hospital pediátrico</option>
+          <option value="hospital geriatrico">Hospital geriátrico</option>
+          <option value="centro rehabilitacion">Centro de rehabilitación</option>
+          <option value="centro salud mental">Centro de salud mental</option>
           <option value="otro">Otro</option>
         </select>
         @if (institutionForm.get('type')?.errors?.['required']) {
@@ -39,7 +43,6 @@
 
         <!-- Campo adicional solo visible si se selecciona 'Otro' -->
         <div *ngIf="institutionForm.get('type')?.value === 'otro'" class="mt-3">
-          <label for="otherType" class="form-label">Especificar tipo</label>
           <input type="text" class="form-control bg-body-tertiary" id="otherType" formControlName="otherType"
             placeholder="Especifica el tipo de institución"
             [class.is-invalid]="institutionForm.get('otherType')?.invalid && (institutionForm.get('otherType')?.dirty || institutionForm.get('otherType')?.touched)">
@@ -59,11 +62,16 @@
       <div class="col">
         <label for="verificationKey" class="form-label">Clave de verificación*</label>
         <input type="text" class="form-control bg-body-tertiary" id="verificationKey"
-          placeholder="Ingresa la clave de verificación" formControlName="verificationKey"
+          placeholder="Ingrese la clave de verificación" formControlName="verificationKey"
           [class.is-invalid]="institutionForm.get('verificationKey')?.invalid && (institutionForm.get('verificationKey')?.dirty || institutionForm.get('verificationKey')?.touched)">
         @if (institutionForm.get('verificationKey')?.errors?.['required']) {
         <p class="small invalid-feedback mt-2 mb-0">
           La clave de verificación es requerida.
+        </p>
+        }
+        @if (institutionForm.get('verificationKey')?.errors?.['maxlength']) {
+        <p class="small invalid-feedback mt-2 mb-0">
+          La clave no puede exceder los 50 caracteres.
         </p>
         }
       </div>
@@ -76,11 +84,11 @@
         <div class="col">
           <label for="state" class="form-label">Estado*</label>
           <input type="text" class="form-control bg-body-tertiary" id="state" formControlName="state"
-            placeholder="Ingresa el estado"
+            placeholder="Ingrese el estado"
             [class.is-invalid]="institutionForm.get('direction.state')?.invalid && (institutionForm.get('direction.state')?.dirty || institutionForm.get('direction.state')?.touched)">
           @if (institutionForm.get('direction.state')?.errors?.['required']) {
           <p class="small invalid-feedback mt-2 mb-0">
-            El estado es requerido.
+            El estado de la institución es requerido.
           </p>
           }
         </div>
@@ -88,11 +96,11 @@
         <div class="col">
           <label for="city" class="form-label">Ciudad*</label>
           <input type="text" class="form-control bg-body-tertiary" id="city" formControlName="city"
-            placeholder="Ingresa la ciudad"
+            placeholder="Ingrese la ciudad"
             [class.is-invalid]="institutionForm.get('direction.city')?.invalid && (institutionForm.get('direction.city')?.dirty || institutionForm.get('direction.city')?.touched)">
           @if (institutionForm.get('direction.city')?.errors?.['required']) {
           <p class="small invalid-feedback mt-2 mb-0">
-            La ciudad es requerida.
+            La ciudad de la institución es requerida.
           </p>
           }
         </div>
@@ -100,127 +108,195 @@
         <div class="col">
           <label for="postalCode" class="form-label">Código postal*</label>
           <input type="text" class="form-control bg-body-tertiary" id="postalCode" formControlName="postalCode"
-            placeholder="Ingresa el código postal"
+            placeholder="Ingrese el código postal"
             [class.is-invalid]="institutionForm.get('direction.postalCode')?.invalid && (institutionForm.get('direction.postalCode')?.dirty || institutionForm.get('direction.postalCode')?.touched)">
           @if (institutionForm.get('direction.postalCode')?.errors?.['required']) {
           <p class="small invalid-feedback mt-2 mb-0">
-            El código postal es requerido.
+            El código postal de la institución es requerido.
+          </p>
+          }
+          @if (institutionForm.get('direction.postalCode')?.errors?.['pattern']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El código postal de la institución solo puede contener números.
           </p>
           }
         </div>
       </div>
 
       <div class="row mb-3">
-        <div class="col-4">
-          <label for="street" class="form-label">Calle*</label>
-          <input type="text" class="form-control bg-body-tertiary" id="street" formControlName="street"
-            placeholder="Ingresa la calle"
-            [class.is-invalid]="institutionForm.get('direction.street')?.invalid && (institutionForm.get('direction.street')?.dirty || institutionForm.get('direction.street')?.touched)">
-          @if (institutionForm.get('direction.street')?.errors?.['required']) {
+        <div class="col">
+          <label for="neighborhood" class="form-label">Colonia*</label>
+          <input type="text" class="form-control bg-body-tertiary" id="neighborhood" formControlName="neighborhood"
+            placeholder="Ingrese la colonia"
+            [class.is-invalid]="institutionForm.get('direction.neighborhood')?.invalid && (institutionForm.get('direction.neighborhood')?.dirty || institutionForm.get('direction.neighborhood')?.touched)">
+          @if (institutionForm.get('direction.neighborhood')?.errors?.['required']) {
           <p class="small invalid-feedback mt-2 mb-0">
-            La calle es requerida.
-          </p>
-          }
-        </div>
-
-        <div class="col-4">
-          <label for="number" class="form-label">Número*</label>
-          <input type="text" class="form-control bg-body-tertiary" id="number" formControlName="number"
-            placeholder="Ingresa el número"
-            [class.is-invalid]="institutionForm.get('direction.number')?.invalid && (institutionForm.get('direction.number')?.dirty || institutionForm.get('direction.number')?.touched)">
-          @if (institutionForm.get('direction.number')?.errors?.['required']) {
-          <p class="small invalid-feedback mt-2 mb-0">
-            El número es requerido.
+            La colonia de la institución es requerida.
           </p>
           }
         </div>
 
         <div class="col">
-          <label for="neighborhood" class="form-label">Colonia*</label>
-          <input type="text" class="form-control bg-body-tertiary" id="neighborhood" formControlName="neighborhood"
-            placeholder="Ingresa la colonia"
-            [class.is-invalid]="institutionForm.get('direction.neighborhood')?.invalid && (institutionForm.get('direction.neighborhood')?.dirty || institutionForm.get('direction.neighborhood')?.touched)">
-          @if (institutionForm.get('direction.neighborhood')?.errors?.['required']) {
+          <label for="street" class="form-label">Calle*</label>
+          <input type="text" class="form-control bg-body-tertiary" id="street" formControlName="street"
+            placeholder="Ingrese la calle"
+            [class.is-invalid]="institutionForm.get('direction.street')?.invalid && (institutionForm.get('direction.street')?.dirty || institutionForm.get('direction.street')?.touched)">
+          @if (institutionForm.get('direction.street')?.errors?.['required']) {
           <p class="small invalid-feedback mt-2 mb-0">
-            La colonia es requerida.
+            La calle de la institución es requerida.
           </p>
           }
         </div>
+
+        <div class="col">
+          <label for="number" class="form-label">Número*</label>
+          <input type="text" class="form-control bg-body-tertiary" id="number" formControlName="number"
+            placeholder="Ingrese el número"
+            [class.is-invalid]="institutionForm.get('direction.number')?.invalid && (institutionForm.get('direction.number')?.dirty || institutionForm.get('direction.number')?.touched)">
+          @if (institutionForm.get('direction.number')?.errors?.['pattern']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El número de la institución solo puede contener números.
+          </p>
+          }
+        </div>
+
       </div>
     </div>
 
     <h5 class="my-4">Información de contacto</h5>
 
     <div class="row mb-3">
-      <div class="col">
+      <div formArrayName="phoneNumbers" class="col">
+        <label for="phoneNumbers" class="form-label">Números de teléfono</label>
+        @for (phone of getFormArray('phoneNumbers').controls; track $index) {
+        <div class="input-group mb-3">
+          <input type="tel" class="form-control bg-body-tertiary" [formControlName]="$index"
+            placeholder="Ej: 2721965634" maxlength="10" minlength="10"
+            [class.is-invalid]="phone.invalid && (phone.dirty || phone.touched)">
+          @if ($index === 0) {
+          <button [class.border-danger]="phone.invalid && (phone.dirty || phone.touched)" class="btn border"
+            type="button" (click)="addOrRemoveField('phoneNumbers')"
+            [disabled]="getFormArray('phoneNumbers').length >= 5">
+            <i class="bi bi-plus text-success"></i>
+          </button>
+          }
+          @if ($index > 0) {
+          <button [class.border-danger]="phone.invalid && (phone.dirty || phone.touched)" class="btn border"
+            type="button" (click)="addOrRemoveField('phoneNumbers', true, $index)">
+            <i class="bi bi-dash text-danger"></i>
+          </button>
+          }
+          @if (phone.errors?.['required']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El número de teléfono es requerido.
+          </p>
+          }
+          @if (phone.errors?.['maxlength']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El número de teléfono no puede exceder los 10 dígitos.
+          </p>
+          }
+          @if (phone.errors?.['minlength']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El número de teléfono debe tener al menos 10 dígitos.
+          </p>
+          }
+          @if (phone.errors?.['pattern']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El número de teléfono solo debe contener números.
+          </p>
+          }
+        </div>
+        }
+      </div>
+
+      <div formArrayName="emails" class="col">
+        <label for="emails" class="form-label">Correos electrónicos</label>
+        @for (email of getFormArray('emails').controls; track $index) {
+        <div class="input-group mb-3">
+          <input type="tel" class="form-control bg-body-tertiary" [formControlName]="$index"
+            placeholder="Ej: email@example.com" [class.is-invalid]="email.invalid && (email.dirty || email.touched)">
+          @if ($index === 0) {
+          <button [class.border-danger]="email.invalid && (email.dirty || email.touched)" class="btn border"
+            type="button" (click)="addOrRemoveField('emails')" [disabled]="getFormArray('emails').length >= 5">
+            <i class="bi bi-plus text-success"></i>
+          </button>
+          }
+          @if ($index > 0) {
+          <button [class.border-danger]="email.invalid && (email.dirty || email.touched)" class="btn border"
+            type="button" (click)="addOrRemoveField('emails', true, $index)">
+            <i class="bi bi-dash text-danger"></i>
+          </button>
+          }
+          @if (email.errors?.['required']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El correo electrónico es requerido.
+          </p>
+          }
+          @if (email.errors?.['maxlength']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El correo electrónico no puede exceder los 50 caracteres.
+          </p>
+          }
+          @if (email.errors?.['pattern']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El correo electrónico no tiene un formato válido.
+          </p>
+          }
+        </div>
+        }
+      </div>
+
+      <div formArrayName="websites" class="col-4">
+        <label for="websites" class="form-label">Sitios web</label>
+        @for (website of getFormArray('websites').controls; track $index) {
+        <div class="input-group mb-3">
+          <input type="tel" class="form-control bg-body-tertiary" [formControlName]="$index"
+            placeholder="Ej: https://website.com"
+            [class.is-invalid]="website.invalid && (website.dirty || website.touched)">
+          @if ($index === 0) {
+          <button [class.border-danger]="website.invalid && (website.dirty || website.touched)" class="btn border"
+            type="button" (click)="addOrRemoveField('websites')" [disabled]="getFormArray('websites').length >= 5">
+            <i class="bi bi-plus text-success"></i>
+          </button>
+          }
+          @if ($index > 0) {
+          <button [class.border-danger]="website.invalid && (website.dirty || website.touched)" class="btn border"
+            type="button" (click)="addOrRemoveField('websites', true, $index)">
+            <i class="bi bi-dash text-danger"></i>
+          </button>
+          }
+          @if (website.errors?.['required']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El sitio web es requerido.
+          </p>
+          }
+          @if (website.errors?.['maxlength']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            La URL del sitio web no puede exceder los 50 caracteres.
+          </p>
+          }
+          @if (website.errors?.['pattern']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            La URL del sitio web no tiene un formato válido.
+          </p>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-4">
         <label for="openingHours" class="form-label">Horario de atención*</label>
         <input type="text" class="form-control bg-body-tertiary" id="openingHours" formControlName="openingHours"
           placeholder="Ej: Lunes a Viernes 9:00 - 18:00"
           [class.is-invalid]="institutionForm.get('openingHours')?.invalid && (institutionForm.get('openingHours')?.dirty || institutionForm.get('openingHours')?.touched)">
         @if (institutionForm.get('openingHours')?.errors?.['required']) {
         <p class="small invalid-feedback mt-2 mb-0">
-          El horario de atención es requerido
+          El horario de atención es requerido.
         </p>
         }
-      </div>
-
-      <div class="col">
-        <label for="emails" class="form-label">Correos electrónicos</label>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control bg-body-tertiary" id="emails" formControlName="emails"
-            placeholder="Separa múltiples correos con comas"
-            [class.is-invalid]="institutionForm.get('emails')?.invalid && (institutionForm.get('emails')?.dirty || institutionForm.get('emails')?.touched)">
-          <button class="btn btn-outline-secondary" type="button"><i class="bi bi-plus"></i></button>
-          @if (institutionForm.get('emails')?.errors?.['pattern']) {
-          <p class="small invalid-feedback mt-2 mb-0">
-            Los correos electrónicos no son validos.
-          </p>
-          }
-        </div>
-      </div>
-
-      <div class="col">
-        <label for="phoneNumbers" class="form-label">Números telefónicos</label>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control bg-body-tertiary" id="phoneNumbers" formControlName="phoneNumbers"
-            placeholder="Separa múltiples números con comas" maxlength="10" minlength="10"
-            [class.is-invalid]="institutionForm.get('phoneNumbers')?.invalid && (institutionForm.get('phoneNumbers')?.dirty || institutionForm.get('phoneNumbers')?.touched)">
-          <button class="btn btn-outline-secondary" type="button"><i class="bi bi-plus"></i></button>
-          @if (institutionForm.get('phoneNumbers')?.errors?.['maxlength']) {
-          <p class="small invalid-feedback mt-2 mb-0">
-            Los números telefónicos no pueden exceder los 10 caracteres.
-          </p>
-          }
-          @if (institutionForm.get('phoneNumbers')?.errors?.['minlength']) {
-          <p class="small invalid-feedback mt-2 mb-0">
-            Los números telefónicos deben tener al menos 10 caracteres.
-          </p>
-          }
-        </div>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-4">
-        <label for="websites" class="form-label">Sitios web</label>
-        <input type="text" class="form-control bg-body-tertiary" id="websites" formControlName="websites"
-          placeholder="Separa múltiples sitios web con comas"
-          [class.is-invalid]="institutionForm.get('websites')?.invalid && (institutionForm.get('websites')?.dirty || institutionForm.get('websites')?.touched)">
-        <!-- @if (institutionForm.get('websites')?.errors?.['']) {
-        <p class="small invalid-feedback mt-2 mb-0">
-        </p>
-        } -->
-      </div>
-
-      <div class="col-4">
-        <label for="mapUrl" class="form-label">URL de Google Maps</label>
-        <input type="text" class="form-control bg-body-tertiary" id="mapUrl" formControlName="mapUrl"
-          placeholder="Ej: https://maps.google.com/..."
-          [class.is-invalid]="institutionForm.get('mapUrl')?.invalid && (institutionForm.get('mapUrl')?.dirty || institutionForm.get('mapUrl')?.touched)">
-        <!-- @if (institutionForm.get('mapUrl')?.errors?.['']) {
-        <p class="small invalid-feedback mt-2 mb-0">
-        </p>
-        } -->
       </div>
     </div>
 
@@ -230,7 +306,7 @@
         <i class="bi bi-info-circle" [class.text-danger]="imageUploadError.length > 0" style="cursor: pointer;"></i>
         <div class="dropdown-menu p-3">
           <p class="m-1 border-bottom">
-            Debes subir unicamente una imagen.
+            Debe subir unicamente una imagen.
           </p>
           <p class="m-1 border-bottom">
             Formatos admitidos: JPG, JPEG, PNG, BMP, WEBP, TIFF, HEIF.
@@ -256,8 +332,8 @@
 
       <!-- Icono y mensaje de arrastrar y soltar -->
       <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
-      <p class="mb-2">Arrastra tus fotos aquí o</p>
-      <button class="btn btn-primary">Selecciona archivos</button>
+      <p class="mb-2">Arrastre sus fotos aquí o</p>
+      <button class="btn btn-primary">Seleccione archivos</button>
 
       <!-- Mensaje de error si hay problemas de subida -->
       @if (imageUploadError.length > 0) {

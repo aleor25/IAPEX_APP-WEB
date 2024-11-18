@@ -15,7 +15,6 @@ export class ThemeService {
 
   constructor() {
     effect(() => {
-      console.log('ThemeService: ', this.themeSignal());
       document.documentElement.setAttribute('data-bs-theme', this.themeSignal());
       window.localStorage.setItem('themeSignal', this.themeSignal());
     });
