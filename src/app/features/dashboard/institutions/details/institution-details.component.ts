@@ -96,7 +96,6 @@ export class InstitutionDetailsComponent {
       emails: institution.emails,
       phoneNumbers: institution.phoneNumbers,
       websites: institution.websites,
-      mapUrl: institution.mapUrl,
       verificationKey: institution.verificationKey,
       active: institution.active,
     });
