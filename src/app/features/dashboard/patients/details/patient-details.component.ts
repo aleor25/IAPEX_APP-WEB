@@ -35,8 +35,8 @@ export class PatientDetailsComponent implements OnInit {
 
   constructor() {
     this.patientForm = this._fb.group({
-      name: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
-      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
+      name: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
+      lastName: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
       secondLastName: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
       gender: ['', Validators.required],
       approximateAge: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.min(0), Validators.max(150)]],
@@ -311,7 +311,6 @@ export class PatientDetailsComponent implements OnInit {
         hairColor = this.patientForm.get('customHairColor')?.value.toLowerCase() || '';
       }
 
-      // Construir el campo "hair" dinámicamente, evitando comas innecesarias
       let hair = '';
       if (hairLength) {
         hair = hairLength;

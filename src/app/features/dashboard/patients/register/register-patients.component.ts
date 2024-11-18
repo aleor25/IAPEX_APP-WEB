@@ -32,8 +32,8 @@ export class RegisterPatientsComponent {
 
   constructor() {
     this.patientForm = this._fb.group({
-      name: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
-      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
+      name: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
+      lastName: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
       secondLastName: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
       gender: ['', Validators.required],
       approximateAge: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.min(0), Validators.max(150)]],
@@ -73,19 +73,17 @@ export class RegisterPatientsComponent {
       } else {
         customHairColorControl?.clearValidators();
         customHairColorControl?.disable();
-        customHairColorControl?.setValue(''); // Limpia el campo cuando no es "Otro"
+        customHairColorControl?.setValue('');
       }
       customHairColorControl?.updateValueAndValidity();
     });
   }
 
-  // Método para arrastrar archivos sobre el área
   handleDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
   }
 
-  // Método para manejar el drop (soltar) de archivos
   handleDrop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -95,7 +93,6 @@ export class RegisterPatientsComponent {
     }
   }
 
-  // Procesa los archivos soltados
   onFilesDropped(files: FileList) {
     const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
     const newImageFiles = Array.from(files);
@@ -189,6 +186,28 @@ export class RegisterPatientsComponent {
     this.tempImages.splice(index, 1);
     this.selectedImages = this.selectedImages.filter((i) => i !== index)
       .map((i) => (i > index ? i - 1 : i));
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('patientImages') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
+  getExtensionFromMimeType(mimeType: string): string | null {
+    switch (mimeType) {
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/png':
+        return 'png';
+      case 'image/webp':
+        return 'webp';
+      case 'image/heif':
+        return 'heif';
+      default:
+        return null; // Devuelve null si el formato no es permitido
+    }
   }
 
   addPatient() {
@@ -285,28 +304,6 @@ export class RegisterPatientsComponent {
       ).subscribe();
     } else {
       this.errorMessage = 'Por favor, complete todos los campos correctamente.';
-    }
-  }
-
-  triggerFileInput() {
-    const fileInput = document.getElementById('patientImages') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-    }
-  }
-
-  getExtensionFromMimeType(mimeType: string): string | null {
-    switch (mimeType) {
-      case 'image/jpeg':
-        return 'jpg';
-      case 'image/png':
-        return 'png';
-      case 'image/webp':
-        return 'webp';
-      case 'image/heif':
-        return 'heif';
-      default:
-        return null; // Devuelve null si el formato no es permitido
     }
   }
 }

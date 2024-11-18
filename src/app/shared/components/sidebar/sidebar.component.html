@@ -2,8 +2,7 @@
   <div class="row h-100">
     <div class="min-vh-100 bg-light-subtle d-flex flex-column justify-content-between border-end">
       <div class="pt-2 px-2 text-center d-none d-lg-flex align-items-center justify-content-center">
-        <a class="text-decoration-none d-flex align-items-center justify-content-center"
-          routerLink="/dashboard/general-view">
+        <a class="text-decoration-none d-flex align-items-center justify-content-center" routerLink="/dashboard/general-view">
           <img class="me-2 mx-auto w-100" src="assets/images/logo.png">
         </a>
       </div>
@@ -11,65 +10,91 @@
       <ul class="nav nav-pills flex-column mt-5">
         <li class="nav-item mb-2">
           <a routerLink="/dashboard/general-view" class="nav-link" routerLinkActive="active">
+            <!-- Visible en pantallas grandes -->
             <div class="d-none d-lg-flex align-items-center">
-              <span class="material-symbols-outlined me-3">home</span>
+              <i class="bi bi-house-door me-3"></i>
               <span class="d-none d-lg-inline">Inicio</span>
             </div>
+            <!-- Visible en pantallas pequeñas -->
+            <div class="d-flex d-lg-none justify-content-center align-items-center">
+              <i class="bi bi-house-door"></i>
+            </div>
           </a>
         </li>
+
         <li class="nav-item mb-2">
           <a routerLink="/dashboard/patients" class="nav-link" routerLinkActive="active">
+            <!-- Visible en pantallas grandes -->
             <div class="d-none d-lg-flex align-items-center">
-              <span class="material-symbols-outlined me-3">personal_injury</span>
+              <i class="bi bi-person-lines-fill me-3"></i>
               <span class="d-none d-lg-inline">Pacientes</span>
             </div>
+            <!-- Visible en pantallas pequeñas -->
+            <div class="d-flex d-lg-none justify-content-center align-items-center">
+              <i class="bi bi-person-lines-fill"></i>
+            </div>
           </a>
         </li>
+
         <li class="nav-item mb-2">
           <a routerLink="/dashboard/contact-requests" class="nav-link" routerLinkActive="active">
+            <!-- Visible en pantallas grandes -->
             <div class="d-none d-lg-flex align-items-center">
-              <span class="material-symbols-outlined me-3">mail</span>
+              <i class="bi bi-envelope me-3"></i>
               <span class="d-none d-lg-inline">Solicitudes</span>
             </div>
-          </a>
-        </li>
-        <li class="nav-item mb-2">
-          <a routerLink="/dashboard/institutions" class="nav-link" routerLinkActive="active">
-            <div class="d-none d-lg-flex align-items-center">
-              <span class="material-symbols-outlined me-3">account_balance</span>
-              <span class="d-none d-lg-inline">Instituciones</span>
+            <!-- Visible en pantallas pequeñas -->
+            <div class="d-flex d-lg-none justify-content-center align-items-center">
+              <i class="bi bi-envelope"></i>
             </div>
           </a>
         </li>
+
+        <li class="nav-item mb-2">
+          <a routerLink="/dashboard/institutions" class="nav-link" routerLinkActive="active">
+            <!-- Visible en pantallas grandes -->
+            <div class="d-none d-lg-flex align-items-center">
+              <i class="bi bi-bank me-3"></i>
+              <span class="d-none d-lg-inline">Instituciones</span>
+            </div>
+            <!-- Visible en pantallas pequeñas -->
+            <div class="d-flex d-lg-none justify-content-center align-items-center">
+              <i class="bi bi-bank"></i>
+            </div>
+          </a>
+        </li>
+
         <li class="nav-item mb-2">
           <a routerLink="/dashboard/memberships" class="nav-link" routerLinkActive="active">
+            <!-- Visible en pantallas grandes -->
             <div class="d-none d-lg-flex align-items-center">
-              <span class="material-symbols-outlined me-3">credit_card</span>
+              <i class="bi bi-credit-card me-3"></i>
               <span class="d-none d-lg-inline">Membresías</span>
+            </div>
+            <!-- Visible en pantallas pequeñas -->
+            <div class="d-flex d-lg-none justify-content-center align-items-center">
+              <i class="bi bi-credit-card"></i>
             </div>
           </a>
         </li>
       </ul>
 
       <div class="mt-auto mb-3">
-        <div class="">
-          <ul class=" nav nav-pills">
+        <div>
+          <ul class="nav nav-pills">
             <!-- <li class="nav-item mx-1">
               <a routerLink="/dashboard/notifications" class="nav-link" routerLinkActive="active">
-                <span class="material-symbols-outlined">notifications</span>
+                <i class="bi bi-bell"></i>
               </a>
-            </li>  -->
-
+            </li> -->
           </ul>
         </div>
-
-
 
         <ul class="nav nav-pills flex-column">
           <!-- <li class="nav-item mb-2">
               <a routerLink="/dashboard/settings" class="nav-link" routerLinkActive="active">
                 <div class="d-none d-lg-flex align-items-center">
-                  <span class="material-symbols-outlined me-3">settings</span>
+                  <i class="bi bi-gear me-3"></i>
                   <span class="d-none d-lg-inline">Configuración</span>
                 </div>
               </a>
@@ -77,25 +102,32 @@
 
           <li class="nav-item mb-2">
             <a class="nav-link" (click)="toggleTheme()" style="cursor: pointer;">
+              <!-- Visible en pantallas grandes -->
               <div class="d-none d-lg-flex align-items-center">
-                <span class="me-4"
-                  [ngClass]="_themeService.themeSignal() === 'dark' ? 'bi-moon-fill' : 'bi-brightness-high-fill'"></span>
-                <span class="d-none d-lg-inline"> {{ _themeService.themeSignal() === 'dark' ? 'Tema oscuro' : 'Tema claro' }}
-                </span>
+                <i class="me-3" [ngClass]="_themeService.themeSignal() === 'dark' ? 'bi-moon-fill' : 'bi-brightness-high-fill'"></i>
+                <span class="d-none d-lg-inline">{{ _themeService.themeSignal() === 'dark' ? 'Tema oscuro' : 'Tema claro' }}</span>
+              </div>
+              <!-- Visible en pantallas pequeñas -->
+              <div class="d-flex d-lg-none justify-content-center align-items-center">
+                <i [ngClass]="_themeService.themeSignal() === 'dark' ? 'bi-moon-fill' : 'bi-brightness-high-fill'"></i>
               </div>
             </a>
           </li>
 
           <li class="nav-item mb-2">
             <a class="nav-link" (click)="logout()" style="cursor: pointer;">
+              <!-- Visible en pantallas grandes -->
               <div class="d-none d-lg-flex align-items-center">
-                <span class="material-symbols-outlined me-3">logout</span>
+                <i class="bi bi-box-arrow-right me-3"></i>
                 <span class="d-none d-lg-inline">Cerrar sesión</span>
+              </div>
+              <!-- Visible en pantallas pequeñas -->
+              <div class="d-flex d-lg-none justify-content-center align-items-center">
+                <i class="bi bi-box-arrow-right"></i>
               </div>
             </a>
           </li>
         </ul>
-
       </div>
     </div>
   </div>

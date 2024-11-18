@@ -38,15 +38,16 @@ export class ContactRequestsComponent implements OnInit {
     { data: 'phoneNumber', title: 'Número de teléfono' },
     { data: 'email', title: 'Correo electrónico' },
     { data: 'requestDateTime', title: 'Fecha de solicitud', render: (data: any) => this.formatDateTime(data) },
-    { data: 'status', title: 'Estado',
+    {
+      data: 'status', title: 'Estado',
       render: (data: any) => `<span class="${this.getStatusClass(data)}">${this.formatStatus(data)}</span>`
     },
     {
       data: null, title: 'Más detalles', className: 'text-center align-middle text-nowrap-small',
       render: (data: any) => `
-        <button title="Ver detalles" class="btn btn-primary btn-sm see-details-btn" data-id="${data.id}">
-          <span class="material-symbols-outlined fs-5">visibility</span>
-        </button>
+      <button title="Ver detalles" class="btn btn-primary btn-sm see-details-btn" data-id="${data.id}">
+        <i class="bi bi-eye fs-5"></i>
+      </button>
       `
     }
   ];

@@ -48,7 +48,7 @@ export class InstitutionsComponent implements OnInit {
       data: null, title: 'Más detalles', className: 'text-center align-middle text-nowrap-small',
       render: (data: any) => `
         <button title="Ver detalles" class="btn btn-primary btn-sm see-details-btn" data-id="${data.id}">
-          <span class="material-symbols-outlined fs-5">visibility</span>
+          <i class="bi bi-eye fs-5"></i>
         </button>
       `
     }

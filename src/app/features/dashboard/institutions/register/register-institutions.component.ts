@@ -1,34 +1,41 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { tap, catchError, finalize } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Router } from '@angular/router';
+import { tap, catchError, finalize, switchMap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { FilePondModule } from 'ngx-filepond';
 import { InstitutionService } from '../../../../core/services/institution.service';
+import { ToastService } from '../../../../core/services/util/toast.service';
 
 @Component({
   selector: 'app-register-institutions',
   standalone: true,
-  imports: [RouterLink, CommonModule, FilePondModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register-institutions.component.html'
 })
 export class RegisterInstitutionsComponent {
   @ViewChild('myPond') myPond: any;
 
-  registerInstitutions: FormGroup;
+  institutionForm: FormGroup;
   errorMessage: string | null = null;
   loading = false;
+  isImagesChanges: boolean = false;
+  tempImages: string[] = [];
+  selectedImages: number[] = [];
+  imageUploadError: { error: string }[] = [];
+  allowedFormats = ['image/jpg', 'image/jpeg', 'image/png', 'image/bmp', 'image/webp', 'image/tiff', 'image/heif'];
+  maxSizeInMB = 5;
 
-  private _institutionsService = inject(InstitutionService);
   private _router = inject(Router);
+  private _institutionsService = inject(InstitutionService);
+  private _toastService = inject(ToastService);
   private _fb = inject(FormBuilder);
 
   constructor() {
-    this.registerInstitutions = this._fb.group({
+    this.institutionForm = this._fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type: ['', Validators.required],
-      otherType: ['', Validators.maxLength(50)],
+      otherType: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(50)]],
       direction: this._fb.group({
         state: ['', Validators.required],
         city: ['', Validators.required],
@@ -37,46 +44,200 @@ export class RegisterInstitutionsComponent {
         street: ['', Validators.required],
         number: ['', Validators.required],
       }),
-      openingHours: [''],
+      openingHours: ['', Validators.required],
       emails: [
         '',
         [Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')],
       ],
-      phoneNumbers: [''],
+      phoneNumbers: ['', [Validators.maxLength(10), Validators.minLength(10)]],
       websites: [''],
       registrationDateTime: [new Date()],
-      image: [''],
-      imageUrl: [''],
       mapUrl: [''],
-      verificationKey: [''],
+      verificationKey: ['', Validators.required],
       imageFiles: this._fb.array([]),
     });
-
     // Lógica para mostrar otro input si se selecciona "otro"
-    this.registerInstitutions.get('type')?.valueChanges.subscribe(value => {
-      if (value === 'Otro') {
-        this.registerInstitutions.get('otherType')?.setValidators([Validators.required, Validators.maxLength(50)]);
+    this.institutionForm.get('type')?.valueChanges.subscribe(value => {
+      const otherType = this.institutionForm.get('otherType');
+      if (value === 'otro') {
+        otherType?.setValidators([Validators.required, Validators.maxLength(50)]);
+        otherType?.enable();
       } else {
-        this.registerInstitutions.get('otherType')?.clearValidators();
-        this.registerInstitutions.get('otherType')?.setValue('');
+        otherType?.clearValidators();
+        otherType?.disable();
+        otherType?.setValue('');
       }
-      this.registerInstitutions.get('otherType')?.updateValueAndValidity();
+      otherType?.updateValueAndValidity();
     });
   }
 
-  get imageFiles() {
-    return this.registerInstitutions.get('imageFiles') as FormArray;
+  handleDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
-  onSubmit(): void {
-    if (this.registerInstitutions.valid) {
-      const formData = new FormData();
-      const formValue = this.registerInstitutions.value;
+  handleDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
 
-      // Agregar campos base
-      Object.keys(formValue).forEach((key) => {
-        if (key !== 'direction' && key !== 'imageFiles') {
-          formData.append(key, formValue[key]);
+    if (event.dataTransfer?.files) {
+      this.onFilesDropped(event.dataTransfer.files);
+    }
+  }
+
+  onFilesDropped(files: FileList) {
+    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
+    const newImageFiles = Array.from(files);
+    const totalFiles = this.tempImages.length + newImageFiles.length;
+
+    if (totalFiles <= 1) {
+      this.imageUploadError = [];
+    } else {
+      this.imageUploadError.push({
+        error: 'No puedes subir más de 1 imagen en total.'
+      });
+      return;
+    }
+
+    newImageFiles.forEach((file) => {
+      if (!this.allowedFormats.includes(file.type)) {
+        this.imageUploadError.push({
+          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
+        });
+        return;
+      }
+
+      if (file.size > maxSizeInBytes) {
+        this.imageUploadError.push({
+          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
+          this.tempImages.push(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  onFilesSelected(event: Event) {
+    this.isImagesChanges = true;
+    const input = event.target as HTMLInputElement;
+    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
+
+    if (!input || !input.files) {
+      return;
+    }
+
+    const files = input.files;
+    const newImageFiles = Array.from(files);
+    const totalFiles = this.tempImages.length + newImageFiles.length;
+
+    if (totalFiles <= 1) {
+      this.imageUploadError = [];
+    } else {
+      this.imageUploadError.push({
+        error: 'No puedes subir más de 1 imagen.'
+      });
+      input.value = '';
+      return;
+    }
+
+    newImageFiles.forEach((file) => {
+      if (!this.allowedFormats.includes(file.type)) {
+        this.imageUploadError.push({
+          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
+        });
+        return;
+      }
+
+      if (file.size > maxSizeInBytes) {
+        this.imageUploadError.push({
+          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
+          this.tempImages.push(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    input.value = '';
+  }
+
+  removeImage(index: number) {
+    this.tempImages.splice(index, 1);
+    this.selectedImages = this.selectedImages.filter((i) => i !== index)
+      .map((i) => (i > index ? i - 1 : i));
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('institutionImage') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
+  getExtensionFromMimeType(mimeType: string): string | null {
+    switch (mimeType) {
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/png':
+        return 'png';
+      case 'image/webp':
+        return 'webp';
+      case 'image/heif':
+        return 'heif';
+      default:
+        return null; // Devuelve null si el formato no es permitido
+    }
+  }
+
+  addInstitution() {
+    this.errorMessage = '';
+    this.imageUploadError = [];
+
+    // Marcar todos los controles como tocados, incluyendo los controles del formulario de dirección
+    Object.values(this.institutionForm.controls).forEach(control => {
+      if (control instanceof FormGroup) {
+        // Si el control es un FormGroup (como el grupo de dirección), marca sus controles también
+        Object.values(control.controls).forEach(subControl => subControl.markAsTouched());
+      } else {
+        control.markAsTouched();
+      }
+    });
+
+    // Validación de imágenes
+    if (this.tempImages.length < 1) {
+      this.imageUploadError.push({
+        error: `Debes subir al menos 1 imagen.`
+      });
+    }
+
+    if (this.institutionForm.valid && this.tempImages.length === 1) {
+      const formData = new FormData();
+      const formValue = this.institutionForm.value;
+
+      let type = this.institutionForm.get('type')?.value || '';
+
+      // Si el color de cabello es "otro", usar el valor de customHairColor
+      if (type === 'otro') {
+        type = this.institutionForm.get('otherType')?.value || '';
+      }
+
+      // Añadir los campos del formulario al FormData
+      Object.keys(this.institutionForm.value).forEach(key => {
+        if (key !== 'imageFiles' && key !== 'otherType') {
+          formData.append(key, this.institutionForm.value[key]);
         }
       });
 
@@ -89,85 +250,47 @@ export class RegisterInstitutionsComponent {
       formData.append('street', direction.street);
       formData.append('number', direction.number);
 
-      // Agregar archivos de imagen
-      if (this.imageFiles.length > 0) {
-        this.imageFiles.controls.forEach((control, index) => {
-          formData.append('imageFile', control.value);
-        });
-      }
+      // Subida de imágenes
+      const imagePromises: Promise<void>[] = [];
 
-      this.loading = true;
+      this.tempImages.forEach((image, index) => {
+        if (image.startsWith('data:image')) {
+          const promise = fetch(image)
+            .then(res => res.blob())
+            .then(blob => {
+              if (this.allowedFormats.includes(blob.type)) {
+                const extension = this.getExtensionFromMimeType(blob.type);
+                formData.append('imageFile', blob, `image${index}.${extension}`);
+              } else {
+                this.imageUploadError.push({
+                  error: `La imagen ${index + 1} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
+                });
+              }
+            });
+          imagePromises.push(promise);
+        }
+      });
 
-      this._institutionsService
-        .addInstitution(formData)
-        .pipe(
-          tap((response) => {
-            this.errorMessage = null;
-            this._router.navigate(['/dashboard/institutions']);
-          }),
-          catchError((error) => {
-            this.errorMessage =
-              error.error?.message || 'Error al registrar los datos.';
-            return of(null);
-          }),
-          finalize(() => {
-            this.loading = false;
-          })
-        )
-        .subscribe();
+      // Asegura que todas las imágenes se hayan procesado antes de enviar el formulario
+      from(Promise.all(imagePromises)).pipe(
+        tap(() => this.loading = true),
+        switchMap(() => this._institutionsService.addInstitution(formData)),
+        tap(() => {
+          this._toastService.showToast('Institución registrado',
+            'Los datos de la institución se han registrado correctamente.', 'success');
+          this.errorMessage = null;
+          this._router.navigate(['/dashboard/patients']);
+        }),
+        catchError(error => {
+          console.error('Registro fallido', error);
+          this._toastService.showToast('Error', 'Error al registrar los datos de la institución.', 'error');
+          this.errorMessage = 'Error al registrar los datos de la institución.';
+          return of(null);
+        }),
+        finalize(() => this.loading = false)
+      ).subscribe();
     } else {
-      this.markFormGroupTouched(this.registerInstitutions);
-      this.errorMessage = 'Por favor, complete todos los campos requeridos.';
+      this.errorMessage = 'Por favor, complete todos los campos correctamente.';
     }
-  }
-
-  // Método auxiliar para marcar todos los controles como tocados
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach((control) => {
-      control.markAsTouched();
-      console.log('Marcando control como tocado:', control);
-
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-    });
-  }
-
-  // FilePond configuration and handlers remain the same
-  pondOptions = {
-    class: 'my-filepond',
-    multiple: true,
-    labelIdle:
-      'Arrastra y suelta tus archivos o <span class="filepond--label-action">Examinar</span>',
-    acceptedFileTypes: 'image/jpeg, image/png',
-    required: true,
-    allowMultiple: true,
-    maxFiles: 1,
-    minFiles: 0,
-    instantUpload: true,
-    credits: false,
-  };
-
-  pondHandleInit() {
-    console.log('FilePond initialized', this.myPond);
-  }
-
-  pondHandleAddFile(event: any) {
-    const imageFiles = this.registerInstitutions.get('imageFiles') as FormArray;
-    imageFiles.push(this._fb.control(event.file.file));
-  }
-
-  pondHandleRemoveFile(event: any) {
-    const imageFiles = this.registerInstitutions.get('imageFiles') as FormArray;
-    const index = imageFiles.controls.findIndex(
-      (control) => control.value === event.file
-    );
-    if (index !== -1) {
-      imageFiles.removeAt(index);
-    }
-  }
-
-  get imageFilesLength(): number {
-    return this.imageFiles.length;
   }
 }
