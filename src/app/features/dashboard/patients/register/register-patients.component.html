@@ -8,6 +8,13 @@
                 <input type="text" class="form-control bg-body-tertiary" id="name" formControlName="name"
                     placeholder="Ingresa el nombre del paciente"
                     [class.is-invalid]="patientForm.get('name')?.invalid && (patientForm.get('name')?.dirty || patientForm.get('name')?.touched)">
+                @if (patientForm.get('name')?.touched &&
+                patientForm.get('name')?.invalid &&
+                patientForm.get('name')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    El nombre del paciente es requerido.
+                </p>
+                }
                 @if (patientForm.get('name')?.errors?.['maxlength']) {
                 <p class="small invalid-feedback mt-2 mb-0">
                     El nombre no puede exceder los 50 caracteres.
@@ -18,6 +25,7 @@
                     El nombre solo puede contener letras.
                 </p>
                 }
+
             </div>
 
             <div class="col">
@@ -25,6 +33,13 @@
                 <input type="text" class="form-control bg-body-tertiary" id="lastName" formControlName="lastName"
                     placeholder="Ingresa el apellido paterno"
                     [class.is-invalid]="patientForm.get('lastName')?.invalid && (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)">
+                @if (patientForm.get('lastName')?.touched &&
+                patientForm.get('lastName')?.invalid &&
+                patientForm.get('lastName')?.errors?.['required']) {
+                <p class="small text-danger mt-2">
+                    El apellido paterno del paciente es requerido.
+                </p>
+                }
                 @if (patientForm.get('lastName')?.errors?.['maxlength']) {
                 <p class="small invalid-feedback mt-2 mb-0">
                     El apellido paterno no puede exceder los 50 caracteres.

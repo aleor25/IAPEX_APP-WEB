@@ -22,7 +22,7 @@
                 <form [formGroup]="loginForm" (ngSubmit)="login()">
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo electrónico*</label>
-                        <input type="email" formControlName="email" class="form-control" id="email"
+                        <input type="email" formControlName="email" class="form-control bg-body-tertiary" id="email"
                             placeholder="correo@ejemplo.com">
                         <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
                             <div *ngIf="email?.errors?.['required']">El correo electrónico es requerido</div>
@@ -36,7 +36,7 @@
                             <a routerLink="/auth/forgot-password" class="text-decoration-none mb-2">¿Olvidó su
                                 contraseña?</a>
                         </div>
-                        <input type="password" formControlName="password" class="form-control" id="password"
+                        <input type="password" formControlName="password" class="form-control bg-body-tertiary" id="password"
                             placeholder="Su contraseña" maxlength="16">
                         <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="text-danger">
                             <div *ngIf="password?.errors?.['required']">La contraseña es requerida</div>
