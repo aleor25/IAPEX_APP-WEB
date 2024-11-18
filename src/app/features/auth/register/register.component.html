@@ -18,16 +18,15 @@
                             <img class="logo-image" src="assets/images/logo.png" alt="logo">
                         </div>
                         <h1 class="fw-bold fs-2 mb-3">Registrarse</h1>
-                        <p>Complete el formulario a continuación para crear una nueva cuenta.</p>
+                        <p>Complete el formulario a continuaci n para crear una nueva cuenta.</p>
                     </div>
 
                     <!-- Formulario -->
                     <form [formGroup]="registerForm" (ngSubmit)="register()">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre(s)*</label>
-                            <input formControlName="name" type="text" class="form-control" id="name"
+                            <input formControlName="name" type="text" class="form-control bg-body-tertiary" id="name"
                                 placeholder="Ingresa tu nombre o nombres">
-
                             <!-- mensajes de error de validaciones -->
                             <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="text-danger">
                                 <div *ngIf="name?.errors?.['required']">
@@ -41,7 +40,7 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="lastName" class="form-label">Primer apellido*</label>
-                                <input formControlName="lastName" type="text" class="form-control" id="lastName"
+                                <input formControlName="lastName" type="text" class="form-control bg-body-tertiary" id="lastName"
                                     placeholder="Ingresa tu apellido paterno">
                                 <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
                                     class="text-danger">
@@ -55,7 +54,7 @@
                             </div>
                             <div class="col">
                                 <label for="secondLastName" class="form-label">Segundo apellido</label>
-                                <input formControlName="secondLastName" type="text" class="form-control"
+                                <input formControlName="secondLastName" type="text" class="form-control bg-body-tertiary"
                                     id="secondLastName" placeholder="Ingresa tu apellido materno">
                                 <div *ngIf="secondLastName?.invalid && (secondLastName?.dirty || secondLastName?.touched)"
                                     class="text-danger">
@@ -68,8 +67,8 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="institution" class="form-label">Institución de salud*</label>
-                                <input type="text" formControlName="institution" class="form-control"
-                                    id="institution" placeholder="Ingrese una institución" />
+                                <input type="text" formControlName="institution" class="form-control bg-body-tertiary"
+                                    id="institution" placeholder="Ingresa la institución" />
                                 <div *ngIf="institution?.invalid && (institution?.dirty || institution?.touched)"
                                     class="text-danger">
                                     <div *ngIf="institution?.errors?.['required']">
@@ -79,8 +78,8 @@
                             </div>
                             <div class="col">
                                 <label for="position" class="form-label">Cargo*</label>
-                                <input formControlName="position" type="text" class="form-control" id="position"
-                                    placeholder="Ingresa tu cargo">
+                                <input formControlName="position" type="text" class="form-control bg-body-tertiary"
+                                    id="position" placeholder="Ingresa tu cargo">
                                 <div *ngIf="position?.invalid && (position?.dirty || position?.touched)"
                                     class="text-danger">
                                     <div *ngIf="position?.errors?.['required']">
@@ -91,24 +90,24 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Correo electrónico*</label>
-                            <input formControlName="email" type="email" class="form-control" id="email"
+                            <input formControlName="email" type="email" class="form-control bg-body-tertiary" id="email"
                                 placeholder="correo@ejemplo.com">
                             <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
                                 <div *ngIf="email?.errors?.['required']">
-                                    El correo electronico es requerido
+                                    El correo electrónico es requerido
                                 </div>
                                 <div *ngIf="email?.errors?.['email']">
-                                    Lo insertado no es un correo electronico
+                                    Lo insertado no es un correo electrónico
                                 </div>
                                 <div *ngIf="email?.errors?.['maxLength']">
-                                    El correo electronico no es valido
+                                    El correo electrónico no es valido
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña*</label>
-                            <input formControlName="password" type="password" class="form-control" id="password"
-                                placeholder="Su contraseña">
+                            <input formControlName="password" type="password" class="form-control bg-body-tertiary"
+                                id="password" placeholder="Su contraseña">
                             <div *ngIf="password?.invalid && (password?.dirty || password?.touched)"
                                 class="text-danger">
                                 <div *ngIf="password?.errors?.['required']">
@@ -124,7 +123,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="repeatPassword" class="form-label">Repetir contraseña*</label>
-                            <input formControlName="repeatPassword" type="password" class="form-control"
+                            <input formControlName="repeatPassword" type="password" class="form-control bg-body-tertiary"
                                 id="repeatPassword" placeholder="Repita su contraseña">
                             <div *ngIf="repeatPassword?.invalid && (repeatPassword?.dirty || repeatPassword?.touched)"
                                 class="text-danger">
@@ -133,10 +132,10 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- validaciones de confirmar contraseña -->
+                        <!-- validaciones de confirmar contrase a -->
                         <div
                             *ngIf="registerForm.errors?.['passwordMismatch'] && (registerForm?.dirty || registerForm?.touched)">
-                            Las contraseñas no coinciden.
+                            Las contrase as no coinciden.
                         </div>
 
                         <div class="pt-3 justify-content-between align-items-center d-flex">
