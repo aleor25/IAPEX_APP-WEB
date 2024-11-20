@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, ValidatorFn, AbstractControl,} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -12,7 +12,7 @@ import { InstitutionService } from '../../../../core/services/institution.servic
   selector: 'app-membership-details',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  templateUrl: './membership-details.component.html'
+  templateUrl: './membership-details.component.html',
 })
 export class MembershipDetailsComponent {
   selectedMembership!: Membership;
@@ -28,72 +28,64 @@ export class MembershipDetailsComponent {
   private _institutionsService = inject(InstitutionService);
   private _fb = inject(FormBuilder);
 
-  // ========== Constructor & Inicialización ==========
   constructor() {
-    this.initializeForm();
-  }
+    this.membershipForm = this._fb.group({
+      institutionName: ['', [Validators.required, Validators.maxLength(100)]],
+      status: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', [Validators.required, dateRangeValidator()]],
+    });
 
+    this.membershipForm.valueChanges.subscribe(() => {
+      this.isFormModified = this.membershipForm.dirty;
+    });
+
+   // Añadir validación de rango de fechas cuando cambia startDate
+   this.membershipForm.get('startDate')?.valueChanges.subscribe(() => {
+    const endDateControl = this.membershipForm.get('endDate');
+    if (endDateControl) {
+      endDateControl.updateValueAndValidity();
+    }
+  });
+}
+
+  //Carga los detalles de la membresía y los nombres de las instituciones.
   ngOnInit(): void {
     const id = this._activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.getMembershipById(+id);
+      this.LoadMembership(+id);
     }
-    this.loadInstitutionNames(); // Cargar nombres de instituciones al inicializar
+    this.loadInstitutionNames();
   }
 
+  //Carga los nombres de todas las instituciones.
   private loadInstitutionNames(): void {
     this._institutionsService.getAllInstitutionNames().subscribe({
       next: (names) => {
         this.institutionNames = names;
       },
       error: (err) => {
-        console.error('Error al obtener los nombres de las instituciones:', err);
+        console.error(
+          'Error al obtener los nombres de las instituciones:',
+          err
+        );
       },
     });
   }
 
-  // ========== Gestión del Formulario ==========
-  private initializeForm(): void {
-    this.membershipForm = this._fb.group({
-      institutionName: ['', [Validators.required, Validators.maxLength(100)]],
-      status: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-    });
-
-    this.membershipForm.valueChanges.subscribe(() => {
-      this.isFormModified = this.membershipForm.dirty;
-    });
-  }
-
+  //Actualiza los valores del formulario con los detalles de la membresía.
   private patchFormValues(membership: Membership): void {
     this.membershipForm.patchValue({
       institutionName: membership.institutionName,
       status: membership.status,
-      startDate: new Date(membership.startDate).toISOString().split('T')[0], // Formato YYYY-MM-DD
-      endDate: new Date(membership.endDate).toISOString().split('T')[0], // Formato YYYY-MM-DD
+      startDate: new Date(membership.startDate).toISOString().split('T')[0],
+      endDate: new Date(membership.endDate).toISOString().split('T')[0],
     });
     this.membershipForm.markAsPristine();
   }
 
-  // ========== Ayudantes de Validación del Formulario ==========
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach((control) => {
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-      control.markAsTouched();
-    });
-  }
-
-  hasError(controlName: string, errorType: string): boolean {
-    const control = this.membershipForm.get(controlName);
-    return control ? control.hasError(errorType) && control.touched : false;
-  }
-
-  // ========== Operaciones de API ==========
-
-  private getMembershipById(id: number): void {
+  //Carga los detalles de una membresía por su ID.
+  LoadMembership(id: number): void {
     this._membershipsService
       .getMembership(id)
       .pipe(
@@ -111,6 +103,18 @@ export class MembershipDetailsComponent {
       });
   }
 
+  //Marca todos los controles del formulario como tocados.
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+  
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
+  //Actualiza los detalles de una membresía.
   updateMembershipById() {
     if (
       !this.membershipForm.valid ||
@@ -154,7 +158,8 @@ export class MembershipDetailsComponent {
       });
   }
 
-  deleteMembershipById(id: number): void {
+  //Elimina una membresía por su ID.
+  deleteMembership(id: number): void {
     if (confirm('¿Está seguro que desea eliminar esta membresía?')) {
       this._membershipsService
         .deleteMembership(id)
@@ -174,7 +179,7 @@ export class MembershipDetailsComponent {
     }
   }
 
-  // Navegación al dashboard
+  //Navega a la lista de membresías.
   navigateToDashboard(): void {
     if (this.isFormModified) {
       if (confirm('Tiene cambios sin guardar. ¿Está seguro que desea salir?')) {
@@ -184,4 +189,28 @@ export class MembershipDetailsComponent {
       this._route.navigate(['/dashboard/memberships']);
     }
   }
+}
+
+// Función de validación personalizada para el rango de fechas
+function dateRangeValidator(): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const form = control.parent;
+    if (form) {
+      const startDate = form.get('startDate')?.value;
+      const endDate = control.value;
+
+      if (startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        // Comparar fechas sin tener en cuenta la hora
+        start.setHours(0, 0, 0, 0);
+        end.setHours(0, 0, 0, 0);
+
+        // Devolver error si la fecha de finalización no es posterior a la fecha de inicio
+        return end <= start ? { 'invalidDateRange': true } : null;
+      }
+    }
+    return null;
+  };
 }
