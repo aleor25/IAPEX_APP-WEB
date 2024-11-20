@@ -1,78 +1,97 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, finalize } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { Institution } from '../../../../core/models/institution/institution.model';
-import { FormatDateTimePipe } from '../../../../shared/pipes/format-date-time.pipe';
+import { Institution } from '../../../../core/models/institution.model';
 import { InstitutionService } from '../../../../core/services/institution.service';
+import { ToastService } from '../../../../core/services/util/toast.service';
 
 @Component({
   selector: 'app-institution-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormatDateTimePipe],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './institution-details.component.html'
 })
 export class InstitutionDetailsComponent {
-  // ========== Propiedades ==========
-  selectedInstitution!: Institution;
-  institutionForm!: FormGroup;
-  isFormModified = false;
-  isSubmitting = false;
-  errorMessage: string = '';
-  selectedFile: File | null = null;
 
-  private _route = inject(Router);
+  institutionForm: FormGroup;
+  isFormModified = false;
+  errorMessage: string = '';
+  loading = false;
+  isImagesChanges: boolean = false;
+  tempImages: string[] = [];
+  selectedImages: number[] = [];
+  imageUploadError: { error: string }[] = [];
+  allowedFormats = ['image/jpg', 'image/jpeg', 'image/png', 'image/bmp', 'image/webp', 'image/tiff', 'image/heif'];
+  maxSizeInMB = 5;
+  institution!: Institution;
+  readonly institutionTypes: string[] = [
+    'hospital general',
+    'centro salud',
+    'centro atencion primaria',
+    'centro atencion urgencias',
+    'hospital pediatrico',
+    'hospital geriatrico',
+    'centro rehabilitacion',
+    'centro salud mental',
+    'otro'
+  ];
+
+  private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
   private _institutionService = inject(InstitutionService);
+  private _toastService = inject(ToastService);
   private _fb = inject(FormBuilder);
 
-  // ========== Constructor & Inicialización ==========
   constructor() {
-    this.initializeForm();
-  }
-
-  ngOnInit(): void {
-    const id = this._activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
-      this.getInstitutionById(+id);
-    }
-  }
-
-  // ========== Gestión del Formulario ==========
-  private initializeForm(): void {
     this.institutionForm = this._fb.group({
-      name: ['', [Validators.required, Validators.maxLength(100)]],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
       type: ['', Validators.required],
+      otherType: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(50)]],
+      verificationKey: ['', [Validators.required, Validators.maxLength(50)]],
       direction: this._fb.group({
-        state: ['', [Validators.required, Validators.minLength(2)]],
-        city: ['', [Validators.required, Validators.minLength(2)]],
-        postalCode: [
-          '',
-          [Validators.required, Validators.pattern('^[0-9]{5}$')],
-        ],
-        neighborhood: ['', [Validators.required, Validators.minLength(2)]],
-        street: ['', [Validators.required, Validators.minLength(2)]],
-        number: ['', [Validators.required]],
+        state: ['', Validators.required],
+        city: ['', [Validators.required, Validators.maxLength(25)]],
+        postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(5), Validators.minLength(5)]],
+        neighborhood: ['', [Validators.required, Validators.maxLength(25)]],
+        street: ['', [Validators.required, Validators.maxLength(25)]],
+        number: ['', [Validators.pattern('^[0-9]*$'), Validators.maxLength(5)]],
       }),
-      openingHours: ['', Validators.required],
-      emails: [
-        '',
-        [
+      openingHours: ['', [Validators.required, Validators.maxLength(100)],],
+      phoneNumbers: this._fb.array([
+        this._fb.control('', [
           Validators.required,
-          Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
-        ],
-      ],
-      phoneNumbers: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9\\s,]+$')],
-      ],
-      websites: [''],
-      mapUrl: [''],
-      verificationKey: ['', Validators.required],
-      active: [''],
-      imageFile: [null],
+          Validators.maxLength(10),
+          Validators.minLength(10),
+          Validators.pattern('^[0-9]*$')
+        ])
+      ]),
+      emails: this._fb.array([
+        this._fb.control('', [
+          Validators.maxLength(50),
+          Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
+        ])
+      ]),
+      websites: this._fb.array([
+        this._fb.control('', [
+          Validators.maxLength(50),
+          Validators.pattern('^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]+(\\/\\w+)*\\/?$')
+        ])
+      ]),
+      imageFiles: this._fb.array([], Validators.required)
+    });
+    // Lógica para mostrar otro input si se selecciona "otro"
+    this.institutionForm.get('type')?.valueChanges.subscribe(value => {
+      const otherType = this.institutionForm.get('otherType');
+      if (value === 'otro') {
+        otherType?.setValidators([Validators.required, Validators.maxLength(50)]);
+        otherType?.enable();
+      } else {
+        otherType?.clearValidators();
+        otherType?.disable();
+        otherType?.setValue('');
+      }
+      otherType?.updateValueAndValidity();
     });
 
     this.institutionForm.valueChanges.subscribe(() => {
@@ -80,199 +99,434 @@ export class InstitutionDetailsComponent {
     });
   }
 
-  private patchFormValues(institution: Institution): void {
-    this.institutionForm.patchValue({
-      name: institution.name,
-      type: institution.type,
-      direction: {
-        state: institution.direction.state,
-        city: institution.direction.city,
-        postalCode: institution.direction.postalCode,
-        neighborhood: institution.direction.neighborhood,
-        street: institution.direction.street,
-        number: institution.direction.number,
-      },
-      openingHours: institution.openingHours,
-      emails: institution.emails,
-      phoneNumbers: institution.phoneNumbers,
-      websites: institution.websites,
-      verificationKey: institution.verificationKey,
-      active: institution.active,
-    });
-    this.institutionForm.markAsPristine();
-  }
-
-  // ========== Ayudantes de Validación del Formulario ==========
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach((control) => {
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-      control.markAsTouched();
-    });
-  }
-
-  hasError(controlName: string, errorType: string): boolean {
-    const control = this.institutionForm.get(controlName);
-    return control ? control.hasError(errorType) && control.touched : false;
-  }
-
-  hasDirectionError(controlName: string, errorType: string): boolean {
-    const control = this.institutionForm.get('direction')?.get(controlName);
-    return control ? control.hasError(errorType) && control.touched : false;
-  }
-
-  // ========== Gestión de Archivos ==========
-  onFileSelected(event: Event): void {
-    const element = event.target as HTMLInputElement;
-    const file = element.files?.[0];
-
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        this.errorMessage = 'Por favor seleccione un archivo de imagen válido';
-        return;
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        this.errorMessage = 'La imagen no debe exceder 5MB';
-        return;
-      }
-
-      this.selectedFile = file;
-      this.isFormModified = true;
+  ngOnInit(): void {
+    const id = this._activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadInstitution(+id);
     }
   }
 
-  // ========== Operaciones de API ==========
-  getInstitutionById(id: number): void {
-    this._institutionService
-      .getInstitution(id)
-      .pipe(
-        catchError((error) => {
-          console.error('Error loading institution:', error);
-          this.errorMessage = 'Error al cargar los detalles de la institución';
-          return of(null);
-        })
-      )
-      .subscribe((institution: Institution | null) => {
-        if (institution) {
-          this.selectedInstitution = institution;
-          this.patchFormValues(institution);
+  loadInstitution(id: number): void {
+    this._institutionService.getInstitution(id).subscribe(
+      (institution: Institution) => {
+        this.institution = institution;
+
+        this.tempImages = institution.imageUrl ? [institution.imageUrl] : [];
+
+        const phoneNumbers = institution.phoneNumbers ? institution.phoneNumbers.split(',') : [];
+        const emails = institution.emails ? institution.emails.split(',') : [];
+        const websites = institution.websites ? institution.websites.split(',') : [];
+
+        if (!this.institutionTypes.includes(institution.type.toLowerCase())) {
+          this.institutionForm.patchValue({
+            type: 'otro',
+            otherType: this.capitalizeFirstLetter(institution.type)
+          });
+          this.institutionForm.get('otherType')?.enable();
+        } else {
+          this.institutionForm.patchValue({
+            type: institution.type,
+            otherType: ''
+          });
+          this.institutionForm.get('otherType')?.disable();
         }
-      });
-  }
 
-  updateInstitutionById() {
-    if (
-      !this.institutionForm.valid ||
-      !this.selectedInstitution ||
-      this.isSubmitting
-    ) {
-      this.markFormGroupTouched(this.institutionForm);
-      this.errorMessage =
-        'Por favor corrija los errores del formulario antes de enviar.';
-      return;
-    }
+        this.institutionForm.patchValue({
+          name: institution.name,
+          direction: {
+            state: institution.direction.state,
+            city: institution.direction.city,
+            postalCode: institution.direction.postalCode,
+            neighborhood: institution.direction.neighborhood,
+            street: institution.direction.street,
+            number: institution.direction.number,
+          },
+          openingHours: institution.openingHours,
+          verificationKey: institution.verificationKey,
+        });
 
-    // Validar campos de dirección
-    const direction = this.institutionForm.get('direction')?.value;
-    if (
-      !direction.city?.trim() ||
-      !direction.state?.trim() ||
-      !direction.postalCode?.trim() ||
-      !direction.neighborhood?.trim() ||
-      !direction.street?.trim() ||
-      !direction.number?.trim()
-    ) {
-      this.errorMessage = 'Todos los campos de dirección son requeridos';
-      return;
-    }
-
-    this.isSubmitting = true;
-    this.errorMessage = '';
-
-    const formData = this.prepareFormData();
-
-    this._institutionService
-      .updateInstitution(this.selectedInstitution.id, formData)
-      .pipe(
-        catchError((error) => {
-          console.error('Error updating institution:', error);
-          this.errorMessage =
-            'Error al actualizar la institución. Por favor intente nuevamente.';
-          return of(null);
-        }),
-        finalize(() => {
-          this.isSubmitting = false;
-        })
-      )
-      .subscribe((response) => {
-        if (response) {
-          console.log('Institución actualizada exitosamente');
-          this._route.navigate(['/dashboard/institutions']);
-        }
-      });
-  }
-
-  private prepareFormData(): FormData {
-    const formData = new FormData();
-    const formValue = this.institutionForm.value;
-
-    // Añadir campos del formulario a FormData
-    Object.keys(formValue).forEach((key) => {
-      if (key !== 'direction' && key !== 'imageFile') {
-        formData.append(key, formValue[key]);
-      }
-    });
-
-    // Añadir campos de dirección
-    Object.keys(formValue.direction).forEach((key) => {
-      formData.append(key, formValue.direction[key]);
-    });
-
-    // Manejar imagen
-    if (this.selectedFile) {
-      formData.append('imageFile', this.selectedFile);
-    } else if (this.selectedInstitution) {
-      if (this.selectedInstitution.image) {
-        formData.append('image', this.selectedInstitution.image);
-      }
-      if (this.selectedInstitution.imageUrl) {
-        formData.append('imageUrl', this.selectedInstitution.imageUrl);
-      }
-    }
-
-    return formData;
-  }
-
-  deleteInstitutionById(id: number) {
-    if (confirm('¿Está seguro que desea eliminar esta institución?')) {
-      this._institutionService
-        .deleteInstitution(id)
-        .pipe(
-          catchError((error) => {
-            console.error('Error deleting institution:', error);
-            this.errorMessage = 'Error al eliminar la institución';
-            return of(null);
-          })
-        )
-        .subscribe((response) => {
-          if (response !== null) {
-            console.log('Institución eliminada exitosamente');
-            this._route.navigate(['/dashboard/institutions']);
+        // Actualizar números de teléfono
+        const phoneNumbersArray = this.getFormArray('phoneNumbers');
+        phoneNumbers.forEach((phone, index) => {
+          if (index === 0 && phoneNumbersArray.length > 0) {
+            // Si hay un campo existente, asignar el primer valor
+            phoneNumbersArray.at(0).setValue(phone.trim());
+          } else {
+            // Agregar nuevos campos para valores adicionales
+            this.addOrRemoveField('phoneNumbers');
+            phoneNumbersArray.at(phoneNumbersArray.length - 1).setValue(phone.trim());
           }
         });
+
+        // Actualizar correos electrónicos
+        const emailsArray = this.getFormArray('emails');
+        emails.forEach((email, index) => {
+          if (index === 0 && emailsArray.length > 0) {
+            emailsArray.at(0).setValue(email.trim());
+          } else {
+            this.addOrRemoveField('emails');
+            emailsArray.at(emailsArray.length - 1).setValue(email.trim());
+          }
+        });
+
+        // Actualizar sitios web
+        const websitesArray = this.getFormArray('websites');
+        websites.forEach((website, index) => {
+          if (index === 0 && websitesArray.length > 0) {
+            websitesArray.at(0).setValue(website.trim());
+          } else {
+            this.addOrRemoveField('websites');
+            websitesArray.at(websitesArray.length - 1).setValue(website.trim());
+          }
+        });
+
+        const imageFilesArray = this.institutionForm.get('imageFiles') as FormArray;
+        imageFilesArray.clear();
+
+        if (institution.imageUrl) {
+          imageFilesArray.push(this._fb.control(institution.imageUrl));
+        }
+      }
+    );
+  }
+
+  private formatFormArrayValues(values: any[]): string {
+    if (Array.isArray(values)) {
+      // Convertir los valores del array en una cadena separada por comas con espacio
+      return values.filter(val => val).join(', ').trim(); // Si hay valores vacíos, los elimina
+    }
+    return '';
+  }
+
+  private capitalizeFirstLetter(text: string): string {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
+
+  handleDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  handleDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (event.dataTransfer?.files) {
+      this.onFilesDropped(event.dataTransfer.files);
     }
   }
 
-  // ========== Navegación ==========
-  navigateToDashboard() {
-    if (this.isFormModified) {
-      if (confirm('Tiene cambios sin guardar. ¿Está seguro que desea salir?')) {
-        this._route.navigate(['/dashboard/institutions']);
-      }
+  onFilesDropped(files: FileList) {
+    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
+    const newImageFiles = Array.from(files);
+    const totalFiles = this.tempImages.length + newImageFiles.length;
+
+    if (totalFiles <= 1) {
+      this.imageUploadError = [];
     } else {
-      this._route.navigate(['/dashboard/institutions']);
+      this.imageUploadError.push({
+        error: 'No puedes subir más de 1 imagen en total.'
+      });
+      return;
     }
+
+    const imageFilesArray = this.institutionForm.get('imageFiles') as FormArray;
+
+    newImageFiles.forEach((file) => {
+      if (!this.allowedFormats.includes(file.type)) {
+        this.imageUploadError.push({
+          error: `${file.name} tiene un formato no permitido. Solo se permiten formatos: JPG, PNG, JPEG, WEBP y HEIF.`,
+        });
+        return;
+      }
+
+      if (file.size > maxSizeInBytes) {
+        this.imageUploadError.push({
+          error: `${file.name} supera el tamaño máximo permitido (${this.maxSizeInMB} MB).`,
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
+          this.tempImages.push(reader.result);
+          imageFilesArray.push(this._fb.control(reader.result)); // Añadir al FormArray
+          this.isFormModified = true;
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  onFilesSelected(event: Event) {
+    this.isImagesChanges = true;
+    const input = event.target as HTMLInputElement;
+    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
+
+    if (!input || !input.files) {
+      return;
+    }
+
+    const files = input.files;
+    const newImageFiles = Array.from(files);
+    const totalFiles = this.tempImages.length + newImageFiles.length;
+
+    if (totalFiles <= 1) {
+      this.imageUploadError = [];
+    } else {
+      this.imageUploadError.push({
+        error: 'No puedes subir más de 1 imagen.'
+      });
+      input.value = '';
+      return;
+    }
+
+    const imageFilesArray = this.institutionForm.get('imageFiles') as FormArray;
+
+    newImageFiles.forEach((file) => {
+      if (!this.allowedFormats.includes(file.type)) {
+        this.imageUploadError.push({
+          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
+        });
+        return;
+      }
+
+      if (file.size > maxSizeInBytes) {
+        this.imageUploadError.push({
+          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
+          this.tempImages.push(reader.result);
+          imageFilesArray.push(this._fb.control(reader.result)); // Añadir al FormArray
+          this.isFormModified = true;
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    input.value = '';
+  }
+
+  removeImage(index: number) {
+    this.tempImages.splice(index, 1);
+    this.selectedImages = this.selectedImages.filter((i) => i !== index)
+      .map((i) => (i > index ? i - 1 : i));
+    this.isFormModified = true;
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('institutionImage') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
+  getExtensionFromMimeType(mimeType: string): string | null {
+    switch (mimeType) {
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/png':
+        return 'png';
+      case 'image/webp':
+        return 'webp';
+      case 'image/heif':
+        return 'heif';
+      default:
+        return null;
+    }
+  }
+
+  // Método para obtener un FormArray
+  getFormArray(arrayName: string): FormArray {
+    return this.institutionForm.get(arrayName) as FormArray;
+  }
+
+  // Método para agregar o eliminar un control en un FormArray
+  addOrRemoveField(arrayName: 'phoneNumbers' | 'emails' | 'websites', remove: boolean = false, index?: number) {
+    const formArray = this.getFormArray(arrayName);
+    const fieldValidators = {
+      phoneNumbers: [
+        Validators.required,
+        Validators.maxLength(10),
+        Validators.minLength(10),
+        Validators.pattern('^[0-9]*$')
+      ],
+      emails: [
+        Validators.required,
+        Validators.maxLength(50),
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
+      ],
+      websites: [
+        Validators.required,
+        Validators.maxLength(50),
+        Validators.pattern('^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]+(\\/\\w+)*\\/?$')
+      ]
+    };
+
+
+    // Si el campo no debe eliminarse, se agrega el control
+    if (!remove) {
+      if (formArray.length < 5) { // Limitar a 5 elementos por FormArray
+        formArray.push(this._fb.control('', fieldValidators[arrayName]));
+      }
+    } else if (remove && index !== undefined) {
+      if (formArray.length > 1) { // Evitar que se elimine si es el único campo
+        formArray.removeAt(index);
+        this.isFormModified = true;
+      }
+    }
+  }
+
+  updateInstitution() {
+    this.errorMessage = '';
+    this.imageUploadError = [];
+
+    // Marcar todos los controles como tocados
+    Object.values(this.institutionForm.controls).forEach(control => {
+      if (control instanceof FormGroup) {
+        // Si el control es un FormGroup (como el grupo de dirección), marca sus controles también
+        Object.values(control.controls).forEach(subControl => subControl.markAsTouched());
+      } else if (control instanceof FormArray) {
+        // Si el control es un FormArray (como los teléfonos, correos y sitios web), marca sus controles también
+        control.controls.forEach(subControl => subControl.markAsTouched());
+      } else {
+        control.markAsTouched();
+      }
+    });
+
+    // Validación de imágenes
+    if (this.tempImages.length < 1) {
+      this.imageUploadError.push({
+        error: `Debe subir al menos 1 imagen.`
+      });
+    }
+
+    if (this.institutionForm.valid && this.tempImages.length === 1) {
+      const formData = new FormData();
+      const formValue = this.institutionForm.value;
+
+      let type = this.institutionForm.get('type')?.value || '';
+
+      // Si el color de cabello es "otro", usar el valor de customHairColor
+      if (type === 'otro') {
+        type = this.institutionForm.get('otherType')?.value || '';
+      }
+
+      // Formatear los valores de los campos "phoneNumbers", "emails" y "websites"
+      const formattedPhoneNumbers = this.formatFormArrayValues(formValue.phoneNumbers);
+      const formattedEmails = this.formatFormArrayValues(formValue.emails);
+      const formattedWebsites = this.formatFormArrayValues(formValue.websites);
+
+      // Añadir los campos del formulario al FormData
+      Object.keys(this.institutionForm.value).forEach(key => {
+        if (key !== 'imageFiles' && key !== 'otherType' && key !== 'phoneNumbers' && key !== 'emails' && key !== 'websites') {
+          formData.append(key, this.institutionForm.value[key]);
+        }
+      });
+
+      // Agregar los campos de teléfono, correo electrónico y sitio web formateados
+      formData.append('phoneNumbers', formattedPhoneNumbers);
+      formData.append('emails', formattedEmails);
+      formData.append('websites', formattedWebsites);
+
+      // Agregar campos de dirección correctamente
+      const direction = formValue.direction;
+      formData.append('state', direction.state);
+      formData.append('city', direction.city);
+      formData.append('postalCode', direction.postalCode);
+      formData.append('neighborhood', direction.neighborhood);
+      formData.append('street', direction.street);
+      formData.append('number', direction.number);
+
+      const imagePromises: Promise<void>[] = [];
+
+      if (this.institution.image) {
+        const imageUrl = this.institution.imageUrl;
+        const imageName = this.institution.image;
+        if (this.tempImages.includes(imageUrl)) {
+          // Añadir imagen existente
+          const promise = fetch(imageUrl)
+            .then(res => res.blob())
+            .then(blob => {
+              if (this.allowedFormats.includes(blob.type)) {
+                const extension = this.getExtensionFromMimeType(blob.type);
+                formData.append('imageFile', blob, `${imageName}.${extension}`);
+              } else {
+                this.imageUploadError.push({
+                  error: `La imagen ${imageUrl} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
+                });
+              }
+            });
+          imagePromises.push(promise);
+        }
+      }
+
+      // Agregar las nuevas imágenes (si las hay)
+      this.tempImages.forEach((image, index) => {
+        if (image.startsWith('data:image')) {
+          const promise = fetch(image)
+            .then(res => res.blob())
+            .then(blob => {
+              if (this.allowedFormats.includes(blob.type)) {
+                const extension = this.getExtensionFromMimeType(blob.type);
+                formData.append('imageFile', blob, `image${index}.${extension}`);
+              } else {
+                this.imageUploadError.push({
+                  error: `La imagen ${index} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
+                });
+              }
+            });
+          imagePromises.push(promise);
+        }
+      });
+
+      // Esperamos a que todas las imágenes se hayan procesado
+      Promise.all(imagePromises).then(() => {
+        if (this.institution.id) {
+          this._institutionService.updateInstitution(this.institution.id, formData).subscribe({
+            next: () => {
+              this._toastService.showToast('Institución actualizada', 'Los datos de la institución se han actualizado correctamente.', 'success');
+              this.isFormModified = false;
+              this.errorMessage = "";
+            },
+            error: (error) => {
+              console.error('Error al actualizar institución:', error);
+              this._toastService.showToast('Error al actualizar institución', 'Ha ocurrido un error al actualizar los datos de la institución.', 'error');
+              this.errorMessage = 'Error al actualizar los datos de la institución.';
+            }
+          });
+        } else {
+          this._toastService.showToast('Error', 'No se encontró la institución para actualizar.', 'error');
+          this.errorMessage = 'No se encontró la institución para actualizar.';
+        }
+      });
+    } else {
+      this.errorMessage = 'Por favor, complete todos los campos correctamente.';
+    }
+  }
+
+  deleteInstitution(id: number) {
+    this._institutionService.deleteInstitution(id).subscribe(
+      () => {
+        console.log('Institución eliminada con éxito');
+        this._toastService.showToast('Institución eliminada',
+          'La institución ha sido eliminada correctamente.',
+          'success');
+        this._router.navigate(['/dashboard/institutions'])
+      },
+      error => {
+        console.error('Error al eliminar la institución:', error);
+        this._toastService.showToast('Error al eliminar la institución',
+          'Ha ocurrido un error al eliminar la institución.',
+          'error');
+      }
+    );
   }
 }

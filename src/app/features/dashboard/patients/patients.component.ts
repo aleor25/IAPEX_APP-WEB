@@ -37,7 +37,6 @@ export class PatientsComponent implements OnInit {
     { data: 'gender', title: 'Género', render: (data: any) => data.charAt(0).toUpperCase() + data.slice(1) },
     { data: 'approximateAge', title: 'Edad aproximada', render: (data: any) => `${data} años` },
     { data: 'registrationDateTime', title: 'Fecha de registro', render: (data: any) => this.formatDateTime(data) },
-    { data: 'registeringUser', title: 'Registrado por' },
     { data: null, title: 'Descripción', render: (data: any) => `Paciente con piel ${data.skinColor}, cabello ${data.hair}, complexión ${data.complexion}, ojos color ${data.eyeColor} y estatura aproximada de ${data.approximateHeight} cm.` },
     { data: 'active', title: 'Estado',
       render: (data: any) => `<span class="${this.getStatusClass(data)}">${this.formatStatus(data)}</span>`

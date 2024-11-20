@@ -320,6 +320,7 @@
             (change)="onFilesSelected($event)" multiple>
 
         <!-- Sección de carga de fotos -->
+        @if (tempImages.length < 6) {
         <div class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
             [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
             (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
@@ -336,6 +337,7 @@
             }
             }
         </div>
+    }
 
         <!-- Vista previa de las imágenes cargadas -->
         @if (tempImages.length > 0) {

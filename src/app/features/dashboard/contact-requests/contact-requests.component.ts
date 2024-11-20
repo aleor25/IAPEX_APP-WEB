@@ -35,8 +35,6 @@ export class ContactRequestsComponent implements OnInit {
     { data: 'interestedPersonName', title: 'Persona interesada' },
     { data: 'missingPersonName', title: 'Persona desaparecida' },
     { data: 'relationship', title: 'Parentesco' },
-    { data: 'phoneNumber', title: 'Número de teléfono' },
-    { data: 'email', title: 'Correo electrónico' },
     { data: 'requestDateTime', title: 'Fecha de solicitud', render: (data: any) => this.formatDateTime(data) },
     {
       data: 'status', title: 'Estado',

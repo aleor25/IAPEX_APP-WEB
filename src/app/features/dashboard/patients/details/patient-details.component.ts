@@ -154,19 +154,9 @@ export class PatientDetailsComponent implements OnInit {
     );
   }
 
-  // Función para capitalizar la primera letra
   private capitalizeFirstLetter(text: string): string {
     if (!text) return '';
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-  }
-
-  removeImage(index: number): void {
-    // Remover imagen de la lista temporal
-    this.tempImages.splice(index, 1);
-    this.selectedImages = this.selectedImages.filter((i) => i !== index)
-      .map((i) => (i > index ? i - 1 : i));
-    this.isFormModified = true;
-
   }
 
   handleDragOver(event: DragEvent): void {
@@ -181,6 +171,45 @@ export class PatientDetailsComponent implements OnInit {
     if (event.dataTransfer?.files) {
       this.onFilesDropped(event.dataTransfer.files);
     }
+  }
+
+  onFilesDropped(files: FileList): void {
+    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
+    const newImageFiles = Array.from(files);
+    const totalFiles = this.tempImages.length + newImageFiles.length;
+
+    if (totalFiles <= 6) {
+      this.imageUploadError = [];
+    } else {
+      this.imageUploadError.push({
+        error: 'No puedes subir más de 6 imágenes en total.'
+      });
+      return;
+    }
+
+    newImageFiles.forEach((file) => {
+      if (!this.allowedFormats.includes(file.type)) {
+        this.imageUploadError.push({
+          error: `${file.name} tiene un formato no permitido. Solo se permiten formatos: JPG, PNG, JPEG, WEBP y HEIF.`,
+        });
+        return;
+      }
+
+      if (file.size > maxSizeInBytes) {
+        this.imageUploadError.push({
+          error: `${file.name} supera el tamaño máximo permitido (${this.maxSizeInMB} MB).`,
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
+          this.tempImages.push(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   onFilesSelected(event: Event) {
@@ -237,49 +266,34 @@ export class PatientDetailsComponent implements OnInit {
     input.value = '';
   }
 
-  onFilesDropped(files: FileList): void {
-    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
-    const newImageFiles = Array.from(files);
-    const totalFiles = this.tempImages.length + newImageFiles.length;
+  removeImage(index: number): void {
+    // Remover imagen de la lista temporal
+    this.tempImages.splice(index, 1);
+    this.selectedImages = this.selectedImages.filter((i) => i !== index)
+      .map((i) => (i > index ? i - 1 : i));
+    this.isFormModified = true;
 
-    if (totalFiles <= 6) {
-      this.imageUploadError = [];
-    } else {
-      this.imageUploadError.push({
-        error: 'No puedes subir más de 6 imágenes en total.'
-      });
-      return;
-    }
-
-    newImageFiles.forEach((file) => {
-      if (!this.allowedFormats.includes(file.type)) {
-        this.imageUploadError.push({
-          error: `${file.name} tiene un formato no permitido. Solo se permiten formatos: JPG, PNG, JPEG, WEBP y HEIF.`,
-        });
-        return;
-      }
-
-      if (file.size > maxSizeInBytes) {
-        this.imageUploadError.push({
-          error: `${file.name} supera el tamaño máximo permitido (${this.maxSizeInMB} MB).`,
-        });
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
-          this.tempImages.push(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
   }
 
-  triggerFileInput(): void {
+  triggerFileInput() {
     const fileInput = document.getElementById('patientImages') as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
+    }
+  }
+
+  getExtensionFromMimeType(mimeType: string): string | null {
+    switch (mimeType) {
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/png':
+        return 'png';
+      case 'image/webp':
+        return 'webp';
+      case 'image/heif':
+        return 'heif';
+      default:
+        return null;
     }
   }
 
@@ -418,20 +432,5 @@ export class PatientDetailsComponent implements OnInit {
           'error');
       }
     );
-  }
-
-  getExtensionFromMimeType(mimeType: string): string | null {
-    switch (mimeType) {
-      case 'image/jpeg':
-        return 'jpg';
-      case 'image/png':
-        return 'png';
-      case 'image/webp':
-        return 'webp';
-      case 'image/heif':
-        return 'heif';
-      default:
-        return null; // Devuelve null si el formato no es permitido
-    }
   }
 }

@@ -19,11 +19,6 @@ export interface Patient {
     images: Image[];
 }
 
-export interface Institution {
-    id: number;
-    name: string;
-}
-
 export interface Image {
     id: number;
     image: string;

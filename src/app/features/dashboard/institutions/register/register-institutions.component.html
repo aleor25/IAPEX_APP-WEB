@@ -108,11 +108,21 @@
         <div class="col">
           <label for="postalCode" class="form-label">Código postal*</label>
           <input type="text" class="form-control bg-body-tertiary" id="postalCode" formControlName="postalCode"
-            placeholder="Ingrese el código postal"
+            placeholder="Ingrese el código postal" maxlength="5" minlength="5"
             [class.is-invalid]="institutionForm.get('direction.postalCode')?.invalid && (institutionForm.get('direction.postalCode')?.dirty || institutionForm.get('direction.postalCode')?.touched)">
           @if (institutionForm.get('direction.postalCode')?.errors?.['required']) {
           <p class="small invalid-feedback mt-2 mb-0">
             El código postal de la institución es requerido.
+          </p>
+          }
+          @if (institutionForm.get('direction.postalCode')?.errors?.['maxlength']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El código postal de la institución no puede exceder los 5 dígitos.
+          </p>
+          }
+          @if (institutionForm.get('direction.postalCode')?.errors?.['minlength']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El código postal de la institución debe tener al menos 5 dígitos.
           </p>
           }
           @if (institutionForm.get('direction.postalCode')?.errors?.['pattern']) {
@@ -151,15 +161,19 @@
         <div class="col">
           <label for="number" class="form-label">Número*</label>
           <input type="text" class="form-control bg-body-tertiary" id="number" formControlName="number"
-            placeholder="Ingrese el número"
+            placeholder="Ingrese el número" maxlength="5" minlength="1"
             [class.is-invalid]="institutionForm.get('direction.number')?.invalid && (institutionForm.get('direction.number')?.dirty || institutionForm.get('direction.number')?.touched)">
           @if (institutionForm.get('direction.number')?.errors?.['pattern']) {
           <p class="small invalid-feedback mt-2 mb-0">
             El número de la institución solo puede contener números.
           </p>
           }
+          @if (institutionForm.get('direction.number')?.errors?.['maxlength']) {
+          <p class="small invalid-feedback mt-2 mb-0">
+            El número de la institución no puede exceder los 5 dígitos.
+          </p>
+          }
         </div>
-
       </div>
     </div>
 
@@ -297,6 +311,11 @@
           El horario de atención es requerido.
         </p>
         }
+        @if (institutionForm.get('openingHours')?.errors?.['maxlength']) {
+        <p class="small invalid-feedback mt-2 mb-0">
+          El horario de atención no puede exceder los 100 caracteres.
+        </p>
+        }
       </div>
     </div>
 
@@ -325,8 +344,8 @@
       (change)="onFilesSelected($event)" multiple>
 
     <!-- Sección de carga de fotos -->
-    <div
-      class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
+    @if (tempImages.length === 0) {
+    <div class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
       [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
       (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
 
@@ -342,7 +361,7 @@
       }
       }
     </div>
-
+  }
 
     <!-- Vista previa de las imágenes cargadas -->
     @if (tempImages.length > 0) {

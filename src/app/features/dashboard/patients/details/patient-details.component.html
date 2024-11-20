@@ -317,15 +317,15 @@
       (change)="onFilesSelected($event)" multiple>
 
     <!-- Sección de carga de fotos -->
-    <div
-      class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
+    @if (tempImages.length < 6) {
+    <div class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
       [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
       (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
 
       <!-- Icono y mensaje de arrastrar y soltar -->
       <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
       <p class="mb-2">Arrastre sus fotos aquí o</p>
-      <button class="btn btn-primary">Seleccionaearchivos</button>
+      <button class="btn btn-primary">Seleccione archivos</button>
 
       <!-- Mensaje de error si hay problemas de subida -->
       @if (imageUploadError.length > 0) {
@@ -334,7 +334,7 @@
       }
       }
     </div>
-
+  }
 
     <!-- Vista previa de las imágenes cargadas -->
     @if (tempImages.length > 0) {

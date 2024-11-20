@@ -26,7 +26,7 @@ export class RegisterInstitutionsComponent {
   maxSizeInMB = 5;
 
   private _router = inject(Router);
-  private _institutionsService = inject(InstitutionService);
+  private _institutionService = inject(InstitutionService);
   private _toastService = inject(ToastService);
   private _fb = inject(FormBuilder);
 
@@ -38,13 +38,13 @@ export class RegisterInstitutionsComponent {
       verificationKey: ['', [Validators.required, Validators.maxLength(50)]],
       direction: this._fb.group({
         state: ['', Validators.required],
-        city: ['', Validators.required],
-        postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-        neighborhood: ['', Validators.required],
-        street: ['', Validators.required],
-        number: ['', Validators.pattern('^[0-9]*$')],
+        city: ['', [Validators.required, Validators.maxLength(25)]],
+        postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(5), Validators.minLength(5)]],
+        neighborhood: ['', [Validators.required, Validators.maxLength(25)]],
+        street: ['', [Validators.required, Validators.maxLength(25)]],
+        number: ['', [Validators.pattern('^[0-9]*$'), Validators.maxLength(5)]],
       }),
-      openingHours: ['', Validators.required],
+      openingHours: ['', [Validators.required, Validators.maxLength(100)],],
       phoneNumbers: this._fb.array([
         this._fb.control('', [
           Validators.required,
@@ -345,7 +345,7 @@ export class RegisterInstitutionsComponent {
       // Asegura que todas las imágenes se hayan procesado antes de enviar el formulario
       from(Promise.all(imagePromises)).pipe(
         tap(() => this.loading = true),
-        switchMap(() => this._institutionsService.addInstitution(formData)),
+        switchMap(() => this._institutionService.addInstitution(formData)),
         tap(() => {
           this._toastService.showToast('Institución registrado',
             'Los datos de la institución se han registrado correctamente.', 'success');

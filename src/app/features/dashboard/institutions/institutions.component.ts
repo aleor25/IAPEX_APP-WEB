@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../shared/components/table/table.component';
-import { Institution } from '../../../core/models/patient.model';
 import { InstitutionService } from '../../../core/services/institution.service';
+import { Institution } from '../../../core/models/institution.model';
 
 @Component({
   selector: 'app-institutions',
@@ -38,7 +38,6 @@ export class InstitutionsComponent implements OnInit {
     { data: 'adress', title: 'Dirección',
       render: (data: any, type: any, row: any) => `${row.state}, ${row.city}, ${row.postalCode}, ${row.neighborhood}, ${row.street}, ${row.number}` },
     { data: 'phoneNumbers', title: 'Teléfonos' },
-    { data: 'emails', title: 'Correo electrónicos' },
     { data: 'registrationDateTime', title: 'Fecha de registro', render: (data: any) => this.formatDateTime(data) },
     {
       data: 'active', title: 'Estado',
