@@ -40,6 +40,12 @@ export class LoginComponent {
   }
 
   login() {
+
+    // Marcar todos los controles como tocados
+    Object.values(this.loginForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       this._authService.login(email, password).subscribe({
