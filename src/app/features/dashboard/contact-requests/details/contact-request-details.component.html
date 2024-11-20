@@ -43,9 +43,11 @@
         <label for="status" class="form-label">Estado</label>
         <select id="status" class="form-select fw-bold bg-body-tertiary" formControlName="status"
           [ngClass]="getStatusClass(requestForm.get('status')?.value)">
-          <option *ngFor="let option of statusOptions" [value]="option.value" [ngClass]="getStatusClass(option.value)">
+          @for (option of statusOptions; track $index) {
+          <option [value]="option.value" [ngClass]="getStatusClass(option.value)">
             {{option.label}}
           </option>
+        }
         </select>
       </div>
 
