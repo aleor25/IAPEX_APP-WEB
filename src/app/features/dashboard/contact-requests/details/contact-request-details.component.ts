@@ -13,7 +13,6 @@ import { ContactRequestService } from '../../../../core/services/contact-request
   templateUrl: './contact-request-details.component.html'
 })
 export class ContactRequestDetailsComponent implements OnInit {
-  updateMessage: string = '';
   request!: ContactRequest;
   requestForm!: FormGroup;
   loading: boolean = true;
@@ -112,8 +111,6 @@ export class ContactRequestDetailsComponent implements OnInit {
 
   updateStatus() {
     if (!this.isFormModified || !this.request?.id) {
-      this.updateMessage = 'No se han realizado cambios en el estado';
-      setTimeout(() => this.updateMessage = '', 3000);
       return;
     }
 
@@ -124,16 +121,12 @@ export class ContactRequestDetailsComponent implements OnInit {
       .subscribe({
         next: () => {
           console.log('Estado actualizado con éxito');
-          this.updateMessage = 'Estado actualizado con éxito';
           this.originalStatus = newStatus;
           this.isFormModified = false;
-          setTimeout(() => this.updateMessage = '', 3000);
           this._router.navigate(['/dashboard/contact-requests']);
         },
         error: (error) => {
           console.error('Error al actualizar el estado', error);
-          this.updateMessage = 'Error al actualizar el estado: ' + error.error.message;
-          setTimeout(() => this.updateMessage = '', 3000);
         }
       });
   }

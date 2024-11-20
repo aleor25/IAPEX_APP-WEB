@@ -73,13 +73,5 @@
         </button>
       </div>
     </div>
-
-
-    <div *ngIf="updateMessage" class="alert"
-      [ngClass]="{'alert-success': !updateMessage.includes('Error'), 'alert-danger': updateMessage.includes('Error')}">
-      {{ updateMessage }}
-    </div>
-
-
   </form>
 </div>
