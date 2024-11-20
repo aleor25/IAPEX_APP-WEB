@@ -43,19 +43,19 @@ export class ContactRequestDetailsComponent implements OnInit {
 
   private initializeForm(): void {
     this.requestForm = this._fb.group({
-      interestedPersonName: [{value: '', disabled: true}],
-      missingPersonName: [{value: '', disabled: true}],
-      relationship: [{value: '', disabled: true}],
-      phoneNumber: [{value: '', disabled: true}],
-      email: [{value: '', disabled: true}],
-      requestDateTime: [{value: '', disabled: true}],
+      interestedPersonName: [{ value: '', disabled: true }],
+      missingPersonName: [{ value: '', disabled: true }],
+      relationship: [{ value: '', disabled: true }],
+      phoneNumber: [{ value: '', disabled: true }],
+      email: [{ value: '', disabled: true }],
+      requestDateTime: [{ value: '', disabled: true }],
       status: ['', Validators.required],
-      attendingUser: [{value: '', disabled: true}],
-      message: [{value: '', disabled: true}]
+      attendingUser: [{ value: '', disabled: true }],
+      message: [{ value: '', disabled: true }]
     });
 
     this.requestForm.get('status')?.valueChanges.subscribe(newValue => {
-      this.isFormModified = newValue !== this.originalStatus;
+      this.isFormModified = newValue.toUpperCase() !== this.originalStatus.toUpperCase();
     });
   }
 
@@ -71,7 +71,8 @@ export class ContactRequestDetailsComponent implements OnInit {
       attendingUser: request.attendingUser || 'No asignado',
       message: request.message
     });
-    this.originalStatus = request.status;
+    this.originalStatus = request.status.toUpperCase();
+    this.isFormModified = false;
     this.requestForm.markAsPristine();
   }
 
@@ -145,7 +146,6 @@ export class ContactRequestDetailsComponent implements OnInit {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit',
       hour12: true
     });
   }

@@ -1,50 +1,49 @@
 <div class="bg-light-subtle p-4 rounded-4 border">
-  <form class="m-0" [formGroup]="requestForm">
-    <h5 class="mb-4">Información de la solicitud</h5>
+  <h5 class="mb-4">Información de la solicitud</h5>
 
+  <form class="m-0" [formGroup]="requestForm">
     <div class="row mb-3">
       <div class="col">
         <label for="interestedPersonName" class="form-label">Nombre del interesado</label>
-        <input type="text" id="interestedPersonName" class="form-control" formControlName="interestedPersonName">
-      </div>
-
-      <div class="col">
-        <label for="missingPersonName" class="form-label">Nombre de la persona desaparecida</label>
-        <input type="text" id="missingPersonName" class="form-control" formControlName="missingPersonName">
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col">
-        <label for="relationship" class="form-label">Relación</label>
-        <input type="text" id="relationship" class="form-control" formControlName="relationship">
+        <input type="text" class="form-control bg-body-tertiary" id="interestedPersonName"
+          formControlName="interestedPersonName">
       </div>
 
       <div class="col">
         <label for="phoneNumber" class="form-label">Número de teléfono</label>
-        <input type="text" id="phoneNumber" class="form-control" formControlName="phoneNumber">
+        <input type="text" id="phoneNumber" class="form-control bg-body-tertiary" formControlName="phoneNumber">
+      </div>
+
+      <div class="col">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input type="email" id="email" class="form-control bg-body-tertiary" formControlName="email">
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col">
-        <label for="email" class="form-label">Correo electrónico</label>
-        <input type="email" id="email" class="form-control" formControlName="email">
+        <label for="missingPersonName" class="form-label">Nombre de la persona desaparecida</label>
+        <input type="text" id="missingPersonName" class="form-control bg-body-tertiary"
+          formControlName="missingPersonName">
+      </div>
+
+      <div class="col">
+        <label for="relationship" class="form-label">Relación</label>
+        <input type="text" id="relationship" class="form-control bg-body-tertiary" formControlName="relationship">
       </div>
 
       <div class="col">
         <label for="requestDateTime" class="form-label">Fecha y hora de la solicitud</label>
-        <input type="text" id="requestDateTime" class="form-control" formControlName="requestDateTime">
+        <input type="text" id="requestDateTime" class="form-control bg-body-tertiary" formControlName="requestDateTime">
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col">
         <label for="status" class="form-label">Estado</label>
-        <select id="status" class="form-select fw-bold" formControlName="status"
+        <select id="status" class="form-select fw-bold bg-body-tertiary" formControlName="status"
           [ngClass]="getStatusClass(requestForm.get('status')?.value)">
-          <option *ngFor="let option of statusOptions" [value]="option.value" 
-            [ngClass]="getStatusClass(option.value)">
+          <option *ngFor="let option of statusOptions" [value]="option.value" [ngClass]="getStatusClass(option.value)">
             {{option.label}}
           </option>
         </select>
@@ -52,25 +51,35 @@
 
       <div class="col">
         <label for="attendingUser" class="form-label">Usuario atendiendo</label>
-        <input type="text" id="attendingUser" class="form-control" formControlName="attendingUser">
+        <input type="text" id="attendingUser" class="form-control bg-body-tertiary" formControlName="attendingUser">
       </div>
     </div>
 
-    <div class="mb-3">
-      <label for="message" class="form-label">Mensaje</label>
-      <textarea id="message" class="form-control" rows="3" formControlName="message"></textarea>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="message" class="form-label">Mensaje</label>
+        <textarea id="message" class="form-control bg-body-tertiary" rows="3" formControlName="message"></textarea>
+      </div>
     </div>
 
-    <p class="text-muted mt-3">Por favor, recuerda actualizar el estado de la solicitud una vez haya sido atendida.</p>
+    <div class="row mb-3 align-items-center">
+      <div class="col-9">
+        <b class="mt-3">Por favor, recuerda actualizar el estado de la solicitud una vez haya sido atendida.</b>
+      </div>
 
-    <div *ngIf="updateMessage" class="alert" [ngClass]="{'alert-success': !updateMessage.includes('Error'), 'alert-danger': updateMessage.includes('Error')}">
+      <div class="col-3 d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" (click)="updateStatus()" [disabled]="!isFormModified">
+          Actualizar solicitud
+        </button>
+      </div>
+    </div>
+
+
+    <div *ngIf="updateMessage" class="alert"
+      [ngClass]="{'alert-success': !updateMessage.includes('Error'), 'alert-danger': updateMessage.includes('Error')}">
       {{ updateMessage }}
     </div>
 
-    <div class="d-flex justify-content-end align-items-end mt-4">
-      <button type="button" class="btn btn-primary" (click)="updateStatus()" [disabled]="!isFormModified">
-        Actualizar solicitud
-      </button>
-    </div>
+
   </form>
 </div>
