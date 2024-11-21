@@ -15,7 +15,7 @@ import { ToastService } from '../../../../core/services/util/toast.service';
 export class PatientDetailsComponent implements OnInit {
 
   patientForm: FormGroup;
-  errorMessage: string | null = null;
+  errorMessage: string = "";
   loading = false;
   isImagesChanges: boolean = false;
   tempImages: string[] = []; // Imágenes para mostrar
@@ -398,7 +398,7 @@ export class PatientDetailsComponent implements OnInit {
             next: () => {
               this._toastService.showToast('Paciente actualizado', 'Los datos del paciente se han actualizado correctamente.', 'success');
               this.isFormModified = false;
-              this.errorMessage = null;
+              this.errorMessage = "";
             },
             error: (error) => {
               console.error('Error al actualizar paciente:', error);

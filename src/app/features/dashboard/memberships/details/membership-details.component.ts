@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, ValidatorFn, AbstractControl,} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, ValidatorFn, AbstractControl, } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MembershipService } from '../../../../core/services/membership.service';
 import { Membership } from '../../../../core/models/membership.model';
 import { InstitutionService } from '../../../../core/services/institution.service';
+import { ToastService } from '../../../../core/services/util/toast.service';
+import { dateRangeValidator } from '../../../../shared/validators/date-range.validator';
 
 @Component({
   selector: 'app-membership-details',
@@ -15,22 +17,24 @@ import { InstitutionService } from '../../../../core/services/institution.servic
   templateUrl: './membership-details.component.html',
 })
 export class MembershipDetailsComponent {
-  selectedMembership!: Membership;
-  membershipForm!: FormGroup;
+
+  membership!: Membership;
+  membershipForm: FormGroup;
   isFormModified = false;
-  isSubmitting = false;
   errorMessage: string = '';
   institutionNames: string[] = [];
+  loading = false;
 
-  private _route = inject(Router);
+  private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
   private _membershipsService = inject(MembershipService);
-  private _institutionsService = inject(InstitutionService);
+  private _institutionService = inject(InstitutionService);
+  private _toastService = inject(ToastService);
   private _fb = inject(FormBuilder);
 
   constructor() {
     this.membershipForm = this._fb.group({
-      institutionName: ['', [Validators.required, Validators.maxLength(100)]],
+      institutionName: [{ value: '', disabled: true }, [Validators.required]],
       status: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', [Validators.required, dateRangeValidator()]],
@@ -40,27 +44,27 @@ export class MembershipDetailsComponent {
       this.isFormModified = this.membershipForm.dirty;
     });
 
-   // Añadir validación de rango de fechas cuando cambia startDate
-   this.membershipForm.get('startDate')?.valueChanges.subscribe(() => {
-    const endDateControl = this.membershipForm.get('endDate');
-    if (endDateControl) {
-      endDateControl.updateValueAndValidity();
-    }
-  });
-}
+    // Añadir validación de rango de fechas cuando cambia startDate
+    this.membershipForm.get('startDate')?.valueChanges.subscribe(() => {
+      const endDateControl = this.membershipForm.get('endDate');
+      if (endDateControl) {
+        endDateControl.updateValueAndValidity();
+      }
+    });
+  }
 
   //Carga los detalles de la membresía y los nombres de las instituciones.
   ngOnInit(): void {
     const id = this._activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.LoadMembership(+id);
+      this.loadMembership(+id);
     }
     this.loadInstitutionNames();
   }
 
   //Carga los nombres de todas las instituciones.
   private loadInstitutionNames(): void {
-    this._institutionsService.getAllInstitutionNames().subscribe({
+    this._institutionService.getAllInstitutionNames().subscribe({
       next: (names) => {
         this.institutionNames = names;
       },
@@ -73,19 +77,8 @@ export class MembershipDetailsComponent {
     });
   }
 
-  //Actualiza los valores del formulario con los detalles de la membresía.
-  private patchFormValues(membership: Membership): void {
-    this.membershipForm.patchValue({
-      institutionName: membership.institutionName,
-      status: membership.status,
-      startDate: new Date(membership.startDate).toISOString().split('T')[0],
-      endDate: new Date(membership.endDate).toISOString().split('T')[0],
-    });
-    this.membershipForm.markAsPristine();
-  }
-
   //Carga los detalles de una membresía por su ID.
-  LoadMembership(id: number): void {
+  loadMembership(id: number): void {
     this._membershipsService
       .getMembership(id)
       .pipe(
@@ -97,120 +90,71 @@ export class MembershipDetailsComponent {
       )
       .subscribe((membership: Membership | null) => {
         if (membership) {
-          this.selectedMembership = membership;
-          this.patchFormValues(membership);
+          this.membership = membership;
+          this.membershipForm.patchValue({
+            institutionName: membership.institutionName,
+            status: membership.status,
+            startDate: new Date(membership.startDate).toISOString().split('T')[0],
+            endDate: new Date(membership.endDate).toISOString().split('T')[0],
+          });
         }
       });
   }
 
-  //Marca todos los controles del formulario como tocados.
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
-  
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-    });
-  }
-
-  //Actualiza los detalles de una membresía.
-  updateMembershipById() {
-    if (
-      !this.membershipForm.valid ||
-      !this.selectedMembership ||
-      this.isSubmitting
-    ) {
-      this.markFormGroupTouched(this.membershipForm);
-      this.errorMessage =
-        'Por favor corrija los errores del formulario antes de enviar.';
-      return;
-    }
-
-    this.isSubmitting = true;
+  updateMembership() {
     this.errorMessage = '';
 
-    const updatedMembership: Membership = {
-      ...this.selectedMembership,
-      ...this.membershipForm.value,
-      startDate: new Date(this.membershipForm.value.startDate).toISOString(),
-      endDate: new Date(this.membershipForm.value.endDate).toISOString(),
-    };
+    // Marcar todos los controles como tocados
+    Object.values(this.membershipForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
 
-    this._membershipsService
-      .updateMembership(this.selectedMembership.id, updatedMembership)
-      .pipe(
-        catchError((error) => {
-          console.error('Error updating membership:', error);
-          this.errorMessage =
-            'Error al actualizar la membresía. Por favor intente nuevamente.';
-          return of(null);
-        }),
-        finalize(() => {
-          this.isSubmitting = false;
-        })
-      )
-      .subscribe((response) => {
-        if (response) {
-          console.log('Membresía actualizada exitosamente');
-          this._route.navigate(['/dashboard/memberships']);
-        }
-      });
-  }
+    if (this.membershipForm.valid) {
+      const membership: Membership = {
+        ...this.membership,
+        ...this.membershipForm.value,
+        startDate: new Date(this.membershipForm.value.startDate).toISOString(),
+        endDate: new Date(this.membershipForm.value.endDate).toISOString(),
+      };
 
-  //Elimina una membresía por su ID.
-  deleteMembership(id: number): void {
-    if (confirm('¿Está seguro que desea eliminar esta membresía?')) {
-      this._membershipsService
-        .deleteMembership(id)
-        .pipe(
-          catchError((error) => {
-            console.error('Error deleting membership:', error);
-            this.errorMessage = 'Error al eliminar la membresía';
-            return of(null);
-          })
-        )
-        .subscribe((response) => {
-          if (response !== null) {
-            console.log('Membresía eliminada exitosamente');
-            this._route.navigate(['/dashboard/memberships']);
+      // Verificamos si existe un ID de membresía para la actualización
+      if (this.membership.id) {
+        this._membershipsService.updateMembership(this.membership.id, membership).subscribe({
+          next: () => {
+            this._toastService.showToast('Membresía actualizada', 'Los datos de la membresía se han actualizado correctamente.', 'success');
+            this.isFormModified = false;
+            this.errorMessage = "";
+          },
+          error: (error) => {
+            console.error('Error al actualizar membresía:', error);
+            this._toastService.showToast('Error al actualizar membresía', 'Ha ocurrido un error al actualizar los datos de la membresía.', 'error');
+            this.errorMessage = 'Error al actualizar los datos de la membresía.';
           }
         });
-    }
-  }
-
-  //Navega a la lista de membresías.
-  navigateToDashboard(): void {
-    if (this.isFormModified) {
-      if (confirm('Tiene cambios sin guardar. ¿Está seguro que desea salir?')) {
-        this._route.navigate(['/dashboard/memberships']);
+      } else {
+        this._toastService.showToast('Error', 'No se encontró la membresía para actualizar.', 'error');
+        this.errorMessage = 'No se encontró la membresía para actualizar.';
       }
     } else {
-      this._route.navigate(['/dashboard/memberships']);
+      this.errorMessage = 'Por favor, complete todos los campos correctamente.';
     }
   }
-}
 
-// Función de validación personalizada para el rango de fechas
-function dateRangeValidator(): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} | null => {
-    const form = control.parent;
-    if (form) {
-      const startDate = form.get('startDate')?.value;
-      const endDate = control.value;
-
-      if (startDate && endDate) {
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        
-        // Comparar fechas sin tener en cuenta la hora
-        start.setHours(0, 0, 0, 0);
-        end.setHours(0, 0, 0, 0);
-
-        // Devolver error si la fecha de finalización no es posterior a la fecha de inicio
-        return end <= start ? { 'invalidDateRange': true } : null;
+  deleteMembership(id: number) {
+    this._membershipsService.deleteMembership(id).subscribe(
+      () => {
+        console.log('Membresía desactivada con éxito');
+        this._toastService.showToast('Membresía desactivada',
+          'La membresía ha sido desactivada correctamente.',
+          'success');
+        this._router.navigate(['/dashboard/memberships']);
+      },
+      error => {
+        console.error('Error al desactivada la membresía:', error);
+        this._toastService.showToast('Error al desactivada la membresía',
+          'Ha ocurrido un error al desactivada la membresía.',
+          'error');
       }
-    }
-    return null;
-  };
+    );
+  }
 }

@@ -1,71 +1,83 @@
 <div class="bg-light-subtle p-4 rounded-4 border">
+    <form class="mb-0" [formGroup]="membershipForm" (ngSubmit)="addMembership()">
+        <h5 class="mb-4">Información de la membresía</h5>
 
-    <h5 class="mb-4">Información principal</h5>
-
-    <form class="mb-0" [formGroup]="registerMemberships" (ngSubmit)="onSubmit()">
         <div class="row mb-3">
             <div class="col">
-                <label for="institutionName" class="form-label">Nombre de la institución</label>
-                <select class="form-select" id="institutionName" formControlName="institutionName">
-                    <option *ngFor="let name of institutionNames" [value]="name">{{ name }}</option>
+                <label for="institutionName" class="form-label">Nombre de la institución*</label>
+                <select class="form-select " id="institutionName" formControlName="institutionName" [class.is-invalid]="membershipForm.get('institutionName')?.invalid && 
+                    (membershipForm.get('institutionName')?.dirty || membershipForm.get('institutionName')?.touched)">
+                    <option value="">Seleccione una institución</option>
+                    @for (name of institutionNames; track name) {
+                    <option [value]="name">{{ name }}</option>
+                    }
                 </select>
-                <div class="invalid-feedback" *ngIf="registerMemberships.get('institutionName')?.touched">
-                    <div *ngIf="registerMemberships.get('institutionName')?.errors?.['required']">
-                        El nombre de la institución es requerido.
-                    </div>
-                    <div *ngIf="registerMemberships.get('institutionName')?.errors?.['maxlength']">
-                        El nombre no puede exceder los 100 caracteres.
-                    </div>
-                </div>
+                @if (membershipForm.get('institutionName')?.errors?.['required']) {
+                <p class="small invalid-feedback mt-2 mb-0">
+                    El nombre de la institución es requerido.
+                </p>
+                }
             </div>
 
             <div class="col">
-                <label for="status" class="form-label">Estado de la membresía</label>
-                <select class="form-select" id="status" formControlName="status"
-                    [ngClass]="{'is-invalid': registerMemberships.get('status')?.invalid && registerMemberships.get('status')?.touched}">
-                    <option value="">Seleccione un estado</option>
+                <label for="status" class="form-label">Estado de la membresía*</label>
+                <select class="form-select bg-body-tertiary" id="status" formControlName="status" [class.is-invalid]="membershipForm.get('status')?.invalid && 
+                    (membershipForm.get('status')?.dirty || membershipForm.get('status')?.touched)">
+                    <option value="" selected>Seleccione un estado</option>
                     <option [value]="true">Activa</option>
                     <option [value]="false">Inactiva</option>
                 </select>
-                <div class="invalid-feedback"
-                    *ngIf="registerMemberships.get('status')?.touched && registerMemberships.get('status')?.errors?.['required']">
+                @if (membershipForm.get('status')?.errors?.['required']) {
+                <p class="small invalid-feedback mt-2 mb-0">
                     El estado de la membresía es requerido.
-                </div>
+                </p>
+                }
             </div>
         </div>
 
-        <!-- Sección de fechas -->
         <div class="row mb-3">
             <div class="col">
-                <label for="startDate" class="form-label">Fecha de inicio</label>
-                <input type="date" class="form-control" id="startDate" formControlName="startDate"
-                    [ngClass]="{'is-invalid': registerMemberships.get('startDate')?.invalid && registerMemberships.get('startDate')?.touched}">
-                <div class="invalid-feedback"
-                    *ngIf="registerMemberships.get('startDate')?.touched && registerMemberships.get('startDate')?.errors?.['required']">
+                <label for="startDate" class="form-label">Fecha de inicio*</label>
+                <input type="date" class="form-control bg-body-tertiary" id="startDate" formControlName="startDate"
+                    [class.is-invalid]="membershipForm.get('startDate')?.invalid && 
+                    (membershipForm.get('startDate')?.dirty || membershipForm.get('startDate')?.touched)">
+                @if (membershipForm.get('startDate')?.errors?.['required']) {
+                <p class="small invalid-feedback mt-2 mb-0">
                     La fecha de inicio es requerida.
-                </div>
+                </p>
+                }
             </div>
 
             <div class="col">
-                <label for="endDate" class="form-label">Fecha de finalización</label>
-                <input type="date" class="form-control" id="endDate" formControlName="endDate"
-                    [ngClass]="{'is-invalid': registerMemberships.get('endDate')?.invalid && registerMemberships.get('endDate')?.touched}">
-                <div class="invalid-feedback"
-                    *ngIf="registerMemberships.get('endDate')?.touched && registerMemberships.get('endDate')?.errors?.['required']">
-                    La fecha de fin es requerida.
-                </div>
+                <label for="endDate" class="form-label">Fecha de fin*</label>
+                <input type="date" class="form-control bg-body-tertiary" id="endDate" formControlName="endDate"
+                    [class.is-invalid]="membershipForm.get('endDate')?.invalid && 
+                    (membershipForm.get('endDate')?.dirty || membershipForm.get('endDate')?.touched)">
+                @if (membershipForm.get('endDate')?.errors?.['required']) {
+                <p class="small invalid-feedback mt-2 mb-0">
+                    La fecha de finalización es requerida.
+                </p>
+                }
+                @if (membershipForm.get('endDate')?.errors?.['invalidDateRange']) {
+                <p class="small invalid-feedback mt-2 mb-0">
+                    La fecha de finalización debe ser posterior a la fecha de inicio.
+                </p>
+                }
             </div>
         </div>
 
-        <!-- Mostrar mensaje de error -->
-        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-            {{ errorMessage }}
-        </div>
-
-        <!-- Botón de envío -->
-        <div class="d-flex align-items-end justify-content-end">
-            <button type="submit" class="btn btn-primary mt-4" [disabled]="registerMemberships.invalid">Registrar membresía
+        <!-- Botón de envío y mensaje de error -->
+        <div class="d-flex flex-column align-items-end">
+            <button type="submit" class="btn btn-primary mt-4" [disabled]="loading">
+                Registrar membresía
             </button>
+
+            <!-- Mostrar mensaje de error -->
+            @if (errorMessage) {
+            <p class="small text-danger mt-2 mb-0">
+                {{ errorMessage }}
+            </p>
+            }
         </div>
     </form>
 </div>

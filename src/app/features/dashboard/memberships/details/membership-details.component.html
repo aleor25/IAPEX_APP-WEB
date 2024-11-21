@@ -1,46 +1,35 @@
 <div class="bg-light-subtle p-4 rounded-4 border">
-    <form class="mb-0" [formGroup]="membershipForm" (ngSubmit)="updateMembershipById()">
-        <h5 class="mb-4">Información personal</h5>
+    <form class="mb-0" [formGroup]="membershipForm">
+        <h5 class="mb-4">Información de la membresía</h5>
 
         <div class="row mb-3">
             <div class="col">
                 <label for="institutionName" class="form-label">Nombre de la institución*</label>
-                <select 
-                    class="form-select bg-body-tertiary" 
-                    id="institutionName" 
-                    formControlName="institutionName"
-                    [class.is-invalid]="membershipForm.get('institutionName')?.invalid && 
-                    (membershipForm.get('institutionName')?.dirty || membershipForm.get('institutionName')?.touched)"
-                >
-                    <option value="" selected>Seleccione una institución</option>
+                <select class="form-select " id="institutionName" formControlName="institutionName" [class.is-invalid]="membershipForm.get('institutionName')?.invalid && 
+                    (membershipForm.get('institutionName')?.dirty || membershipForm.get('institutionName')?.touched)">
                     @for (name of institutionNames; track name) {
-                        <option [value]="name">{{ name }}</option>
+                    <option [value]="name">{{ name }}</option>
                     }
                 </select>
                 @if (membershipForm.get('institutionName')?.errors?.['required']) {
-                    <p class="small invalid-feedback mt-2 mb-0">
-                        El nombre de la institución es requerido.
-                    </p>
+                <p class="small invalid-feedback mt-2 mb-0">
+                    El nombre de la institución es requerido.
+                </p>
                 }
             </div>
 
             <div class="col">
                 <label for="status" class="form-label">Estado de la membresía*</label>
-                <select 
-                    class="form-select bg-body-tertiary" 
-                    id="status" 
-                    formControlName="status"
-                    [class.is-invalid]="membershipForm.get('status')?.invalid && 
-                    (membershipForm.get('status')?.dirty || membershipForm.get('status')?.touched)"
-                >
+                <select class="form-select bg-body-tertiary" id="status" formControlName="status" [class.is-invalid]="membershipForm.get('status')?.invalid && 
+                    (membershipForm.get('status')?.dirty || membershipForm.get('status')?.touched)">
                     <option value="" selected>Seleccione un estado</option>
                     <option [value]="true">Activa</option>
                     <option [value]="false">Inactiva</option>
                 </select>
                 @if (membershipForm.get('status')?.errors?.['required']) {
-                    <p class="small invalid-feedback mt-2 mb-0">
-                        El estado de la membresía es requerido.
-                    </p>
+                <p class="small invalid-feedback mt-2 mb-0">
+                    El estado de la membresía es requerido.
+                </p>
                 }
             </div>
         </div>
@@ -48,66 +37,49 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="startDate" class="form-label">Fecha de inicio*</label>
-                <input 
-                    type="date" 
-                    class="form-control bg-body-tertiary" 
-                    id="startDate" 
-                    formControlName="startDate"
+                <input type="date" class="form-control bg-body-tertiary" id="startDate" formControlName="startDate"
                     [class.is-invalid]="membershipForm.get('startDate')?.invalid && 
-                    (membershipForm.get('startDate')?.dirty || membershipForm.get('startDate')?.touched)"
-                >
+                    (membershipForm.get('startDate')?.dirty || membershipForm.get('startDate')?.touched)">
                 @if (membershipForm.get('startDate')?.errors?.['required']) {
-                    <p class="small invalid-feedback mt-2 mb-0">
-                        La fecha de inicio es requerida.
-                    </p>
+                <p class="small invalid-feedback mt-2 mb-0">
+                    La fecha de inicio es requerida.
+                </p>
                 }
             </div>
 
             <div class="col">
-                <label for="endDate" class="form-label">Fecha de finalización*</label>
-                <input 
-                    type="date" 
-                    class="form-control bg-body-tertiary" 
-                    id="endDate" 
-                    formControlName="endDate"
+                <label for="endDate" class="form-label">Fecha de fin*</label>
+                <input type="date" class="form-control bg-body-tertiary" id="endDate" formControlName="endDate"
                     [class.is-invalid]="membershipForm.get('endDate')?.invalid && 
-                    (membershipForm.get('endDate')?.dirty || membershipForm.get('endDate')?.touched)"
-                >
+                    (membershipForm.get('endDate')?.dirty || membershipForm.get('endDate')?.touched)">
                 @if (membershipForm.get('endDate')?.errors?.['required']) {
-                    <p class="small invalid-feedback mt-2 mb-0">
-                        La fecha de finalización es requerida.
-                    </p>
+                <p class="small invalid-feedback mt-2 mb-0">
+                    La fecha de finalización es requerida.
+                </p>
                 }
                 @if (membershipForm.get('endDate')?.errors?.['invalidDateRange']) {
-                    <p class="small invalid-feedback mt-2 mb-0">
-                        La fecha de finalización debe ser posterior a la fecha de inicio.
-                    </p>
+                <p class="small invalid-feedback mt-2 mb-0">
+                    La fecha de finalización debe ser posterior a la fecha de inicio.
+                </p>
                 }
             </div>
         </div>
 
-        @if (errorMessage) {
-            <div class="alert alert-danger mt-3">
-                {{ errorMessage }}
-            </div>
-        }
-
+        <!-- Botón de envío y mensaje de error -->
         <div class="d-flex justify-content-end align-items-end mt-4 gap-2">
-            <button 
-                type="button" 
-                class="btn btn-primary" 
-                (click)="updateMembershipById()"
-                [disabled]="!membershipForm.valid || !isFormModified"
-            >
-                Actualizar membresía
-            </button>
-            <button 
-                type="button" 
-                class="btn btn-danger"
-                (click)="selectedMembership ? deleteMembership(selectedMembership.id) : null"
-            >
-                Eliminar membresía
-            </button>
+            <button type="submit" class="btn btn-primary" (click)="updateMembership()"
+                [disabled]="!isFormModified || loading">Actualizar membresía</button>
+
+            <button type="submit" class="btn btn-danger" (click)="deleteMembership(membership.id)">Desactivar
+                membresía</button>
         </div>
-    </form>
+        <!-- Mostrar mensaje de error -->
+        <div class="d-flex flex-column align-items-end">
+            @if (errorMessage) {
+            <p class="small text-danger mt-2 mb-0">
+                {{ errorMessage }}
+            </p>
+            }
+        </div>
+    </form>
 </div>
