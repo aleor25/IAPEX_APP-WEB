@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ContactRequest } from '../../../../core/models/contact-request/contact-request.model';
 import { UpdateContactRequest } from '../../../../core/models/contact-request/update-contact-request.model';
 import { ContactRequestService } from '../../../../core/services/contact-request.service';
+import { ToastService } from '../../../../core/services/util/toast.service';
 
 @Component({
   selector: 'app-contact-request-details',
@@ -13,11 +14,10 @@ import { ContactRequestService } from '../../../../core/services/contact-request
   templateUrl: './contact-request-details.component.html'
 })
 export class ContactRequestDetailsComponent implements OnInit {
-  request!: ContactRequest;
-  requestForm!: FormGroup;
-  loading: boolean = true;
-  error: string | null = null;
-  originalStatus: string = '';
+  contactRequest!: ContactRequest;
+  contactRequestForm: FormGroup;
+  loading: boolean = false;
+  errorMessage: string = "";
   isFormModified = false;
 
   statusOptions = [
@@ -27,21 +27,13 @@ export class ContactRequestDetailsComponent implements OnInit {
     { value: 'EN_REVISION', label: 'En revisión' }
   ];
 
-  private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
+  private _toastService = inject(ToastService);
   private _contactRequestService = inject(ContactRequestService);
   private _fb = inject(FormBuilder);
 
-  ngOnInit() {
-    this.initializeForm();
-    const id = this._activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadSolicitud(+id);
-    }
-  }
-
-  private initializeForm(): void {
-    this.requestForm = this._fb.group({
+  constructor() {
+    this.contactRequestForm = this._fb.group({
       interestedPersonName: [{ value: '', disabled: true }],
       missingPersonName: [{ value: '', disabled: true }],
       relationship: [{ value: '', disabled: true }],
@@ -53,82 +45,73 @@ export class ContactRequestDetailsComponent implements OnInit {
       message: [{ value: '', disabled: true }]
     });
 
-    this.requestForm.get('status')?.valueChanges.subscribe(newValue => {
-      this.isFormModified = newValue.toUpperCase() !== this.originalStatus.toUpperCase();
+    this.contactRequestForm.valueChanges.subscribe(() => {
+      this.isFormModified = this.contactRequestForm.dirty;
     });
   }
 
-  private patchFormValues(request: ContactRequest): void {
-    this.requestForm.patchValue({
-      interestedPersonName: request.interestedPersonName,
-      missingPersonName: request.missingPersonName,
-      relationship: request.relationship,
-      phoneNumber: request.phoneNumber,
-      email: request.email,
-      requestDateTime: this.formatDateTime(request.requestDateTime),
-      status: request.status,
-      attendingUser: request.attendingUser || 'No asignado',
-      message: request.message
-    });
-    this.originalStatus = request.status.toUpperCase();
-    this.isFormModified = false;
-    this.requestForm.markAsPristine();
+  ngOnInit() {
+    const id = this._activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadContactRequest(+id);
+    }
   }
 
-  loadSolicitud(id: number) {
-    this.loading = true;
+  loadContactRequest(id: number) {
     this._contactRequestService.getContactRequestById(id).subscribe({
       next: (data) => {
-        this.request = data;
-        if (this.request) {
-          this.request.status = this.request.status.toUpperCase();
-          this.patchFormValues(this.request);
+        this.contactRequest = data;
+        if (this.contactRequest) {
+          this.contactRequest.status = this.contactRequest.status.toUpperCase();
+          this.contactRequestForm.patchValue({
+            interestedPersonName: this.contactRequest.interestedPersonName,
+            missingPersonName: this.contactRequest.missingPersonName,
+            relationship: this.contactRequest.relationship,
+            phoneNumber: this.contactRequest.phoneNumber,
+            email: this.contactRequest.email,
+            requestDateTime: this.formatDateTime(this.contactRequest.requestDateTime),
+            status: this.contactRequest.status,
+            attendingUser: this.contactRequest.attendingUser || 'No asignado',
+            message: this.contactRequest.message
+          });
         }
-        this.loading = false;
       },
       error: (error) => {
         console.error('Error fetching contact request', error);
-        this.error = 'Error al cargar los detalles de la solicitud';
+        this.errorMessage = 'Error al cargar los detalles de la solicitud';
         this.loading = false;
       }
     });
   }
 
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'NO_ENCONTRADA':
-        return 'status-no-encontrada';
-      case 'NUEVA':
-        return 'status-nueva';
-      case 'ENCONTRADA':
-        return 'status-encontrada';
-      case 'EN_REVISION':
-        return 'status-en-revision';
-      default:
-        return '';
-    }
-  }
-
   updateStatus() {
-    if (!this.isFormModified || !this.request?.id) {
-      return;
+    this.errorMessage = '';
+
+    // Marcar todos los controles como tocados
+    Object.values(this.contactRequestForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
+    if (this.contactRequestForm.valid) {
+      const newStatus = this.contactRequestForm.get('status')?.value;
+      const updateRequest: UpdateContactRequest = { status: newStatus };
+
+      if (this.contactRequest.id) {
+        this._contactRequestService.updateContactRequestById(this.contactRequest.id, updateRequest)
+          .subscribe({
+            next: () => {
+              this.errorMessage = '';
+              this._toastService.showToast('Solicitud de contacto actualizada', 'Los datos de la solicitud de contacto se han actualizado correctamente', 'success');
+              this.isFormModified = false;
+            },
+            error: (error) => {
+              console.error('Error al actualizar el estado', error);
+            }
+          });
+      }
+    } else {
+      this.errorMessage = 'Por favor, complete todos los campos correctamente.';
     }
-
-    const newStatus = this.requestForm.get('status')?.value;
-    const updateRequest: UpdateContactRequest = { status: newStatus };
-
-    this._contactRequestService.updateContactRequestById(this.request.id, updateRequest)
-      .subscribe({
-        next: () => {
-          console.log('Estado actualizado con éxito');
-          this.originalStatus = newStatus;
-          this.isFormModified = false;
-          this._router.navigate(['/dashboard/contact-requests']);
-        },
-        error: (error) => {
-          console.error('Error al actualizar el estado', error);
-        }
-      });
   }
 
   formatDateTime(dateTime: string | Date): string {

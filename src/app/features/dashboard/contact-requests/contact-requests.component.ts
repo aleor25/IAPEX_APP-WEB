@@ -68,23 +68,23 @@ export class ContactRequestsComponent implements OnInit {
 
   private formatStatus(status: string): string {
     const statusMap: { [key: string]: string } = {
-      'nueva': 'Nueva',
-      'no_encontrada': 'No encontrada',
-      'encontrada': 'Encontrada',
-      'en_revision': 'En revisión'
+      'NUEVA': 'Nueva',
+      'NO_ENCONTRADO': 'No encontrado',
+      'ENCONTRADO': 'Encontrado',
+      'EN_REVISION': 'En revisión'
     };
-    return statusMap[status.toLowerCase()] || status;
+    return statusMap[status] || status;
   }
 
   private getStatusClass(status: string): string {
-    switch (status.toLowerCase()) {
-      case 'nueva':
+    switch (status) {
+      case 'NUEVA':
         return 'badge bg-primary';
-      case 'no_encontrada':
+      case 'NO_ENCONTRADO':
         return 'badge bg-danger';
-      case 'encontrada':
+      case 'ENCONTRADO':
         return 'badge bg-success';
-      case 'en_revision':
+      case 'EN_REVISION':
         return 'badge bg-warning';
       default:
         return 'badge bg-secondary';

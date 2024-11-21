@@ -22,7 +22,6 @@ export class ContactRequestService {
   }
 
   getContactRequestsByInstitution(): Observable<ContactRequest[]> {
-    // Cambiado para que coincida con el controlador
     return this._http.get<ContactRequest[]>(`${this.apiUrl}/me/institution`);
   }
 

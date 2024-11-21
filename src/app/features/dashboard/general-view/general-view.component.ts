@@ -53,10 +53,10 @@ export class GeneralViewComponent implements AfterViewInit {
     this._contactRequestService.getAllContactRequests().subscribe(data => {
       // Calcula los totales
       const totalRequests = data.length;
-      const newRequests = data.filter(request => request.status === 'nueva').length;
-      const inReviewRequests = data.filter(request => request.status === 'en_revision').length;
-      const foundRequests = data.filter(request => request.status === 'finalizada').length;
-
+      const newRequests = data.filter(request => request.status === 'NUEVA').length;
+      const inReviewRequests = data.filter(request => request.status === 'EN_REVISION').length;
+      const foundRequests = data.filter(request => request.status === 'ENCONTRADO').length;
+      const notFoundRequests = data.filter(request => request.status === 'NO_ENCONTRADO').length;
 
       // Actualiza el HTML con los valores
       const totalRequestsElement = document.getElementById('totalRequests');
@@ -79,9 +79,13 @@ export class GeneralViewComponent implements AfterViewInit {
         foundRequestsElement.innerText = foundRequests.toString();
       }
 
+      const notFoundRequestsElement = document.getElementById('notFoundRequests');
+      if (notFoundRequestsElement !== null) {
+        notFoundRequestsElement.innerText = notFoundRequests.toString();
+      }
+
       // Crea la gráfica con los datos transformados
       this.updateChartRequests(data);
-
       this.updateStatusChart(data);
 
       // Muestra los datos del género de los pacientes
@@ -243,15 +247,15 @@ export class GeneralViewComponent implements AfterViewInit {
 
     // Cuenta los estados de las solicitudes
     const statusCounts = data.reduce((counts, request) => {
-      if (request.status === 'nueva') {
+      if (request.status === 'NUEVA') {
         counts.Nueva++;
-      } else if (request.status === 'en revisión') {
+      } else if (request.status === 'EN_REVISION') {
         counts.En_revision++;
-      } else if (request.status === 'finalizada') {
+      } else if (request.status === 'ENCONTRADO') {
         counts.Finalizada++;
       }
       return counts;
-    }, { Nueva: 0, 'En_revision': 0, Finalizada: 0 });
+    }, { Nueva: 0, 'EN_REVISION': 0, Finalizada: 0 });
 
     // Establece los datos para la serie
     series.data.setAll(
