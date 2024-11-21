@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
+import { MustMatch } from '../../../shared/validators/password.validator';
 
 @Component({
   selector: 'app-register',
@@ -14,63 +15,75 @@ import { UserService } from '../../../core/services/user.service';
 export class RegisterComponent {
 
   registerForm: FormGroup;
-  errorMessage: string | null = null;
+  errorMessage: string = "";
 
   private _userService = inject(UserService);
   private _router = inject(Router);
-  private _formBuilder = inject(FormBuilder);
+  private _fb = inject(FormBuilder);
 
   constructor() {
-    this.registerForm = this._formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(50)]],
-      lastName: ['', [Validators.required, Validators.maxLength(50)]],
-      secondLastName: ['', [Validators.maxLength(50)]],
+    this.registerForm = this._fb.group({
+      name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      secondLastName: ['', [Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
       institution: ['', Validators.required],
-      position: ['', Validators.required],
+      position: ['', [Validators.required, Validators.maxLength(25)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       repeatPassword: ['', Validators.required]
     },
-      { validators: this.passwordMatcher });
+      {
+        validators: MustMatch('password', 'repeatPassword')
+      });
   }
 
   register(): void {
+    this.errorMessage = "";
+
+    Object.values(this.registerForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
     if (this.registerForm.valid) {
       const user = this.registerForm.value;
 
       this._userService.registerUser(user).subscribe(
         response => {
           console.log('Registro exitoso', response);
-          this._router.navigate(['/access/login']);
+          this._router.navigate(['/auth/login']);
         },
         error => {
           this.errorMessage = error.error?.message || 'Error al registrar el usuario.';
-          console.error('Error de registro:', error);
+          this.handleRegisterError(error);
         }
       );
     } else {
-      console.error('Formulario no válido');
+      this.errorMessage = 'Por favor, complete los campos correctamente.';
     }
   }
 
-  // Valida que las contraseñas coincidan
-  private passwordMatcher(formGroup: FormGroup) {
-    const password = formGroup.get('password');
-    const repeatPassword = formGroup.get('repeatPassword');
-    if (password?.value !== repeatPassword?.value) {
-      repeatPassword?.setErrors({ passwordMismatch: true });
+  private handleRegisterError(error: any) {
+    if (error.error && error.error.mensaje) {
+      const errorMessage = error.error.mensaje;
+      if (errorMessage.includes('Clave de verificación incorrecta')) {
+        this.errorMessage = 'La clave de verificación proporcionada es incorrecta. Por favor, verifique e intente nuevamente.';
+      } else if (errorMessage.includes('Ya existe un usuario registrado con este correo')) {
+        this.errorMessage = 'Ya existe un usuario registrado con ese correo. Por favor, inicie sesión.';
+      }
     } else {
-      repeatPassword?.setErrors(null);
+      switch (error.status) {
+        case 400:
+          this.errorMessage = 'Formato de los datos incorrecto. Por favor, revise los datos introducidos.';
+          break;
+        case 404:
+          this.errorMessage = 'El rol especificado no se encontró. Por favor, verifique el rol y vuelva a intentarlo.';
+          break;
+        case 500:
+          this.errorMessage = 'Ocurrió un error en el servidor. Por favor, intente nuevamente más tarde.';
+          break;
+        default:
+          this.errorMessage = 'Error desconocido. Por favor, contacta al administrador del sistema.';
+      }
     }
-    return null;
   }
-
-  get name() { return this.registerForm.get('name'); }
-  get lastName() { return this.registerForm.get('lastName'); }
-  get secondLastName() { return this.registerForm.get('secondLastName'); }
-  get institution() { return this.registerForm.get('institution'); }
-  get position() { return this.registerForm.get('position'); }
-  get email() { return this.registerForm.get('email'); }
-  get password() { return this.registerForm.get('password'); }
-  get repeatPassword() { return this.registerForm.get('repeatPassword'); }
 }

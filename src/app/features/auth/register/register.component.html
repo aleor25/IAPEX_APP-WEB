@@ -1,154 +1,199 @@
-<main class="container-fluid h-100">
-    <div class="row h-100">
-        <!-- Left column -->
-        <div class="col-lg-6 position-relative d-none d-lg-block" style="position: fixed; height: 100%;">
-            <div class="bg-holder"
-                style="background-image: url('./assets/images/bg-register.jpg'); height: 100%; width: 100%;"></div>
-        </div>
-        <!--/ Left column -->
+<div class="row h-100 g-0">
+    <!-- Left column -->
+    <div class="col-lg-6 position-relative d-none d-lg-block">
+        <div class="bg-holder" style="background-image: url('./assets/images/bg-register.jpg')"></div>
+    </div>
+    <!--/ Left column -->
 
-        <!-- Right column -->
-        <div
-            class="container-fluid navbar-nav-scroll mh-100 col-lg-6 bg-light-subtle d-flex align-items-center justify-content-center">
-            <!-- Contenido -->
-            <div class="d-flex align-items-center h-100 custom-padding px-5">
-                <div class="col-sm-6 col-lg-7 col-xl-6 w-100">
-                    <div class="mb-5">
-                        <div class="d-flex mb-2">
-                            <img class="logo-image" src="assets/images/logo.png" alt="logo">
-                        </div>
-                        <h1 class="fw-bold fs-2 mb-3">Registrarse</h1>
-                        <p>Complete el formulario a continuaci n para crear una nueva cuenta.</p>
+    <!-- Right column -->
+    <div class="col-lg-6 bg-light-subtle py-3 d-flex align-items-center justify-content-center">
+        <!-- Contenido -->
+        <div class="d-flex align-items-center h-100 px-5">
+            <div class="col-sm-6 col-lg-7 col-xl-6 w-100">
+                <div class="mb-4">
+                    <div class="d-flex mb-2">
+                        <img class="logo-image" src="assets/images/logo.png" alt="logo">
                     </div>
+                    <h1 class="fw-bold fs-2 mb-3">Registrarse</h1>
+                    <p>Complete el formulario a continuación para crear una nueva cuenta.</p>
+                </div>
 
-                    <!-- Formulario -->
-                    <form [formGroup]="registerForm" (ngSubmit)="register()">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nombre(s)*</label>
-                            <input formControlName="name" type="text" class="form-control bg-body-tertiary" id="name"
-                                placeholder="Ingresa tu nombre o nombres">
-                            <!-- mensajes de error de validaciones -->
-                            <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="text-danger">
-                                <div *ngIf="name?.errors?.['required']">
-                                    El nombre es requerido
-                                </div>
-                                <div *ngIf="name?.errors?.['maxlength']">
-                                    El nombre no es valido
-                                </div>
-                            </div>
+                <!-- Formulario -->
+                <form class="mb-0" [formGroup]="registerForm" (ngSubmit)="register()">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre(s)*</label>
+                        <input formControlName="name" type="text" class="form-control bg-body-tertiary" id="name"
+                            placeholder="Ingrese su nombre o nombres"
+                            [class.is-invalid]="registerForm.get('name')?.invalid && (registerForm.get('name')?.dirty || registerForm.get('name')?.touched)">
+                        @if (registerForm.get('name')?.errors?.['required']) {
+                        <p class="small invalid-feedback mt-2 mb-0">
+                            El nombre es requerido.
+                        </p>
+                        }
+                        @if (registerForm.get('name')?.errors?.['maxlength']) {
+                        <p class="small invalid-feedback mt-2 mb-0">
+                            El nombre no puede exceder los 50 caracteres.
+                        </p>
+                        }
+                        @if (registerForm.get('name')?.errors?.['pattern']) {
+                        <p class="small invalid-feedback mt-2 mb-0">
+                            El nombre solo puede contener letras.
+                        </p>
+                        }
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="lastName" class="form-label">Primer apellido*</label>
+                            <input formControlName="lastName" type="text" class="form-control bg-body-tertiary"
+                                id="lastName" placeholder="Ingrese su apellido paterno"
+                                [class.is-invalid]="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)">
+                            @if (registerForm.get('lastName')?.errors?.['required']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El primer apellido es requerido.
+                            </p>
+                            }
+                            @if (registerForm.get('lastName')?.errors?.['maxlength']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El primer apellido no puede exceder los 50 caracteres.
+                            </p>
+                            }
+                            @if (registerForm.get('lastName')?.errors?.['pattern']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El primer apellido solo puede contener letras.
+                            </p>
+                            }
                         </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="lastName" class="form-label">Primer apellido*</label>
-                                <input formControlName="lastName" type="text" class="form-control bg-body-tertiary" id="lastName"
-                                    placeholder="Ingresa tu apellido paterno">
-                                <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
-                                    class="text-danger">
-                                    <div *ngIf="lastName?.errors?.['required']">
-                                        El primer apellido es requerido
-                                    </div>
-                                    <div *ngIf="lastName?.errors?.['maxlength']">
-                                        El primer apellido no es valido
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <label for="secondLastName" class="form-label">Segundo apellido</label>
-                                <input formControlName="secondLastName" type="text" class="form-control bg-body-tertiary"
-                                    id="secondLastName" placeholder="Ingresa tu apellido materno">
-                                <div *ngIf="secondLastName?.invalid && (secondLastName?.dirty || secondLastName?.touched)"
-                                    class="text-danger">
-                                    <div *ngIf="secondLastName?.errors?.['maxlength']">
-                                        El segundo apellido no es valido
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col">
+                            <label for="secondLastName" class="form-label">Segundo apellido</label>
+                            <input formControlName="secondLastName" type="text" class="form-control bg-body-tertiary"
+                                id="secondLastName" placeholder="Ingrese su apellido materno"
+                                [class.is-invalid]="registerForm.get('secondLastName')?.invalid
+                            && (registerForm.get('secondLastName')?.dirty || registerForm.get('secondLastName')?.touched)">
+                            @if (registerForm.get('secondLastName')?.errors?.['maxlength']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El segundo apellido no puede exceder los 50 caracteres.
+                            </p>
+                            }
+                            @if (registerForm.get('secondLastName')?.errors?.['pattern']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El segundo apellido solo puede contener letras.
+                            </p>
+                            }
                         </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="institution" class="form-label">Institución de salud*</label>
-                                <input type="text" formControlName="institution" class="form-control bg-body-tertiary"
-                                    id="institution" placeholder="Ingresa la institución" />
-                                <div *ngIf="institution?.invalid && (institution?.dirty || institution?.touched)"
-                                    class="text-danger">
-                                    <div *ngIf="institution?.errors?.['required']">
-                                        La institución es requerida
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <label for="position" class="form-label">Cargo*</label>
-                                <input formControlName="position" type="text" class="form-control bg-body-tertiary"
-                                    id="position" placeholder="Ingresa tu cargo">
-                                <div *ngIf="position?.invalid && (position?.dirty || position?.touched)"
-                                    class="text-danger">
-                                    <div *ngIf="position?.errors?.['required']">
-                                        El cargo es requerido
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="institution" class="form-label">Institución de salud*</label>
+                            <input type="text" formControlName="institution" class="form-control bg-body-tertiary"
+                                id="institution" placeholder="Ingrese la institución de salud"
+                                [class.is-invalid]="registerForm.get('institution')?.invalid && (registerForm.get('institution')?.dirty || registerForm.get('institution')?.touched)">
+                            @if (registerForm.get('institution')?.errors?.['required']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                La institución es requerida.
+                            </p>
+                            }
                         </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Correo electrónico*</label>
-                            <input formControlName="email" type="email" class="form-control bg-body-tertiary" id="email"
-                                placeholder="correo@ejemplo.com">
-                            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
-                                <div *ngIf="email?.errors?.['required']">
-                                    El correo electrónico es requerido
-                                </div>
-                                <div *ngIf="email?.errors?.['email']">
-                                    Lo insertado no es un correo electrónico
-                                </div>
-                                <div *ngIf="email?.errors?.['maxLength']">
-                                    El correo electrónico no es valido
-                                </div>
-                            </div>
+                        <div class="col">
+                            <label for="position" class="form-label">Cargo*</label>
+                            <input formControlName="position" type="text" class="form-control bg-body-tertiary"
+                                id="position" placeholder="Ingrese su cargo"
+                                [class.is-invalid]="registerForm.get('position')?.invalid && (registerForm.get('position')?.dirty || registerForm.get('position')?.touched)">
+                            @if (registerForm.get('position')?.errors?.['required']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El cargo es requerido.
+                            </p>
+                            }
+                            @if (registerForm.get('name')?.errors?.['maxlength']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El cargo no puede exceder los 25 caracteres.
+                            </p>
+                            }
                         </div>
-                        <div class="mb-3">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico*</label>
+                        <input formControlName="email" type="email" class="form-control bg-body-tertiary" id="email"
+                            placeholder="correo@ejemplo.com"
+                            [class.is-invalid]="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
+                        @if (registerForm.get('email')?.errors?.['required']) {
+                        <p class="small invalid-feedback mt-2 mb-0">
+                            El correo electrónico es requerido.
+                        </p>
+                        }
+                        @if (registerForm.get('email')?.errors?.['email']) {
+                        <p class="small invalid-feedback mt-2 mb-0">
+                            El correo electrónico no es válido.
+                        </p>
+                        }
+                        @if (registerForm.get('email')?.errors?.['maxlength']) {
+                        <p class="small invalid-feedback mt-2 mb-0">
+                            El correo electrónico no puede exceder los 50 caracteres.
+                        </p>
+                        }
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
                             <label for="password" class="form-label">Contraseña*</label>
                             <input formControlName="password" type="password" class="form-control bg-body-tertiary"
-                                id="password" placeholder="Su contraseña">
-                            <div *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-                                class="text-danger">
-                                <div *ngIf="password?.errors?.['required']">
-                                    La contraseña es requerida
-                                </div>
-                                <div *ngIf="password?.errors?.['minlength']">
-                                    La contraseña no es valida
-                                </div>
-                                <div *ngIf="password?.errors?.['maxLength']">
-                                    La contraseña no es valida
-                                </div>
-                            </div>
+                                id="password" placeholder="Su contraseña"
+                                [class.is-invalid]="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
+                            @if (registerForm.get('password')?.errors?.['required']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                La contraseña es requerida.
+                            </p>
+                            }
+                            @if (registerForm.get('password')?.errors?.['minlength']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                La contraseña debe tener al menos 8 caracteres.
+                            </p>
+                            }
+                            @if (registerForm.get('password')?.errors?.['maxlength']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                La contraseña no puede exceder los 16 caracteres.
+                            </p>
+                            }
                         </div>
-                        <div class="mb-3">
+                        <div class="col">
                             <label for="repeatPassword" class="form-label">Repetir contraseña*</label>
-                            <input formControlName="repeatPassword" type="password" class="form-control bg-body-tertiary"
-                                id="repeatPassword" placeholder="Repita su contraseña">
-                            <div *ngIf="repeatPassword?.invalid && (repeatPassword?.dirty || repeatPassword?.touched)"
-                                class="text-danger">
-                                <div *ngIf="repeatPassword?.errors?.['passwordMismatch']">
-                                    Las contraseñas no coinciden
-                                </div>
-                            </div>
+                            <input formControlName="repeatPassword" type="password"
+                                class="form-control bg-body-tertiary" id="repeatPassword"
+                                placeholder="Repita su contraseña"
+                                [class.is-invalid]="registerForm.get('repeatPassword')?.invalid && (registerForm.get('repeatPassword')?.dirty || registerForm.get('repeatPassword')?.touched)">
+                            @if (registerForm.get('repeatPassword')?.errors?.['required']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                Repetir la contraseña es requerido.
+                            </p>
+                            }
+                            @if (registerForm.get('repeatPassword')?.errors?.['mustMatch']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                Las contraseñas no coinciden.
+                            </p>
+                            }
                         </div>
-                        <!-- validaciones de confirmar contrase a -->
-                        <div
-                            *ngIf="registerForm.errors?.['passwordMismatch'] && (registerForm?.dirty || registerForm?.touched)">
-                            Las contrase as no coinciden.
-                        </div>
+                    </div>
 
-                        <div class="pt-3 justify-content-between align-items-center d-flex">
-                            <p class="m-0">¿Ya tienes una cuenta? <a class="active text-decoration-none"
-                                    routerLink="/auth/login">¡Inicia sesión!</a> </p>
-                            <button class="btn btn-primary" type="submit">Registrarse</button>
-                        </div>
-                    </form>
-                    <!-- Formulario -->
-                </div>
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary" type="submit">
+                            Registrarse
+                        </button>
+                    </div>
+
+                    <!-- Mostrar mensaje de error -->
+                    @if (errorMessage) {
+                    <p class="small text-danger text-center mt-3 mb-0">
+                        {{ errorMessage }}
+                    </p>
+                    }
+
+                    <div class="mt-3 justify-content-center align-items-center d-flex">
+                        <p class="m-0">¿Ya tienes una cuenta? <a class="text-decoration-none"
+                                routerLink="/auth/login">¡Inicia sesión!</a> </p>
+                    </div>
+                </form>
+                <!-- Formulario -->
             </div>
         </div>
-        <!--/ Contenido -->
     </div>
-    <!--/ Right column -->
-</main>
+    <!--/ Contenido -->
+</div>
+<!--/ Right column -->

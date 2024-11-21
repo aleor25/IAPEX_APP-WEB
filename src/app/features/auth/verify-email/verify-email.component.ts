@@ -1,18 +1,19 @@
 import { Component, ElementRef, inject, QueryList, ViewChildren } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-verify-email',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './verify-email.component.html'
 })
 export class VerifyEmailComponent {
 
-  verificationForm: FormGroup;
+  verificationEmailForm: FormGroup;
   email: string = '';
+  errorMessage: string = '';
   allInputsFilled: boolean = false;
 
   private _fb = inject(FormBuilder);
@@ -20,44 +21,48 @@ export class VerifyEmailComponent {
   private _router = inject(Router);
 
   constructor() {
-    this.verificationForm = this._fb.group({
+    this.verificationEmailForm = this._fb.group({
       code: ['']
     });
+
     this.email = localStorage.getItem('email') || '';
   }
 
   @ViewChildren('codeInput') inputCodes!: QueryList<ElementRef<HTMLInputElement>>;
 
-  onSubmit(): void {
-    if (this.verificationForm.valid) {
+  verifyEmail(): void {
+    this.errorMessage = '';
+
+    // Marcar todos los controles como tocados
+    Object.values(this.verificationEmailForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
+    if (this.verificationEmailForm.valid) {
       // Juntar los valores de los inputs en un solo string
       const code = this.inputCodes.map(input => input.nativeElement.value).join('');
       console.log('Código ingresado:', code);
 
       // Establecer el valor en el control del formulario
-      this.verificationForm.patchValue({ code });
+      this.verificationEmailForm.patchValue({ code });
 
-      if (this.verificationForm.get('code')?.value === code) {
+      if (this.verificationEmailForm.get('code')?.value === code) {
         // Llamar al servicio para verificar el código
         this._userService.confirmUser(code).subscribe(
           response => {
             console.log('Código verificado correctamente', response);
-            this._router.navigate(['/access/mail-verification']);
+            this._router.navigate(['/auth/email-verification']);
           },
           error => {
             console.error('Error al verificar el código', error);
+            this.errorMessage = 'El código ingresado no es correcto.';
           }
         );
       } else {
-        console.error('El código ingresado no coincide con el formulario.');
+        this.errorMessage = 'El código ingresado no coincide con el código enviado. Por favor, verifique e intente nuevamente.';
       }
     } else {
-      console.log('Formulario inválido');
-      // Muestra detalles de las validaciones
-      Object.keys(this.verificationForm.controls).forEach(field => {
-        const control = this.verificationForm.get(field);
-        console.log(`Campo ${field} - errores:`, control?.errors);
-      });
+      this.errorMessage = 'Por favor, ingrese el código de verificación.';
     }
   }
 
@@ -128,6 +133,7 @@ export class VerifyEmailComponent {
       },
       error => {
         console.error('Error al reenviar el código', error);
+        this.errorMessage = 'Ocurrió un error al reenviar el código de verificación. Por favor, intente nuevamente.';
       }
     );
   }

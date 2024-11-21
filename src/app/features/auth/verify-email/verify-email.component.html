@@ -1,51 +1,62 @@
-<div class="bg-light-subtle">
-  <div class="container-fluid w-50 pt-2">
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light-subtle">
+  <div class="container-fluid col-6">
     <div class="d-flex justify-content-center align-items-center">
       <div class="d-flex justify-content-center align-items-center full-height flex-column">
-        <div>
-          <img class="logo-image pb-0" src="assets/images/logo.png" alt="logo">
-        </div>
-        <div>
-          <span class="material-symbols-outlined mail-icon" style="color: #1F89EA; font-size: 13rem;">
-            mail
-          </span>
-        </div>
+          <img class="logo-image" src="assets/images/logo.png" alt="logo">
+          <i class="bi bi-envelope-fill text-primary my-3" style="font-size: 10rem;"></i>
       </div>
     </div>
-    <div class="row text-center mt-0">
+    <div class="row text-center">
       <div class="col">
         <h2 class="fw-bold">Verifique su correo</h2>
-        <p class="pb-0">Hemos enviado un código de verificación de 6 dígitos a la dirección
-          de correo electrónico proporcionada. Por favor, ingrese el código a
-          continuación para finalizar con el proceso de registro.</p>
+        <p>Hemos enviado un código de 6 dígitos a su correo electrónico. Ingréselo a continuación para
+          completar el registro.</p>
       </div>
     </div>
 
-    <div class="row container-fluid mt-2">
-      <div class="d-flex justify-content-center">
-        <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary" style="width: 50px; height: 50px; text-align: center;"
-          maxlength="1" (input)="onInput($event, 0)" (keydown)="onKeyDown($event, 0)">
-        <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary" style="width: 50px; height: 50px; text-align: center;"
-          maxlength="1" (input)="onInput($event, 1)" (keydown)="onKeyDown($event, 1)">
-        <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary" style="width: 50px; height: 50px; text-align: center;"
-          maxlength="1" (input)="onInput($event, 2)" (keydown)="onKeyDown($event, 2)">
-        <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary" style="width: 50px; height: 50px; text-align: center;"
-          maxlength="1" (input)="onInput($event, 3)" (keydown)="onKeyDown($event, 3)">
-        <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary" style="width: 50px; height: 50px; text-align: center;"
-          maxlength="1" (input)="onInput($event, 4)" (keydown)="onKeyDown($event, 4)">
-        <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary" style="width: 50px; height: 50px; text-align: center;"
-          maxlength="1" (input)="onInput($event, 5)" (keydown)="onKeyDown($event, 5)">
+    <div class="row container-fluid mb-2">
+      <form class="mb-0" [formGroup]="verificationEmailForm" (ngSubmit)="verifyEmail()">
+        <div class="d-flex justify-content-center">
+          <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary"
+            style="width: 50px; height: 50px; text-align: center;" maxlength="1" (input)="onInput($event, 0)"
+            (keydown)="onKeyDown($event, 0)">
+          <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary"
+            style="width: 50px; height: 50px; text-align: center;" maxlength="1" (input)="onInput($event, 1)"
+            (keydown)="onKeyDown($event, 1)">
+          <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary"
+            style="width: 50px; height: 50px; text-align: center;" maxlength="1" (input)="onInput($event, 2)"
+            (keydown)="onKeyDown($event, 2)">
+          <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary"
+            style="width: 50px; height: 50px; text-align: center;" maxlength="1" (input)="onInput($event, 3)"
+            (keydown)="onKeyDown($event, 3)">
+          <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary"
+            style="width: 50px; height: 50px; text-align: center;" maxlength="1" (input)="onInput($event, 4)"
+            (keydown)="onKeyDown($event, 4)">
+          <input #codeInput type="text" class="form-control mx-1 bg-body-tertiary"
+            style="width: 50px; height: 50px; text-align: center;" maxlength="1" (input)="onInput($event, 5)"
+            (keydown)="onKeyDown($event, 5)">
+        </div>
+
+        <div class="d-grid mt-4">
+          <button class="btn btn-primary" type="submit">
+            Verificar correo electrónico
+          </button>
+        </div>
+
+        <!-- Mostrar mensaje de error -->
+        @if (errorMessage) {
+        <p class="small text-danger text-center mt-3 mb-0">
+          {{ errorMessage }}
+        </p>
+        }
+      </form>
+
+      <div class="mt-4 justify-content-center align-items-center d-flex">
+        <p>¿No recibiste el código? <a (click)="resendCode()" style="cursor: pointer;"
+            class="text-decoration-none">Reenvialo</a>
+        </p>
       </div>
-      <div class="d-flex justify-content-end align-items-center mt-md-3" id="checkbox">
-        <button class="btn btn-none me-3 text-primary fw-bold" routerLink="/auth/forgot-password">Volver</button>
-        <button class="btn btn-primary ms-2" (click)="onSubmit()" [disabled]="!allInputsFilled">Verificar</button>
-      </div>
-      <div class="text-center mt-md-4">
-        <a class="nav-link active" (click)="resendCode()">
-          <button class="btn btn-none me-3 text-primary fw-bold">Reenviar código</button>
-        </a>
-      </div>
+
     </div>
-    
   </div>
 </div>

@@ -17,29 +17,31 @@ import { AuthService } from '../../../core/services/auth.service';
 export class LoginComponent {
 
   loginForm: FormGroup;
-  errorMessage: string | null = null;
+  errorMessage: string = "";
   isLoading = false;
 
   private _authService = inject(AuthService);
   private _router = inject(Router);
-  private _formBuilder = inject(FormBuilder);
+  private _fb = inject(FormBuilder);
 
   constructor() {
-    this.loginForm = this._formBuilder.group({
+    this.loginForm = this._fb.group({
       email: ['', [
-        Validators.required, 
-        Validators.email, 
+        Validators.required,
+        Validators.email,
         Validators.maxLength(100)
       ]],
       password: ['', [
-        Validators.required, 
-        Validators.minLength(8), 
+        Validators.required,
+        Validators.minLength(8),
         Validators.maxLength(16)
-      ]]
+      ]],
+      rememberMe: [false]
     });
   }
 
   login() {
+    this.errorMessage = "";
 
     // Marcar todos los controles como tocados
     Object.values(this.loginForm.controls).forEach(control => {
@@ -51,13 +53,30 @@ export class LoginComponent {
       this._authService.login(email, password).subscribe({
         next: () => this._router.navigate(['/dashboard/general-view']),
         error: (error) => {
-          this.errorMessage = error.error?.message || 'Error de autenticación';
+          this.handleLoginError(error);
         }
       });
+    } else {
+      this.errorMessage = 'Por favor, complete los campos correctamente';
     }
   }
 
-  // Getters para facilitar el acceso en el template
-  get email() { return this.loginForm.get('email'); }
-  get password() { return this.loginForm.get('password'); }
+  private handleLoginError(error: any) {
+    switch (error.status) {
+      case 400:
+        this.errorMessage = 'Formato de los datos incorrecto. Por favor, revise los datos introducidos.';
+        break;
+      case 401:
+        this.errorMessage = 'Email o contraseña incorrectos. Por favor, intente nuevamente.';
+        break;
+      case 404:
+        this.errorMessage = 'Usuario no registrado. Por favor, registrese.';
+        break;
+      case 500:
+        this.errorMessage = 'Ocurrió un error en el servidor. Por favor, intente nuevamente más tarde.';
+        break;
+      default:
+        this.errorMessage = 'Error desconocido. Por favor, contacta al administrador del sistema.';
+    }
+  }
 }

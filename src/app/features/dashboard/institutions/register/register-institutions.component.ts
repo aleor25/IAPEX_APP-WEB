@@ -35,7 +35,7 @@ export class RegisterInstitutionsComponent {
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type: ['', Validators.required],
       otherType: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(50)]],
-      verificationKey: ['', [Validators.required, Validators.maxLength(50)]],
+      verificationKey: ['', [Validators.required, Validators.maxLength(25)]],
       direction: this._fb.group({
         state: ['', Validators.required],
         city: ['', [Validators.required, Validators.maxLength(25)]],
@@ -57,12 +57,6 @@ export class RegisterInstitutionsComponent {
         this._fb.control('', [
           Validators.maxLength(50),
           Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
-        ])
-      ]),
-      websites: this._fb.array([
-        this._fb.control('', [
-          Validators.maxLength(50),
-          Validators.pattern('^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]+(\\/\\w+)*\\/?$')
         ])
       ]),
       imageFiles: this._fb.array([]),
@@ -219,7 +213,7 @@ export class RegisterInstitutionsComponent {
   }
 
   // Método para agregar o eliminar un control en un FormArray
-  addOrRemoveField(arrayName: 'phoneNumbers' | 'emails' | 'websites', remove: boolean = false, index?: number) {
+  addOrRemoveField(arrayName: 'phoneNumbers' | 'emails', remove: boolean = false, index?: number) {
     const formArray = this.getFormArray(arrayName);
     const fieldValidators = {
       phoneNumbers: [
@@ -232,11 +226,6 @@ export class RegisterInstitutionsComponent {
         Validators.required,
         Validators.maxLength(50),
         Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
-      ],
-      websites: [
-        Validators.required,
-        Validators.maxLength(50),
-        Validators.pattern('^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]+(\\/\\w+)*\\/?$')
       ]
     };
 
@@ -295,14 +284,13 @@ export class RegisterInstitutionsComponent {
         type = this.institutionForm.get('otherType')?.value || '';
       }
 
-      // Formatear los valores de los campos "phoneNumbers", "emails" y "websites"
+      // Formatear los valores de los campos "phoneNumbers" y "emails"
       const formattedPhoneNumbers = this.formatFormArrayValues(formValue.phoneNumbers);
       const formattedEmails = this.formatFormArrayValues(formValue.emails);
-      const formattedWebsites = this.formatFormArrayValues(formValue.websites);
 
       // Añadir los campos del formulario al FormData
       Object.keys(this.institutionForm.value).forEach(key => {
-        if (key !== 'imageFiles' && key !== 'otherType' && key !== 'phoneNumbers' && key !== 'emails' && key !== 'websites') {
+        if (key !== 'imageFiles' && key !== 'otherType' && key !== 'phoneNumbers' && key !== 'emails') {
           formData.append(key, this.institutionForm.value[key]);
         }
       });
@@ -310,7 +298,6 @@ export class RegisterInstitutionsComponent {
       // Agregar los campos de teléfono, correo electrónico y sitio web formateados
       formData.append('phoneNumbers', formattedPhoneNumbers);
       formData.append('emails', formattedEmails);
-      formData.append('websites', formattedWebsites);
 
       // Agregar campos de dirección correctamente
       const direction = formValue.direction;

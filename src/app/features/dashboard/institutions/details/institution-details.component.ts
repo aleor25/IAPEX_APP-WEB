@@ -48,7 +48,7 @@ export class InstitutionDetailsComponent {
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type: ['', Validators.required],
       otherType: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(50)]],
-      verificationKey: ['', [Validators.required, Validators.maxLength(50)]],
+      verificationKey: ['', [Validators.required, Validators.maxLength(25)]],
       direction: this._fb.group({
         state: ['', Validators.required],
         city: ['', [Validators.required, Validators.maxLength(25)]],
@@ -70,12 +70,6 @@ export class InstitutionDetailsComponent {
         this._fb.control('', [
           Validators.maxLength(50),
           Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
-        ])
-      ]),
-      websites: this._fb.array([
-        this._fb.control('', [
-          Validators.maxLength(50),
-          Validators.pattern('^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]+(\\/\\w+)*\\/?$')
         ])
       ]),
       imageFiles: this._fb.array([], Validators.required)
@@ -115,7 +109,6 @@ export class InstitutionDetailsComponent {
 
         const phoneNumbers = institution.phoneNumbers ? institution.phoneNumbers.split(',') : [];
         const emails = institution.emails ? institution.emails.split(',') : [];
-        const websites = institution.websites ? institution.websites.split(',') : [];
 
         if (!this.institutionTypes.includes(institution.type.toLowerCase())) {
           this.institutionForm.patchValue({
@@ -166,17 +159,6 @@ export class InstitutionDetailsComponent {
           } else {
             this.addOrRemoveField('emails');
             emailsArray.at(emailsArray.length - 1).setValue(email.trim());
-          }
-        });
-
-        // Actualizar sitios web
-        const websitesArray = this.getFormArray('websites');
-        websites.forEach((website, index) => {
-          if (index === 0 && websitesArray.length > 0) {
-            websitesArray.at(0).setValue(website.trim());
-          } else {
-            this.addOrRemoveField('websites');
-            websitesArray.at(websitesArray.length - 1).setValue(website.trim());
           }
         });
 
@@ -349,7 +331,7 @@ export class InstitutionDetailsComponent {
   }
 
   // Método para agregar o eliminar un control en un FormArray
-  addOrRemoveField(arrayName: 'phoneNumbers' | 'emails' | 'websites', remove: boolean = false, index?: number) {
+  addOrRemoveField(arrayName: 'phoneNumbers' | 'emails', remove: boolean = false, index?: number) {
     const formArray = this.getFormArray(arrayName);
     const fieldValidators = {
       phoneNumbers: [
@@ -362,11 +344,6 @@ export class InstitutionDetailsComponent {
         Validators.required,
         Validators.maxLength(50),
         Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
-      ],
-      websites: [
-        Validators.required,
-        Validators.maxLength(50),
-        Validators.pattern('^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]+(\\/\\w+)*\\/?$')
       ]
     };
 
@@ -419,14 +396,13 @@ export class InstitutionDetailsComponent {
         type = this.institutionForm.get('otherType')?.value || '';
       }
 
-      // Formatear los valores de los campos "phoneNumbers", "emails" y "websites"
+      // Formatear los valores de los campos "phoneNumbers" y "emails"
       const formattedPhoneNumbers = this.formatFormArrayValues(formValue.phoneNumbers);
       const formattedEmails = this.formatFormArrayValues(formValue.emails);
-      const formattedWebsites = this.formatFormArrayValues(formValue.websites);
 
       // Añadir los campos del formulario al FormData
       Object.keys(this.institutionForm.value).forEach(key => {
-        if (key !== 'imageFiles' && key !== 'otherType' && key !== 'phoneNumbers' && key !== 'emails' && key !== 'websites') {
+        if (key !== 'imageFiles' && key !== 'otherType' && key !== 'phoneNumbers' && key !== 'emails') {
           formData.append(key, this.institutionForm.value[key]);
         }
       });
@@ -434,7 +410,6 @@ export class InstitutionDetailsComponent {
       // Agregar los campos de teléfono, correo electrónico y sitio web formateados
       formData.append('phoneNumbers', formattedPhoneNumbers);
       formData.append('emails', formattedEmails);
-      formData.append('websites', formattedWebsites);
 
       // Agregar campos de dirección correctamente
       const direction = formValue.direction;

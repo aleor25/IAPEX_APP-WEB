@@ -1,23 +1,18 @@
-<div class="bg-light-subtle h-100 w-100 d-flex flex-column justify-content-center align-items-center">
-  <div class="container-fluid w-50">
-    <div class="d-flex flex-column justify-content-center align-items-center full-height">
-      <div>
-        <img class="logo-image pt-1" src="assets/images/logo.png" alt="logo">
-      </div>
-      <div class="pt-5">
-        <span
-          class="material-symbols-outlined d-flex justify-content-center align-items-center border border-1 rounded-circle bg-primary text-white"
-          style="font-size: 11rem;">
-          check
-        </span>
-      </div>
-      <div class="text-center mt-4">
-        <h1 class="message" style="font-size: 2rem;"><b>¡Correo verificado!</b></h1>
-        <p>¡Se ha verificado el correo!
-          <br>
-          Ya puedes reestablecer la contraseña de tu cuenta.
-        </p>
-        <button class="btn btn-primary" routerLink="/auth/restore-password"><b>Reestablecer contraseña</b></button>
+<div class="bg-light-subtle d-flex justify-content-center align-items-center vh-100 w-100">
+  <div class="container-fluid col-6">
+    <div class="d-flex justify-content-center align-items-center full-height flex-column">
+      <img class="logo-image" src="assets/images/logo.png" alt="logo">
+      <i class="bi bi-check-circle text-primary my-3" style="font-size: 10rem;"></i>
+    </div>
+
+    <div class="text-center my-4">
+      <h2 class="fw-bold">Correo verificado con éxito</h2>
+      <p>La dirección de correo electrónico se ha verificado correctamente. Ahora puede iniciar sesión.</p>
+
+      <div class="d-grid mt-4">
+        <button class="btn btn-primary" routerLink="/auth/login">
+          Iniciar sesión
+        </button>
       </div>
     </div>
   </div>

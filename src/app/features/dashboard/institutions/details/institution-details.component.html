@@ -71,7 +71,7 @@
         }
         @if (institutionForm.get('verificationKey')?.errors?.['maxlength']) {
         <p class="small invalid-feedback mt-2 mb-0">
-          La clave no puede exceder los 50 caracteres.
+          La clave no puede exceder los 25 caracteres.
         </p>
         }
       </div>
@@ -230,7 +230,7 @@
 
     <div class="row mb-3">
       <div formArrayName="phoneNumbers" class="col">
-        <label for="phoneNumbers" class="form-label">Números de teléfono</label>
+        <label for="phoneNumbers" class="form-label">Números de teléfono*</label>
         @for (phone of getFormArray('phoneNumbers').controls; track $index) {
         <div class="input-group mb-3">
           <input type="tel" class="form-control bg-body-tertiary" [formControlName]="$index"
@@ -310,47 +310,7 @@
         }
       </div>
 
-      <div formArrayName="websites" class="col-4">
-        <label for="websites" class="form-label">Sitios web</label>
-        @for (website of getFormArray('websites').controls; track $index) {
-        <div class="input-group mb-3">
-          <input type="tel" class="form-control bg-body-tertiary" [formControlName]="$index"
-            placeholder="Ej: https://website.com"
-            [class.is-invalid]="website.invalid && (website.dirty || website.touched)">
-          @if ($index === 0) {
-          <button [class.border-danger]="website.invalid && (website.dirty || website.touched)" class="btn border"
-            type="button" (click)="addOrRemoveField('websites')" [disabled]="getFormArray('websites').length >= 5">
-            <i class="bi bi-plus text-success"></i>
-          </button>
-          }
-          @if ($index > 0) {
-          <button [class.border-danger]="website.invalid && (website.dirty || website.touched)" class="btn border"
-            type="button" (click)="addOrRemoveField('websites', true, $index)">
-            <i class="bi bi-dash text-danger"></i>
-          </button>
-          }
-          @if (website.errors?.['required']) {
-          <p class="small invalid-feedback mt-2 mb-0">
-            El sitio web es requerido.
-          </p>
-          }
-          @if (website.errors?.['maxlength']) {
-          <p class="small invalid-feedback mt-2 mb-0">
-            La URL del sitio web no puede exceder los 50 caracteres.
-          </p>
-          }
-          @if (website.errors?.['pattern']) {
-          <p class="small invalid-feedback mt-2 mb-0">
-            La URL del sitio web no tiene un formato válido.
-          </p>
-          }
-        </div>
-        }
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-4">
+      <div class="col">
         <label for="openingHours" class="form-label">Horario de atención*</label>
         <input type="text" class="form-control bg-body-tertiary" id="openingHours" formControlName="openingHours"
           placeholder="Ej: Lunes a Viernes 9:00 - 18:00"
@@ -393,24 +353,25 @@
       (change)="onFilesSelected($event)" multiple>
 
     <!-- Sección de carga de fotos -->
-     @if (tempImages.length === 0) {
-       <div class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
-         [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
-         (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
-   
-         <!-- Icono y mensaje de arrastrar y soltar -->
-         <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
-         <p class="mb-2">Arrastre sus fotos aquí o</p>
-         <button class="btn btn-primary">Seleccione archivos</button>
-   
-         <!-- Mensaje de error si hay problemas de subida -->
-         @if (imageUploadError.length > 0) {
-         @for (error of imageUploadError; track $index) {
-         <p class="small text-danger mt-2 mb-0">{{ error.error }}</p>
-         }
-         }
-       </div>
-     }
+    @if (tempImages.length === 0) {
+    <div
+      class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
+      [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
+      (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
+
+      <!-- Icono y mensaje de arrastrar y soltar -->
+      <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
+      <p class="mb-2">Arrastre sus fotos aquí o</p>
+      <button class="btn btn-primary">Seleccione archivos</button>
+
+      <!-- Mensaje de error si hay problemas de subida -->
+      @if (imageUploadError.length > 0) {
+      @for (error of imageUploadError; track $index) {
+      <p class="small text-danger mt-2 mb-0">{{ error.error }}</p>
+      }
+      }
+    </div>
+    }
 
     <!-- Vista previa de las imágenes cargadas -->
     @if (tempImages.length > 0) {

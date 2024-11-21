@@ -13,7 +13,6 @@ export interface Institution {
   openingHours: string;
   emails: string;
   phoneNumbers: string;
-  websites: string;
   registrationDateTime: Date;
   verificationKey: string;
   active: boolean;
