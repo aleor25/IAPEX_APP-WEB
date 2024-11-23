@@ -26,16 +26,8 @@ export class LoginComponent {
 
   constructor() {
     this.loginForm = this._fb.group({
-      email: ['', [
-        Validators.required,
-        Validators.email,
-        Validators.maxLength(100)
-      ]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(16)
-      ]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       rememberMe: [false]
     });
   }

@@ -2,16 +2,18 @@ body {
     font-family: "Poppins", sans-serif !important;
 }
 
-.form-control.gray,
-.form-select.gray {
-    background-color: #F8F9FA;
-}
-
 html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
+}
+
+.custom-form-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    max-height: calc(100vh - 40px);
 }
 
 .image-grid {

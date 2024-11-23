@@ -8,75 +8,77 @@
     <!-- Right column -->
     <div class="col-lg-6 bg-light-subtle py-3 d-flex align-items-center justify-content-center">
         <!-- Contenido -->
-        <div class="d-flex align-items-center h-100 px-5">
-            <div class="col-sm-6 col-lg-7 col-xl-6 w-100">
+        <div class="d-flex align-items-center h-100 w-100">
+            <div class="custom-form-container col-sm-6 col-lg-7 col-xl-6 w-100 px-5 py-3">
                 <div class="mb-4">
                     <div class="d-flex mb-2">
                         <img class="logo-image" src="assets/images/logo.png" alt="logo">
                     </div>
-                    <h1 class="fw-bold fs-2 mb-3">Registrarse</h1>
+                    <h1 class="fw-bold fs-2 mb-3">Regístrate</h1>
                     <p>Complete el formulario a continuación para crear una nueva cuenta.</p>
                 </div>
 
                 <!-- Formulario -->
                 <form class="mb-0" [formGroup]="registerForm" (ngSubmit)="register()">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nombre(s)*</label>
-                        <input formControlName="name" type="text" class="form-control bg-body-tertiary" id="name"
-                            placeholder="Ingrese su nombre o nombres"
-                            [class.is-invalid]="registerForm.get('name')?.invalid && (registerForm.get('name')?.dirty || registerForm.get('name')?.touched)">
-                        @if (registerForm.get('name')?.errors?.['required']) {
-                        <p class="small invalid-feedback mt-2 mb-0">
-                            El nombre es requerido.
-                        </p>
-                        }
-                        @if (registerForm.get('name')?.errors?.['maxlength']) {
-                        <p class="small invalid-feedback mt-2 mb-0">
-                            El nombre no puede exceder los 50 caracteres.
-                        </p>
-                        }
-                        @if (registerForm.get('name')?.errors?.['pattern']) {
-                        <p class="small invalid-feedback mt-2 mb-0">
-                            El nombre solo puede contener letras.
-                        </p>
-                        }
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="name" class="form-label">Nombre(s)*</label>
+                            <input formControlName="name" type="text" class="form-control bg-body-tertiary" id="name"
+                                placeholder="Ingrese su nombre o nombres" maxlength="51"
+                                [class.is-invalid]="registerForm.get('name')?.invalid && (registerForm.get('name')?.dirty || registerForm.get('name')?.touched)">
+                            @if (registerForm.get('name')?.errors?.['required']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El nombre es requerido.
+                            </p>
+                            }
+                            @if (registerForm.get('name')?.errors?.['maxlength']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El nombre no puede exceder los 50 caracteres.
+                            </p>
+                            }
+                            @if (registerForm.get('name')?.errors?.['pattern']) {
+                            <p class="small invalid-feedback mt-2 mb-0">
+                                El nombre solo puede contener letras.
+                            </p>
+                            }
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="lastName" class="form-label">Primer apellido*</label>
+                            <label for="lastName" class="form-label">Apellido paterno*</label>
                             <input formControlName="lastName" type="text" class="form-control bg-body-tertiary"
-                                id="lastName" placeholder="Ingrese su apellido paterno"
+                                id="lastName" placeholder="Ingrese su apellido paterno" maxlength="51"
                                 [class.is-invalid]="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)">
                             @if (registerForm.get('lastName')?.errors?.['required']) {
                             <p class="small invalid-feedback mt-2 mb-0">
-                                El primer apellido es requerido.
+                                El apellido paterno es requerido.
                             </p>
                             }
                             @if (registerForm.get('lastName')?.errors?.['maxlength']) {
                             <p class="small invalid-feedback mt-2 mb-0">
-                                El primer apellido no puede exceder los 50 caracteres.
+                                El apellido paterno no puede exceder los 50 caracteres.
                             </p>
                             }
                             @if (registerForm.get('lastName')?.errors?.['pattern']) {
                             <p class="small invalid-feedback mt-2 mb-0">
-                                El primer apellido solo puede contener letras.
+                                El apellido paterno solo puede contener letras.
                             </p>
                             }
                         </div>
                         <div class="col">
-                            <label for="secondLastName" class="form-label">Segundo apellido</label>
+                            <label for="secondLastName" class="form-label">Apellido materno</label>
                             <input formControlName="secondLastName" type="text" class="form-control bg-body-tertiary"
-                                id="secondLastName" placeholder="Ingrese su apellido materno"
+                                id="secondLastName" placeholder="Ingrese su apellido materno" maxlength="51"
                                 [class.is-invalid]="registerForm.get('secondLastName')?.invalid
                             && (registerForm.get('secondLastName')?.dirty || registerForm.get('secondLastName')?.touched)">
                             @if (registerForm.get('secondLastName')?.errors?.['maxlength']) {
                             <p class="small invalid-feedback mt-2 mb-0">
-                                El segundo apellido no puede exceder los 50 caracteres.
+                                El apellido materno no puede exceder los 50 caracteres.
                             </p>
                             }
                             @if (registerForm.get('secondLastName')?.errors?.['pattern']) {
                             <p class="small invalid-feedback mt-2 mb-0">
-                                El segundo apellido solo puede contener letras.
+                                El apellido materno solo puede contener letras.
                             </p>
                             }
                         </div>
@@ -96,14 +98,14 @@
                         <div class="col">
                             <label for="position" class="form-label">Cargo*</label>
                             <input formControlName="position" type="text" class="form-control bg-body-tertiary"
-                                id="position" placeholder="Ingrese su cargo"
+                                id="position" placeholder="Ingrese su cargo" maxlength="26"
                                 [class.is-invalid]="registerForm.get('position')?.invalid && (registerForm.get('position')?.dirty || registerForm.get('position')?.touched)">
                             @if (registerForm.get('position')?.errors?.['required']) {
                             <p class="small invalid-feedback mt-2 mb-0">
                                 El cargo es requerido.
                             </p>
                             }
-                            @if (registerForm.get('name')?.errors?.['maxlength']) {
+                            @if (registerForm.get('position')?.errors?.['maxlength']) {
                             <p class="small invalid-feedback mt-2 mb-0">
                                 El cargo no puede exceder los 25 caracteres.
                             </p>
@@ -113,7 +115,7 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo electrónico*</label>
                         <input formControlName="email" type="email" class="form-control bg-body-tertiary" id="email"
-                            placeholder="correo@ejemplo.com"
+                            placeholder="correo@ejemplo.com" maxlength="51"
                             [class.is-invalid]="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
                         @if (registerForm.get('email')?.errors?.['required']) {
                         <p class="small invalid-feedback mt-2 mb-0">
@@ -135,7 +137,7 @@
                         <div class="col">
                             <label for="password" class="form-label">Contraseña*</label>
                             <input formControlName="password" type="password" class="form-control bg-body-tertiary"
-                                id="password" placeholder="Su contraseña"
+                                id="password" placeholder="Su contraseña" maxlength="17"
                                 [class.is-invalid]="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
                             @if (registerForm.get('password')?.errors?.['required']) {
                             <p class="small invalid-feedback mt-2 mb-0">
@@ -157,7 +159,7 @@
                             <label for="repeatPassword" class="form-label">Repetir contraseña*</label>
                             <input formControlName="repeatPassword" type="password"
                                 class="form-control bg-body-tertiary" id="repeatPassword"
-                                placeholder="Repita su contraseña"
+                                placeholder="Repita su contraseña" maxlength="16"
                                 [class.is-invalid]="registerForm.get('repeatPassword')?.invalid && (registerForm.get('repeatPassword')?.dirty || registerForm.get('repeatPassword')?.touched)">
                             @if (registerForm.get('repeatPassword')?.errors?.['required']) {
                             <p class="small invalid-feedback mt-2 mb-0">
@@ -186,8 +188,9 @@
                     }
 
                     <div class="mt-3 justify-content-center align-items-center d-flex">
-                        <p class="m-0">¿Ya tienes una cuenta? <a class="text-decoration-none"
-                                routerLink="/auth/login">¡Inicia sesión!</a> </p>
+                        <p class="m-0">¿Ya tienes una cuenta?
+                            <a class="text-decoration-none" routerLink="/auth/login">¡Inicia sesión!</a>
+                        </p>
                     </div>
                 </form>
                 <!-- Formulario -->

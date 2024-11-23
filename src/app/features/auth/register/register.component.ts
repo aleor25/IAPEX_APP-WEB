@@ -28,7 +28,7 @@ export class RegisterComponent {
       secondLastName: ['', [Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
       institution: ['', Validators.required],
       position: ['', [Validators.required, Validators.maxLength(25)]],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       repeatPassword: ['', Validators.required]
     },
