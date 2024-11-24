@@ -1,12 +1,12 @@
 import { Component, ElementRef, inject, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-verify-email',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './verify-email.component.html'
 })
 export class VerifyEmailComponent {
@@ -14,6 +14,7 @@ export class VerifyEmailComponent {
   verificationEmailForm: FormGroup;
   email: string = '';
   errorMessage: string = '';
+  successMessage: string = '';
   allInputsFilled: boolean = false;
 
   private _fb = inject(FormBuilder);
@@ -124,12 +125,22 @@ export class VerifyEmailComponent {
   }
 
   resendCode(): void {
+    // Limpiar mensajes anteriores
+    this.errorMessage = '';
+    this.successMessage = '';
+
     console.log('Enviando código de verificación...');
     console.log('Correo electrónico:', this.email);
 
-    this._userService.resendVerificationCode(this.email).subscribe(
+    this._userService.resendCode(this.email).subscribe(
       response => {
         console.log('Código reenviado', response);
+        this.successMessage = 'El código ha sido enviado nuevamente a su correo electrónico.';
+
+        // Limpiar el mensaje de éxito después de 5 segundos (5000 ms)
+        setTimeout(() => {
+          this.successMessage = ''; // Limpiar el mensaje
+        }, 5000);
       },
       error => {
         console.error('Error al reenviar el código', error);

@@ -2,15 +2,15 @@
   <div class="container-fluid col-6">
     <div class="d-flex justify-content-center align-items-center">
       <div class="d-flex justify-content-center align-items-center full-height flex-column">
-          <img class="logo-image" src="assets/images/logo.png" alt="logo">
-          <i class="bi bi-envelope-fill text-primary my-3" style="font-size: 10rem;"></i>
+        <img class="logo-image" src="assets/images/logo.png" alt="logo">
+        <i class="bi bi-envelope-fill text-primary my-3" style="font-size: 10rem;"></i>
       </div>
     </div>
     <div class="row text-center">
       <div class="col">
         <h2 class="fw-bold">Verifique su correo</h2>
-        <p>Hemos enviado un código de 6 dígitos a su correo electrónico. Ingréselo a continuación para
-          completar el registro.</p>
+        <p class="mb-0">Hemos enviado un código de 6 dígitos a tu correo electrónico.</p>
+        <p>Ingréselo a continuación para completar el registro.</p>
       </div>
     </div>
 
@@ -49,11 +49,18 @@
           {{ errorMessage }}
         </p>
         }
+
+        <!-- Mostrar mensaje de éxito -->
+        @if (successMessage) {
+        <p class="small text-success text-center mt-3 mb-0">
+          {{ successMessage }}
+        </p>
+        }
       </form>
 
       <div class="mt-4 justify-content-center align-items-center d-flex">
         <p>¿No recibiste el código? <a (click)="resendCode()" style="cursor: pointer;"
-            class="text-decoration-none">Reenvialo</a>
+            class="text-decoration-none">Reenvíalo</a>
         </p>
       </div>
 

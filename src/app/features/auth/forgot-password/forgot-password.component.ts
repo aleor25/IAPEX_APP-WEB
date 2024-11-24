@@ -6,7 +6,7 @@ import { UserService } from '../../../core/services/user.service';
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './forgot-password.component.html'
 })
 export class ForgotPasswordComponent {

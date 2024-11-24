@@ -50,7 +50,7 @@ export class RegisterComponent {
       this._userService.registerUser(user).subscribe(
         response => {
           console.log('Registro exitoso', response);
-          this._router.navigate(['/auth/login']);
+          this._router.navigate(['/auth/verify-email']);
         },
         error => {
           this.errorMessage = error.error?.message || 'Error al registrar el usuario.';
@@ -63,14 +63,15 @@ export class RegisterComponent {
   }
 
   private handleRegisterError(error: any) {
-    if (error.error && error.error.mensaje) {
-      const errorMessage = error.error.mensaje;
+    if (error.error && error.error.message) {
+      const errorMessage = error.error.message;
       if (errorMessage.includes('Clave de verificación incorrecta')) {
         this.errorMessage = 'La clave de verificación proporcionada es incorrecta. Por favor, verifique e intente nuevamente.';
-      } else if (errorMessage.includes('Ya existe un usuario registrado con este correo')) {
+      } else if (errorMessage.includes('Ya existe un usuario registrado con ese correo')) {
         this.errorMessage = 'Ya existe un usuario registrado con ese correo. Por favor, inicie sesión.';
       }
-    } else {
+    }
+    else {
       switch (error.status) {
         case 400:
           this.errorMessage = 'Formato de los datos incorrecto. Por favor, revise los datos introducidos.';
@@ -86,4 +87,5 @@ export class RegisterComponent {
       }
     }
   }
+
 }

@@ -15,13 +15,13 @@ export class UserService {
     return this._http.get<any>(`${this.apiUrl}/confirm`, { params });
   }
 
-  resendVerificationCode(email: string): Observable<any> {
+  resendCode(email: string): Observable<any> {
     let params = new HttpParams().set('email', email);
     return this._http.get<any>(`${this.apiUrl}/confirm/resend`, { params });
   }
 
   registerUser(user: any): Observable<any> {
-    return this._http.post<any>(this.apiUrl, user);
+    return this._http.post<any>(`${this.apiUrl}/register`, user);
   }
 
   requestPasswordReset(email: string): Observable<any> {
@@ -29,10 +29,10 @@ export class UserService {
     return this._http.post<any>(`${this.apiUrl}/password-reset/request`, null, { params });
   }
 
-  resendPasswordReset(email: string): Observable<any> {
-    let params = new HttpParams().set('email', email);
-    return this._http.get<any>(`${this.apiUrl}/password-reset/resend`, { params });
-  }
+  // resendPasswordReset(email: string): Observable<any> {
+  //   let params = new HttpParams().set('email', email);
+  //   return this._http.post<any>(`${this.apiUrl}/password-reset/resend`, {}, { params });
+  // }
 
   resetPassword(request: { verificationCode: string, newPassword: string }): Observable<any> {
     return this._http.post<any>(`${this.apiUrl}/password-reset`, request);

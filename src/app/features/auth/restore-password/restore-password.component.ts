@@ -7,7 +7,7 @@ import { MustMatch } from '../../../shared/validators/password.validator';
 @Component({
   selector: 'app-restore-password',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule],
   templateUrl: './restore-password.component.html'
 })
 export class RestorePasswordComponent implements OnInit {

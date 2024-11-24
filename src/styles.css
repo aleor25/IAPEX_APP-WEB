@@ -7,6 +7,8 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    /* Ocultar barras de desplazamiento en todo el proyecto */
+    scrollbar-width: none;
 }
 
 .custom-form-container {
