@@ -92,8 +92,8 @@ export class GeneralViewComponent implements AfterViewInit {
       this._patientService.getAllPatients().subscribe(patients => {
         const labels = ['Hombres', 'Mujeres'];
         const data = [
-          patients.filter((p: Patient) => p.gender === 'Masculino').length,
-          patients.filter((p: Patient) => p.gender === 'Femenino').length
+          patients.filter((p: Patient) => p.gender === 'masculino').length,
+          patients.filter((p: Patient) => p.gender === 'femenino').length
         ];
 
         this.updateGenderChart(labels, data);
@@ -217,7 +217,7 @@ export class GeneralViewComponent implements AfterViewInit {
     cursor.lineY.set("visible", false);
   }
 
-
+  //////// Método para la gráfica de status de las solicitudes
   updateStatusChart(data: any[]) {
     // Destruye el gráfico anterior si ya existe
     const existingRoot = am5.registry.rootElements.find(root => root.dom.id === "statusChart");
@@ -231,9 +231,9 @@ export class GeneralViewComponent implements AfterViewInit {
     // Crea una instancia de PieChart
     let chart = root.container.children.push(
       am5percent.PieChart.new(root, {
-        layout: root.verticalLayout,
+        layout: root.horizontalLayout,
         radius: am5.percent(50),
-        innerRadius: am5.percent(60)
+        innerRadius: am5.percent(60) // Aumenta el radio interno
       })
     );
 
@@ -241,7 +241,9 @@ export class GeneralViewComponent implements AfterViewInit {
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
         valueField: "count",      // Campo de valores
-        categoryField: "status"   // Campo de categorías
+        categoryField: "status",   // Campo de categorías
+        legendLabelText: 
+        "[bold fontSize: 16px]{category}[/]\n{count}"
       })
     );
 
@@ -250,19 +252,18 @@ export class GeneralViewComponent implements AfterViewInit {
       if (request.status === 'NUEVA') {
         counts.Nueva++;
       } else if (request.status === 'EN_REVISION') {
-        counts.En_revision++;
+        counts['En revisión']++;
       } else if (request.status === 'ENCONTRADO') {
-        counts.Finalizada++;
+        counts.Encontrado++;
+      } else if (request.status === 'NO_ENCONTRADO') {
+        counts['No encontrado']++;
       }
       return counts;
-    }, { Nueva: 0, 'EN_REVISION': 0, Finalizada: 0 });
+    }, { Nueva: 0, 'En revisión': 0, Encontrado: 0, 'No encontrado': 0 });
 
     // Establece los datos para la serie
     series.data.setAll(
-      Object.keys(statusCounts).map(status => ({
-        status,
-        count: statusCounts[status]
-      }))
+      Object.keys(statusCounts).map(status => ({ status, count: statusCounts[status] }))
     );
 
     // Cambia el color de los segmentos basado en el estado
@@ -273,19 +274,18 @@ export class GeneralViewComponent implements AfterViewInit {
     series.labels.template.set("forceHidden", true);
     series.ticks.template.set("forceHidden", true);
 
+    // Configura el color de los segmentos basado en el estado
     series.dataItems.forEach((dataItem) => {
       const status = dataItem.get("category");
-      switch (status) {
-        case 'nueva':
-          dataItem.get("slice").set("fill", am5.color(0xadd8e6)); // Color para Nueva
-          break;
-        case 'en revisión':
-          dataItem.get("slice").set("fill", am5.color(0x0000cd)); // Color para en revisión
-          break;
-        case 'Finalizadas':
-          dataItem.get("slice").set("fill", am5.color(0x40e0d0)); // Color para Finalizadas
-          break;
-      }
+      if (status === 'Nueva') {
+        dataItem.get("slice").set("fill", am5.color("#0d6efd")); // Color para el segmento Nueva
+       } else if (status === 'En revisión') {
+         dataItem.get("slice").set("fill", am5.color("#ffc107")); // Color para el segmento En revisión
+       } else if (status === 'Encontrado') {
+         dataItem.get("slice").set("fill", am5.color("#198754 ")); // Color para el segmento Encontrado
+       } else if (status === 'No encontrado') {
+         dataItem.get("slice").set("fill", am5.color("#dc3545")); // Color para el segmento No encontrado
+       }
     });
 
     // Añade una animación inicial
@@ -294,10 +294,19 @@ export class GeneralViewComponent implements AfterViewInit {
     // Añade una leyenda al gráfico
     let legend = chart.children.push(am5.Legend.new(root, {
       centerX: am5.percent(50),
-      x: am5.percent(50),
-      y: am5.percent(80),
-      layout: root.horizontalLayout
+      x: am5.percent(70),
+      y: am5.percent(5),
+      layout: root.verticalLayout, // Cambia el layout a vertical
+      clickTarget: "none" // Desactiva el comportamiento de clic
     }));
+
+    // Configura la leyenda para que sea circular
+    legend.markerRectangles.template.setAll({
+      cornerRadiusTL: 10,
+      cornerRadiusTR: 10,
+      cornerRadiusBL: 10,
+      cornerRadiusBR: 10
+    });
 
     // Configura la leyenda para mostrar solo las etiquetas de categoría
     legend.labels.template.setAll({
@@ -306,14 +315,17 @@ export class GeneralViewComponent implements AfterViewInit {
 
     // Configura la leyenda para eliminar valores numéricos de las etiquetas y mostrar los items
     legend.valueLabels.template.setAll({
-      visible: false
+      visible: false,
     });
 
     // Configura la leyenda para mostrar los ítems de la serie
     legend.data.setAll(series.dataItems);
+
   }
 
-  // Método para la gráfica de pastel: Género de los pacientes
+
+
+  //////// Método para la gráfica de pastel: Género de los pacientes
   updateGenderChart(labels: string[], data: number[]) {
 
     // Destruye el gráfico anterior si ya existe
