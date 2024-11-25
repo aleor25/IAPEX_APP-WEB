@@ -1,8 +1,6 @@
 import { Component, AfterViewInit, inject } from '@angular/core';
-import Chart from 'chart.js/auto';
 import * as am5percent from "@amcharts/amcharts5/percent";
 import * as am5 from "@amcharts/amcharts5";
-import * as am5xy from "@amcharts/amcharts5/xy";
 import { ContactRequestService } from '../../../core/services/contact-request.service';
 import { PatientService } from '../../../core/services/patient.service';
 import { Patient } from '../../../core/models/patient.model';
@@ -21,35 +19,11 @@ export class GeneralViewComponent implements AfterViewInit {
   private _contactRequestService = inject(ContactRequestService);
 
   ngAfterViewInit() {
-
     this.loadData();
-    // El método carga los datos de las siguientes gráficas:
-    // *Género de los pacientes.
-
-
-    //GRÁFICAS ESTÁTICAS
-    // Gráfica de líneas: Pacientes recibidos
-    const ctxChartPatients = (document.getElementById('chartPatients') as HTMLCanvasElement)?.getContext('2d');
-    if (ctxChartPatients) {
-      const chartPatients = new Chart(ctxChartPatients, {
-        type: 'line',
-        data: {
-          labels: ['Día 1', 'Día 2', 'Día 3', 'Día 4', 'Día 5', 'Día 6', 'Día 7', 'Día 8', 'Día 9', 'Día 10', 'Día 11', 'Día 12', 'Día 13', 'Día 14', 'Día 15', 'Día 16', 'Día 17', 'Día 18', 'Día 19', 'Día 20', 'Día 21', 'Día 22', 'Día 23', 'Día 24', 'Día 25', 'Día 26', 'Día 27', 'Día 28', 'Día 29', 'Día 30'],
-          datasets: [{
-            label: 'Pacientes recibidos',
-            data: [1, 16, 9, 17, 6, 14, 6, 15, 11, 17, 13, 18, 10, 18, 16, 12, 15, 13, 15, 18, 19, 10, 14, 18, 16, 17, 11, 14, 17],
-            borderColor: 'rgba(0, 123, 255, 1)',
-          }]
-        },
-
-      });
-    } else {
-      console.error('No se pudo obtener el contexto 2D para chartRequests.');
-    }
   }
 
   loadData() {
-    // Muestra los datos del estatus de las solicitudes
+    // Muestra los estatus de las solicitudes recibidas
     this._contactRequestService.getAllContactRequests().subscribe(data => {
       // Calcula los totales
       const totalRequests = data.length;
@@ -85,7 +59,6 @@ export class GeneralViewComponent implements AfterViewInit {
       }
 
       // Crea la gráfica con los datos transformados
-      this.updateChartRequests(data);
       this.updateStatusChart(data);
 
       // Muestra los datos del género de los pacientes
@@ -130,93 +103,6 @@ export class GeneralViewComponent implements AfterViewInit {
     }
   }
 
-  updateChartRequests(data: any[]): void {
-    // Destruye el gráfico anterior si ya existe
-    const existingRoot = am5.registry.rootElements.find(root => root.dom.id === "chartRequests");
-    if (existingRoot) {
-      existingRoot.dispose();
-    }
-
-    // Crea un nuevo root para la gráfica
-    this.rootRequests = am5.Root.new("chartRequests");
-
-    // Crea el gráfico
-    let chart = this.rootRequests.container.children.push(
-      am5xy.XYChart.new(this.rootRequests, {
-        panY: false,
-        layout: this.rootRequests.verticalLayout
-      })
-    );
-
-    // Transformar datos si es necesario
-    let transformedData = data.map((item, index) => {
-      return { day: `Día ${index + 1}`, requests: item.requests };
-    });
-
-    // Crear eje Y
-    let yAxis = chart.yAxes.push(
-      am5xy.ValueAxis.new(this.rootRequests, {
-        renderer: am5xy.AxisRendererY.new(this.rootRequests, {})
-      })
-    );
-
-    // Crear eje X
-    let xAxis = chart.xAxes.push(
-      am5xy.CategoryAxis.new(this.rootRequests, {
-        renderer: am5xy.AxisRendererX.new(this.rootRequests, {}),
-        categoryField: "day"
-      })
-    );
-    xAxis.data.setAll(transformedData); // Establecer los datos en el eje X
-
-    // Crear serie de líneas
-    let series = chart.series.push(
-      am5xy.LineSeries.new(this.rootRequests, {
-        name: "Solicitudes recibidas",
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "requests", // Campo de valores
-        categoryXField: "day", // Campo de categorías
-        fill: am5.color("#00BFFF"), // Color del área de relleno
-        stroke: am5.color("#00BFFF") // Color de la línea
-      })
-    );
-
-    series.data.setAll(transformedData); // Establecer los datos en la serie
-
-    // Rellenar el área debajo de la línea
-    series.fills.template.setAll({
-      fillOpacity: 0.3,
-      visible: true
-    });
-
-    // Añadir puntos en los datos
-    series.bullets.push(() => {
-      return am5.Bullet.new(this.rootRequests, {
-        locationY: 1,
-        sprite: am5.Circle.new(this.rootRequests, {
-          radius: 5,
-          fill: series.get("fill"),
-          stroke: am5.color(0xffffff),
-          strokeWidth: 2
-        })
-      });
-    });
-
-    // Habilitar tooltips
-    series.set("tooltip", am5.Tooltip.new(this.rootRequests, {
-      labelText: "{categoryX}: {valueY}"
-    }));
-
-    // Añadir cursor
-    let cursor = chart.set("cursor", am5xy.XYCursor.new(this.rootRequests, {
-      behavior: "none"
-    }));
-
-    // Habilitar la línea del cursor
-    cursor.lineY.set("visible", false);
-  }
-
   //////// Método para la gráfica de status de las solicitudes
   updateStatusChart(data: any[]) {
     // Destruye el gráfico anterior si ya existe
@@ -242,8 +128,8 @@ export class GeneralViewComponent implements AfterViewInit {
       am5percent.PieSeries.new(root, {
         valueField: "count",      // Campo de valores
         categoryField: "status",   // Campo de categorías
-        legendLabelText: 
-        "[bold fontSize: 16px]{category}[/]\n{count}"
+        legendLabelText: //Leyenda personalizada
+          "[bold fontSize: 16px]{category}[/]\n{count}"
       })
     );
 
@@ -279,13 +165,13 @@ export class GeneralViewComponent implements AfterViewInit {
       const status = dataItem.get("category");
       if (status === 'Nueva') {
         dataItem.get("slice").set("fill", am5.color("#0d6efd")); // Color para el segmento Nueva
-       } else if (status === 'En revisión') {
-         dataItem.get("slice").set("fill", am5.color("#ffc107")); // Color para el segmento En revisión
-       } else if (status === 'Encontrado') {
-         dataItem.get("slice").set("fill", am5.color("#198754 ")); // Color para el segmento Encontrado
-       } else if (status === 'No encontrado') {
-         dataItem.get("slice").set("fill", am5.color("#dc3545")); // Color para el segmento No encontrado
-       }
+      } else if (status === 'En revisión') {
+        dataItem.get("slice").set("fill", am5.color("#ffc107")); // Color para el segmento En revisión
+      } else if (status === 'Encontrado') {
+        dataItem.get("slice").set("fill", am5.color("#198754 ")); // Color para el segmento Encontrado
+      } else if (status === 'No encontrado') {
+        dataItem.get("slice").set("fill", am5.color("#dc3545")); // Color para el segmento No encontrado
+      }
     });
 
     // Añade una animación inicial
@@ -295,7 +181,7 @@ export class GeneralViewComponent implements AfterViewInit {
     let legend = chart.children.push(am5.Legend.new(root, {
       centerX: am5.percent(50),
       x: am5.percent(70),
-      y: am5.percent(5),
+      y: am5.percent(0),
       layout: root.verticalLayout, // Cambia el layout a vertical
       clickTarget: "none" // Desactiva el comportamiento de clic
     }));
@@ -340,9 +226,10 @@ export class GeneralViewComponent implements AfterViewInit {
     // Crea una instancia de PieChart
     let chart = root.container.children.push(
       am5percent.PieChart.new(root, {
-        layout: root.verticalLayout,
+        layout: root.horizontalLayout,
         radius: am5.percent(50),
-        innerRadius: am5.percent(60)
+        innerRadius: am5.percent(60),
+        x: am5.percent(25),
       })
     );
 
@@ -350,7 +237,9 @@ export class GeneralViewComponent implements AfterViewInit {
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
         valueField: "count",      // Campo de valores
-        categoryField: "gender"   // Campo de categorías
+        categoryField: "gender",   // Campo de categorías
+        legendLabelText: //Leyenda personalizada
+          "[bold fontSize: 16px]{category}[/]\n{count}"
       })
     );
 
@@ -382,10 +271,20 @@ export class GeneralViewComponent implements AfterViewInit {
     // Añade una leyenda al gráfico
     let legend = chart.children.push(am5.Legend.new(root, {
       centerX: am5.percent(50),
-      x: am5.percent(50),
-      y: am5.percent(80),
-      layout: root.horizontalLayout
+      x: am5.percent(0),
+      y: am5.percent(25),
+      layout: root.verticalLayout, // Cambia el layout a vertical
+      clickTarget: "none" // Desactiva el comportamiento de clic
     }));
+
+    // Configura la leyenda para que sea circular
+    legend.markerRectangles.template.setAll({
+      cornerRadiusTL: 10,
+      cornerRadiusTR: 10,
+      cornerRadiusBL: 10,
+      cornerRadiusBR: 10
+    });
+
 
     // Configura la leyenda para mostrar solo las etiquetas de categoría
     legend.labels.template.setAll({
@@ -438,8 +337,8 @@ export class GeneralViewComponent implements AfterViewInit {
     // Crea una instancia de PieChart
     let chart = root.container.children.push(
       am5percent.PieChart.new(root, {
-        layout: root.verticalLayout,
-        radius: am5.percent(80),
+        layout: root.horizontalLayout,
+        radius: am5.percent(50),
         innerRadius: am5.percent(60)
       })
     );
@@ -448,7 +347,9 @@ export class GeneralViewComponent implements AfterViewInit {
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
         valueField: "count",      // Campo de valores
-        categoryField: "ageGroup" // Campo de categorías
+        categoryField: "ageGroup", // Campo de categorías
+        legendLabelText: //Leyenda personalizada
+          "[bold fontSize: 16px]{category}[/]\n{count}"
       })
     );
 
@@ -480,10 +381,20 @@ export class GeneralViewComponent implements AfterViewInit {
     // Añade una leyenda al gráfico
     let legend = chart.children.push(am5.Legend.new(root, {
       centerX: am5.percent(50),
-      x: am5.percent(50),
-      y: am5.percent(50),
-      layout: root.verticalLayout
+      x: am5.percent(70),
+      y: am5.percent(15),
+      layout: root.verticalLayout, // Cambia el layout a vertical
+      clickTarget: "none" // Desactiva el comportamiento de clic
     }));
+
+    // Configura la leyenda para que sea circular
+    legend.markerRectangles.template.setAll({
+      cornerRadiusTL: 10,
+      cornerRadiusTR: 10,
+      cornerRadiusBL: 10,
+      cornerRadiusBR: 10
+    });
+
 
     // Configura la leyenda para mostrar solo las etiquetas de categoría
     legend.labels.template.setAll({
