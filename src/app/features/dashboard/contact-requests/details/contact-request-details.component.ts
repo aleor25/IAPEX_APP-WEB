@@ -21,9 +21,9 @@ export class ContactRequestDetailsComponent implements OnInit {
   isFormModified = false;
 
   statusOptions = [
-    { value: 'NO_ENCONTRADO', label: 'No encontrado' },
+    { value: 'NO_ENCONTRADA', label: 'No encontrada' },
     { value: 'NUEVA', label: 'Nueva' },
-    { value: 'ENCONTRADO', label: 'Encontrado' },
+    { value: 'ENCONTRADA', label: 'Encontrada' },
     { value: 'EN_REVISION', label: 'En revisión' }
   ];
 

@@ -92,3 +92,4 @@ export class InstitutionsComponent implements OnInit {
     this._router.navigate(['/dashboard/institutions/details', id]);
   }
 }
+
