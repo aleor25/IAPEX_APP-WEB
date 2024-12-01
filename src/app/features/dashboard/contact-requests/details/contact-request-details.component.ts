@@ -21,9 +21,9 @@ export class ContactRequestDetailsComponent implements OnInit {
   isFormModified = false;
 
   statusOptions = [
-    { value: 'NO_ENCONTRADA', label: 'No encontrada' },
+    { value: 'NO_ENCONTRADO', label: 'No encontrado' },
     { value: 'NUEVA', label: 'Nueva' },
-    { value: 'ENCONTRADA', label: 'Encontrada' },
+    { value: 'ENCONTRADO', label: 'Encontrado' },
     { value: 'EN_REVISION', label: 'En revisión' }
   ];
 
@@ -61,6 +61,11 @@ export class ContactRequestDetailsComponent implements OnInit {
     this._contactRequestService.getContactRequestById(id).subscribe({
       next: (data) => {
         this.contactRequest = data;
+
+        if(this.contactRequest.status === 'ENCONTRADO') {
+          this.contactRequestForm.get('status')?.disable();
+        }
+
         if (this.contactRequest) {
           this.contactRequest.status = this.contactRequest.status.toUpperCase();
           this.contactRequestForm.patchValue({

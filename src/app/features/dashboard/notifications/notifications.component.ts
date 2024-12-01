@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   templateUrl: './notifications.component.html'
 })
 export class NotificationsComponent {
-  notificaciones = new Array(5); // Array con 5 elementos
+  notificaciones = new Array(10); // Array con 5 elementos
 }

@@ -80,6 +80,9 @@ export class NavbarComponent implements OnInit {
         case 'contact-requests':
           this.currentSection = 'Solicitudes de contacto registradas';
           break;
+        case 'notifications':
+          this.currentSection = 'Notificaciones recibidas';
+          break;
         default:
           this.currentSection = 'Datos estadisticos';
       }

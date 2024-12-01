@@ -39,16 +39,18 @@
     <div class="row mb-3">
       <div class="col">
         <label for="status" class="form-label">Estado</label>
-        <select id="status" class="form-select bg-body-tertiary" formControlName="status" [ngClass]="{
-          'text-danger': contactRequestForm.get('status')?.value === 'NO_ENCONTRADA',
-          'text-success': contactRequestForm.get('status')?.value === 'ENCONTRADA',
+        <select id="status" class="form-select bg-body-tertiary" formControlName="status"
+        [class.bg-body-tertiary]="!contactRequestForm.get('status')?.disabled"
+        [ngClass]="{
+          'text-danger': contactRequestForm.get('status')?.value === 'NO_ENCONTRADO',
+          'text-success': contactRequestForm.get('status')?.value === 'ENCONTRADO',
           'text-warning': contactRequestForm.get('status')?.value === 'EN_REVISION',
           'text-primary': contactRequestForm.get('status')?.value === 'NUEVA'
         }">>
           @for (option of statusOptions; track $index) {
           <option [value]="option.value" [ngClass]="{
-                      'text-danger': option.value === 'NO_ENCONTRADA',
-                      'text-success': option.value === 'ENCONTRADA',
+                      'text-danger': option.value === 'NO_ENCONTRADO',
+                      'text-success': option.value === 'ENCONTRADO',
                       'text-warning': option.value === 'EN_REVISION',
                       'text-primary': option.value === 'NUEVA'
                     }" [disabled]="option.value === 'NUEVA'">

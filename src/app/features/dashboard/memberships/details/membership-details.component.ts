@@ -35,7 +35,6 @@ export class MembershipDetailsComponent {
   constructor() {
     this.membershipForm = this._fb.group({
       institutionName: [{ value: '', disabled: true }, [Validators.required]],
-      status: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', [Validators.required, dateRangeValidator()]],
     });
@@ -91,6 +90,12 @@ export class MembershipDetailsComponent {
       .subscribe((membership: Membership | null) => {
         if (membership) {
           this.membership = membership;
+
+          if(!this.membership.status) {
+            this.membershipForm.get('startDate')?.disable();
+            this.membershipForm.get('endDate')?.disable();
+          }
+
           this.membershipForm.patchValue({
             institutionName: membership.institutionName,
             status: membership.status,

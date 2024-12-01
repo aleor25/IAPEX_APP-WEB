@@ -18,21 +18,6 @@
                 </p>
                 }
             </div>
-
-            <div class="col">
-                <label for="status" class="form-label">Estado de la membresía*</label>
-                <select class="form-select bg-body-tertiary" id="status" formControlName="status" [class.is-invalid]="membershipForm.get('status')?.invalid && 
-                    (membershipForm.get('status')?.dirty || membershipForm.get('status')?.touched)">
-                    <option value="" selected>Seleccione un estado</option>
-                    <option [value]="true">Activa</option>
-                    <option [value]="false">Inactiva</option>
-                </select>
-                @if (membershipForm.get('status')?.errors?.['required']) {
-                <p class="small invalid-feedback mt-2 mb-0">
-                    El estado de la membresía es requerido.
-                </p>
-                }
-            </div>
         </div>
 
         <div class="row mb-3">

@@ -1,6 +1,39 @@
 <div class="bg-light-subtle p-4 rounded-4 border">
   <form class="mb-0" [formGroup]="patientForm">
-    <h5 class="mb-4">Información personal</h5>
+    <h5 class="mb-4">Información de registro</h5>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="registrationDateTime" class="form-label">Fecha y hora de registro</label>
+        <input type="text" class="form-control" id="registrationDateTime" formControlName="registrationDateTime"
+          placeholder="Ingrese la fecha y hora de registro" readonly
+          [class.is-invalid]="patientForm.get('registrationDateTime')?.invalid && (patientForm.get('registrationDateTime')?.dirty || patientForm.get('registrationDateTime')?.touched)">
+      </div>
+
+      <div class="col">
+        <label for="registeringUser" class="form-label">Usuario que lo registro</label>
+        <input type="text" class="form-control" id="registeringUser" formControlName="registeringUser"
+          placeholder="Ingrese el usuario que lo registro" readonly
+          [class.is-invalid]="patientForm.get('registeringUser')?.invalid && (patientForm.get('registeringUser')?.dirty || patientForm.get('registeringUser')?.touched)">
+      </div>
+
+      <div class="col">
+        <label for="active" class="form-label">Estado</label>
+        <select type="text" class="form-select" id="active" formControlName="active"
+          [class.bg-body-tertiary]="!patientForm.get('active')?.disabled"
+          [class.is-invalid]="patientForm.get('active')?.invalid && (patientForm.get('active')?.dirty || patientForm.get('active')?.touched)">
+          <option value="true">No encontrado</option>
+          <option value="false">Encontrado</option>
+        </select>
+        @if (patientForm.get('active')?.errors?.['required']) {
+        <p class="small invalid-feedback mt-2 mb-0">
+          El estado del paciente es requerido.
+        </p>
+        }
+      </div>
+    </div>
+
+    <h5 class="my-4">Información personal</h5>
 
     <div class="row mb-3">
       <div class="col">
@@ -316,8 +349,8 @@
       (change)="onFilesSelected($event)" multiple>
 
     <!-- Sección de carga de fotos -->
-    @if (tempImages.length < 6) {
-    <div class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
+    @if (tempImages.length < 6) { <div
+      class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
       [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
       (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
 
@@ -332,42 +365,42 @@
       <p class="small text-danger mt-2 mb-0">{{ error.error }}</p>
       }
       }
+</div>
+}
+
+<!-- Vista previa de las imágenes cargadas -->
+@if (tempImages.length > 0) {
+<div class="row row-cols-3 g-2 mt-3">
+  @for (preview of tempImages; track $index) {
+  <div class="col">
+    <div class="position-relative image-container border rounded-4">
+      <img [src]="preview" alt="Vista previa de la imagen">
+
+      <!-- Icono de eliminación dentro de un círculo blanco -->
+      <button (click)="removeImage($index)" title="Eliminar imagen"
+        class="btn btn-sm btn-link position-absolute top-0 start-0 m-2 p-1 bg-light-subtle rounded-circle">
+        <i class="bi bi-trash text-danger fs-5"></i>
+      </button>
     </div>
+  </div>
   }
+</div>
+}
 
-    <!-- Vista previa de las imágenes cargadas -->
-    @if (tempImages.length > 0) {
-    <div class="row row-cols-3 g-2 mt-3">
-      @for (preview of tempImages; track $index) {
-      <div class="col">
-        <div class="position-relative image-container border rounded-4">
-          <img [src]="preview" alt="Vista previa de la imagen">
+<!-- Botón de envío y mensaje de error -->
+<div class="d-flex justify-content-end align-items-end mt-4 gap-2">
+  <button type="submit" class="btn btn-primary" (click)="updatePatient()"
+    [disabled]="!isFormModified || loading">Actualizar paciente</button>
 
-          <!-- Icono de eliminación dentro de un círculo blanco -->
-          <button (click)="removeImage($index)" title="Eliminar imagen"
-            class="btn btn-sm btn-link position-absolute top-0 start-0 m-2 p-1 bg-light-subtle rounded-circle">
-            <i class="bi bi-trash text-danger fs-5"></i>
-          </button>
-        </div>
-      </div>
-      }
-    </div>
-    }
-
-    <!-- Botón de envío y mensaje de error -->
-    <div class="d-flex justify-content-end align-items-end mt-4 gap-2">
-      <button type="submit" class="btn btn-primary" (click)="updatePatient()"
-        [disabled]="!isFormModified || loading">Actualizar paciente</button>
-
-      <button type="submit" class="btn btn-danger" (click)="deletePatient(patient.id)">Eliminar paciente</button>
-    </div>
-    <!-- Mostrar mensaje de error -->
-    <div class="d-flex flex-column align-items-end">
-      @if (errorMessage) {
-      <p class="small text-danger mt-2 mb-0">
-        {{ errorMessage }}
-      </p>
-      }
-    </div>
-  </form>
+  <button type="submit" class="btn btn-danger" (click)="deletePatient(patient.id)">Eliminar paciente</button>
+</div>
+<!-- Mostrar mensaje de error -->
+<div class="d-flex flex-column align-items-end">
+  @if (errorMessage) {
+  <p class="small text-danger mt-2 mb-0">
+    {{ errorMessage }}
+  </p>
+  }
+</div>
+</form>
 </div>

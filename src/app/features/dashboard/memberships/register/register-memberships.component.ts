@@ -12,7 +12,7 @@ import { ToastService } from '../../../../core/services/util/toast.service';
 @Component({
   selector: 'app-register-memberships',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register-memberships.component.html'
 })
 export class RegisterMembershipsComponent {
@@ -31,7 +31,6 @@ export class RegisterMembershipsComponent {
   constructor() {
     this.membershipForm = this._fb.group({
       institutionName: ['', [Validators.required]],
-      status: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', [Validators.required, dateRangeValidator()]],
     });
@@ -56,6 +55,9 @@ export class RegisterMembershipsComponent {
         this.institutionNames = names;
       },
       error: (err) => {
+
+        this._toastService.showToast('Error al obtener los nombres de las instituciones', 'Ha ocurrido un error al obtener los nombres de las instituciones.', 'error');
+
         console.error(
           'Error al obtener los nombres de las instituciones:',
           err

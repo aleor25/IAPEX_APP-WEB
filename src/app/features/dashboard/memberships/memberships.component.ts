@@ -31,7 +31,7 @@ export class MembershipsComponent implements OnInit {
   }
 
   columns = [
-    { data: 'id', title: 'ID' },
+    // { data: 'id', title: 'ID' },
     { data: 'institutionName', title: 'Institución' },
     { data: 'startDate', title: 'Fecha de inicio', render: (data: any) => this.formatDateTime(data) },
     { data: 'endDate', title: 'Fecha de fin', render: (data: any) => this.formatDateTime(data) },

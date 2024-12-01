@@ -31,7 +31,7 @@ export class ContactRequestsComponent implements OnInit {
   }
 
   columns = [
-    { data: 'id', title: 'ID' },
+    // { data: 'id', title: 'ID' },
     { data: 'interestedPersonName', title: 'Persona interesada' },
     { data: 'missingPersonName', title: 'Persona desaparecida' },
     { data: 'relationship', title: 'Parentesco' },
@@ -69,8 +69,8 @@ export class ContactRequestsComponent implements OnInit {
   private formatStatus(status: string): string {
     const statusMap: { [key: string]: string } = {
       'nueva': 'Nueva',
-      'no_encontrada': 'No encontrada',
-      'encontrada': 'Encontrada',
+      'no_encontrado': 'No encontrado',
+      'encontrado': 'Encontrado',
       'en_revision': 'En revisión'
     };
     return statusMap[status.toLowerCase()] || status;
@@ -80,9 +80,9 @@ export class ContactRequestsComponent implements OnInit {
     switch (status.toLowerCase()) {
       case 'nueva':
         return 'badge bg-primary';
-      case 'no_encontrada':
+      case 'no_encontrado':
         return 'badge bg-danger';
-      case 'encontrada':
+      case 'encontrado':
         return 'badge bg-success';
       case 'en_revision':
         return 'badge bg-warning';

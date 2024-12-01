@@ -35,6 +35,9 @@ export class PatientDetailsComponent implements OnInit {
 
   constructor() {
     this.patientForm = this._fb.group({
+      registrationDateTime: [{ value: '', disabled: true }],
+      registeringUser: [{ value: '', disabled: true }],
+      active: ['', Validators.required],
       name: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
       lastName: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
       secondLastName: ['', [Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/), Validators.maxLength(50)]],
@@ -91,12 +94,20 @@ export class PatientDetailsComponent implements OnInit {
     if (id) {
       this.loadPatient(+id);
     }
+    this.patientForm.get('active')?.statusChanges.subscribe(() => {
+      console.log('Disabled state:', this.patientForm.get('active')?.disabled);
+    });
   }
 
   loadPatient(id: number): void {
     this._patientService.getPatient(id).subscribe(
       (patient: Patient) => {
         this.patient = patient;
+
+        // Desactivar el select de "Estado" si el paciente está inactivo
+        if(this.patient.active === false) {
+          this.patientForm.get('active')?.disable();
+        }
 
         // Sincronizar las URLs de imágenes con tempImages
         this.tempImages = patient.images.map((image) => image.imageUrl);
@@ -126,6 +137,9 @@ export class PatientDetailsComponent implements OnInit {
 
         // Usar el formulario para asignar valores excepto imageFiles
         this.patientForm.patchValue({
+          registrationDateTime: this.formatDateTime(patient.registrationDateTime),
+          registeringUser: patient.registeringUser,
+          active: patient.active,
           name: patient.name,
           lastName: patient.lastName,
           secondLastName: patient.secondLastName,
@@ -432,5 +446,17 @@ export class PatientDetailsComponent implements OnInit {
           'error');
       }
     );
+  }
+
+  formatDateTime(dateTime: string | Date): string {
+    const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
+    return date.toLocaleString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
   }
 }

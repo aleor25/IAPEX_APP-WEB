@@ -35,7 +35,7 @@ export const DashboardRoutes: Routes = [
             { path: 'memberships/register', component: RegisterMembershipsComponent },
             { path: 'memberships/details/:id', component: MembershipDetailsComponent },
             
-            // { path: 'notifications', component: NotificationsComponent },
+            { path: 'notifications', component: NotificationsComponent },
         ]
     },
 ];

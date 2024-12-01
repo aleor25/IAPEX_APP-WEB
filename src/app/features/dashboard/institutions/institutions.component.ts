@@ -31,7 +31,7 @@ export class InstitutionsComponent implements OnInit {
   }
 
   columns = [
-    { data: 'id', title: 'ID' },
+    // { data: 'id', title: 'ID' },
     { data: 'name', title: 'Nombre' },
     { data: 'type', title: 'Tipo' },
     { data: 'openingHours', title: 'Horarios' },
