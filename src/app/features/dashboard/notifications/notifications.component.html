@@ -1,42 +1,42 @@
-<div class="container-fluid p-0 bg-light rounded-4">
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item" *ngFor="let notificacion of notificaciones; let i = index">
-            <h2 class="accordion-header" [attr.id]="'heading' + i">
-                <button class="accordion-button collapsed p-4" type="button" data-bs-toggle="collapse"
-                    [attr.data-bs-target]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
-                    <div class="col-auto">
-                        <div class="row-cols-auto">
-                            <h5>Paciente No. {{ i + 1 }} - Nueva solicitud de búsqueda</h5>
-                        </div>
-                        <div class="row-cols-auto">
-                            <p class="small mb-2">De: Alejandro Ortiz Perez <a
-                                    class="ms-2 text-muted">alejandro.ortiz&#64;gmail.com</a>
-                            </p>
-                        </div>
-                        <div class="row-cols-auto">
-                            <div class="text-muted">
-                                <small>Enviado el 20/07/2024</small>
-                            </div>
+<div class="accordion" id="accordionExample">
+    @for (notificacion of [].constructor(10); track $index) {
+    <div class="accordion-item">
+        <h2 class="accordion-header" [attr.id]="'heading' + $index">
+            <button class="accordion-button collapsed bg-light-subtle p-4" type="button" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#collapse' + $index" [attr.aria-controls]="'collapse' + $index">
+                <div class="col-auto">
+                    <div class="row-cols-auto">
+                        <h5>Paciente No. {{ $index + 1 }} - Nueva solicitud de búsqueda</h5>
+                    </div>
+                    <div class="row-cols-auto">
+                        <p class="small mb-2">De: Alejandro Ortiz Perez <a
+                                class="ms-2 text-muted">alejandro.ortiz&#64;gmail.com</a>
+                        </p>
+                    </div>
+                    <div class="row-cols-auto">
+                        <div class="text-muted">
+                            <small>Enviado el 20/07/2024</small>
                         </div>
                     </div>
-                </button>
-            </h2>
+                </div>
+            </button>
+        </h2>
 
-            <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body p-4">
-                    <p>Ha llegado una nueva solicitud de búsqueda de paciente. El interesado es Alejandro Ortiz,
-                        contactable al número +52 55 4321 1024. La solicitud fue recibida el 12 de enero de 2024 y
-                        está actualmente en estado "Nueva". Por favor, revise y gestione esta solicitud a la mayor
-                        brevedad posible.</p>
-                    <div class="text-end">
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal3">
-                            <span class="d-none d-sm-inline">Ir a la solicitud</span>
-                            <i class="bi bi-eye d-sm-none"></i>
-                        </button>
-                    </div>
+        <div [attr.id]="'collapse' + $index" class="accordion-collapse collapse"
+            [attr.aria-labelledby]="'heading' + $index" data-bs-parent="#accordionExample">
+            <div class="accordion-body bg-light-subtle p-4">
+                <p>Ha llegado una nueva solicitud de búsqueda de paciente. El interesado es Alejandro Ortiz,
+                    contactable al número +52 55 4321 1024. La solicitud fue recibida el 12 de enero de 2024 y
+                    está actualmente en estado "Nueva". Por favor, revise y gestione esta solicitud a la mayor
+                    brevedad posible.</p>
+                <div class="text-end">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal3">
+                        <span class="d-none d-sm-inline">Ir a la solicitud</span>
+                        <i class="bi bi-eye d-sm-none"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+    }
 </div>
