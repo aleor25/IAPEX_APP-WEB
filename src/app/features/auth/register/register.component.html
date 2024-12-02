@@ -86,9 +86,13 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="institution" class="form-label">Institución de salud*</label>
-                            <input type="text" formControlName="institution" class="form-control bg-body-tertiary"
-                                id="institution" placeholder="Ingrese la institución de salud"
+                            <select class="form-select bg-body-tertiary" id="institution" formControlName="institution"
                                 [class.is-invalid]="registerForm.get('institution')?.invalid && (registerForm.get('institution')?.dirty || registerForm.get('institution')?.touched)">
+                                <option value="">Seleccione una institución</option>
+                                @for (name of institutions; track name) {
+                                <option [value]="name">{{ name }}</option>
+                                }
+                            </select>
                             @if (registerForm.get('institution')?.errors?.['required']) {
                             <p class="small invalid-feedback mt-2 mb-0">
                                 La institución es requerida.

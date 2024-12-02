@@ -4,6 +4,8 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
 import { MustMatch } from '../../../shared/validators/password.validator';
+import { InstitutionService } from '../../../core/services/institution.service';
+import { ToastService } from '../../../core/services/util/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +18,10 @@ export class RegisterComponent {
 
   registerForm: FormGroup;
   errorMessage: string = "";
+  institutions: string[] = [];
 
+  private _institutionService = inject(InstitutionService);
+  private _toastService = inject(ToastService);
   private _userService = inject(UserService);
   private _router = inject(Router);
   private _fb = inject(FormBuilder);
@@ -26,7 +31,7 @@ export class RegisterComponent {
       name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
       lastName: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
       secondLastName: ['', [Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      institution: ['', Validators.required],
+      institution: ['', [Validators.required]],
       position: ['', [Validators.required, Validators.maxLength(25)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
@@ -35,6 +40,10 @@ export class RegisterComponent {
       {
         validators: MustMatch('password', 'repeatPassword')
       });
+  }
+
+  ngOnInit(): void {
+    this.loadinstitutions();
   }
 
   register(): void {
@@ -60,6 +69,23 @@ export class RegisterComponent {
     } else {
       this.errorMessage = 'Por favor, complete los campos correctamente.';
     }
+  }
+
+  private loadinstitutions(): void {
+    this._institutionService.getAllInstitutionNames().subscribe({
+      next: (names) => {
+        this.institutions = names;
+      },
+      error: (err) => {
+
+        this._toastService.showToast('Error al obtener los nombres de las instituciones', 'Ha ocurrido un error al obtener los nombres de las instituciones.', 'error');
+
+        console.error(
+          'Error al obtener los nombres de las instituciones:',
+          err
+        );
+      },
+    });
   }
 
   private handleRegisterError(error: any) {
