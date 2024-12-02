@@ -16,6 +16,7 @@ export class VerifyEmailComponent {
   errorMessage: string = '';
   successMessage: string = '';
   allInputsFilled: boolean = false;
+  resendButtonDisabled: boolean = false;
 
   private _fb = inject(FormBuilder);
   private _userService = inject(UserService);
@@ -125,6 +126,9 @@ export class VerifyEmailComponent {
   }
 
   resendCode(): void {
+    // Desactivar el botón de reenviar durante 5 segundos
+    this.resendButtonDisabled = true;
+
     // Limpiar mensajes anteriores
     this.errorMessage = '';
     this.successMessage = '';
@@ -145,6 +149,12 @@ export class VerifyEmailComponent {
       error => {
         console.error('Error al reenviar el código', error);
         this.errorMessage = 'Ocurrió un error al reenviar el código de verificación. Por favor, intente nuevamente.';
+      },
+      () => {
+        // Reactivar el botón después de 10 segundos
+        setTimeout(() => {
+          this.resendButtonDisabled = false;
+        }, 10000);
       }
     );
   }

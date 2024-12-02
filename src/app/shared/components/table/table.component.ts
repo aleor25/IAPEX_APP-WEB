@@ -38,7 +38,6 @@ export class TableComponent implements OnInit, OnChanges {
     try {
       this.tableInstance = $(`#${this.tableId}`).DataTable({
         ordering: false,
-        scrollX: true,
         data: this.data,
         columns: this.columns,
         language: {

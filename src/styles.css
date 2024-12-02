@@ -11,6 +11,13 @@ body {
     scrollbar-width: none;
 }
 
+a[disabled],
+a.disabled {
+    cursor: not-allowed;
+    color: #ccc;
+    pointer-events: none;
+}
+
 .custom-form-container {
     overflow-y: scroll;
     overflow-x: hidden;

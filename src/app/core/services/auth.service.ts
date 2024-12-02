@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthResponse, AuthUser } from '../models/auth.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080/api/v1/users/web';
   
   private _http = inject(HttpClient);
-  private _router = inject(Router);
+  private _router = inject(Router); 
+  private _userService = inject(UserService);
 
   login(email: string, password: string): Observable<AuthResponse> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -33,7 +35,14 @@ export class AuthService {
           };
           
           this.setAuthUser(authUser);
-        })
+        }),
+        catchError(error => {
+                if (error.status === 442) {
+                    // Lógica para enviar el correo
+                    this._userService.resendCode(email).subscribe();
+                }
+                return throwError(() => error);
+            })
       );
   }
 

@@ -59,8 +59,12 @@
       </form>
 
       <div class="mt-4 justify-content-center align-items-center d-flex">
-        <p>¿No recibiste el código? <a (click)="resendCode()" style="cursor: pointer;"
-            class="text-decoration-none">Reenvíalo</a>
+        <p>¿No recibiste el código?
+           <a (click)="resendCode()" 
+           [class.disabled]="resendButtonDisabled"
+           [attr.disabled]="resendButtonDisabled ? true : null"
+           style="cursor: pointer;"
+           class="text-decoration-none">Reenvíalo</a>
         </p>
       </div>
 

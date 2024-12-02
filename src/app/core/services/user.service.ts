@@ -29,11 +29,6 @@ export class UserService {
     return this._http.post<any>(`${this.apiUrl}/password-reset/request`, null, { params });
   }
 
-  // resendPasswordReset(email: string): Observable<any> {
-  //   let params = new HttpParams().set('email', email);
-  //   return this._http.post<any>(`${this.apiUrl}/password-reset/resend`, {}, { params });
-  // }
-
   resetPassword(request: { verificationCode: string, newPassword: string }): Observable<any> {
     return this._http.post<any>(`${this.apiUrl}/password-reset`, request);
   }

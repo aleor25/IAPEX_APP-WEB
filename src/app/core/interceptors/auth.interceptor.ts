@@ -90,14 +90,20 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           break;
         case 422:
           _toastService.showToast(
-            'Datos incorrectos',
-            getErrorMessage('Verifique los datos ingresados.')
+            'Cuenta no autenticada.',
+            getErrorMessage('Por favor, autentique su cuenta.')
           );
           break;
         case 429:
           _toastService.showToast(
             'Demasiadas solicitudes',
             getErrorMessage('Espere un momento antes de realizar otra solicitud.')
+          );
+          break;
+          case 442:
+          _toastService.showToast(
+            'No estás autenticado',
+            getErrorMessage('Revisa tu correo para verificar tu cuenta.')
           );
           break;
         case 500:
