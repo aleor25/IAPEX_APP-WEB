@@ -20,7 +20,7 @@
 
                 <!-- Formulario -->
                 <form class="mb-0" [formGroup]="loginForm" (ngSubmit)="login()">
-                    <div class="row mb-3">
+                    <div class="row mb-2">
                         <div>
                             <label for="email" class="form-label">Correo electrónico*</label>
                             <input type="email" formControlName="email" class="form-control bg-body-tertiary" id="email"
@@ -68,13 +68,13 @@
                         </div>
                     </div>
 
-                    <div class="justify-content-center align-items-center d-flex">
+                    <div class="justify-content-end align-items-center d-flex">
                         <a class="text-decoration-none link-opacity-100-hover" routerLink="/auth/forgot-password">
                             ¿Olvidaste tu contraseña?
                         </a>
                     </div>
 
-                    <div class="d-grid mt-4">
+                    <div class="d-grid my-3">
                         <button class="btn btn-primary" type="submit" [disabled]="isButtonDisabled">
                             Iniciar sesión
                         </button>
