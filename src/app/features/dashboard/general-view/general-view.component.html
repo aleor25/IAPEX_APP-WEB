@@ -1,118 +1,124 @@
-<div class="container-fluid">
-
+<div class="border bg-light-subtle mb-3 p-3 rounded-4">
   <!-- Solicitudes recibidas -->
-  <div>
-    <h4 class="mb-4">Solicitudes recibidas</h4>
+  <h4 class="mb-3">Solicitudes recibidas</h4>
 
-    <div class="row mb-4">
-      <div class="col">
-        <div class="card h-100 justify-content-center text-center rounded-4 py-3">
-          <i class="bi bi-envelope fs-1 text-primary my-2"></i>
-          <h5 class="fs-5 mb-0 fw-bold">Total</h5>
-          <p class="fs-2 mb-0 fw-bold text-primary" id="totalRequests">0</p>
-        </div>
+  <div class="row mb-3">
+    <div class="col">
+      <div class="card h-100 bg-body-tertiary justify-content-center text-center rounded-4 py-3">
+        <i class="bi bi-envelope fs-1 text-primary my-2"></i>
+        <h5 class="fs-5 mb-0 fw-bold">Total</h5>
+        <p class="fs-2 mb-0 fw-bold text-primary" id="totalRequests">0</p>
       </div>
-
-      <div class="col">
-        <div class="card h-100 justify-content-center text-center rounded-4 py-3">
-          <i class="bi bi-exclamation-circle fs-1 text-primary my-2"></i>
-          <h5 class="card-title fs-5 mb-0 fw-bold">Nuevas</h5>
-          <p class="fs-2 mb-0 fw-bold text-primary" id="newRequests">0</p>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="card h-100 justify-content-center text-center rounded-4 py-3">
-          <i class="bi bi-arrow-repeat fs-1 text-primary my-2"></i>
-          <h5 class="card-title fs-5 mb-0 fw-bold">En revisión</h5>
-          <p class="fs-2 mb-0 fw-bold text-primary" id="inReviewRequests">0</p>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="card h-100 justify-content-center text-center rounded-4 py-3">
-          <i class="bi bi-check-circle fs-1 text-primary my-2"></i>
-          <h5 class="card-title fs-5 mb-0 fw-bold">Encontrado</h5>
-          <p class="fs-2 mb-0 fw-bold text-primary" id="foundRequests">0</p>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="card h-100 justify-content-center text-center rounded-4 py-3">
-          <i class="bi bi-x-circle fs-1 text-primary my-2"></i>
-          <h5 class="card-title fs-5 mb-0 fw-bold">No encontrado</h5>
-          <p class="fs-2 mb-0 fw-bold text-primary" id="notFoundRequests">0</p>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Gráficas -->
-    <div class="row">
-      <div class="col d-flex justify-content-center">
-        <div>
-          <p class="mb-2 fw-medium text-center">Porcentaje del estatus de las solicitudes</p>
-          <div class="card rounded-4 py-3">
-            <div style="height: 200px; width: 500px" id="statusChart"></div>
-          </div>
-        </div>
+    <div class="col">
+      <div class="card h-100 bg-body-tertiary justify-content-center text-center rounded-4 py-3">
+        <i class="bi bi-exclamation-circle fs-1 text-primary my-2"></i>
+        <h5 class="card-title fs-5 mb-0 fw-bold">Nuevas</h5>
+        <p class="fs-2 mb-0 fw-bold text-primary" id="newRequests">0</p>
       </div>
-      <!-- /Gráficas -->
     </div>
-    <!-- /Solicitudes recibidas -->
+
+    <div class="col">
+      <div class="card h-100 bg-body-tertiary justify-content-center text-center rounded-4 py-3">
+        <i class="bi bi-arrow-repeat fs-1 text-primary my-2"></i>
+        <h5 class="card-title fs-5 mb-0 fw-bold">En revisión</h5>
+        <p class="fs-2 mb-0 fw-bold text-primary" id="inReviewRequests">0</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 bg-body-tertiary justify-content-center text-center rounded-4 py-3">
+        <i class="bi bi-check-circle fs-1 text-primary my-2"></i>
+        <h5 class="card-title fs-5 mb-0 fw-bold">Encontrado</h5>
+        <p class="fs-2 mb-0 fw-bold text-primary" id="foundRequests">0</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 bg-body-tertiary justify-content-center text-center rounded-4 py-3">
+        <i class="bi bi-x-circle fs-1 text-primary my-2"></i>
+        <h5 class="card-title fs-5 mb-0 fw-bold">No encontrado</h5>
+        <p class="fs-2 mb-0 fw-bold text-primary" id="notFoundRequests">0</p>
+      </div>
+    </div>
 
   </div>
 
+  <!-- Gráficas -->
+  <div class="row">
+    <p class="mb-2 fw-medium text-center">Porcentaje del estatus de las solicitudes</p>
+    <div class="col d-flex justify-content-center">
+      <div class="card bg-body-tertiary rounded-4 py-3 w-100">
+        <div style="height: 200px" id="statusChart"></div>
+      </div>
+    </div>
+  </div>
+  <!-- /Gráficas -->
+
+</div>
+
+<div class="border bg-light-subtle p-3 rounded-4">
   <!-- Pacientes registrados -->
-  <div class="mt-5">
-    <h4 class="my-4">Pacientes registrados</h4>
 
-    <div class="row mb-4">
+  <h4 class="mb-3">Pacientes registrados</h4>
 
-      <div class="col">
-        <div class="card h-100 justify-content-center text-center rounded-4">
-          <i class="bi bi-people fs-1 text-primary my-2"></i>
-          <h5 class="fs-5 mb-0 fw-bold">Total</h5>
-          <p class="fs-2 mb-0 fw-bold text-primary" id="totalRequests2">0</p>
-        </div>
+  <div class="row mb-3">
+
+    <div class="col">
+      <div class="card h-100 bg-body-tertiary justify-content-center text-center rounded-4">
+        <i class="bi bi-people fs-1 text-primary my-2"></i>
+        <h5 class="fs-5 mb-0 fw-bold">Total</h5>
+        <p class="fs-2 mb-0 fw-bold text-primary" id="totalRequests2">0</p>
       </div>
+    </div>
 
-      <div class="col">
-        <div class="card h-100 justify-content-center text-center rounded-4">
-          <div class="card-body text-center">
-            <i class="bi bi-person-check fs-1 text-primary my-2"></i>
-            <h5 class="fs-5 mb-0 fw-bold">Activos</h5>
-            <p class="card-number fs-2 mb-0 fw-bold text-primary" id="inReviewRequests2">0</p>
-          </div>
+    <div class="col">
+      <div class="card h-100 bg-body-tertiary justify-content-center text-center rounded-4">
+        <div class="card-body text-center">
+          <i class="bi bi-person-check fs-1 text-primary my-2"></i>
+          <h5 class="fs-5 mb-0 fw-bold">Encontrados</h5>
+          <p class="card-number fs-2 mb-0 fw-bold text-primary" id="inReviewRequests2">0</p>
         </div>
       </div>
     </div>
 
-    <!-- Gráficas -->
-    <div class="row">
-
-      <div class="col-6">
-        <div>
-          <p class="mb-2 fw-medium text-center">Sexo de los pacientes</p>
-          <div class="card rounded-4 py-3">
-            <div style="height: 200px; width: 500px" id="genderChart"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6">
-        <div>
-          <p class="mb-2 fw-medium text-center">Edad de los pacientes</p>
-          <div class="card rounded-4 py-3">
-            <div style="height: 200px; width: 500px" id="ageChart"></div>
-          </div>
+    <div class="col">
+      <div class="card h-100 bg-body-tertiary justify-content-center text-center rounded-4">
+        <div class="card-body text-center">
+          <i class="bi bi-person-dash fs-1 text-primary my-2"></i>
+          <h5 class="fs-5 mb-0 fw-bold">No encontrados</h5>
+          <p class="card-number fs-2 mb-0 fw-bold text-primary" id="inReviewRequests2">0</p>
         </div>
       </div>
     </div>
-    <!-- /Gráficas -->
+  </div>
 
-    <!-- Búsqueda -->
-    <!-- <div class="container mt-5">
+  <!-- Gráficas -->
+  <div class="row">
+
+    <div class="col-6">
+      <div>
+        <p class="mb-2 fw-medium text-center">Sexo de los pacientes</p>
+        <div class="card bg-body-tertiary rounded-4 py-3">
+          <div style="height: 200px; width: 500px" id="genderChart"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div>
+        <p class="mb-2 fw-medium text-center">Edad de los pacientes</p>
+        <div class="card bg-body-tertiary rounded-4 py-3">
+          <div style="height: 200px; width: 500px" id="ageChart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Gráficas -->
+
+  <!-- Búsqueda -->
+  <!-- <div class="container mt-5">
     <h1 class="mb-4 fs-2">Búsqueda</h1>
 
     <div class="row text-center mb-4">
@@ -173,5 +179,5 @@
     /Gráficas
   </div> -->
 
-    <!-- /Búsqueda -->
-  </div>
+  <!-- /Búsqueda -->
+</div>

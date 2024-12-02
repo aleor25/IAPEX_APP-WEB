@@ -68,6 +68,9 @@ export class NavbarComponent implements OnInit {
     } else {
       // Cambia el título en las páginas principales
       switch (path) {
+        case 'general-view':
+          this.currentSection = 'Vista general';
+          break;
         case 'patients':
           this.currentSection = 'Pacientes registrados';
           break;

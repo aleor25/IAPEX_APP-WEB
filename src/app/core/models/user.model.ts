@@ -1,4 +1,4 @@
-export interface UserWebDTO {
+export interface User {
   id?: number;
   name: string;
   lastName: string;

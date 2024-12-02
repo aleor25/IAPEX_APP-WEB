@@ -45,6 +45,8 @@ export class InstitutionDetailsComponent {
 
   constructor() {
     this.institutionForm = this._fb.group({
+      registrationDateTime: [{ value: '', disabled: true }],
+      active: [{ value: '', disabled: true }],
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type: ['', Validators.required],
       otherType: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(50)]],
@@ -125,6 +127,8 @@ export class InstitutionDetailsComponent {
         }
 
         this.institutionForm.patchValue({
+          registrationDateTime: this.formatDateTime(institution.registrationDateTime),
+          active: institution.active,
           name: institution.name,
           direction: {
             state: institution.direction.state,
@@ -503,5 +507,17 @@ export class InstitutionDetailsComponent {
           'error');
       }
     );
+  }
+
+  formatDateTime(dateTime: string | Date): string {
+    const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
+    return date.toLocaleString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
   }
 }

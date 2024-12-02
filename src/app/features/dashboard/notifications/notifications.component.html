@@ -1,21 +1,188 @@
+<!-- Formulario de filtros -->
+<form class="mb-3">
+    <div class="row">
+        <div class="col-md-6 mb-2 m-lg-0 btn-group" role="group">
+            <div class="dropdown-center w-100">
+                <button class="btn btn-sm w-100 btn-outline-secondary rounded-end-0" data-bs-toggle="dropdown"
+                    type="button">
+                    Filtrar por tipos
+                </button>
+                <ul class="dropdown-menu w-100 p-3">
+                    <div class="row">
+                        <div class="col-6">
+                            <li>
+                                <label for="notificationType"
+                                    class="form-label col-form-label-sm m-0 p-0 d-none d-md-block">
+                                    Tipo de notificación
+                                </label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text" title="Tipo de notificación">
+                                        <i class="bi bi-bell"></i></span>
+                                    <select id="notificationType" class="form-select form-select-sm"
+                                        formControlName="notificationType" name="notificationType">
+                                        <option value="Todas">Todas</option>
+                                        <option value="Recibidas">Recibidas</option>
+                                        <option value="Enviadas">Enviadas</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </div>
+                        <div class="col-6">
+                            <li>
+                                <label for="attended" class="form-label col-form-label-sm m-0 p-0 d-none d-md-block">
+                                    Estado de notificación
+                                </label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text" title="Estado de notificación"><i
+                                            class="bi bi-check-circle"></i></span>
+                                    <select id="attended" class="form-select form-select-sm" formControlName="attended"
+                                        name="attended">
+                                        <option value="">Todas</option>
+                                        <option value="true">Atendidas</option>
+                                        <option value="false">No atendidas</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-6">
+                            <li>
+                                <label for="requestType" class="form-label col-form-label-sm m-0 p-0 d-none d-md-block">
+                                    Tipo de solicitud
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text" title="Tipo de solicitud"><i
+                                            class="bi bi-clipboard-check"></i></span>
+                                    <select id="requestType" class="form-select form-select-sm"
+                                        formControlName="requestType" name="requestType">
+                                        <option value="Todas">Todas</option>
+                                        <option value="Solicitadas">Solicitadas</option>
+                                        <option value="Aprobadas">Aprobadas</option>
+                                        <option value="Cargadas">Cargadas</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </div>
+                        <div class="col-6">
+                            <li>
+                                <label for="agreementType"
+                                    class="form-label col-form-label-sm m-0 p-0 d-none d-md-block">
+                                    Tipo de acuerdo
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text" title="Tipo de acuerdo"><i
+                                            class="bi bi-file-earmark-text"></i></span>
+                                    <select id="agreementType" class="form-select form-select-sm"
+                                        formControlName="agreementType" name="agreementType">
+                                        <option value="Todas">Todas</option>
+                                        <option value="Tarifas">Tarifas</option>
+                                        <option value="Convenios">Convenios</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </div>
+                    </div> -->
+                </ul>
+            </div>
+
+            <button class="btn btn-sm btn-outline-secondary rounded-start-0" title="Restablecer filtros" type="button">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+        </div>
+
+        <div class="col-md-6 btn-group" role="group">
+            <div class="dropdown-center w-100">
+                <button class="btn btn-sm w-100 btn-outline-secondary rounded-end-0" data-bs-toggle="dropdown"
+                    type="button" aria-expanded="false" data-bs-auto-close="outside">
+                    Filtrar por fechas
+                </button>
+                <ul class="dropdown-menu w-100 p-3">
+                    <div class="row">
+                        <div class="col-6">
+                            <li>
+                                <label for="startDate" class="form-label col-form-label-sm m-0 p-0 d-none d-md-block">
+                                    Fecha de inicio
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text" title="Fecha de inicio"><i
+                                            class="bi bi-calendar-plus"></i></span>
+                                    <input type="date" id="startDate" class="form-control form-control-sm"
+                                        formControlName="startDate" name="startDate" />
+                                </div>
+                            </li>
+                        </div>
+                        <div class="col-6">
+                            <li>
+                                <label for="endDate" class="form-label col-form-label-sm m-0 p-0 d-none d-md-block">
+                                    Fecha de fin
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text" title="Fecha de fin"><i
+                                            class="bi bi-calendar-minus"></i></span>
+                                    <input type="date" id="endDate" class="form-control form-control-sm"
+                                        formControlName="endDate" name="endDate" />
+                                </div>
+                            </li>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+
+            <button class="btn btn-sm rounded-start-0 btn-outline-secondary" title="Restablecer filtros" type="button">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+        </div>
+    </div>
+</form>
+
+<!-- Mensajes de reatroalimentación -->
+@defer (on timer(1s)) {
+    @if (notifications.length === 0) {
+        <div class="alert alert-primary d-flex align-items-center m-0 py-2" role="alert">
+            <i class="bi bi-info-circle me-3"></i>
+            <p class="m-0">No se encontro ninguna notificación.</p>
+        </div>
+    }
+}
+
 <div class="accordion" id="accordionExample">
-    @for (notificacion of [].constructor(10); track $index) {
-    <div class="accordion-item">
+    @defer() {
+    @for (notification of notifications; track $index) {
+    <div class="accordion-item position-relative">
         <h2 class="accordion-header" [attr.id]="'heading' + $index">
             <button class="accordion-button collapsed bg-light-subtle p-4" type="button" data-bs-toggle="collapse"
                 [attr.data-bs-target]="'#collapse' + $index" [attr.aria-controls]="'collapse' + $index">
-                <div class="col-auto">
-                    <div class="row-cols-auto">
-                        <h5>Paciente No. {{ $index + 1 }} - Nueva solicitud de búsqueda</h5>
+                <div class="col-11">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">{{ notification.subject }}</h5>
+
+                        <!-- Badge al lado del subject -->
+                        @if (notification.attended) {
+                        <span class="badge bg-success">
+                            <i class="bi bi-check-circle me-1"></i> Atendida
+                        </span>
+                        } @else {
+                        <span class="badge bg-danger">
+                            <i class="bi bi-x-circle me-1"></i> Sin atender
+                        </span>
+                        }
                     </div>
+
                     <div class="row-cols-auto">
-                        <p class="small mb-2">De: Alejandro Ortiz Perez <a
-                                class="ms-2 text-muted">alejandro.ortiz&#64;gmail.com</a>
-                        </p>
+                        @if (notification.attended) {
+                        <p class="text-success-emphasis my-2">Atendida por: {{ notification.attendedBy }}</p>
+                        } @else {
+                        <div class="text-danger-emphasis mt-2">
+                            <small>Aún sin atender...</small>
+                        </div>
+                        }
                     </div>
+                    <div class="row-cols-auto"></div>
+
                     <div class="row-cols-auto">
-                        <div class="text-muted">
-                            <small>Enviado el 20/07/2024</small>
+                        <div class="text-muted mt-2">
+                            <small>{{ notification.sendDate | formatDateTime }}</small>
                         </div>
                     </div>
                 </div>
@@ -25,18 +192,129 @@
         <div [attr.id]="'collapse' + $index" class="accordion-collapse collapse"
             [attr.aria-labelledby]="'heading' + $index" data-bs-parent="#accordionExample">
             <div class="accordion-body bg-light-subtle p-4">
-                <p>Ha llegado una nueva solicitud de búsqueda de paciente. El interesado es Alejandro Ortiz,
-                    contactable al número +52 55 4321 1024. La solicitud fue recibida el 12 de enero de 2024 y
-                    está actualmente en estado "Nueva". Por favor, revise y gestione esta solicitud a la mayor
-                    brevedad posible.</p>
+                <p>{{ notification.body }}</p>
                 <div class="text-end">
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal3">
-                        <span class="d-none d-sm-inline">Ir a la solicitud</span>
-                        <i class="bi bi-eye d-sm-none"></i>
+                    @if (!notification.attended) {
+                    <!-- Botón para atender solicitud -->
+                    <button class="btn btn-success btn me-2" data-bs-toggle="modal" (click)="markNotificationAsAttended(notification.id, true)">
+                        <i class="bi bi-check-circle"></i> <!-- Icono para atender solicitud -->
+                        <span class="d-none d-sm-inline ms-2">Atender solicitud</span>
+                    </button>
+                    }
+
+                    <!-- Botón para ir a la solicitud -->
+                    <button class="btn btn-primary btn"
+                        [routerLink]="['/dashboard/contact-requests/details/' + notification.contactRequestId]">
+                        <i class="bi bi-eye"></i> <!-- Icono para ir a la solicitud -->
+                        <span class="d-none d-sm-inline ms-2">Ir a la solicitud</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
     }
+    }@placeholder(minimum 500ms) {
+    @for (notification of [].constructor(5); track $index) {
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button bg-body-tertiary collapsed p-4" type="button">
+                <div class="col-11">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <h5 class="m-0 flex-grow-1 placeholder-glow">
+                            <span class="placeholder col-7"></span>
+                        </h5>
+                        <span class="placeholder col-1"></span>
+                    </div>
+                    <div class="row-cols-auto">
+                        <p class="small my-3">
+                            <span class="placeholder col-2 me-2"></span>
+                            <span class="placeholder col-2"></span>
+                        </p>
+                    </div>
+                    <div class="row-cols-auto">
+                        <div class="text-muted">
+                            <small class="placeholder-glow">
+                                <span class="placeholder col-3"></span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </button>
+        </h2>
+    </div>
+    }
+    }
 </div>
+
+<!-- Paginación -->
+@defer {
+@if (notifications.length > 0) {
+<nav aria-label="Page navigation"
+    class="d-flex flex-column flex-lg-row justify-content-between align-items-center mt-3 ps-1">
+    <p class="m-0 mb-3 mb-lg-0 text-center text-lg-start">
+        Mostrando notificaciones del {{ startIndex }} al {{ endIndex }} de un total de {{ totalElements }}
+        notificaciones
+    </p>
+    <ul class="pagination mb-0 ms-lg-3">
+        <li class="page-item" [class.disabled]="pageNumber === 0">
+            <a class="page-link" (click)="firstPage()" aria-label="First">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" [class.disabled]="pageNumber === 0">
+            <a class="page-link" (click)="prevPage()" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span>
+            </a>
+        </li>
+        @for (page of [].constructor(totalPages); track $index) {
+        <li class="page-item" [class.active]="$index === pageNumber">
+            <a class="page-link" (click)="loadNotifications($index)">{{ $index + 1 }}</a>
+        </li>
+        }
+        <li class="page-item" [class.disabled]="pageNumber === totalPages - 1">
+            <a class="page-link" (click)="nextPage()" aria-label="Next">
+                <span aria-hidden="true">&rsaquo;</span>
+            </a>
+        </li>
+        <li class="page-item" [class.disabled]="pageNumber === totalPages - 1">
+            <a class="page-link" (click)="lastPage()" aria-label="Last">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+}
+} @placeholder(minimum 500ms) {
+<nav class="d-flex justify-content-between align-items-center mt-3">
+    <p class="placeholder-wave w-100 mb-0">
+        <span class="placeholder col-7"></span>
+    </p>
+    <ul class="pagination mb-0">
+        <li class="page-item">
+            <a class="page-link link-secondary">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link link-secondary">
+                <span aria-hidden="true">&lsaquo;</span>
+            </a>
+        </li>
+        @for (page of [].constructor(5); track $index) {
+        <li class="page-item placeholder-wave">
+            <span class="page-link link-dark placeholder">10</span>
+        </li>
+        }
+        <li class="page-item">
+            <a class="page-link link-secondary">
+                <span aria-hidden="true">&rsaquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link link-secondary">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+}
