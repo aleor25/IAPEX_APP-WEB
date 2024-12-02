@@ -196,7 +196,7 @@
                 <div class="text-end">
                     @if (!notification.attended) {
                     <!-- Botón para atender solicitud -->
-                    <button class="btn btn-success btn me-2" data-bs-toggle="modal" (click)="updateNotificationStatus(notification.id, true)">
+                    <button class="btn btn-success btn me-2" data-bs-toggle="modal" (click)="markNotificationAsAttended(notification.id, true)">
                         <i class="bi bi-check-circle"></i> <!-- Icono para atender solicitud -->
                         <span class="d-none d-sm-inline ms-2">Atender solicitud</span>
                     </button>
@@ -268,7 +268,7 @@
         </li>
         @for (page of [].constructor(totalPages); track $index) {
         <li class="page-item" [class.active]="$index === pageNumber">
-            <a class="page-link" (click)="fetchNotifications($index)">{{ $index + 1 }}</a>
+            <a class="page-link" (click)="loadNotifications($index)">{{ $index + 1 }}</a>
         </li>
         }
         <li class="page-item" [class.disabled]="pageNumber === totalPages - 1">

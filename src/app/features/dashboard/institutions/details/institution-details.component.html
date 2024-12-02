@@ -1,7 +1,28 @@
 <div class="bg-light-subtle p-4 rounded-4 border">
+  <form class="mb-0" [formGroup]="institutionForm" (ngSubmit)="updateInstitution()">
+  <h5 class="mb-4">Información de registro</h5>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="registrationDateTime" class="form-label">Fecha y hora de registro</label>
+        <input type="text" class="form-control" id="registrationDateTime" formControlName="registrationDateTime"
+          placeholder="Ingrese la fecha y hora de registro" readonly
+          [class.is-invalid]="institutionForm.get('registrationDateTime')?.invalid && (institutionForm.get('registrationDateTime')?.dirty || institutionForm.get('registrationDateTime')?.touched)">
+      </div>
+
+      <div class="col">
+        <label for="active" class="form-label">Estado</label>
+        <select type="text" class="form-select" id="active" formControlName="active"
+       readonly
+          [class.is-invalid]="institutionForm.get('active')?.invalid && (institutionForm.get('active')?.dirty || institutionForm.get('active')?.touched)">
+          <option value="true">Activa</option>
+          <option value="false">Inactiva</option>
+        </select>
+      </div>
+    </div>
+
   <h5 class="mb-4">Información principal</h5>
 
-  <form class="mb-0" [formGroup]="institutionForm" (ngSubmit)="updateInstitution()">
     <div class="row mb-3">
       <div class="col">
         <label for="name" class="form-label">Nombre de la institución*</label>

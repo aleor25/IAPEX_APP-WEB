@@ -94,9 +94,6 @@ export class PatientDetailsComponent implements OnInit {
     if (id) {
       this.loadPatient(+id);
     }
-    this.patientForm.get('active')?.statusChanges.subscribe(() => {
-      console.log('Disabled state:', this.patientForm.get('active')?.disabled);
-    });
   }
 
   loadPatient(id: number): void {
