@@ -4,7 +4,7 @@
     <!-- Botón de "Volver" con icono de Bootstrap a la izquierda del título -->
     <div class="d-flex align-items-center">
         @if (isRegisterPage || isDetailsPage) {
-        <a class="btn btn-lg me-3" type="button" [routerLink]="['/dashboard', getRoutePath()]">
+        <a class="btn btn-sm me-3" type="button" [routerLink]="['/dashboard', getRoutePath()]">
             <!-- Ícono de Bootstrap -->
             <i class="bi bi-arrow-left"></i>
         </a>
@@ -15,7 +15,7 @@
     <div class="d-flex justify-content-end">
         @if (!isRegisterPage && !isDetailsPage && getButtonLabel() != 'Datos estadisticos') {
         <!-- Botón de "Registrar" -->
-        <a class="btn btn-primary" type="button" [routerLink]="['/dashboard', getRoutePath(), 'register']">
+        <a class="btn btn-sm btn-primary" type="button" [routerLink]="['/dashboard', getRoutePath(), 'register']">
             {{ getButtonLabel() }}
         </a>
         }
