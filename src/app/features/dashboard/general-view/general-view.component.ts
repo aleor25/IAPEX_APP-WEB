@@ -14,7 +14,6 @@ import { Patient } from '../../../core/models/patient.model';
 
 export class GeneralViewComponent implements AfterViewInit {
 
-  private rootRequests!: am5.Root;
   private _patientService = inject(PatientService);
   private _contactRequestService = inject(ContactRequestService);
 
@@ -32,31 +31,12 @@ export class GeneralViewComponent implements AfterViewInit {
       const foundRequests = data.filter(request => request.status === 'ENCONTRADO').length;
       const notFoundRequests = data.filter(request => request.status === 'NO_ENCONTRADO').length;
 
-      // Actualiza el HTML con los valores
-      const totalRequestsElement = document.getElementById('totalRequests');
-      if (totalRequestsElement !== null) {
-        totalRequestsElement.innerText = totalRequests.toString();
-      }
-
-      const newRequestsElement = document.getElementById('newRequests');
-      if (newRequestsElement !== null) {
-        newRequestsElement.innerText = newRequests.toString();
-      }
-
-      const inReviewRequestsElement = document.getElementById('inReviewRequests');
-      if (inReviewRequestsElement !== null) {
-        inReviewRequestsElement.innerText = inReviewRequests.toString();
-      }
-
-      const foundRequestsElement = document.getElementById('foundRequests');
-      if (foundRequestsElement !== null) {
-        foundRequestsElement.innerText = foundRequests.toString();
-      }
-
-      const notFoundRequestsElement = document.getElementById('notFoundRequests');
-      if (notFoundRequestsElement !== null) {
-        notFoundRequestsElement.innerText = notFoundRequests.toString();
-      }
+      // Actualiza los contadores
+      this.updateCounter('totalRequests', totalRequests);
+      this.updateCounter('newRequests', newRequests);
+      this.updateCounter('inReviewRequests', inReviewRequests);
+      this.updateCounter('foundRequests', foundRequests);
+      this.updateCounter('notFoundRequests', notFoundRequests);
 
       // Crea la gráfica con los datos transformados
       this.updateStatusChart(data);
@@ -79,6 +59,29 @@ export class GeneralViewComponent implements AfterViewInit {
         console.error('Error al cargar los pacientes', error);
       });
     });
+
+
+    // Muestra los estatus de los pacientes recibidos
+    this._patientService.getAllPatients().subscribe(data => {
+      // Calcula los totales
+      const totalPatients = data.length;
+      const notActivePatients = data.filter((patient: Patient) => patient.active).length;
+      const activePatients = totalPatients - notActivePatients;
+
+      // Actualiza los contadores
+      this.updateCounter('totalPatients', totalPatients);
+      this.updateCounter('activePatients', activePatients);
+      this.updateCounter('notActivePatients', notActivePatients);
+    });
+    
+  }
+
+  // Método auxiliar para actualizar contadores
+  private updateCounter(elementId: string, value: number): void {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.innerText = value.toString();
+    }
   }
 
   updateRequestCounts(total: number, newCount: number, inReview: number, completed: number) {

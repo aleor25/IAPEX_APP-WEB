@@ -20,8 +20,8 @@
 
                 <!-- Formulario -->
                 <form class="mb-0" [formGroup]="loginForm" (ngSubmit)="login()">
-                    <div class="row mb-2">
-                        <div>
+                    <div class="row mb-3">
+                        <div class="col">
                             <label for="email" class="form-label">Correo electrónico*</label>
                             <input type="email" formControlName="email" class="form-control bg-body-tertiary" id="email"
                                 placeholder="correo@ejemplo.com" maxlength="51"
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <div>
+                        <div class="col">
                             <label for="password" class="form-label">Contraseña*</label>
                             <input type="password" formControlName="password" class="form-control bg-body-tertiary"
                                 id="password" placeholder="Su contraseña" maxlength="17"

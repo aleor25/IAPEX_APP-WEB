@@ -42,7 +42,8 @@
         }
 
         <!-- Campo adicional solo visible si se selecciona 'Otro' -->
-        <div *ngIf="institutionForm.get('type')?.value === 'otro'" class="mt-3">
+        @if(institutionForm.get('type')?.value === 'otro') {
+        <div class="mt-3">
           <input type="text" class="form-control bg-body-tertiary" id="otherType" formControlName="otherType"
             placeholder="Especifica el tipo de institución"
             [class.is-invalid]="institutionForm.get('otherType')?.invalid && (institutionForm.get('otherType')?.dirty || institutionForm.get('otherType')?.touched)">
@@ -57,6 +58,8 @@
           </p>
           }
         </div>
+        }
+
       </div>
 
       <div class="col">
@@ -138,10 +141,10 @@
           </p>
           }
           @if (institutionForm.get('direction.city')?.errors?.['maxlength']) {
-            <p class="small invalid-feedback mt-2 mb-0">
-              La ciudad no puede exceder los 25 caracteres.
-            </p>
-            }
+          <p class="small invalid-feedback mt-2 mb-0">
+            La ciudad no puede exceder los 25 caracteres.
+          </p>
+          }
         </div>
 
         <div class="col">
@@ -184,10 +187,10 @@
           </p>
           }
           @if (institutionForm.get('direction.neighborhood')?.errors?.['maxlength']) {
-            <p class="small invalid-feedback mt-2 mb-0">
-              La colonia de la institución no puede exceder los 25 caracteres.
-            </p>
-            }
+          <p class="small invalid-feedback mt-2 mb-0">
+            La colonia de la institución no puede exceder los 25 caracteres.
+          </p>
+          }
         </div>
 
         <div class="col">
@@ -201,10 +204,10 @@
           </p>
           }
           @if (institutionForm.get('direction.street')?.errors?.['maxlength']) {
-            <p class="small invalid-feedback mt-2 mb-0">
-              La calle de la institución no puede exceder los 25 caracteres.
-            </p>
-            }
+          <p class="small invalid-feedback mt-2 mb-0">
+            La calle de la institución no puede exceder los 25 caracteres.
+          </p>
+          }
         </div>
 
         <div class="col">

@@ -126,7 +126,7 @@ export class VerifyEmailComponent {
   }
 
   resendCode(): void {
-    // Desactivar el botón de reenviar durante 5 segundos
+    // Desactivar el botón de reenviar durante 10 segundos
     this.resendButtonDisabled = true;
 
     // Limpiar mensajes anteriores
@@ -141,10 +141,10 @@ export class VerifyEmailComponent {
         console.log('Código reenviado', response);
         this.successMessage = 'El código ha sido enviado nuevamente a su correo electrónico.';
 
-        // Limpiar el mensaje de éxito después de 5 segundos (5000 ms)
+        // Limpiar el mensaje de éxito después de 10 segundos
         setTimeout(() => {
           this.successMessage = ''; // Limpiar el mensaje
-        }, 5000);
+        }, 10000);
       },
       error => {
         console.error('Error al reenviar el código', error);
