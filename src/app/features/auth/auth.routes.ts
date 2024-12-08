@@ -3,7 +3,6 @@ import { LoginComponent } from "./login/login.component";
 import { EmailVerificationComponent } from "./email-verification/email-verification.component";
 import { RegisterComponent } from "./register/register.component";
 import { RestorePasswordComponent } from "./restore-password/restore-password.component";
-import { VerifyEmailComponent } from "./verify-email/verify-email.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 
 
@@ -16,8 +15,7 @@ export const AuthRoutes: Routes = [
             { path: 'register', component: RegisterComponent },
             { path: 'forgot-password', component: ForgotPasswordComponent },
             { path: 'restore-password', component: RestorePasswordComponent },
-            { path: 'email-verification', component: EmailVerificationComponent },
-            { path: 'verify-email', component: VerifyEmailComponent },
+            { path: 'email-verification', component: EmailVerificationComponent }
         ]
     }
 ]
