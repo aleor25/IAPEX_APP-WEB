@@ -21,6 +21,10 @@ export class AppComponent {
     return this._router.url.includes('/auth');
   }
 
+  isRestorePasswordRoute(): boolean {
+    return this._router.url.includes('/auth/forgot-password')
+  }
+
   constructor() {
     this._themeService.themeSignal();
   }
