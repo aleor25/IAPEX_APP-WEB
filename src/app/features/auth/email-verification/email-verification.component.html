@@ -1,16 +1,25 @@
 <div class="vh-100 d-flex justify-content-center align-items-center flex-column text-center">
   <div class="d-flex flex-column">
     <img class="logo-image" src="assets/images/logo.png" alt="logo">
+    @if (status === 'success') {
     <i class="bi bi-check-circle text-primary" style="font-size: 10rem; line-height: 1;"></i>
+    } @else {
+    <i class="bi bi-x-circle text-primary" style="font-size: 10rem; line-height: 1;"></i>
+    }
   </div>
 
   <div class="my-4 w-50">
-    <h2 class="fw-bold">Correo verificado con éxito</h2>
-    <p>La dirección de correo electrónico se ha verificado correctamente. Ahora puede iniciar sesión.</p>
-
+    @if (status === 'success') {
+      <h2 class="fw-bold">Correo verificado con éxito</h2>
+      <p>La dirección de correo electrónico se ha verificado correctamente. Ahora puede iniciar sesión.</p>
+    } @else {
+      <h2 class="fw-bold">Error al verificar el correo</h2>
+      <p>{{message || 'No se pudo verificar la dirección de correo electrónico. El enlace puede haber expirado o ser inválido.'}}</p>
+      <p>Vuelve a iniciar sesión para reenviar el enlace de verificación.</p>
+    }
     <div class="mt-4">
       <button class="btn btn-primary w-75" routerLink="/auth/login">
-        Iniciar sesión
+        Ir al inicio de sesión
       </button>
     </div>
   </div>

@@ -25,15 +25,19 @@ export class RestorePasswordComponent implements OnInit {
       repeatPassword: ['', [Validators.required]]
     },
     {
-      validators: MustMatch('password', 'repeatPassword')
+      validators: MustMatch('newPassword', 'repeatPassword') // Corregido el nombre del campo
     });
-}
+  }
 
   ngOnInit(): void {
     const urlParams = new URLSearchParams(window.location.search);
     const verificationCode = urlParams.get('code');
+
     if (verificationCode) {
       localStorage.setItem('verificationCode', verificationCode);
+    } else {
+      this.restorePasswordForm.disable();
+      this.errorMessage = 'Código de verificación no encontrado. Por favor, solicita un nuevo enlace para restablecer la contraseña';
     }
   }
 
@@ -49,7 +53,7 @@ export class RestorePasswordComponent implements OnInit {
       const verificationCode = localStorage.getItem('verificationCode');
 
       if (verificationCode === null) {
-        console.error('Código de verificación no encontrado en el almacenamiento local');
+        this.restorePasswordForm.disable();
         this.errorMessage = 'Código de verificación no encontrado. Por favor, solicita un nuevo enlace para restablecer la contraseña';
         return;
       }

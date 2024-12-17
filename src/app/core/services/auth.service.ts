@@ -39,7 +39,7 @@ export class AuthService {
         catchError(error => {
                 if (error.status === 442) {
                     // Lógica para enviar el correo
-                    this._userService.resendCode(email).subscribe();
+                    this._userService.requestVerifyEmail(email).subscribe();
                 }
                 return throwError(() => error);
             })

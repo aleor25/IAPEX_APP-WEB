@@ -10,14 +10,14 @@ export class UserService {
   private apiUrl = 'http://localhost:8080/api/v1/users/web';
   private _http = inject(HttpClient);
 
-  confirmUser(code: string): Observable<any> {
+  verifyEmail(code: string): Observable<any> {
     let params = new HttpParams().set('code', code);
-    return this._http.get<any>(`${this.apiUrl}/confirm`, { params });
+    return this._http.get<any>(`${this.apiUrl}/verify-email`, { params });
   }
 
-  resendCode(email: string): Observable<any> {
+  requestVerifyEmail(email: string): Observable<any> {
     let params = new HttpParams().set('email', email);
-    return this._http.get<any>(`${this.apiUrl}/confirm/resend`, { params });
+    return this._http.get<any>(`${this.apiUrl}/verify-email/request`, { params });
   }
 
   registerUser(user: any): Observable<any> {
