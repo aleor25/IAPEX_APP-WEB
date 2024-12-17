@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-email-verification',
+  selector: 'app-email-verified',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './email-verification.component.html'
+  templateUrl: './email-verified.component.html'
 })
-export class EmailVerificationComponent {
+export class EmailVerifiedComponent {
   status: string | null = null;
   message: string | null = null;
 

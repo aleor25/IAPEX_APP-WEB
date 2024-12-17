@@ -1,8 +1,5 @@
 @if (isAuthRoute()) {
     <router-outlet />
-        @if (isRestorePasswordRoute()) {
-            <app-toast></app-toast>
-        }
 } @else {
     <div class="container-fluid h-100 bg-body-tertiary">
         <div class="row h-100">

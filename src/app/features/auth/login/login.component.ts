@@ -16,7 +16,6 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = "";
   isLoading = false;
-  isButtonDisabled = false;
 
   private _authService = inject(AuthService);
   private _router = inject(Router);
@@ -32,15 +31,15 @@ export class LoginComponent {
 
   login() {
     this.errorMessage = "";
-  
+
     // Marcar todos los controles como tocados
     Object.values(this.loginForm.controls).forEach(control => {
       control.markAsTouched();
     });
-  
+
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-  
+
       this._authService.login(email, password).subscribe({
         next: () => {
           this._router.navigate(['/dashboard/general-view']);
@@ -48,12 +47,12 @@ export class LoginComponent {
         error: (error) => {
           // Si el error es relacionado con el correo no autenticado
           if (error.status === 442) {
-            this.isButtonDisabled = true;  // Desactiva el botón
+            this.isLoading = true;  // Desactiva el botón
             setTimeout(() => {
-              this.isButtonDisabled = false;  // Reactiva el botón después de 10 segundos
-            }, 10000);  // 10000 ms = 10 segundos
-            this.handleLoginError(error);
+              this.isLoading = false;  // Reactiva el botón después de 10 segundos
+            }, 15000);  // 10000 ms = 10 segundos
           }
+          this.handleLoginError(error);
         }
       });
     } else {
@@ -72,9 +71,9 @@ export class LoginComponent {
       case 404:
         this.errorMessage = 'Usuario no registrado. Por favor, registrese.';
         break;
-        case 442:
-          this.errorMessage = 'Cuenta no autenticada. Por favor, revisa tu correo para autenticarte.';
-          break;
+      case 442:
+        this.errorMessage = 'Correo electrónico no autenticado. Por favor, revisa tu correo para autenticarte.';
+        break;
       case 500:
         this.errorMessage = 'Ocurrió un error en el servidor. Por favor, intente nuevamente más tarde.';
         break;

@@ -69,15 +69,24 @@
                     </div>
 
                     <div class="justify-content-end align-items-center d-flex">
-                        <a class="text-decoration-none link-opacity-100-hover" routerLink="/auth/forgot-password">
+                        <a class="text-decoration-none link-opacity-100-hover" routerLink="/auth/restore-password">
                             ¿Olvidaste tu contraseña?
                         </a>
                     </div>
 
                     <div class="d-grid my-3">
-                        <button class="btn btn-primary" type="submit" [disabled]="isButtonDisabled">
+                        <button class="btn btn-primary" type="submit" [disabled]="isLoading">
                             Iniciar sesión
                         </button>
+
+                        <!-- Mostrar mensaje y spinner de carga -->
+                        @if (isLoading) {
+                        <p class="small text-primary text-center mt-3 mb-0 d-flex align-items-center justify-content-center">
+                            <span class="spinner-border spinner-border-sm me-2 text-primary" role="status"
+                                aria-hidden="true"></span>
+                                El correo se está enviando, por favor espere.
+                            </p>
+                        }
                     </div>
 
                     <!-- Mostrar mensaje de error -->
