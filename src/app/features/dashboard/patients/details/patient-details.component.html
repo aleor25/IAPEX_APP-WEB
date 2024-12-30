@@ -378,8 +378,8 @@
 
       <!-- Icono de eliminación dentro de un círculo blanco -->
       <button (click)="removeImage($index)" title="Eliminar imagen"
-        class="btn btn-sm btn-link position-absolute top-0 start-0 m-2 p-1 bg-light-subtle rounded-circle">
-        <i class="bi bi-trash text-danger fs-5"></i>
+        class="btn btn-sm btn-link position-absolute top-0 start-0 m-2 bg-light-subtle rounded-circle">
+        <i class="bi bi-trash text-danger"></i>
       </button>
     </div>
   </div>
@@ -392,7 +392,8 @@
   <button type="submit" class="btn btn-primary" (click)="updatePatient()"
     [disabled]="!isFormModified || loading">Actualizar paciente</button>
 
-  <button type="submit" class="btn btn-danger" (click)="deletePatient(patient.id)">Eliminar paciente</button>
+  <button type="submit" class="btn btn-danger" (click)="openDeleteModal()">Eliminar
+    paciente</button>
 </div>
 <!-- Mostrar mensaje de error -->
 <div class="d-flex flex-column align-items-end">
@@ -404,3 +405,9 @@
 </div>
 </form>
 </div>
+
+<!-- Modal -->
+<app-modal [title]="'Eliminar paciente'"
+  [message]="'¿Estás seguro de eliminar este paciente? Esta acción no se puede deshacer.'"
+  (confirmed)="deletePatient(patient.id)">
+</app-modal>

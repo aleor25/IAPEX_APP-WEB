@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ModalComponent],
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
   currentSection: string = '';
   isRegisterPage: boolean = false;
   isDetailsPage: boolean = false;
+  @ViewChild(ModalComponent) backModal!: ModalComponent;
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.updateCurrentSection(this.router.url);
-
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -27,7 +28,7 @@ export class NavbarComponent implements OnInit {
 
   private updateCurrentSection(url: string): void {
     this.isRegisterPage = url.endsWith('/register'); // Detecta cualquier URL que termine en "/register"
-    this.isDetailsPage = url.includes('/details'); // Detecta cualquier URL que contenga "/edit"
+    this.isDetailsPage = url.includes('/details'); // Detecta cualquier URL que contenga "/details"
     const path = url.split('/').slice(2)[0]; // Obtiene la sección antes de "register"
 
     // console.log('path:', path);
@@ -130,5 +131,13 @@ export class NavbarComponent implements OnInit {
       default:
         return 'Datos estadisticos';
     }
+  }
+
+  openBackModal(): void {
+    this.backModal.open();
+  }
+
+  handleConfirmation(): void {
+    this.router.navigate([`/dashboard/${this.getRoutePath()}`]);
   }
 }

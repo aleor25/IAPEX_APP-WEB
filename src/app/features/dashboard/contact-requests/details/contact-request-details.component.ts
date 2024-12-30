@@ -28,6 +28,7 @@ export class ContactRequestDetailsComponent implements OnInit {
   ];
 
   private _activatedRoute = inject(ActivatedRoute);
+  private _router = inject(Router);
   private _toastService = inject(ToastService);
   private _contactRequestService = inject(ContactRequestService);
   private _fb = inject(FormBuilder);
@@ -61,6 +62,7 @@ export class ContactRequestDetailsComponent implements OnInit {
     this._contactRequestService.getContactRequestById(id).subscribe({
       next: (data) => {
         this.contactRequest = data;
+        console.log('Contact request', this.contactRequest);
 
         if(this.contactRequest.status === 'ENCONTRADO') {
           this.contactRequestForm.get('status')?.disable();
@@ -129,5 +131,9 @@ export class ContactRequestDetailsComponent implements OnInit {
       minute: '2-digit',
       hour12: true
     });
+  }
+
+  seePatientDetails(id: number): void {
+    this._router.navigate(['/dashboard/patients/details', id]);
   }
 }

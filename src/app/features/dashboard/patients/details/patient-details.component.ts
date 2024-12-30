@@ -1,15 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Patient } from '../../../../core/models/patient.model';
 import { PatientService } from '../../../../core/services/patient.service';
 import { ToastService } from '../../../../core/services/util/toast.service';
+import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-patient-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ModalComponent],
   templateUrl: './patient-details.component.html',
 })
 export class PatientDetailsComponent implements OnInit {
@@ -26,6 +27,7 @@ export class PatientDetailsComponent implements OnInit {
   patient!: Patient;
   isFormModified = false;
   readonly allowedHairColors: string[] = ['negro', 'castaño', 'rubio', 'pelirrojo', 'canoso', 'otro'];
+  @ViewChild(ModalComponent) deleteModal!: ModalComponent;
 
   private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
@@ -443,6 +445,10 @@ export class PatientDetailsComponent implements OnInit {
           'error');
       }
     );
+  }
+
+  openDeleteModal(): void {
+    this.deleteModal.open();
   }
 
   formatDateTime(dateTime: string | Date): string {

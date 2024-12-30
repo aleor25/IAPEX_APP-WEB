@@ -4,7 +4,7 @@
     <!-- Botón de "Volver" con icono de Bootstrap a la izquierda del título -->
     <div class="d-flex align-items-center">
         @if (isRegisterPage || isDetailsPage) {
-        <a class="btn btn-sm me-3" type="button" [routerLink]="['/dashboard', getRoutePath()]">
+        <a class="btn btn-sm me-3" type="button" (click)="openBackModal()">
             <!-- Ícono de Bootstrap -->
             <i class="bi bi-arrow-left"></i>
         </a>
@@ -22,3 +22,8 @@
     </div>
 </div>
 }
+
+<!-- Modal -->
+<app-modal
+  (confirmed)="handleConfirmation()">
+</app-modal>
