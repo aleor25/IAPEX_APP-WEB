@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, ValidatorFn, AbstractControl, } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,11 +9,12 @@ import { Membership } from '../../../../core/models/membership.model';
 import { InstitutionService } from '../../../../core/services/institution.service';
 import { ToastService } from '../../../../core/services/util/toast.service';
 import { dateRangeValidator } from '../../../../shared/validators/date-range.validator';
+import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-membership-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, ModalComponent],
   templateUrl: './membership-details.component.html',
 })
 export class MembershipDetailsComponent {
@@ -24,6 +25,7 @@ export class MembershipDetailsComponent {
   errorMessage: string = '';
   institutionNames: string[] = [];
   loading = false;
+  @ViewChild(ModalComponent) deleteModal!: ModalComponent;
 
   private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
@@ -162,5 +164,8 @@ export class MembershipDetailsComponent {
       }
     );
   }
-}
 
+  openDeleteModal(): void {
+    this.deleteModal.open();
+  }
+}

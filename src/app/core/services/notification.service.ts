@@ -27,9 +27,9 @@ export class NotificationService {
   }
 
   // Actualizar el estado de una notificación
-  public updateNotificationStatus(id: number, attended: boolean): Observable<any> {
+  public updateNotificationStatus(id: number): Observable<any> {
     const apiUrl = `${this.apiUrl}/${id}`;
-    return this._http.patch(apiUrl, null, { params: { attended } });
+    return this._http.patch(apiUrl, null);
   }
 
   // Eliminar una notificación por ID

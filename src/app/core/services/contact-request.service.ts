@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ContactRequest } from '../models/contact-request/contact-request.model';
-import { UpdateContactRequest } from '../models/contact-request/update-contact-request.model';
+import { ContactRequest } from '../models/contact-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +28,7 @@ export class ContactRequestService {
     return this._http.post<Response>(this.apiUrl, request);
   }
 
-  updateContactRequestById(id: number, request: UpdateContactRequest): Observable<Response> {
+  updateContactRequestById(id: number, request: any): Observable<Response> {
     return this._http.put<Response>(`${this.apiUrl}/${id}`, request);
   }
 }

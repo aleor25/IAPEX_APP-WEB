@@ -1,15 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Institution } from '../../../../core/models/institution.model';
 import { InstitutionService } from '../../../../core/services/institution.service';
 import { ToastService } from '../../../../core/services/util/toast.service';
+import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-institution-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ModalComponent],
   templateUrl: './institution-details.component.html'
 })
 export class InstitutionDetailsComponent {
@@ -36,6 +37,7 @@ export class InstitutionDetailsComponent {
     'centro salud mental',
     'otro'
   ];
+  @ViewChild(ModalComponent) deleteModal!: ModalComponent;
 
   private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
@@ -507,6 +509,10 @@ export class InstitutionDetailsComponent {
           'error');
       }
     );
+  }
+
+  openDeleteModal(): void {
+    this.deleteModal.open();
   }
 
   formatDateTime(dateTime: string | Date): string {

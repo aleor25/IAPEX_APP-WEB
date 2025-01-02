@@ -1,16 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ContactRequest } from '../../../../core/models/contact-request/contact-request.model';
-import { UpdateContactRequest } from '../../../../core/models/contact-request/update-contact-request.model';
+import { ContactRequest } from '../../../../core/models/contact-request.model';
 import { ContactRequestService } from '../../../../core/services/contact-request.service';
 import { ToastService } from '../../../../core/services/util/toast.service';
+import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-contact-request-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ModalComponent],
   templateUrl: './contact-request-details.component.html'
 })
 export class ContactRequestDetailsComponent implements OnInit {
@@ -19,6 +19,7 @@ export class ContactRequestDetailsComponent implements OnInit {
   loading: boolean = false;
   errorMessage: string = "";
   isFormModified = false;
+  @ViewChild(ModalComponent) updateModal!: ModalComponent;
 
   statusOptions = [
     { value: 'NO_ENCONTRADO', label: 'No encontrado' },
@@ -64,7 +65,7 @@ export class ContactRequestDetailsComponent implements OnInit {
         this.contactRequest = data;
         console.log('Contact request', this.contactRequest);
 
-        if(this.contactRequest.status === 'ENCONTRADO') {
+        if (this.contactRequest.status === 'ENCONTRADO' || this.contactRequest.status === 'NO_ENCONTRADO') {
           this.contactRequestForm.get('status')?.disable();
         }
 
@@ -101,7 +102,7 @@ export class ContactRequestDetailsComponent implements OnInit {
 
     if (this.contactRequestForm.valid) {
       const newStatus = this.contactRequestForm.get('status')?.value;
-      const updateRequest: UpdateContactRequest = { status: newStatus };
+      const updateRequest: any = { status: newStatus };
 
       if (this.contactRequest.id) {
         this._contactRequestService.updateContactRequestById(this.contactRequest.id, updateRequest)
@@ -131,6 +132,10 @@ export class ContactRequestDetailsComponent implements OnInit {
       minute: '2-digit',
       hour12: true
     });
+  }
+
+  openUpdateModal(): void {
+    this.updateModal.open();
   }
 
   seePatientDetails(id: number): void {

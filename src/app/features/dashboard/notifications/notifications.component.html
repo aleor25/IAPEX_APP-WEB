@@ -138,12 +138,12 @@
 
 <!-- Mensajes de reatroalimentación -->
 @defer (on timer(1s)) {
-    @if (notifications.length === 0) {
-        <div class="alert alert-primary d-flex align-items-center m-0 py-2" role="alert">
-            <i class="bi bi-info-circle me-3"></i>
-            <p class="m-0">No se encontro ninguna notificación.</p>
-        </div>
-    }
+@if (notifications.length === 0) {
+<div class="alert alert-primary d-flex align-items-center m-0 py-2" role="alert">
+    <i class="bi bi-info-circle me-3"></i>
+    <p class="m-0">No se encontro ninguna notificación.</p>
+</div>
+}
 }
 
 <div class="accordion" id="accordionExample">
@@ -170,17 +170,17 @@
                     </div>
 
                     <div class="row-cols-auto">
-                        @if (notification.attended) {
+                        @if (notification.attendingUser) {
                         <span class="badge bg-success me-2 mt-3">
-                            <i class="bi bi-check-circle me-1"></i> Atendida por {{ notification.attendedBy }}
+                            <i class="bi bi-check-circle me-1"></i> Atendida por {{ notification.attendingUser }}
                         </span>
                         <span class="badge bg-success mt-2">
                             {{ notification.attendDateTime! | formatDateTime }}
                         </span>
                         } @else {
-                            <span class="badge bg-danger mt-3">
-                                <i class="bi bi-x-circle me-1"></i> Aún no ha sido atentida
-                            </span>
+                        <span class="badge bg-danger mt-3">
+                            <i class="bi bi-x-circle me-1"></i> Aún no ha sido atentida
+                        </span>
                         }
                     </div>
                     <div class="row-cols-auto"></div>
@@ -199,9 +199,9 @@
             <div class="accordion-body bg-light-subtle p-4">
                 <p>{{ notification.body }}</p>
                 <div class="text-end">
-                    @if (!notification.attended) {
+                    @if (!notification.attendingUser) {
                     <!-- Botón para atender solicitud -->
-                    <button class="btn btn-success btn me-2" data-bs-toggle="modal" (click)="markNotificationAsAttended(notification.id, true)">
+                    <button class="btn btn-success btn me-2" data-bs-toggle="modal" (click)="openUpdateModal()">
                         <i class="bi bi-check-circle"></i> <!-- Icono para atender solicitud -->
                         <span class="d-none d-sm-inline ms-2">Atender solicitud</span>
                     </button>
@@ -217,6 +217,13 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <app-modal [title]="'¿Está seguro de que desea atender la solicitud?'"
+        [message]="'Esta acción no se puede deshacer. Su nombre será asignado a la solicitud y será el encargado de darle seguimiento.'"
+        (confirmed)="markNotificationAsAttended(notification.id)">
+    </app-modal>
+
     }
     }@placeholder(minimum 500ms) {
     @for (notification of [].constructor(5); track $index) {

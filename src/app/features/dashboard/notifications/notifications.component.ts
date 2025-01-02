@@ -1,15 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../../core/services/notification.service';
 import { Notification } from '../../../core/models/notification.model';
 import { FormatDateTimePipe } from '../../../shared/pipes/format-date-time.pipe';
 import { RouterLink } from '@angular/router';
 import { ToastService } from '../../../core/services/util/toast.service';
+import { ModalComponent } from '../../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-notifications',
   standalone: true,
   templateUrl: './notifications.component.html',
-  imports: [FormatDateTimePipe, RouterLink]
+  imports: [FormatDateTimePipe, RouterLink, ModalComponent]
 })
 export class NotificationsComponent implements OnInit {
   notifications: Notification[] = [];
@@ -18,6 +19,7 @@ export class NotificationsComponent implements OnInit {
   pageSize: number = 5;
   totalPages: number = 0;
   errorMessage: string = "";
+  @ViewChild(ModalComponent) updateModal!: ModalComponent;
 
   private _notificationService = inject(NotificationService);
   private _toastService = inject(ToastService);
@@ -46,8 +48,8 @@ export class NotificationsComponent implements OnInit {
   }
 
   // Actualiza el estado de una notificación
-  markNotificationAsAttended(id: number, attended: boolean): void {
-    this._notificationService.updateNotificationStatus(id, attended).subscribe({
+  markNotificationAsAttended(id: number): void {
+    this._notificationService.updateNotificationStatus(id).subscribe({
       next: () => {
         this.loadNotifications(this.pageNumber, this.pageSize);
         this._toastService.showToast('Notificación atendida',
@@ -89,5 +91,9 @@ export class NotificationsComponent implements OnInit {
   get endIndex(): number {
     const end = this.startIndex + this.notifications.length - 1;
     return end > this.totalElements ? this.totalElements : end;
+  }
+
+  openUpdateModal(): void {
+    this.updateModal.open();
   }
 }

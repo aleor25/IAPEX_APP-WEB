@@ -1,5 +1,5 @@
 <div class="bg-light-subtle p-4 rounded-4 border">
-  <form class="mb-0" [formGroup]="institutionForm" (ngSubmit)="updateInstitution()">
+  <form class="mb-0" [formGroup]="institutionForm">
     <h5 class="mb-4">Información de registro</h5>
 
     <div class="row mb-3">
@@ -419,7 +419,7 @@
       <button type="submit" class="btn btn-primary" (click)="updateInstitution()"
         [disabled]="!isFormModified || loading">Actualizar institución</button>
 
-      <button type="submit" class="btn btn-danger" (click)="deleteInstitution(institution.id)">Eliminar
+      <button type="submit" class="btn btn-danger" (click)="openDeleteModal()">Eliminar
         institución</button>
     </div>
     <!-- Mostrar mensaje de error -->
@@ -432,3 +432,9 @@
     </div>
   </form>
 </div>
+
+<!-- Modal -->
+<app-modal [title]="'¿Está seguro de eliminar el registro de esta institución?'"
+  [message]="'Esta acción no se puede deshacer.'"
+  (confirmed)="deleteInstitution(institution.id)">
+</app-modal>

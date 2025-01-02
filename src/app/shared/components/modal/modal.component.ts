@@ -7,8 +7,8 @@ import * as bootstrap from 'bootstrap';
   standalone: true
 })
 export class ModalComponent {
-  @Input() title: string = '¿Volver sin guardar?';
-  @Input() message: string = 'Si vuelves sin guardar, perderás los cambios realizados.';
+  @Input() title: string = '¿Está seguro de que desea volver?';
+  @Input() message: string = 'Si vuelve sin guardar, perderá los cambios realizados.';
   @Output() confirmed = new EventEmitter<void>();
 
   private modalInstance: bootstrap.Modal | null = null;

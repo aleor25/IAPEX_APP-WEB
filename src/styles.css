@@ -11,34 +11,6 @@ body {
     scrollbar-width: none;
 }
 
-a[disabled],
-a.disabled {
-    cursor: not-allowed;
-    color: #ccc;
-    pointer-events: none;
-}
-
-.custom-form-container {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    scrollbar-width: none;
-    max-height: calc(100vh - 40px);
-}
-
-.image-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.image-item img {
-    width: 100%;
-    height: auto;
-    max-height: 150px;
-    object-fit: cover;
-}
-
 .logo-image {
     float: left;
     width: 170px;
@@ -103,8 +75,4 @@ a.disabled {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-.message-container {
-    min-height: 20px;/* Altura mínima para mensajes */
 }

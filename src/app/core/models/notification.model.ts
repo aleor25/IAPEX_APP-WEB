@@ -1,5 +1,5 @@
 import { Institution } from './institution.model';
-import { ContactRequest } from './contact-request/contact-request.model';
+import { ContactRequest } from './contact-request.model';
 import { User } from './user.model';
 
 // export interface Notification {
@@ -21,6 +21,5 @@ export interface Notification {
     body: string;
     sendDate: string;
     attendDateTime?: string;
-    attended: boolean;
-    attendedBy?: string;
+    attendingUser?: string;
   }  

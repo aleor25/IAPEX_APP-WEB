@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ContactRequestService } from '../../../core/services/contact-request.service';
-import { ContactRequest } from '../../../core/models/contact-request/contact-request.model';
+import { ContactRequest } from '../../../core/models/contact-request.model';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../shared/components/table/table.component';
 

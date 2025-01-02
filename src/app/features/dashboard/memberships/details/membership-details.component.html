@@ -57,7 +57,7 @@
 
             <button type="submit" class="btn btn-danger"
             [disabled]="membershipForm.get('startDate')?.disabled"
-            (click)="deleteMembership(membership.id)">Desactivar
+            (click)="openDeleteModal()">Desactivar
                 membresía</button>
         </div>
         <!-- Mostrar mensaje de error -->
@@ -70,3 +70,9 @@
         </div>
     </form>
 </div>
+
+<!-- Modal -->
+<app-modal [title]="'Desactivar membresía'"
+  [message]="'Estás seguro que deseas desactivar la membresía. Esta acción no se puede deshacer.'"
+  (confirmed)="deleteMembership(membership.id)">
+</app-modal>
