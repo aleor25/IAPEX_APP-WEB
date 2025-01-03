@@ -291,72 +291,12 @@
             </div>
         </div>
 
-        <div class="d-flex align-items-center my-4">
-            <h5 class="form-label my-0 me-2">Imágenes del paciente*</h5>
-            <div class="dropdown dropdown-hover d-flex align-items-center">
-                <i class="bi bi-info-circle" [class.text-danger]="imageUploadError.length > 0"
-                    style="cursor: pointer;"></i>
-                <div class="dropdown-menu p-3">
-                    <p class="m-1 border-bottom">
-                        Debe subir entre 3 y 6 imágenes.
-                    </p>
-                    <p class="m-1 border-bottom">
-                        Formatos admitidos: JPG, JPEG, PNG, BMP, WEBP, TIFF, HEIF.
-                    </p>
-                    <p class="m-1 border-bottom">
-                        El tamaño máximo por imagen es de 5 MB.
-                    </p>
-                    <p class="m-1 border-bottom">
-                        Usa imágenes claras del rostro y desde diferentes ángulos.
-                    </p>
-                    <p class="m-1 border-bottom">
-                        Resolución máxima permitida: 4080x4080 píxeles.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <input class="form-control bg-body-tertiary d-none" type="file" id="patientImages"
-            (change)="onFilesSelected($event)" multiple>
-
-        <!-- Sección de carga de fotos -->
-        @if (tempImages.length < 6) {
-        <div class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded p-4 d-flex flex-column align-items-center justify-content-center text-center"
-            [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
-            (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
-
-            <!-- Icono y mensaje de arrastrar y soltar -->
-            <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
-            <p class="mb-2">Arrastre sus fotos aquí o</p>
-            <button class="btn btn-primary">Seleccione archivos</button>
-
-            <!-- Mensaje de error si hay problemas de subida -->
-            @if (imageUploadError.length > 0) {
-            @for (error of imageUploadError; track $index) {
-            <p class="small text-danger mt-2 mb-0">{{ error.error }}</p>
-            }
-            }
-        </div>
-    }
-
-        <!-- Vista previa de las imágenes cargadas -->
-        @if (tempImages.length > 0) {
-        <div class="row row-cols-3 g-2 mt-3">
-            @for (preview of tempImages; track $index) {
-            <div class="col">
-                <div class="position-relative image-container border rounded-4">
-                    <img [src]="preview" alt="Vista previa de la imagen">
-
-                    <!-- Icono de eliminación dentro de un círculo blanco -->
-                    <button (click)="removeImage($index)" title="Eliminar imagen"
-                        class="btn btn-sm btn-link position-absolute top-0 start-0 m-2 bg-light-subtle rounded-circle">
-                        <i class="bi bi-trash text-danger"></i>
-                    </button>
-                </div>
-            </div>
-            }
-        </div>
-        }
+        <app-drag-and-drop
+            [label]="'Imágenes del paciente*'"
+            [maxImages]="6"
+            [imageUploadError]="imageUploadError"
+            (imagesUploaded)="updateImages($event)">
+        </app-drag-and-drop>
 
         <!-- Botón de envío y mensaje de error -->
         <div class="d-flex flex-column align-items-end">

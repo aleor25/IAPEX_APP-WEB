@@ -6,24 +6,21 @@ import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
 import { PatientService } from '../../../../core/services/patient.service';
 import { ToastService } from '../../../../core/services/util/toast.service';
+import { DragAndDropComponent } from '../../../../shared/components/drag-and-drop/drag-and-drop.component';
 
 @Component({
   selector: 'app-register-patients',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DragAndDropComponent],
   templateUrl: './register-patients.component.html',
 })
 export class RegisterPatientsComponent {
 
   patientForm: FormGroup;
-  errorMessage: string | null = null;
+  errorMessage: string = '';
   loading = false;
-  isImagesChanges: boolean = false;
   tempImages: string[] = [];
-  selectedImages: number[] = [];
   imageUploadError: { error: string }[] = [];
-  allowedFormats = ['image/jpg', 'image/jpeg', 'image/png', 'image/bmp', 'image/webp', 'image/tiff', 'image/heif'];
-  maxSizeInMB = 5;
 
   private _router = inject(Router);
   private _patientService = inject(PatientService);
@@ -79,122 +76,6 @@ export class RegisterPatientsComponent {
     });
   }
 
-  handleDragOver(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  handleDrop(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (event.dataTransfer?.files) {
-      this.onFilesDropped(event.dataTransfer.files);
-    }
-  }
-
-  onFilesDropped(files: FileList) {
-    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
-    const newImageFiles = Array.from(files);
-    const totalFiles = this.tempImages.length + newImageFiles.length;
-
-    if (totalFiles <= 6) {
-      this.imageUploadError = [];
-    } else {
-      this.imageUploadError.push({
-        error: 'No puedes subir más de 6 imágenes en total.'
-      });
-      return;
-    }
-
-    newImageFiles.forEach((file) => {
-      if (!this.allowedFormats.includes(file.type)) {
-        this.imageUploadError.push({
-          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-        });
-        return;
-      }
-
-      if (file.size > maxSizeInBytes) {
-        this.imageUploadError.push({
-          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
-        });
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
-          this.tempImages.push(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  onFilesSelected(event: Event) {
-    this.isImagesChanges = true;
-    const input = event.target as HTMLInputElement;
-    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
-
-    if (!input || !input.files) {
-      return;
-    }
-
-    const files = input.files;
-    const newImageFiles = Array.from(files);
-    const totalFiles = this.tempImages.length + newImageFiles.length;
-
-    if (totalFiles <= 6) {
-      this.imageUploadError = [];
-    } else {
-      this.imageUploadError.push({
-        error: 'No puedes subir más de 6 imágenes en total.'
-      });
-      input.value = '';
-      return;
-    }
-
-    newImageFiles.forEach((file) => {
-      if (!this.allowedFormats.includes(file.type)) {
-        this.imageUploadError.push({
-          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-        });
-        return;
-      }
-
-      if (file.size > maxSizeInBytes) {
-        this.imageUploadError.push({
-          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
-        });
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
-          this.tempImages.push(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-
-    input.value = '';
-  }
-
-  removeImage(index: number) {
-    this.tempImages.splice(index, 1);
-    this.selectedImages = this.selectedImages.filter((i) => i !== index)
-      .map((i) => (i > index ? i - 1 : i));
-  }
-
-  triggerFileInput() {
-    const fileInput = document.getElementById('patientImages') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-    }
-  }
-
   getExtensionFromMimeType(mimeType: string): string | null {
     switch (mimeType) {
       case 'image/jpeg':
@@ -208,6 +89,11 @@ export class RegisterPatientsComponent {
       default:
         return null; // Devuelve null si el formato no es permitido
     }
+  }
+
+  updateImages(images: string[]): void {
+    this.tempImages = images;
+    // Si necesitas realizar más validaciones o lógica, hazlo aquí
   }
 
   addPatient() {
@@ -271,14 +157,8 @@ export class RegisterPatientsComponent {
           const promise = fetch(image)
             .then(res => res.blob())
             .then(blob => {
-              if (this.allowedFormats.includes(blob.type)) {
-                const extension = this.getExtensionFromMimeType(blob.type);
-                formData.append('imageFile', blob, `image${index}.${extension}`);
-              } else {
-                this.imageUploadError.push({
-                  error: `La imagen ${index + 1} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-                });
-              }
+              const extension = this.getExtensionFromMimeType(blob.type);
+              formData.append('imageFile', blob, `image${index}.${extension}`);
             });
           imagePromises.push(promise);
         }
@@ -291,7 +171,7 @@ export class RegisterPatientsComponent {
         tap(() => {
           this._toastService.showToast('Paciente registrado',
             'Los datos del paciente se han registrado correctamente.', 'success');
-          this.errorMessage = null;
+          this.errorMessage = '';
           this._router.navigate(['/dashboard/patients']);
         }),
         catchError(error => {
