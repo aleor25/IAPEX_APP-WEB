@@ -22,26 +22,29 @@
           </a>
         </li>
 
-        <li class="nav-item mb-2">
-          <a routerLink="/dashboard/patients" class="nav-link" routerLinkActive="active">
-            <!-- Visible en pantallas grandes -->
-            <div class="d-none d-lg-flex align-items-center">
-              <i class="bi bi-person-lines-fill me-3"></i>
-              <span class="d-none d-lg-inline">Pacientes</span>
-            </div>
-            <!-- Visible en pantallas pequeñas -->
-            <div class="d-flex d-lg-none justify-content-center align-items-center">
-              <i class="bi bi-person-lines-fill"></i>
-            </div>
-          </a>
-        </li>
+        @if (userRole === RoleName.USER_WEB) {
+          <li class="nav-item mb-2">
+            <a routerLink="/dashboard/patients" class="nav-link" routerLinkActive="active">
+              <!-- Visible en pantallas grandes -->
+              <div class="d-none d-lg-flex align-items-center">
+                <i class="bi bi-person-lines-fill me-3"></i>
+                <span class="d-none d-lg-inline">Pacientes</span>
+              </div>
+              <!-- Visible en pantallas pequeñas -->
+              <div class="d-flex d-lg-none justify-content-center align-items-center">
+                <i class="bi bi-person-lines-fill"></i>
+              </div>
+            </a>
+          </li>
+        }
 
-        <li class="nav-item mb-2">
+        @if (userRole === RoleName.USER_WEB) {
+          <li class="nav-item mb-2">
           <a routerLink="/dashboard/contact-requests" class="nav-link" routerLinkActive="active">
             <!-- Visible en pantallas grandes -->
             <div class="d-none d-lg-flex align-items-center">
               <i class="bi bi-envelope me-3"></i>
-              <span class="d-none d-lg-inline">Solicitudes</span>
+              <span class="d-none d-lg-inline">Solicitudes de contacto</span>
             </div>
             <!-- Visible en pantallas pequeñas -->
             <div class="d-flex d-lg-none justify-content-center align-items-center">
@@ -49,7 +52,9 @@
             </div>
           </a>
         </li>
+      }
 
+      @if (userRole === RoleName.SUPER_ADMIN) {
         <li class="nav-item mb-2">
           <a routerLink="/dashboard/institutions" class="nav-link" routerLinkActive="active">
             <!-- Visible en pantallas grandes -->
@@ -63,7 +68,9 @@
             </div>
           </a>
         </li>
+      }
 
+      @if (userRole === RoleName.SUPER_ADMIN) {
         <li class="nav-item mb-2">
           <a routerLink="/dashboard/memberships" class="nav-link" routerLinkActive="active">
             <!-- Visible en pantallas grandes -->
@@ -77,7 +84,9 @@
             </div>
           </a>
         </li>
+      }
 
+      @if (userRole === RoleName.USER_WEB) {
         <li class="nav-item mb-2">
           <a routerLink="/dashboard/notifications" class="nav-link" routerLinkActive="active">
             <!-- Visible en pantallas grandes -->
@@ -91,6 +100,7 @@
             </div>
           </a>
         </li>
+      }
       </ul>
 
       <div class="mt-auto mb-3">

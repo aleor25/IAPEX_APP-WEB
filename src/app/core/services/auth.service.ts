@@ -4,6 +4,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthResponse, AuthUser } from '../models/auth.model';
 import { UserService } from './user.service';
+import { RoleName } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,11 @@ export class AuthService {
       return null;
     }
   }
+
+  getRole(): RoleName {
+    const authUser = this.getAuthUser();
+    return authUser?.role as RoleName;
+  }  
 
   getAuthToken(): string | null {
     const authUser = this.getAuthUser();

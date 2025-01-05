@@ -12,6 +12,7 @@ import { ContactRequestDetailsComponent } from "./contact-requests/details/conta
 import { InstitutionDetailsComponent } from "./institutions/details/institution-details.component";
 import { PatientDetailsComponent } from "./patients/details/patient-details.component";
 import { MembershipDetailsComponent } from "./memberships/details/membership-details.component";
+import { roleGuard } from "../../core/guards/role.guard";
 
 export const DashboardRoutes: Routes = [
     {
@@ -20,22 +21,24 @@ export const DashboardRoutes: Routes = [
             { path: '', redirectTo: 'general-view', pathMatch: 'full' },
             { path: 'general-view', component: GeneralViewComponent },
 
-            { path: 'patients', component: PatientsComponent },
-            { path: 'patients/register', component: RegisterPatientsComponent },
-            { path: 'patients/details/:id', component: PatientDetailsComponent },
+            // Rutas protegidas para pacientes y solicitudes, requerirán el rol USER_WEB
+            { path: 'patients', component: PatientsComponent, canActivate: [roleGuard], data: { expectedRoles: ['USER_WEB'] } },
+            { path: 'patients/register', component: RegisterPatientsComponent, canActivate: [roleGuard], data: { expectedRoles: ['USER_WEB'] } },
+            { path: 'patients/details/:id', component: PatientDetailsComponent, canActivate: [roleGuard], data: { expectedRoles: ['USER_WEB'] } },
 
-            { path: 'contact-requests', component: ContactRequestsComponent },
-            { path: 'contact-requests/details/:id', component: ContactRequestDetailsComponent },
+            { path: 'contact-requests', component: ContactRequestsComponent, canActivate: [roleGuard], data: { expectedRoles: ['USER_WEB'] } },
+            { path: 'contact-requests/details/:id', component: ContactRequestDetailsComponent, canActivate: [roleGuard], data: { expectedRoles: ['USER_WEB'] } },
 
-            { path: 'institutions', component: InstitutionsComponent },
-            { path: 'institutions/register', component: RegisterInstitutionsComponent },
-            { path: 'institutions/details/:id', component: InstitutionDetailsComponent },
+            // Rutas protegidas para instituciones y membresías, requerirán el rol SUPER_ADMIN
+            { path: 'institutions', component: InstitutionsComponent, canActivate: [roleGuard], data: { expectedRoles: ['SUPER_ADMIN'] } },
+            { path: 'institutions/register', component: RegisterInstitutionsComponent, canActivate: [roleGuard], data: { expectedRoles: ['SUPER_ADMIN'] } },
+            { path: 'institutions/details/:id', component: InstitutionDetailsComponent, canActivate: [roleGuard], data: { expectedRoles: ['SUPER_ADMIN'] } },
 
-            { path: 'memberships', component: MembershipsComponent },
-            { path: 'memberships/register', component: RegisterMembershipsComponent },
-            { path: 'memberships/details/:id', component: MembershipDetailsComponent },
+            { path: 'memberships', component: MembershipsComponent, canActivate: [roleGuard], data: { expectedRoles: ['SUPER_ADMIN'] } },
+            { path: 'memberships/register', component: RegisterMembershipsComponent, canActivate: [roleGuard], data: { expectedRoles: ['SUPER_ADMIN'] } },
+            { path: 'memberships/details/:id', component: MembershipDetailsComponent, canActivate: [roleGuard], data: { expectedRoles: ['SUPER_ADMIN'] } },
             
-            { path: 'notifications', component: NotificationsComponent },
+            { path: 'notifications', component: NotificationsComponent, canActivate: [roleGuard], data: { expectedRoles: ['USER_WEB'] } },
         ]
     },
 ];
