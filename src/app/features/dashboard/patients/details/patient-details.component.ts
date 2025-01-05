@@ -6,11 +6,12 @@ import { Patient } from '../../../../core/models/patient.model';
 import { PatientService } from '../../../../core/services/patient.service';
 import { ToastService } from '../../../../core/services/util/toast.service';
 import { ModalComponent } from '../../../../shared/components/modal/modal.component';
+import { DragAndDropComponent } from '../../../../shared/components/drag-and-drop/drag-and-drop.component';
 
 @Component({
   selector: 'app-patient-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, ModalComponent, DragAndDropComponent],
   templateUrl: './patient-details.component.html',
 })
 export class PatientDetailsComponent implements OnInit {
@@ -18,12 +19,8 @@ export class PatientDetailsComponent implements OnInit {
   patientForm: FormGroup;
   errorMessage: string = "";
   loading = false;
-  isImagesChanges: boolean = false;
-  tempImages: string[] = []; // Imágenes para mostrar
-  selectedImages: number[] = [];
+  tempImages: string[] = [];
   imageUploadError: { error: string }[] = [];
-  allowedFormats = ['image/jpg', 'image/jpeg', 'image/png', 'image/bmp', 'image/webp', 'image/tiff', 'image/heif'];
-  maxSizeInMB = 5;
   patient!: Patient;
   isFormModified = false;
   readonly allowedHairColors: string[] = ['negro', 'castaño', 'rubio', 'pelirrojo', 'canoso', 'otro'];
@@ -172,127 +169,9 @@ export class PatientDetailsComponent implements OnInit {
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
   }
 
-  handleDragOver(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  handleDrop(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (event.dataTransfer?.files) {
-      this.onFilesDropped(event.dataTransfer.files);
-    }
-  }
-
-  onFilesDropped(files: FileList): void {
-    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
-    const newImageFiles = Array.from(files);
-    const totalFiles = this.tempImages.length + newImageFiles.length;
-
-    if (totalFiles <= 6) {
-      this.imageUploadError = [];
-    } else {
-      this.imageUploadError.push({
-        error: 'No puedes subir más de 6 imágenes en total.'
-      });
-      return;
-    }
-
-    newImageFiles.forEach((file) => {
-      if (!this.allowedFormats.includes(file.type)) {
-        this.imageUploadError.push({
-          error: `${file.name} tiene un formato no permitido. Solo se permiten formatos: JPG, PNG, JPEG, WEBP y HEIF.`,
-        });
-        return;
-      }
-
-      if (file.size > maxSizeInBytes) {
-        this.imageUploadError.push({
-          error: `${file.name} supera el tamaño máximo permitido (${this.maxSizeInMB} MB).`,
-        });
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
-          this.tempImages.push(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  onFilesSelected(event: Event) {
-    this.isImagesChanges = true;
-    const input = event.target as HTMLInputElement;
-    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
-
-    if (!input || !input.files) {
-      return;
-    }
-
-    const files = input.files;
-    const newImageFiles = Array.from(files);
-    const totalFiles = this.tempImages.length + newImageFiles.length;
-
-    if (totalFiles <= 6) {
-      this.imageUploadError = [];
-    } else {
-      this.imageUploadError.push({
-        error: 'No puedes subir más de 6 imágenes en total.'
-      });
-      input.value = '';
-      return;
-    }
-
-    const imageFilesArray = this.patientForm.get('imageFiles') as FormArray;
-
-    newImageFiles.forEach((file) => {
-      if (!this.allowedFormats.includes(file.type)) {
-        this.imageUploadError.push({
-          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-        });
-        return;
-      }
-
-      if (file.size > maxSizeInBytes) {
-        this.imageUploadError.push({
-          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
-        });
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
-          this.tempImages.push(reader.result);
-          imageFilesArray.push(this._fb.control(reader.result)); // Añadir al FormArray
-          this.isFormModified = true;
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-
-    input.value = '';
-  }
-
-  removeImage(index: number): void {
-    // Remover imagen de la lista temporal
-    this.tempImages.splice(index, 1);
-    this.selectedImages = this.selectedImages.filter((i) => i !== index)
-      .map((i) => (i > index ? i - 1 : i));
+  updateImages(images: string[]): void {
+    this.tempImages = images;
     this.isFormModified = true;
-
-  }
-
-  triggerFileInput() {
-    const fileInput = document.getElementById('patientImages') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-    }
   }
 
   getExtensionFromMimeType(mimeType: string): string | null {
@@ -371,14 +250,8 @@ export class PatientDetailsComponent implements OnInit {
             const promise = fetch(image.imageUrl)
               .then(res => res.blob())
               .then(blob => {
-                if (this.allowedFormats.includes(blob.type)) {
                   const extension = this.getExtensionFromMimeType(blob.type);
                   formData.append('imageFile', blob, `${image.image}.${extension}`);
-                } else {
-                  this.imageUploadError.push({
-                    error: `La imagen ${image.image} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-                  });
-                }
               });
             imagePromises.push(promise);
           }
@@ -391,14 +264,8 @@ export class PatientDetailsComponent implements OnInit {
           const promise = fetch(image)
             .then(res => res.blob())
             .then(blob => {
-              if (this.allowedFormats.includes(blob.type)) {
                 const extension = this.getExtensionFromMimeType(blob.type);
                 formData.append('imageFile', blob, `image${index}.${extension}`);
-              } else {
-                this.imageUploadError.push({
-                  error: `La imagen ${index} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-                });
-              }
             });
           imagePromises.push(promise);
         }

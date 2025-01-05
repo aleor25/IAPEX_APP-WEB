@@ -1,16 +1,17 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { tap, catchError, finalize, switchMap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { InstitutionService } from '../../../../core/services/institution.service';
 import { ToastService } from '../../../../core/services/util/toast.service';
+import { DragAndDropComponent } from '../../../../shared/components/drag-and-drop/drag-and-drop.component';
 
 @Component({
   selector: 'app-register-institutions',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DragAndDropComponent],
   templateUrl: './register-institutions.component.html'
 })
 export class RegisterInstitutionsComponent {
@@ -18,12 +19,8 @@ export class RegisterInstitutionsComponent {
   institutionForm: FormGroup;
   errorMessage: string | null = null;
   loading = false;
-  isImagesChanges: boolean = false;
   tempImages: string[] = [];
-  selectedImages: number[] = [];
   imageUploadError: { error: string }[] = [];
-  allowedFormats = ['image/jpg', 'image/jpeg', 'image/png', 'image/bmp', 'image/webp', 'image/tiff', 'image/heif'];
-  maxSizeInMB = 5;
 
   private _router = inject(Router);
   private _institutionService = inject(InstitutionService);
@@ -76,120 +73,8 @@ export class RegisterInstitutionsComponent {
     });
   }
 
-  handleDragOver(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  handleDrop(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (event.dataTransfer?.files) {
-      this.onFilesDropped(event.dataTransfer.files);
-    }
-  }
-
-  onFilesDropped(files: FileList) {
-    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
-    const newImageFiles = Array.from(files);
-    const totalFiles = this.tempImages.length + newImageFiles.length;
-
-    if (totalFiles <= 1) {
-      this.imageUploadError = [];
-    } else {
-      this.imageUploadError.push({
-        error: 'No puedes subir más de 1 imagen en total.'
-      });
-      return;
-    }
-
-    newImageFiles.forEach((file) => {
-      if (!this.allowedFormats.includes(file.type)) {
-        this.imageUploadError.push({
-          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-        });
-        return;
-      }
-
-      if (file.size > maxSizeInBytes) {
-        this.imageUploadError.push({
-          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
-        });
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
-          this.tempImages.push(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  onFilesSelected(event: Event) {
-    this.isImagesChanges = true;
-    const input = event.target as HTMLInputElement;
-    const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
-
-    if (!input || !input.files) {
-      return;
-    }
-
-    const files = input.files;
-    const newImageFiles = Array.from(files);
-    const totalFiles = this.tempImages.length + newImageFiles.length;
-
-    if (totalFiles <= 1) {
-      this.imageUploadError = [];
-    } else {
-      this.imageUploadError.push({
-        error: 'No puedes subir más de 1 imagen.'
-      });
-      input.value = '';
-      return;
-    }
-
-    newImageFiles.forEach((file) => {
-      if (!this.allowedFormats.includes(file.type)) {
-        this.imageUploadError.push({
-          error: `${file.name} es un ${file.name.split('.').pop()} y solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-        });
-        return;
-      }
-
-      if (file.size > maxSizeInBytes) {
-        this.imageUploadError.push({
-          error: `${file.name} es demasiado grande. El tamaño máximo permitido es ${this.maxSizeInMB} MB.`
-        });
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string' && !this.tempImages.includes(reader.result)) {
-          this.tempImages.push(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-
-    input.value = '';
-  }
-
-  removeImage(index: number) {
-    this.tempImages.splice(index, 1);
-    this.selectedImages = this.selectedImages.filter((i) => i !== index)
-      .map((i) => (i > index ? i - 1 : i));
-  }
-
-  triggerFileInput() {
-    const fileInput = document.getElementById('institutionImage') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-    }
+  updateImages(images: string[]): void {
+    this.tempImages = images;
   }
 
   getExtensionFromMimeType(mimeType: string): string | null {
@@ -316,14 +201,8 @@ export class RegisterInstitutionsComponent {
           const promise = fetch(image)
             .then(res => res.blob())
             .then(blob => {
-              if (this.allowedFormats.includes(blob.type)) {
                 const extension = this.getExtensionFromMimeType(blob.type);
                 formData.append('imageFile', blob, `image${index}.${extension}`);
-              } else {
-                this.imageUploadError.push({
-                  error: `La imagen ${index + 1} tiene un formato no permitido: ${blob.type}. Solo se permiten JPG, PNG, JPEG, WEBP y HEIF.`
-                });
-              }
             });
           imagePromises.push(promise);
         }

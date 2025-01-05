@@ -93,7 +93,6 @@ export class RegisterPatientsComponent {
 
   updateImages(images: string[]): void {
     this.tempImages = images;
-    // Si necesitas realizar más validaciones o lógica, hazlo aquí
   }
 
   addPatient() {
