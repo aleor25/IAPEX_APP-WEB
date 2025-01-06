@@ -6,10 +6,12 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { QRCodeComponent } from 'angularx-qrcode';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes), // Proveedor para enrutamiento con las rutas correctas
     provideClientHydration(), // Proveedor para hidratación del cliente
-    provideHttpClient(withInterceptors ([authInterceptor] ))
+    provideHttpClient(withInterceptors ([authInterceptor] )),
+    QRCodeComponent
   ],
 };

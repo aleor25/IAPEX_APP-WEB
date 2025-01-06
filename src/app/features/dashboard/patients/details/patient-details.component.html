@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row ">
       <div class="col-4">
         <label for="gender" class="form-label">Sexo*</label>
         <select id="gender" class="form-select bg-body-tertiary" formControlName="gender"
@@ -325,6 +325,7 @@
       [label]="'Imágenes del paciente*'"
       [imageUploadError]="imageUploadError"
       [tempImages]="tempImages"
+      [showQRCode]="true"
       (imagesUploaded)="updateImages($event)">
     </app-drag-and-drop>
 

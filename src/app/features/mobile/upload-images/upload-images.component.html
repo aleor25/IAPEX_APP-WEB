@@ -1,0 +1,14 @@
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-body-tertiary">
+    <div class="bg-light-subtle p-3 rounded-3 border w-100 w-md-50">
+        <!-- Componente de carga de imágenes -->
+        <app-drag-and-drop [label]="'Imágenes del paciente*'" [imageUploadError]="imageUploadError"
+        [tempImages]="tempImages"
+            (imagesUploaded)="updateImages($event)">
+        </app-drag-and-drop>
+
+        <!-- Botón para subir imágenes -->
+        <button class="btn btn-primary w-100 mt-3" (click)="uploadTemporaryImages()">
+            Subir imágenes
+        </button>
+    </div>
+</div>

@@ -12,13 +12,17 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
   imports: [RouterOutlet, ToastComponent, SidebarComponent, NavbarComponent]
 })
 export class AppComponent {
-  title = 'IAPEX';
+  title = 'Encuéntrame';
 
   private _themeService = inject(ThemeService);
   private _router = inject(Router);
 
   isAuthRoute(): boolean {
     return this._router.url.includes('/auth');
+  }
+
+  isUploadImagesRoute(): boolean {
+    return this._router.url.includes('/upload-images');
   }
   
   constructor() {

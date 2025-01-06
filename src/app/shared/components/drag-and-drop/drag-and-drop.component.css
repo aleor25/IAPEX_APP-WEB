@@ -1,15 +1,33 @@
 .upload-area {
     border-style: dashed;
-    cursor: pointer;
-    min-height: 150px;
-    max-width: 100%;
+    min-height: 175px;
+    padding: 24px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    flex: 0 0 100%;
+}
+
+.qr-area {
+    border-style: dashed;
+    min-height: 175px;
     padding: 8px;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
+    flex: 0 0 100%;
 }
 
 .upload-area:hover {
-    opacity: 50%;
+    opacity: 75%;
+}
+
+@media (min-width: 768px) {
+    .upload-area {
+        flex: 0 0 75%;
+    }
+
+    .qr-area {
+        flex: 0 0 25%;
+    }
 }
 
 .image-container {

@@ -11,6 +11,10 @@ body {
     scrollbar-width: none;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .logo-image {
     width: 175px;
     padding-bottom: 10px;

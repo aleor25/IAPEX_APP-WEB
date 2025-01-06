@@ -22,6 +22,7 @@
     "@angular/router": "^18.0.0",
     "@popperjs/core": "^2.11.8",
     "@types/date-fns": "^2.5.3",
+    "angularx-qrcode": "^19.0.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.3",
@@ -35,6 +36,7 @@
     "jquery": "^3.7.1",
     "ngx-bootstrap": "^18.0.2",
     "ngx-filepond": "^7.0.3",
+    "ngx-qrcode2": "^9.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

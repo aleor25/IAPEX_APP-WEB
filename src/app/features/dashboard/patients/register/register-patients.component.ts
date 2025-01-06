@@ -93,6 +93,7 @@ export class RegisterPatientsComponent {
 
   updateImages(images: string[]): void {
     this.tempImages = images;
+    console.log('Imágenes actualizadas:', this.tempImages);
   }
 
   addPatient() {

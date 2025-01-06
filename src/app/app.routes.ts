@@ -2,12 +2,13 @@ import { Routes } from "@angular/router";
 import { DashboardRoutes } from "./features/dashboard/dashboard.routes";
 import { AuthRoutes } from "./features/auth/auth.routes";
 import { authGuard } from "./core/guards/auth.guard";
+import { UploadImagesComponent } from "./features/mobile/upload-images/upload-images.component";
 
 export const routes: Routes = [
     { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
     ...AuthRoutes,
     ...DashboardRoutes.map(route => ({ ...route, canActivate: [authGuard] })),
-
+    { path: 'upload-images', component: UploadImagesComponent },
     { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
     { path: '**', redirectTo: '/auth/login', pathMatch: 'full' }
 ];

@@ -22,9 +22,27 @@ export class PatientService {
         return this._http.get<Patient>(apiUrl);
     }
 
+    // Método para obtener imágenes temporales por token
+    public getTemporaryImagesByToken(token: string): Observable<string[]> {
+        const apiUrl = `${this.apiUrl}/images/temp/${token}`;
+        return this._http.get<string[]>(apiUrl);
+    }
+
+    // Método para obtener la URL de carga de imágenes
+    public getUploadImagesUrl(): Observable<{ message: string }> {
+        const apiUrl = `${this.apiUrl}/upload-images-url`;
+        return this._http.get<{ message: string }>(apiUrl);
+    }
+
+    // Método para subir imágenes temporales
+    public uploadTemporaryImages(formData: FormData): Observable<any> {
+        const apiUrl = `${this.apiUrl}/upload-temp-images`;
+        return this._http.post(apiUrl, formData);
+    }
+
     public updatePatient(id: number, formData: FormData): Observable<any> {
         return this._http.put(`${this.apiUrl}/${id}`, formData);
-      }
+    }
 
     // Eliminar un paciente
     public deletePatient(id: number): Observable<void> {

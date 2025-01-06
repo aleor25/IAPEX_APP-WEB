@@ -1,6 +1,6 @@
-<div class="d-flex align-items-center my-4">
+<div class="d-flex align-items-center" [class.mb-3]="!showQRCode" [class.my-4]="showQRCode">
     <h5 class="form-label my-0 me-2">{{ label }}</h5>
-    <div class="dropdown dropdown-hover d-flex align-items-center">
+    <div class="dropdown dropdown-hover d-flex align-items-center" [class.d-none]="!showQRCode">
         <i class="bi bi-info-circle" [class.text-danger]="imageUploadError.length > 0" style="cursor: pointer;"></i>
         <div class="dropdown-menu p-3">
             @for (instruction of uploadInstructions; track $index) {
@@ -14,26 +14,66 @@
 
 <input class="form-control bg-body-tertiary d-none" type="file" id="images" (change)="onFilesSelected($event)" multiple>
 
-<!-- Sección de carga de fotos -->
-@if (tempImages.length < maxImages) {
-    <div
-    class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded d-flex flex-column align-items-center justify-content-center text-center"
-    [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
-    (dragover)="handleDragOver($event)" (click)="triggerFileInput()">
+@if (tempImages.length < maxImages) { 
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-1">
 
-    <!-- Icono y mensaje de arrastrar y soltar -->
-    <i class="bi bi-cloud-arrow-up text-primary fs-1"></i>
-    <p class="mb-2">Arrastre sus fotos aquí o <br> <span
-            class="btn-link link-primary link-underline-opacity-0">seleccione archivos</span></p>
+        <!-- Zona de carga de fotos (75% del espacio) -->
+        <div [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
+            (dragover)="handleDragOver($event)" [class.align-items-start]="!showQRCode" [class.align-items-center]="showQRCode"
+            class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded d-flex flex-column justify-content-center text-start flex-grow-1 col-12 col-md-9">
 
-    <!-- Mensaje de error si hay problemas de subida -->
-    @if (imageUploadError.length > 0) {
-    @for (error of imageUploadError; track $index) {
-    <p class="small text-danger mb-2">{{ error.error }}</p>
-    }
-    }
+            <!-- Icono y mensaje de arrastrar y soltar -->
+            <div class="d-flex align-items-center">
+                <i class="bi bi-cloud-arrow-up text-primary fs-2 me-3"></i>
+                <p class="mb-0">Arrastre sus fotos aquí o <span
+                        class="btn-link link-primary link-underline-opacity-0 cursor-pointer"
+                        (click)="triggerFileInput()">seleccione archivos</span>.
+                </p>
+            </div>
+
+            @if (!showQRCode) {
+                @for (instruction of uploadInstructions; track $index) {
+                    <div class="d-flex align-items-center mt-3">
+                        <i class="bi bi-info-circle text-primary fs-3 me-3"></i>
+                        <p class="mb-0">
+                            {{ instruction }}
+                        </p>
+                    </div>
+                    }
+            }
+
+            <!-- Icono y mensaje del QR -->
+            @if (qrCodeUrl) {
+            <div class="d-flex align-items-center my-2">
+                <i class="bi bi-phone text-primary fs-2 me-3"></i>
+                <p class="mb-0">
+                    Use su celular, escaneé el QR y suba las fotos. <br> Luego, para cargarlas haga clic <span
+                        class="btn-link link-primary link-underline-opacity-0 cursor-pointer"
+                        (click)="getTempImagesByToken()">aquí</span>.
+                </p>
+            </div>
+            }
+
+            <!-- Mensaje de error si hay problemas de subida -->
+            @if (imageUploadError.length > 0) {
+            <div class="mt-3">
+                @for (error of imageUploadError; track $index) {
+                <p class="small text-danger mb-2">{{ error.error }}</p>
+                }
+            </div>
+            }
+        </div>
+
+        <!-- Zona del QR (25% del espacio) -->
+        @if (qrCodeUrl) {
+        <div [class.border-danger-subtle]="imageUploadError.length > 0"
+            class="qr-area bg-body-tertiary border-secondary-subtle border-2 rounded d-flex flex-column align-items-center justify-content-center text-center flex-grow-0 col-12 col-md-3">
+            <qrcode [qrdata]="qrCodeUrl" [width]="133"></qrcode>
+        </div>
+        }
+
     </div>
-    }
+}
 
     <!-- Vista previa de las imágenes cargadas -->
     @if (tempImages.length > 0) {
