@@ -3,6 +3,7 @@
         <!-- Componente de carga de imágenes -->
         <app-drag-and-drop [label]="'Imágenes del paciente*'" [imageUploadError]="imageUploadError"
         [tempImages]="tempImages"
+        [mobileInterface]="true"
             (imagesUploaded)="updateImages($event)">
         </app-drag-and-drop>
 

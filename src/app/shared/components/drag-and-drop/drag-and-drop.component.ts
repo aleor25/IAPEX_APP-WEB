@@ -20,6 +20,7 @@ export class DragAndDropComponent implements OnInit {
   @Input() tempImages: string[] = [];
   @Output() imagesUploaded = new EventEmitter<string[]>();
   @Input() showQRCode: boolean = false;
+  @Input() mobileInterface: boolean = false;
   @Input() uploadInstructions: string[] = [
     'Debe subir entre 3 y 6 imágenes.',
     'Formatos admitidos: JPG, JPEG, PNG, BMP, WEBP, TIFF, HEIF.',

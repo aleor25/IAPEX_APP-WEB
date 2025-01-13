@@ -1,6 +1,6 @@
-<div class="d-flex align-items-center" [class.mb-3]="!showQRCode" [class.my-4]="showQRCode">
+<div class="d-flex align-items-center" [class.my-4]="!mobileInterface" [class.mb-3]="mobileInterface">
     <h5 class="form-label my-0 me-2">{{ label }}</h5>
-    <div class="dropdown dropdown-hover d-flex align-items-center" [class.d-none]="!showQRCode">
+    <div class="dropdown dropdown-hover d-flex align-items-center" [class.d-none]="mobileInterface">
         <i class="bi bi-info-circle" [class.text-danger]="imageUploadError.length > 0" style="cursor: pointer;"></i>
         <div class="dropdown-menu p-3">
             @for (instruction of uploadInstructions; track $index) {
@@ -19,7 +19,7 @@
 
         <!-- Zona de carga de fotos (75% del espacio) -->
         <div [class.border-danger-subtle]="imageUploadError.length > 0" (drop)="handleDrop($event)"
-            (dragover)="handleDragOver($event)" [class.align-items-start]="!showQRCode" [class.align-items-center]="showQRCode"
+            (dragover)="handleDragOver($event)" [class.align-items-start]="mobileInterface" [class.align-items-center]="showQRCode || !mobileInterface"
             class="upload-area bg-body-tertiary border-secondary-subtle border-2 rounded d-flex flex-column justify-content-center text-start flex-grow-1 col-12 col-md-9">
 
             <!-- Icono y mensaje de arrastrar y soltar -->
@@ -31,10 +31,10 @@
                 </p>
             </div>
 
-            @if (!showQRCode) {
+            @if (mobileInterface) {
                 @for (instruction of uploadInstructions; track $index) {
                     <div class="d-flex align-items-center mt-3">
-                        <i class="bi bi-info-circle text-primary fs-3 me-3"></i>
+                        <i class="bi bi-info-circle text-primary fs-4 me-3"></i>
                         <p class="mb-0">
                             {{ instruction }}
                         </p>
@@ -47,7 +47,7 @@
             <div class="d-flex align-items-center my-2">
                 <i class="bi bi-phone text-primary fs-2 me-3"></i>
                 <p class="mb-0">
-                    Use su celular, escaneé el QR y suba las fotos. <br> Luego, para cargarlas haga clic <span
+                    O use su celular, escaneé el QR y suba las fotos. <br> Luego, para cargarlas haga clic <span
                         class="btn-link link-primary link-underline-opacity-0 cursor-pointer"
                         (click)="getTempImagesByToken()">aquí</span>.
                 </p>
