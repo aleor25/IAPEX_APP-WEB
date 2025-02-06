@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -10,12 +11,13 @@ import { AuthService } from '../../../core/services/auth.service';
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.component.html'
 })
-
 export class LoginComponent {
-
+  
   loginForm: FormGroup;
   errorMessage: string = "";
   isLoading = false;
+  failedAttempts = 0;
+  maxAttempts = 5;  // Máximo de intentos antes de bloquear
 
   private _authService = inject(AuthService);
   private _router = inject(Router);
@@ -32,53 +34,47 @@ export class LoginComponent {
   login() {
     this.errorMessage = "";
 
+    if (this.failedAttempts >= this.maxAttempts) {
+      this.errorMessage = "Demasiados intentos fallidos. Inténtelo más tarde.";
+      return;
+    }
+
     // Marcar todos los controles como tocados
-    Object.values(this.loginForm.controls).forEach(control => {
-      control.markAsTouched();
-    });
+    this.loginForm.markAllAsTouched();
 
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
+      const email = this.loginForm.value.email.trim(); // Eliminar espacios en blanco
+      const password = this.loginForm.value.password.trim();
 
-      this._authService.login(email, password).subscribe({
-        next: () => {
-          this._router.navigate(['/dashboard/general-view']);
-        },
-        error: (error) => {
-          // Si el error es relacionado con el correo no autenticado
-          if (error.status === 442) {
-            this.isLoading = true;  // Desactiva el botón
-            setTimeout(() => {
-              this.isLoading = false;  // Reactiva el botón después de 10 segundos
-            }, 15000);  // 10000 ms = 10 segundos
+      this.isLoading = true;  // Desactiva el botón
+      this._authService.login(email, password)
+        .pipe(finalize(() => this.isLoading = false)) // Asegura que isLoading siempre se desactiva
+        .subscribe({
+          next: () => {
+            this.failedAttempts = 0;  // Restablecer intentos fallidos
+            this._router.navigate(['/dashboard/general-view']);
+          },
+          error: (error) => {
+            this.failedAttempts++;  // Incrementar intentos fallidos
+            this.handleLoginError(error);
           }
-          this.handleLoginError(error);
-        }
-      });
+        });
     } else {
       this.errorMessage = 'Por favor, complete los campos correctamente';
     }
   }
 
   private handleLoginError(error: any) {
-    switch (error.status) {
-      case 400:
-        this.errorMessage = 'Formato de los datos incorrecto. Por favor, revise los datos introducidos.';
-        break;
-      case 401:
-        this.errorMessage = 'Email o contraseña incorrectos. Por favor, intente nuevamente.';
-        break;
-      case 404:
-        this.errorMessage = 'Usuario no registrado. Por favor, registrese.';
-        break;
-      case 442:
-        this.errorMessage = 'Correo electrónico no autenticado. Por favor, revisa tu correo para autenticarte.';
-        break;
-      case 500:
-        this.errorMessage = 'Ocurrió un error en el servidor. Por favor, intente nuevamente más tarde.';
-        break;
-      default:
-        this.errorMessage = 'Error desconocido. Por favor, contacta al administrador del sistema.';
-    }
+    let genericError = 'Error desconocido. Por favor, contacta al administrador del sistema.';
+    
+    const errorMessages: { [key: number]: string } = {
+      400: 'Formato de los datos incorrecto.',
+      401: 'Email o contraseña incorrectos.',
+      404: 'Usuario no registrado.',
+      442: 'Correo no autenticado. Revisa tu correo.',
+      500: 'Error en el servidor. Intenta más tarde.'
+    };
+
+    this.errorMessage = errorMessages[error.status] || genericError;
   }
 }

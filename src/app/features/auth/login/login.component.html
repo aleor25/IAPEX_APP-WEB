@@ -25,6 +25,7 @@
                             <label for="email" class="form-label">Correo electrónico*</label>
                             <input type="email" formControlName="email" class="form-control bg-body-tertiary" id="email"
                                 placeholder="correo@ejemplo.com" maxlength="51"
+                                autocomplete="off" spellcheck="false"
                                 [class.is-invalid]="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)">
                             @if (loginForm.get('email')?.errors?.['required']) {
                             <p class="small invalid-feedback mt-2 mb-0">
@@ -49,6 +50,7 @@
                             <label for="password" class="form-label">Contraseña*</label>
                             <input type="password" formControlName="password" class="form-control bg-body-tertiary"
                                 id="password" placeholder="Su contraseña" maxlength="17"
+                                autocomplete="off" spellcheck="false"
                                 [class.is-invalid]="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
                             @if (loginForm.get('password')?.errors?.['required']) {
                             <p class="small invalid-feedback mt-2 mb-0">
