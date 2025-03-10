@@ -201,7 +201,7 @@
                 <div class="text-end">
                     @if (!notification.attendingUser) {
                     <!-- Botón para atender solicitud -->
-                    <button class="btn btn-success btn me-2" data-bs-toggle="modal" (click)="openUpdateModal()">
+                    <button class="btn btn-success btn me-2" data-bs-toggle="modal" (click)="openUpdateModal(notification.id)">
                         <i class="bi bi-check-circle"></i> <!-- Icono para atender solicitud -->
                         <span class="d-none d-sm-inline ms-2">Atender solicitud</span>
                     </button>
@@ -217,15 +217,8 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal -->
-    <app-modal [title]="'¿Está seguro de que desea atender la solicitud?'"
-        [message]="'Esta acción no se puede deshacer. Su nombre será asignado a la solicitud y será el encargado de darle seguimiento.'"
-        (confirmed)="markNotificationAsAttended(notification.id)">
-    </app-modal>
-
     }
-    }@placeholder(minimum 500ms) {
+    } @placeholder(minimum 500ms) {
     @for (notification of [].constructor(5); track $index) {
     <div class="accordion-item">
         <h2 class="accordion-header">
@@ -330,3 +323,9 @@
     </ul>
 </nav>
 }
+
+<!-- Modal -->
+<app-modal [title]="'¿Está seguro de que desea atender la solicitud?'"
+[message]="'Esta acción no se puede deshacer. Su nombre será asignado a la solicitud y será el encargado de darle seguimiento.'"
+(confirmed)="markNotificationAsAttended()">
+</app-modal>

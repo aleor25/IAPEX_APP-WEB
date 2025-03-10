@@ -19,6 +19,7 @@ export class NotificationsComponent implements OnInit {
   pageSize: number = 5;
   totalPages: number = 0;
   errorMessage: string = "";
+  private indexToDelete: number | null = null;
   @ViewChild(ModalComponent) updateModal!: ModalComponent;
 
   private _notificationService = inject(NotificationService);
@@ -48,19 +49,23 @@ export class NotificationsComponent implements OnInit {
   }
 
   // Actualiza el estado de una notificación
-  markNotificationAsAttended(id: number): void {
-    this._notificationService.updateNotificationStatus(id).subscribe({
-      next: () => {
-        this.loadNotifications(this.pageNumber, this.pageSize);
-        this._toastService.showToast('Notificación atendida',
-          'La notificación ha sido atendida correctamente.',
-          'success');
-      },
-      error: (error) => {
-        this.errorMessage = 'Error al actualizar la notificación.';
-        console.error(error);
-      }
-    });
+  markNotificationAsAttended(): void {
+    console.log("Marking notification as attended: " + this.indexToDelete);
+    if (this.indexToDelete !== null) {
+      this._notificationService.updateNotificationStatus(this.indexToDelete).subscribe({
+        next: () => {
+          this.loadNotifications(this.pageNumber, this.pageSize);
+          this._toastService.showToast('Notificación atendida',
+            'La notificación ha sido atendida correctamente.',
+            'success');
+            this.indexToDelete = null;
+        },
+        error: (error) => {
+          this.errorMessage = 'Error al actualizar la notificación.';
+          console.error(error);
+        }
+      });
+    }
   }
 
   // Paginación
@@ -93,7 +98,8 @@ export class NotificationsComponent implements OnInit {
     return end > this.totalElements ? this.totalElements : end;
   }
 
-  openUpdateModal(): void {
+  openUpdateModal(index: number): void {
     this.updateModal.open();
+    this.indexToDelete = index;
   }
 }
